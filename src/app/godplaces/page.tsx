@@ -1,7 +1,9 @@
+import Search from '@/components/godplaces/Search';
+
 export default function GodPlaces() {
   return (
     <>
-      <h1>page</h1>
+      <Search />
     </>
   );
 }
