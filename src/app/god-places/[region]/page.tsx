@@ -1,4 +1,8 @@
-export default async function page({ params }: { params: Promise<{ region: string }> }) {
+export default async function page({
+  params,
+}: {
+  params: Promise<{ region: string }>;
+}) {
   const { region } = await params;
   return (
     <>
