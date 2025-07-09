@@ -1,7 +1,9 @@
+import Loginbox from '@/components/login/loginbox';
+
 export default function Login() {
   return (
-    <>
-      <h1>page</h1>
-    </>
+    <div className="min-h-screen bg-cover bg-center">
+      <Loginbox />
+    </div>
   );
 }

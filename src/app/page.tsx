@@ -1,7 +1,3 @@
-export default async function page() {
-  return (
-    <>
-      <h1>page</h1>
-    </>
-  );
+export default function Page() {
+  return <h1>page</h1>;
 }
