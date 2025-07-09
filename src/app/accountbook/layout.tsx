@@ -1,4 +1,4 @@
-import Layout from '@/components/layout/splitBox';
+import Box from '@/components/layout/box';
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
@@ -6,7 +6,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       <div className="h-[870px] w-[756px] rounded-[10px] bg-white">
         {children}
       </div>
-      <Layout />
+      <Box />
     </>
   );
 }

@@ -1,7 +1,7 @@
 export default function GodPlaces() {
   return (
     <>
-      <h1>page</h1>
+      <h1>God Places</h1>
     </>
   );
 }
