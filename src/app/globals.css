@@ -2,22 +2,32 @@
 
 @font-face {
   font-family: 'SUITE-Regular';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2')
+    format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --text-color-1: #181A1E;
-  --text-color-2: #F5F5F5;
-  --gray-color: #989898;
+  --background: #fafafa;
+  --text-color-dark: #f5f5f5;
+  --text-color-white: #24282f;
+  --text-color-white: #2b2e34;
+  --text-color-2: #bdbdbd;
+
+  /* Neutral */
+  --gray-color-1: #f5f5f5;
+  --gray-color-2: #bdbdbd;
   --white-color: #ffffff;
-  --green-color-1: #EAFFDF;
-  --green-color-2: #BFEB94;
-  --green-color-3: #77E517;
-  --point-color-1: #FD817F;
+
+  /* Main Color Palette */
+  --main-color-3: #6b76ff;
+  --main-color-2: #a5aeff;
+  --main-color-1: #c8e4fe;
+
+  /* Point Colors */
+  --point-color-2: #ff4646;
+  --point-color-1: #ff8585;
 }
 
 @theme inline {

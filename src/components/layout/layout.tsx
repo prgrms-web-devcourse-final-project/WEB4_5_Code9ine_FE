@@ -1,18 +1,20 @@
-"use client";
-import Header from "./header";
-import Footer from "./footer";
-import { usePathname } from "next/navigation";
+// 'use client';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+// import Header from './header';
+// import Footer from './footer';
+// import { usePathname } from 'next/navigation';
 
-  const showFooter = pathname === "/";
+// export default function Layout({ children }: { children: React.ReactNode }) {
+//   const pathname = usePathname();
 
-  return (
-    <>
-      <Header />
-      <main>{children}</main>
-      {showFooter && <Footer />}
-    </>
-  );
-}
+//   const hideHeaderFooterRoutes = ['/login', '/404']; // 숨길 경로들
+//   const shouldHide = hideHeaderFooterRoutes.includes(pathname);
+
+//   return (
+//     <>
+//       {!shouldHide && <Header />}
+//       <main>{children}</main>
+//       {!shouldHide && pathname === '/' && <Footer />}
+//     </>
+//   );
+// }
