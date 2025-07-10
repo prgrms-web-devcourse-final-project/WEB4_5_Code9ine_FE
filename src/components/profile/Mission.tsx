@@ -6,7 +6,7 @@ import missionsData from '@/assets/missionData.json';
 import { PiFlowerFill } from 'react-icons/pi';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import Tabs from './Tabs';
+import MissionTabs from './MissionTabs';
 
 export default function MissionSwiperTabs() {
   const [selectedTab, setSelectedTab] = useState<
@@ -34,7 +34,7 @@ export default function MissionSwiperTabs() {
     missionTitle: string;
   }) => (
     <div className="flex flex-col items-center justify-center rounded-[10px] bg-white p-[10px] shadow-md">
-      <p className="mt-[10px] text-center text-[16px] whitespace-pre-line">
+      <p className="mt-[20px] text-center text-[16px] whitespace-pre-line">
         {des}
       </p>
       <p className="text-[18px] font-semibold">{missionTitle}</p>
@@ -46,45 +46,50 @@ export default function MissionSwiperTabs() {
   );
 
   return (
-    <div className="w-full px-[10px]">
-      {/* 탭 메뉴 */}
-      <Tabs selectedTab={selectedTab} onChange={setSelectedTab} />
+    <>
+      <h1 className="flex items-center justify-center p-[20px] text-[20px] font-semibold">
+        챌린지
+      </h1>
+      <div className="w-full px-[10px]">
+        {/* 탭 메뉴 */}
+        <MissionTabs selectedTab={selectedTab} onChange={setSelectedTab} />
 
-      {/* 미션*/}
-      {showSwiper ? (
-        <Swiper
-          key={selectedTab}
-          modules={[Navigation]}
-          navigation
-          spaceBetween={5}
-          initialSlide={0}
-          onSlideChange={(swiper) => setReset(swiper.activeIndex)}
-        >
-          {groups.map((group, index) => (
-            <SwiperSlide key={index}>
-              <div className="gap-[10px]">
-                {group.map((item, i) => (
-                  <MissionCard
-                    key={i}
-                    des={item.des}
-                    missionTitle={item.missionTitle}
-                  />
-                ))}
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        <div className="gap-[10px]">
-          {missions.map((item, index) => (
-            <MissionCard
-              key={index}
-              des={item.des}
-              missionTitle={item.missionTitle}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+        {/* 미션*/}
+        {showSwiper ? (
+          <Swiper
+            key={selectedTab}
+            modules={[Navigation]}
+            navigation
+            spaceBetween={5}
+            initialSlide={0}
+            onSlideChange={(swiper) => setReset(swiper.activeIndex)}
+          >
+            {groups.map((group, index) => (
+              <SwiperSlide key={index}>
+                <div className="gap-[10px]">
+                  {group.map((item, i) => (
+                    <MissionCard
+                      key={i}
+                      des={item.des}
+                      missionTitle={item.missionTitle}
+                    />
+                  ))}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <div className="gap-[10px]">
+            {missions.map((item, index) => (
+              <MissionCard
+                key={index}
+                des={item.des}
+                missionTitle={item.missionTitle}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }

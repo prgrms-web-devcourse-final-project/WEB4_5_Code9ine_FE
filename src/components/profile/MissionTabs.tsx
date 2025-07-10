@@ -5,7 +5,10 @@ interface MissionTabsProps {
   onChange: (tab: TabType) => void;
 }
 
-export default function Tabs({ selectedTab, onChange }: MissionTabsProps) {
+export default function MissionTabs({
+  selectedTab,
+  onChange,
+}: MissionTabsProps) {
   const tabs: { key: TabType; label: string }[] = [
     { key: 'daily', label: '일일 미션' },
     { key: 'weekly', label: '주간 미션' },
@@ -14,7 +17,7 @@ export default function Tabs({ selectedTab, onChange }: MissionTabsProps) {
   ];
 
   return (
-    <div className="relative flex justify-around border-b border-[var(--main-color-1)]">
+    <div className="relative flex justify-around border-[2px] border-b border-[var(--main-color-1)]">
       {tabs.map((tab) => (
         <button
           key={tab.key}
