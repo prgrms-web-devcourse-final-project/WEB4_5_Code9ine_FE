@@ -1,7 +1,11 @@
+import DetailBox from '@/components/godplaces/DetailBox';
+
 export default function page() {
   return (
-    <>
-      <h1>page Component</h1>
-    </>
+    <div className="flex h-[870px] w-[350px] flex-col rounded-[10px] bg-[var(--white-color)] shadow-md">
+      <div>
+        <DetailBox />
+      </div>
+    </div>
   );
 }
