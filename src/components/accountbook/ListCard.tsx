@@ -10,7 +10,7 @@ export default function ListCard() {
           <p>냠냠 친구랑 김밥</p>
         </div>
         <span className="ml-[26px] text-[var(--point-color-1)]">-6000원</span>
-        <div className="absolute right-[13px] bottom-[-13px] hidden group-hover:flex">
+        <div className="absolute top-[80px] right-[13px] hidden group-hover:flex">
           <CardMenu />
         </div>
       </div>
