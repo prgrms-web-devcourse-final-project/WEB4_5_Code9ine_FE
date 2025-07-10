@@ -16,7 +16,7 @@ export default function ProgressBar({
 }: ProgressBarProps) {
   return (
     <div
-      className="overflow-hidden rounded-full border border-[#77E517]"
+      className="overflow-hidden rounded-full border border-[var(--main-color-3)]"
       style={{
         width,
         height,
@@ -30,7 +30,11 @@ export default function ProgressBar({
           backgroundColor: bgColor,
         }}
       >
-        {labelVisible && <span className="p-[10px]">{completed}%</span>}
+        {labelVisible && (
+          <span className="p-[10px] text-[var(--white-color)]">
+            {completed}%
+          </span>
+        )}
       </div>
     </div>
   );

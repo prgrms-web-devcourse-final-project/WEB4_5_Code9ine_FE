@@ -1,4 +1,5 @@
-// import TitleSwiper from '@/components/profile/TitleSwiper';
+import TitleSwiper from '@/components/profile/TitleSwiper';
+import Profile from '@/components/profile/Profile';
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex gap-[15px]">
@@ -7,7 +8,8 @@ export default function layout({ children }: { children: React.ReactNode }) {
       </div>
       <div className="flex flex-col gap-[21px]">
         <div className="h-[390px] w-[350px] rounded-[10px] bg-white shadow-md">
-          {/* <TitleSwiper /> */}
+          <TitleSwiper />
+          <Profile />
         </div>
         <div className="h-[460px] w-[350px] rounded-[10px] bg-white shadow-md"></div>
       </div>
