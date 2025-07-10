@@ -7,12 +7,12 @@ export default function layout({
   results: React.ReactNode;
   detail: React.ReactNode;
 }) {
-  const clicked = false;
+  const clicked = true;
   return (
     <>
       <div className="flex gap-[15px]">
         {search}
-        {clicked ? results : detail}
+        {clicked ? detail : results}
       </div>
     </>
   );
