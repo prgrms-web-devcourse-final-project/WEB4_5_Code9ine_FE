@@ -12,10 +12,6 @@ export default function AccountAdd({
 }) {
   const [toolStatus, isToolStatus] = useState<string>('날짜');
   console.log(toolStatus);
-  const handleTool = (name: string) => {
-    isToolStatus(name);
-    console.log(toolStatus);
-  };
   const handleStatus = () => {
     const status = false;
     onDataChange(status);
