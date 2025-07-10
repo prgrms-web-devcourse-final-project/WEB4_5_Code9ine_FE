@@ -1,7 +1,7 @@
 export default function page() {
   return (
     <>
-      <h1>Account Book</h1>
+      <h1>My Page</h1>
     </>
   );
 }
