@@ -1,3 +1,6 @@
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+
 export default function Calander() {
   return (
     <>
@@ -10,7 +13,9 @@ export default function Calander() {
             +
           </button>
         </div>
-        <span>달력</span>
+        <div>
+          <Calendar />
+        </div>
       </div>
     </>
   );
