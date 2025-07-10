@@ -11,7 +11,7 @@ export default function CategoryItem({
   };
   return (
     <div
-      className={`cursor-pointer rounded-[20px] border border-[var(--gray-color-1)] bg-[var(--white-color)] text-center hover:scale-105 hover:bg-[var(--main-color-2)] ${divSizeVariants[classType]}`}
+      className={`cursor-pointer rounded-[20px] border border-[var(--gray-color-1)] bg-[var(--white-color)] text-center hover:scale-105 hover:border-none hover:bg-[var(--main-color-2)] ${divSizeVariants[classType]}`}
     >
       {type}
     </div>

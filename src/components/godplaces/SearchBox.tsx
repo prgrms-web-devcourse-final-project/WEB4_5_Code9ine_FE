@@ -6,7 +6,7 @@ export default function SearchBox({
   classType: 'beforeSearch' | 'afterSearch';
 }) {
   const divSizeVariants = {
-    beforeSearch: 'h-[65px] md:w-[850px] gap-[20px] mb-[43px]',
+    beforeSearch: 'h-[65px] md:w-[850px] gap-[20px] mb-[18px] mt-[50px]',
     afterSearch: 'h-[65px] md:w-[756px] gap-[20px] mb-[10px]',
   };
 
