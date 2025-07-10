@@ -1,0 +1,24 @@
+{
+  "daily": [
+    { "des": "만원으로 하루 살아보기", "missionTitle": "만원의 행복" },
+    { "des": "오늘 사용한 영수증 인증하기", "missionTitle": "영수증 기록러" },
+    { "des": "하루 식비 0원 달성", "missionTitle": "소비 단식러" },
+    { "des": "하루 교통비 0원 달성", "missionTitle": "튼튼한 다리 소유자" }
+  ],
+  "weekly": [{ "des": "일주일 지출 예측", "missionTitle": "예측왕" }],
+  "monthly": [
+    { "des": "댓글, 좋아요 10개", "missionTitle": "소통왕" },
+    { "des": "한 달 출석 체크", "missionTitle": "개근왕" },
+    { "des": "지난 달 나보다 덜 쓰기", "missionTitle": "절약왕" },
+    { "des": "친구 초대 이벤트", "missionTitle": "인싸왕" },
+    { "des": "한달 연속으로 가계부 작성하기", "missionTitle": "기록 장인" },
+    { "des": "월급 입력하기", "missionTitle": "내 돈 관리자" }
+  ],
+  "community": [
+    { "des": "하루 0원으로 이거까지?", "missionTitle": "노머니 생존자" },
+    { "des": "착한 가게 방문 인증", "missionTitle": "착한 소비러" },
+    { "des": "나가게 글 5개 이상 작성하기", "missionTitle": "숨은 맛집 탐정" },
+    { "des": "노노 카페 데이", "missionTitle": "홈카페 마스터" },
+    { "des": "집밥 세끼", "missionTitle": "냉털 요리왕" }
+  ]
+}
