@@ -1,7 +1,9 @@
 export default function page() {
   return (
     <>
-      <h1>page</h1>
+      <div className="text-[var(--text-color)]">
+        <h1>page</h1>
+      </div>
     </>
   );
 }
