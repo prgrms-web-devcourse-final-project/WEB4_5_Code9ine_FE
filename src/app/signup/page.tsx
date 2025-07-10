@@ -1,9 +1,9 @@
-export default function page() {
+import SignupBox from '@/components/signup/signup';
+
+export default function Login() {
   return (
-    <>
-      <div className="text-[var(--text-color)]">
-        <h1>page</h1>
-      </div>
-    </>
+    <div className="flex h-[900px] w-[1366px] items-center justify-center bg-[url('/loginbg.png')]">
+      <SignupBox />
+    </div>
   );
 }
