@@ -1,3 +1,10 @@
+import ColoredBox from '@/components/layout/coloredBox';
+
 export default function Page() {
-  return <h1>Home</h1>;
+  return (
+    <>
+      <ColoredBox />
+      <h1>Home Component</h1>
+    </>
+  );
 }
