@@ -1,7 +1,0 @@
-export default function page() {
-  return (
-    <>
-      <h1>Account Book</h1>
-    </>
-  );
-}

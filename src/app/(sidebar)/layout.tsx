@@ -1,12 +1,13 @@
-import Layout from '@/components/layout/splitBox';
+import ColoredBox from '@/components/layout/coloredBox';
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="h-[870px] w-[756px] rounded-[10px] bg-white">
-        {children}
+      <div className="rounded-[10px] shadow-md">
+        {/* 사이드바 */}
+        <ColoredBox />
       </div>
-      <Layout />
+      <div>{children}</div>
     </>
   );
 }
