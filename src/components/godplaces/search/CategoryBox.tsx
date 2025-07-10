@@ -1,4 +1,4 @@
-import categories from '../../data/categories.json';
+import categories from '../../../data/categories.json';
 import CategoryItem from './CategoryItem';
 
 export default function CategoryBox({

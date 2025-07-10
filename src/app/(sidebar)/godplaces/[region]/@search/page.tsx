@@ -1,7 +1,7 @@
-import CategoryBox from '@/components/godplaces/CategoryBox';
+import CategoryBox from '@/components/godplaces/search/CategoryBox';
 import EstimationBox from '@/components/godplaces/EstimationBox';
-import MapBox from '@/components/godplaces/MapBox';
-import SearchBox from '@/components/godplaces/SearchBox';
+import MapBox from '@/components/godplaces/map/MapBox';
+import SearchBox from '@/components/godplaces/search/SearchBox';
 
 export default function page() {
   return (

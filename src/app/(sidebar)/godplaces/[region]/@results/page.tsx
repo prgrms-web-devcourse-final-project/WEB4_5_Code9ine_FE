@@ -1,4 +1,4 @@
-import SearchListBox from '@/components/godplaces/SearchListBox';
+import SearchListBox from '@/components/godplaces/search/SearchListBox';
 
 export default function ResultsPage() {
   return (

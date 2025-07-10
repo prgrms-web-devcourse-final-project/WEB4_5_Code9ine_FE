@@ -2,7 +2,7 @@ import { FiPhone } from 'react-icons/fi';
 import DetailButton from './DetailButton';
 import { IoHomeOutline } from 'react-icons/io5';
 import Image from 'next/image';
-import kakaomap from '../../assets/kakaomap_horizontal_ko.png';
+import kakaomap from '../../../assets/kakaomap_horizontal_ko.png';
 
 export default function DetailButtonDiv({
   contact,

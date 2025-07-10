@@ -1,4 +1,4 @@
-import DetailBox from '@/components/godplaces/DetailBox';
+import DetailBox from '@/components/godplaces/detail/DetailBox';
 
 export default function page() {
   return (
