@@ -2,8 +2,7 @@
 
 @font-face {
   font-family: 'SUITE-Regular';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2')
-    format('woff2');
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
@@ -46,6 +45,44 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme {
+  /* 애니매이션 */
+  --animate-up-down-slider: up-down-slider 10s linear infinite;
+
+  @keyframes up-down-slider {
+
+    0%,
+    19% {
+      transform: translateY(0);
+    }
+
+    20%,
+    39% {
+      transform: translateY(-30px);
+    }
+
+    40%,
+    59% {
+      transform: translateY(-60px);
+    }
+
+    60%,
+    79% {
+      transform: translateY(-90px);
+    }
+
+    80%,
+    99% {
+      transform: translateY(-120px);
+    }
+
+    100% {
+      transform: translateY(-150px);
+    }
+  }
+}
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #24282f;
@@ -72,5 +109,5 @@
 
 body {
   font-family: 'SUITE-Regular', sans-serif;
-  color: var(--text-color-1);
+  color: var(--text-color);
 }
