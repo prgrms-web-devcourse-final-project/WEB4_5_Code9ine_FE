@@ -135,3 +135,11 @@ body {
   font-size: 30px !important;
   font-weight: 1000 !important;
 }
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
