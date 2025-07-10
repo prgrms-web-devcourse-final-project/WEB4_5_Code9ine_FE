@@ -3,14 +3,15 @@ export default function CategoryItem({
   classType,
 }: {
   type: string;
-  classType: 'beforeSearch';
+  classType: 'beforeSearch' | 'afterSearch';
 }) {
   const divSizeVariants = {
     beforeSearch: 'h-[37px] w-[66px] text-[16px] leading-[37px]',
+    afterSearch: 'h-[37px] w-[66px] text-[16px] leading-[37px]',
   };
   return (
     <div
-      className={`cursor-pointer rounded-[20px] text-center shadow-md hover:scale-105 hover:bg-[var(--main-color-2)] hover:shadow-none ${divSizeVariants[classType]}`}
+      className={`cursor-pointer rounded-[20px] border border-[var(--gray-color-1)] bg-[var(--white-color)] text-center hover:scale-105 hover:bg-[var(--main-color-2)] ${divSizeVariants[classType]}`}
     >
       {type}
     </div>

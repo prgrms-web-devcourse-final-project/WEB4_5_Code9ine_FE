@@ -4,10 +4,11 @@ import CategoryItem from './CategoryItem';
 export default function CategoryBox({
   classType,
 }: {
-  classType: 'beforeSearch';
+  classType: 'beforeSearch' | 'afterSearch';
 }) {
   const divSizeVariants = {
     beforeSearch: 'gap-[15px] md:h-[37px] md:w-[727px]',
+    afterSearch: 'gap-[10px] md:h-[37px] md:w-[687px]',
   };
 
   return (
