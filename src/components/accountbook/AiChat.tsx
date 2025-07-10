@@ -8,7 +8,7 @@ export default function AiChat() {
           <TiTaeProfile />
           <input
             type="text"
-            className="h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center focus:border-[var(--main-color-3)] focus:outline-none"
+            className="h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center focus:border-[var(--main-color-3)] focus:outline-none dark:bg-[var(--background)]"
             placeholder="자산 관리에 대해 무엇이든 물어보세요!"
             id="AiChat"
           />
