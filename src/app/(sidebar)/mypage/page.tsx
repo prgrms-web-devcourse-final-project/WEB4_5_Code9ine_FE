@@ -3,6 +3,7 @@ import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
 import Modal from '@/components/common/Modal';
+
 export default function page() {
   return (
     <>
