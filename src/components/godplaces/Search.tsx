@@ -6,7 +6,7 @@ const TYPE = 'beforeSearch';
 
 export default function Search() {
   return (
-    <div className="m-auto flex max-w-[1920px] flex-col items-center">
+    <div className="mt-[260px] flex flex-col items-center">
       <HotLocation />
       <SearchBox classType={TYPE} />
       <CategoryBox classType={TYPE} />

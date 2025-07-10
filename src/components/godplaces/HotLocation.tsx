@@ -12,7 +12,7 @@ export default function HotLocation() {
 
   return (
     <>
-      <div className="h-[63px] w-[234px] items-center">
+      <div className="h-[63px] w-[234px]">
         <div className="mb-[13px] h-[20px] text-center text-[15px]">
           오늘의 <span className="text-[var(--point-color-1)]">인기</span>{' '}
           검색어
