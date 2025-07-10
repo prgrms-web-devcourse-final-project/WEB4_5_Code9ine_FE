@@ -21,7 +21,7 @@ export default function page() {
           <Calander />
         </div>
         <div className="flex flex-col">
-          <div className="flex h-full w-[350px] flex-col rounded-[10px] bg-[var(--white-color)] shadow-md">
+          <div className="flex max-h-full w-[350px] flex-col rounded-[10px] bg-[var(--white-color)] shadow-md">
             {/* <AccountAdd /> */}
             <ListArea />
           </div>
