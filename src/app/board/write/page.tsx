@@ -1,7 +1,7 @@
 export default function Write() {
   return (
     <>
-      <h1>page</h1>
+      <h1>Write Page</h1>
     </>
   );
 }
