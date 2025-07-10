@@ -27,8 +27,24 @@ export default function Profile() {
           labelVisible={true}
         />
         <div className="mt-[10px] flex items-center gap-[10px]">
-          <Button title="내 정보 수정하기" />
-          <Button title="내 초대 코드 복사" />
+          <Button
+            button={
+              <>
+                <button className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)]">
+                  프로필 수정하기
+                </button>
+              </>
+            }
+          />
+          <Button
+            button={
+              <>
+                <button className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)]">
+                  내 초대 코드 복사
+                </button>
+              </>
+            }
+          />
         </div>
       </div>
     </>
