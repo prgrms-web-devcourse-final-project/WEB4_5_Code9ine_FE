@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function PostItem() {
   return (
-    <div className="flex items-start gap-6 rounded-[16px] bg-white p-6 shadow">
+    <div className="flex w-full max-w-[720px] items-center justify-center gap-6 rounded-[16px] bg-white p-6 shadow">
       {/* 프로필 영역 */}
       <div className="flex min-w-[90px] flex-col items-center">
         <Image
