@@ -32,7 +32,7 @@ export default function DetailCard({
   type: string;
 } & DetailType) {
   return (
-    <div className="flex flex-col gap-[20px] px-[32px]">
+    <div className="hide-scrollbar flex h-[180px] flex-col gap-[16px] overflow-y-scroll px-[18px] md:h-[745px] md:gap-[20px] md:px-[32px]">
       <DetailTopInfo
         type={type}
         name={props.name}
@@ -40,7 +40,7 @@ export default function DetailCard({
         contact={props.contact}
         url={props.url}
       />
-      <hr className="w-[286px] border-[var(--gray-color-1)]" />
+      <hr className="w-[294px] border-[var(--gray-color-1)] md:w-[286px]" />
       {type === '도서관' && <LibraryDetails />}
       {type === '축제' && (
         <FestivalDetails

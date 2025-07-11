@@ -13,7 +13,7 @@ export default function DetailButtonDiv({
 }) {
   return (
     <>
-      <div className="flex gap-[10px]">
+      <div className="flex gap-[9px] md:gap-[10px]">
         {contact && (
           <DetailButton color="gray">
             <FiPhone />
