@@ -27,7 +27,7 @@ export default function ListArea() {
       <div className="hide-scrollbar w-320px mx-[17px] mt-[45px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
         {Object.keys(dateGroup).map((date) => (
           <div key={date}>
-            <div className="mb-[15px] w-[315px] border-b-1 text-[var(--main-color-3)] dark:text-[var(--text-color)]">
+            <div className="mb-[15px] min-w-[315px] border-b-1 text-[var(--main-color-3)] dark:text-[var(--text-color)]">
               <p>{date}</p>
             </div>
             <div className="mb-[25px]">

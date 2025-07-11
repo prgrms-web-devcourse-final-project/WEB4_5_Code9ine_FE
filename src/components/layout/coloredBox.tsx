@@ -120,7 +120,10 @@ export default function ColoredBox({
           </div>
         </div>
       </div>
-      <div className="absolute z-900">
+
+      <div
+        className={`absolute z-900 -translate-x-full transition-all duration-300 ${menu ? 'translate-x-0' : ''}`}
+      >
         <MobileMenu />
       </div>
     </div>
