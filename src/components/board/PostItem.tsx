@@ -1,3 +1,4 @@
+'use client';
 import { AiFillStar } from 'react-icons/ai';
 import {
   FaHeart,
@@ -24,7 +25,7 @@ export default function PostItem() {
   const [commentsOpen, setCommentsOpen] = useState(false);
 
   return (
-    <div className="flex items-start gap-6 rounded-[16px] bg-[var(--background-full)] p-6 text-[var(--text-color-white)] shadow">
+    <div className="flex items-start gap-6 rounded-[16px] bg-[var(--background)] p-6 text-[var(--text-color-white)] shadow">
       <div className="flex min-w-[90px] flex-col items-center">
         <Image
           src="/profileTest.png"

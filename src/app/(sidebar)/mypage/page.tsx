@@ -2,17 +2,18 @@ import MyThreads from '@/components/profile/MyThreads';
 import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
-
-import EditProfile from '@/components/profile/EditProfile';
+// import EditProfile from '@/components/profile/EditProfile';
 // import SetGoalModal from '@/components/profile/SetGoalModal';
 // import Modal from '@/components/common/Modal';
 export default function page() {
   return (
     <>
-      <div className="flex gap-[15px]">
-        <div className="h-[870px] w-[756px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
-          <MyThreads />
-          <EditProfile />
+      <div className="flex gap-[15px] select-none">
+        <div className="h-[870px] w-[756px] overflow-hidden rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
+          <div className="hide-scrollbar h-full overflow-y-auto">
+            <MyThreads />
+          </div>
+          {/* <EditProfile /> */}
           {/* <SetGoalModal /> */}
           {/* <Modal
             title="로그인 후 이용 가능해요!"

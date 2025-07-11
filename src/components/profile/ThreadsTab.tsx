@@ -1,22 +1,22 @@
-type TabType = 'myHiddenStore' | 'challenge' | 'freeBoard';
+type TabType = 'thread' | 'saved' | 'place';
 
 interface MissionTabsProps {
   selectedTab: TabType;
   onChange: (tab: TabType) => void;
 }
 
-export default function CommunityTab({
+export default function ThreadsTab({
   selectedTab,
   onChange,
 }: MissionTabsProps) {
   const tabs: { key: TabType; label: string }[] = [
-    { key: 'myHiddenStore', label: '나만 아는 가게' },
-    { key: 'challenge', label: '챌린지' },
-    { key: 'freeBoard', label: '자유 게시판' },
+    { key: 'thread', label: '내가 쓴 글' },
+    { key: 'saved', label: '내가 찜한 글' },
+    { key: 'place', label: '내가 찜한 갓플' },
   ];
 
   return (
-    <div className="relative mx-auto flex w-fit justify-center border-b border-[var(--main-color-1)]">
+    <div className="relative mx-auto mt-[40px] flex w-fit justify-center border-b border-[var(--main-color-1)]">
       {tabs.map((tab) => (
         <button
           key={tab.key}
