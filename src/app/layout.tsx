@@ -15,6 +15,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className="flex min-h-screen bg-[var(--background-full)] md:items-center md:justify-center">
         {/* 메인 컨테이너를 flex로 지정해 내부를 가로 배치 */}
+
         <main className="h-full w-[360px] gap-[15px] rounded-[10px] bg-[var(--background)] md:flex md:h-[900px] md:w-[1366px] md:p-[15px]">
           {/* 사이드바 */}
           {/* <ColoredBox /> */}
