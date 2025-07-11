@@ -1,20 +1,22 @@
-type TabType = 'daily' | 'weekly' | 'monthly' | 'community';
+type TabType = 'thread' | 'saved' | 'place';
 
 interface MissionTabsProps {
   selectedTab: TabType;
   onChange: (tab: TabType) => void;
 }
 
-export default function Tabs({ selectedTab, onChange }: MissionTabsProps) {
+export default function ThreadsTab({
+  selectedTab,
+  onChange,
+}: MissionTabsProps) {
   const tabs: { key: TabType; label: string }[] = [
-    { key: 'daily', label: '일일 미션' },
-    { key: 'weekly', label: '주간 미션' },
-    { key: 'monthly', label: '월간 미션' },
-    { key: 'community', label: '커뮤니티 미션' },
+    { key: 'thread', label: '내가 쓴 글' },
+    { key: 'saved', label: '내가 찜한 글' },
+    { key: 'place', label: '내가 찜한 갓플' },
   ];
 
   return (
-    <div className="relative flex justify-around border-b border-[var(--main-color-1)]">
+    <div className="relative flex justify-around border-b-[2px] border-[var(--main-color-1)]">
       {tabs.map((tab) => (
         <button
           key={tab.key}
@@ -27,7 +29,7 @@ export default function Tabs({ selectedTab, onChange }: MissionTabsProps) {
         >
           {tab.label}
           {selectedTab === tab.key && (
-            <span className="animate-draw-underline absolute bottom-0 left-0 h-[2px] w-0 bg-[var(--main-color-3)]" />
+            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] bg-[var(--main-color-3)]" />
           )}
         </button>
       ))}
