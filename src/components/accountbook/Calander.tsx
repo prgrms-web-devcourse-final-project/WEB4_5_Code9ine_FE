@@ -28,17 +28,19 @@ export default function Calander({
               <div key={item.id}>
                 <p
                   key={item.id}
-                  className="mx-[10px] w-[50px] justify-end text-end text-[14px] text-[var(--point-color-1)]"
+                  className="mx-[10px] justify-end text-end text-[14px] text-[var(--point-color-1)]"
                 >
                   {item.expense}
                 </p>
                 <p
                   key={index}
-                  className="mx-[10px] w-[50px] justify-end text-end text-[14px] text-[var(--main-color-1)]"
+                  className="mx-[10px] justify-end text-end text-[14px] text-[var(--main-color-1)]"
                 >
                   +{item.income}
                 </p>
-                <p className="text-end text-[14px]">{item.difference}</p>
+                <p className="mx-[10px] justify-end text-end text-[14px]">
+                  {item.difference}
+                </p>
               </div>
             ))}
           </div>
@@ -55,8 +57,8 @@ export default function Calander({
 
   return (
     <>
-      <div className="relative h-[765px] w-[755px] rounded-[10px] bg-[var(--white-color)] shadow-md">
-        <div className="absolute top-[36px] left-[565px] flex gap-[10px]">
+      <div className="relative md:h-[765px] md:w-[755px] rounded-[10px] bg-[var(--white-color)] shadow-md">
+        <div className="absolute md:top-[36px] md:left-[565px] flex gap-[10px]">
           <button className="h-[30px] w-[120px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--main-color-1)] text-[14px] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)]">
             오늘 지출이 없어요!
           </button>
