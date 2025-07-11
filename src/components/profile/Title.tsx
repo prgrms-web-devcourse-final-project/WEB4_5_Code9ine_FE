@@ -8,7 +8,9 @@ export default function Title({ text }: { text: string }) {
           alt="소통왕"
           className="h-auto w-[12px] align-middle"
         /> */}
-      <p className="mx-[20px] inline-block text-[20px]">{text}</p>
+      <p className="mx-[20px] inline-block text-[20px] dark:text-[#2b2e34]">
+        {text}
+      </p>
     </>
   );
 }

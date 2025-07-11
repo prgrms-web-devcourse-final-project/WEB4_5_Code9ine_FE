@@ -21,15 +21,15 @@ export default function CommunityTab({
         <button
           key={tab.key}
           onClick={() => onChange(tab.key)}
-          className={`relative mx-[7px] py-2 text-[20px] font-medium transition-colors duration-300 ${
+          className={`relative mx-[7px] cursor-pointer py-2 text-[20px] font-medium transition-colors duration-300 ${
             selectedTab === tab.key
               ? 'font-semibold text-[var(--main-color-3)]'
-              : 'text-black hover:text-[var(--main-color-3)]'
+              : 'hover:text-[var(--main-color-3)]'
           }`}
         >
           {tab.label}
           {selectedTab === tab.key && (
-            <span className="animate-draw-underline absolute bottom-0 left-0 h-[2px] w-0 bg-[var(--main-color-3)]" />
+            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] w-0 bg-[var(--main-color-3)]" />
           )}
         </button>
       ))}

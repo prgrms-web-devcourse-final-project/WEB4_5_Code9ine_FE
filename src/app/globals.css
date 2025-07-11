@@ -13,6 +13,9 @@
   --background-full: #ffffff;
   --white-color: #ffffff;
   --text-color: #2b2e34;
+  --header-button-active: #fafafa;
+  --header-text-active: #6b76ff;
+  --header-text: #f5f5f5;
 
   /* Neutral */
   --gray-color-1: #f5f5f5;
@@ -49,8 +52,40 @@
 @theme {
   /* 애니매이션 */
   --animate-up-down-slider: up-down-slider 10s linear infinite;
+  --animate-up-down-slider-md: up-down-slider-md 10s linear infinite;
 
   @keyframes up-down-slider {
+    0%,
+    19% {
+      transform: translateY(0);
+    }
+
+    20%,
+    39% {
+      transform: translateY(-23px);
+    }
+
+    40%,
+    59% {
+      transform: translateY(-46px);
+    }
+
+    60%,
+    79% {
+      transform: translateY(-69px);
+    }
+
+    80%,
+    99% {
+      transform: translateY(-92px);
+    }
+
+    100% {
+      transform: translateY(-115px);
+    }
+  }
+
+  @keyframes up-down-slider-md {
     0%,
     19% {
       transform: translateY(0);
@@ -88,6 +123,9 @@
     --background-full: #202020;
     --white-color: #2e3746;
     --header-color: #2e3746;
+    --header-button-active: #6b76ff;
+    --header-text: #f5f5f5;
+    --header-text-active: #f5f5f5;
 
     /* Main Color Palette */
     --main-color-3: #6b76ff;
@@ -123,6 +161,7 @@ body {
 .animate-draw-underline {
   animation: drawUnderline 0.4s ease-out forwards;
 }
+
 .swiper-button-prev,
 .swiper-button-next {
   padding: 15px 5px;
@@ -142,4 +181,8 @@ body {
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.pc-header-button {
+  @apply flex h-[46px] w-[180px] items-center justify-start gap-[10px] rounded-[15px] px-3 text-[var(--header-text)] active:bg-[var(--header-button-active)] active:text-[var(--header-text-active)];
 }

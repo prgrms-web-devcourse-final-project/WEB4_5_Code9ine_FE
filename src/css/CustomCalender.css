@@ -14,37 +14,63 @@
 /* 상단 네비게이션 (연/월) */
 .react-calendar__navigation {
   display: flex;
+  background-color: transparent !important;
   justify-content: center;
   align-items: center;
   margin-bottom: 2rem;
   height: auto;
-  background: var(--white-color);
 }
-/* 네비게이션 버튼 (화살표) 숨기기 */
+
 .react-calendar__navigation__prev-button,
 .react-calendar__navigation__next-button {
   display: grid;
+  font-size: 30px;
+  min-width: 30px;
+  position: relative; /* z-index를 적용하려면 position 속성이 필요 */
+  z-index: 9999;
 }
+
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
+.react-calendar__navigation .react-calendar__navigation__prev-button:hover,
+.react-calendar__navigation .react-calendar__navigation__next-button:hover,
+.react-calendar__navigation__next-button:focus,
+.react-calendar__navigation__prev-button:focus {
+  background-color: transparent !important; /* 연한 회색 배경으로 변경 */
+}
+
 /* '2025년 7월'과 같은 네비게이션 라벨 */
 .react-calendar__navigation__label {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   font-weight: bold;
-  font-size: 1.5rem; /* 폰트 크기 조정 */
+  font-size: 1.5rem;
   align-items: center;
-  flex-grow: 0 !important; /* 기본 flex 속성 덮어쓰기 */
+  flex-grow: 0 !important;
   color: var(--main-color-3);
+  position: relative;
+  z-index: 9999;
+  background-color: transparent;
+  pointer-events: none;
 }
+
+.react-calendar__navigation__label:hover {
+  background-color: transparent !important;
+}
+
 /* 연도와 월을 커스텀하기 위한 추가 스타일 */
 .react-calendar__navigation__label .year-display {
   font-size: 20px;
   color: #000000;
-  font-weight: 500;
+  font-weight: bold;
   display: block;
 }
 .react-calendar__navigation__label .month-display {
-  font-size: 2.25rem;
-  color: #4a90e2; /* 메인 블루 */
+  font-size: 24px;
+  color: var(--main-color-3); /* 메인 블루 */
 }
 
 /* 요일 (일, 월, 화...) */

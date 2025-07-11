@@ -10,7 +10,7 @@ export default function DetailButton({
 }: PropsWithChildren<ButtonProps>) {
   return (
     <div
-      className={`flex cursor-pointer items-center justify-center gap-[5px] rounded-[10px] border px-[8px] py-[11px] text-[14px] md:h-[40px] ${color === 'gray' && 'w-[144px] border-[var(--gray-color-2)] hover:bg-[var(--gray-color-2)]'} ${color === 'purple' && 'w-[40px] border-[var(--main-color-2)] hover:bg-[var(--main-color-2)]'} ${color === 'skyblue' && 'w-[99px] border-[var(--main-color-1)] hover:bg-[var(--main-color-1)] dark:bg-[#91a6cb]'}`}
+      className={`flex h-[35px] cursor-pointer items-center justify-center gap-[5px] rounded-[10px] border px-[8px] py-[11px] text-[12px] md:h-[40px] md:text-[14px] ${color === 'gray' && 'w-[135px] border-[var(--gray-color-2)] hover:bg-[var(--gray-color-2)] md:w-[144px]'} ${color === 'purple' && 'w-[35px] border-[var(--main-color-2)] hover:bg-[var(--main-color-2)] md:w-[40px]'} ${color === 'skyblue' && 'w-[92px] border-[var(--main-color-1)] hover:bg-[var(--main-color-1)] md:w-[99px] dark:bg-[#91a6cb]'}`}
     >
       {children}
     </div>
