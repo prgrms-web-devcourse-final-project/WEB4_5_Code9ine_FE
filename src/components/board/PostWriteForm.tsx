@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import boardUploadIcon from '../../assets/board_upload_image.svg';
 
 export default function PostWriteForm() {
   return (
@@ -28,8 +29,9 @@ export default function PostWriteForm() {
             className="absolute inset-0 z-0 h-full w-full resize-none rounded-[10px] border border-[var(--main-color-1)] bg-white p-4 pr-[80px] text-[18px] placeholder:text-[var(--gray-color-2)] focus:border-[var(--main-color-2)] focus:outline-none"
             placeholder="내용을 입력해 주세요."
           />
+
           <Image
-            src="/board_upload_image.svg"
+            src={boardUploadIcon}
             alt="이미지 업로드"
             width={24}
             height={24}
