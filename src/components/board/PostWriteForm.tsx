@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import React from 'react';
+import boardUploadIcon from '../../assets/board_upload_image.svg';
 
 export default function PostWriteForm() {
   return (
-    <div className="flex w-full max-w-[720px] items-start gap-4 rounded-[10px] bg-[var(--white-color)] p-4 text-[20px] text-[var(--text-color-white)] shadow">
+    <div className="flex w-full max-w-[724px] items-start gap-4 rounded-[10px] bg-[var(--white-color)] p-4 text-[20px] text-[var(--text-color-white)] shadow">
       <div className="flex max-w-[120px] min-w-[80px] flex-col items-center justify-center">
         <Image
           src="/profileTest.png"
@@ -20,16 +21,17 @@ export default function PostWriteForm() {
 
       <div className="flex flex-1 flex-col gap-2">
         <input
-          className="h-[50px] w-full rounded-[10px] border border-[var(--main-color-2)] p-4 text-[24px] placeholder:text-[var(--text-color-2)] focus:outline-none"
+          className="focus:border-[var(--main-color-2) h-[50px] w-full rounded-[10px] border border-[var(--main-color-1)] p-4 text-[24px] placeholder:text-[var(--gray-color-2)] focus:border-[var(--main-color-2)] focus:outline-none"
           placeholder="제목을 입력해 주세요."
         />
         <div className="relative h-[140px] w-full">
           <textarea
-            className="absolute inset-0 z-0 h-full w-full resize-none rounded-[10px] border border-[var(--main-color-2)] bg-white p-4 pr-[80px] text-[18px] placeholder:text-[var(--gray-color-2)] focus:outline-none"
+            className="absolute inset-0 z-0 h-full w-full resize-none rounded-[10px] border border-[var(--main-color-1)] bg-white p-4 pr-[80px] text-[18px] placeholder:text-[var(--gray-color-2)] focus:border-[var(--main-color-2)] focus:outline-none"
             placeholder="내용을 입력해 주세요."
           />
+
           <Image
-            src="/board_upload_image.svg"
+            src={boardUploadIcon}
             alt="이미지 업로드"
             width={24}
             height={24}
