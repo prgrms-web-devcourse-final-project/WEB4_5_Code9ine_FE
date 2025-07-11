@@ -8,13 +8,9 @@ export default function TotalAmount({
   textSize?: string;
 }) {
   return (
-<<<<<<< HEAD
     <div
-      className={`flex flex-col justify-center ${textSize && `text-[${textSize}]`}`}
+      className={`flex flex-col justify-center ${textSize ? `text-[${textSize}]` : 'text-[14px] md:text-[20px]'}`}
     >
-=======
-    <div className="flex flex-col justify-center text-[14px] md:text-[20px]">
->>>>>>> dev
       <div>
         <span>7월 9일까지의 총수입은 </span>
         <span className="text-[var(--main-color-3)]">
