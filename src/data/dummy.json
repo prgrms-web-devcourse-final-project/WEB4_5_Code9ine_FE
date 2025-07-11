@@ -1,67 +1,117 @@
 {
-  "dummy": [
-    {
-      "id": 101,
-      "category": "식비",
-      "categoryIcon": "🍔",
-      "content": "햄버거",
-      "date": "2025-07-03",
-      "price": 8700,
-      "repeatCycle": "NONE"
-    },
-    {
-      "id": 102,
-      "category": "교통",
-      "categoryIcon": "🚌",
-      "content": "버스",
-      "date": "2025-07-02",
-      "price": 1250,
-      "repeatCycle": "MONTHLY"
-    },
-    {
-      "id": 103,
-      "category": "교통",
-      "categoryIcon": "🚌",
-      "content": "버스",
-      "date": "2025-07-02",
-      "price": 1250,
-      "repeatCycle": "MONTHLY"
-    },
-    {
-      "id": 104,
-      "category": "쇼핑",
-      "categoryIcon": "🛍️",
-      "content": "이마트",
-      "date": "2025-07-02",
-      "price": 20000,
-      "repeatCycle": "MONTHLY"
-    },
-    {
-      "id": 105,
-      "category": "경조사",
-      "categoryIcon": "💒",
-      "content": "OOO 결혼식",
-      "date": "2025-07-02",
-      "price": 20000,
-      "repeatCycle": "MONTHLY"
-    },
-    {
-      "id": 106,
-      "category": "여가",
-      "categoryIcon": "📽️",
-      "content": "영화",
-      "date": "2025-07-02",
-      "price": 20000,
-      "repeatCycle": "MONTHLY"
-    },
-    {
-      "id": 107,
-      "category": "주거/통신",
-      "categoryIcon": "📱",
-      "content": "전화비",
-      "date": "2025-07-02",
-      "price": 20000,
-      "repeatCycle": "MONTHLY"
-    }
-  ]
+  "code": "2000",
+  "message": "정상적으로 완료되었습니다.",
+  "data": {
+    "yearMonth": "2025-07",
+    "totalIncome": 1200000,
+    "totalExpense": 870000,
+    "totalDifference": 330000,
+    "dummy": [
+      {
+        "id": 100,
+        "type": "income",
+        "category": "급여",
+        "categoryIcon": "💸",
+        "content": "월급",
+        "date": "2025-07-05",
+        "price": 1000000,
+        "repeatCycle": "MONTHLY"
+      },
+      {
+        "id": 101,
+        "type": "expense",
+        "category": "식비",
+        "categoryIcon": "🍔",
+        "content": "햄버거",
+        "date": "2025-07-03",
+        "price": 8700,
+        "repeatCycle": "NONE"
+      },
+      {
+        "id": 102,
+        "type": "expense",
+        "category": "교통",
+        "categoryIcon": "🚌",
+        "content": "버스",
+        "date": "2025-07-02",
+        "price": 1250,
+        "repeatCycle": "MONTHLY"
+      },
+      {
+        "id": 103,
+        "type": "expense",
+        "category": "교통",
+        "categoryIcon": "🚌",
+        "content": "버스",
+        "date": "2025-07-02",
+        "price": 1250,
+        "repeatCycle": "MONTHLY"
+      },
+      {
+        "id": 104,
+        "type": "expense",
+
+        "category": "쇼핑",
+        "categoryIcon": "🛍️",
+        "content": "이마트",
+        "date": "2025-07-02",
+        "price": 20000,
+        "repeatCycle": "MONTHLY"
+      },
+      {
+        "id": 105,
+        "type": "expense",
+
+        "category": "경조사",
+        "categoryIcon": "💒",
+        "content": "OOO 결혼식",
+        "date": "2025-07-02",
+        "price": 20000,
+        "repeatCycle": "MONTHLY"
+      },
+      {
+        "id": 106,
+        "type": "expense",
+
+        "category": "여가",
+        "categoryIcon": "📽️",
+        "content": "영화",
+        "date": "2025-07-02",
+        "price": 20000,
+        "repeatCycle": "MONTHLY"
+      },
+      {
+        "id": 107,
+        "type": "expense",
+
+        "category": "주거/통신",
+        "categoryIcon": "📱",
+        "content": "전화비",
+        "date": "2025-07-02",
+        "price": 20000,
+        "repeatCycle": "MONTHLY"
+      },
+      {
+        "id": 107,
+        "type": "expense",
+
+        "category": "주거/통신",
+        "categoryIcon": "🧾",
+        "content": "가스비",
+        "date": "2025-07-02",
+        "price": 20000,
+        "repeatCycle": "MONTHLY"
+      },
+      {
+        "id": 107,
+        "type": "expense",
+        "category": "여가",
+        "categoryIcon": "🕹️",
+        "content": "게임",
+        "date": "2025-07-02",
+        "price": 20000,
+        "repeatCycle": "MONTHLY"
+      }
+    ]
+  }
 }
