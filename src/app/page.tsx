@@ -13,7 +13,8 @@ export default function Page() {
     <>
       <ColoredBox changeLogin={handleLogin} />
       {/* <h1>Home Component</h1> */}
-      {!loginState ? <UnAuthorizedMain /> : <AuthorizedMain />}
+      <AuthorizedMain/>
+      {/* {!loginState ? <UnAuthorizedMain /> : <AuthorizedMain />} */}
     </>
   );
 }

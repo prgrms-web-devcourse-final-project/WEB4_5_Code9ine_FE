@@ -29,16 +29,16 @@ const COLORS = [
 
 export default function SpendingAnalysis() {
   return (
-    <div className="flex items-center">
+    <div className="items-center md:flex">
       <div className="flex flex-col gap-[18px] md:w-[390px]">
-        <div className="text-center text-[16px] md:h-[48px]">
+        <div className="h-[70px] text-center text-[16px] md:h-[48px]">
           <div>
             <span className="text-[var(--main-color-3)]">이번 달 지출,</span>{' '}
             어디에 가장 많이 쓰셨을까요?
           </div>
           <div>OO님의 지출 패턴이에요.</div>
         </div>
-        <div className="mb-[-35px] md:h-[270px]">
+        <div className="mb-[10px] h-[270px] md:mb-[-35px] md:h-[270px]">
           <PieChartClient data={dummyData} colors={COLORS} />
         </div>
       </div>

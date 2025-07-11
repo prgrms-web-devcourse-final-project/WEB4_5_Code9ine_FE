@@ -10,7 +10,7 @@ export default function HalfYearAnalysis() {
           이렇게 썼어요.
         </div>
       </div>
-      <div className="h-[250px] w-[314px]">
+      <div className="h-[250px] w-[280px] md:w-[314px]">
         <BarChartClient />
       </div>
     </>

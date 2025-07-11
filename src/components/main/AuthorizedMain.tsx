@@ -5,8 +5,8 @@ import Mission from '@/components/profile/Mission';
 
 export default function AuthorizedMain() {
   return (
-    <div className="flex gap-[15px]">
-      <div className="w-[] h-full md:h-[870px] md:w-[756px]">
+    <div className="mt-[15px] flex gap-[15px] md:mt-0">
+      <div className="h-full w-full px-[2px] md:h-[870px] md:w-[756px] md:px-0">
         <Analysis />
       </div>
       <div className="hidden md:flex md:flex-col md:gap-[20px]">
