@@ -6,18 +6,22 @@ export default function SearchBox({
   classType: 'beforeSearch' | 'afterSearch';
 }) {
   const divSizeVariants = {
-    beforeSearch: 'h-[65px] md:w-[850px] gap-[20px] mb-[18px] mt-[50px]',
-    afterSearch: 'h-[65px] md:w-[756px] gap-[20px] mb-[10px]',
+    beforeSearch:
+      'h-[55px] md:h-[65px] w-[274px] md:w-[850px] gap-[18px] md:gap-[20px] mb-[20px] md:mb-[18px] mt-[46px] md:mt-[50px]',
+    afterSearch:
+      'h-[55px] md:h-[65px] w-[330px] md:w-[756px] gap-[18px] md:gap-[20px] mb-[7px] md:mb-[10px]',
   };
 
   const iconSizeVariants = {
-    beforeSearch: 'size-[30px]',
-    afterSearch: 'size-[30px]',
+    beforeSearch: 'size-[20px] md:size-[30px]',
+    afterSearch: 'size-[20px] md:size-[30px]',
   };
 
   const inputSizeVariants = {
-    beforeSearch: 'md:h-[51px] md:w-[500px] md:text-[20px]',
-    afterSearch: 'md:h-[51px] md:w-[500px] md:text-[20px]',
+    beforeSearch:
+      'h-[50px] md:h-[51px] w-[180px] md:w-[500px] text-[16px] md:text-[20px]',
+    afterSearch:
+      'h-[50px] md:h-[51px] w-[180px] md:w-[500px] text-[16px] md:text-[20px]',
   };
 
   const inputColorVariants = {
@@ -27,7 +31,7 @@ export default function SearchBox({
 
   return (
     <div
-      className={`flex items-center rounded-[15px] bg-[var(--white-color)] px-[24px] shadow-md ${divSizeVariants[classType]}`}
+      className={`flex items-center rounded-[10px] bg-[var(--white-color)] px-[24px] shadow-[var(--shadow-md)] ${divSizeVariants[classType]}`}
     >
       <CiSearch
         className={`-scale-x-100 fill-[var(--gray-color-2)] stroke-[var(--gray-color-2)] stroke-[0.5px] ${iconSizeVariants[classType]}`}

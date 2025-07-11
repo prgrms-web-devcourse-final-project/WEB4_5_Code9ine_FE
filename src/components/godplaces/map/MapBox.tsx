@@ -7,7 +7,7 @@ export default function MapBox() {
 
   return (
     <Map
-      className="rounded-[10px] bg-gray-300 shadow-md md:h-[610px] md:w-[756px]"
+      className="h-[230px] w-[330px] rounded-[10px] bg-gray-300 shadow-[var(--shadow-md)] md:h-[629px] md:w-[756px]"
       center={{ lat: 37.5452442, lng: 127.0473267 }}
       level={5}
     ></Map>

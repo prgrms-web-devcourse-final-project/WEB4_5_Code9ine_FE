@@ -1,5 +1,5 @@
 import CategoryBox from './CategoryBox';
-import HotLocation from './HotLocation';
+import HotLocation from '../HotLocation';
 import SearchBox from './SearchBox';
 
 const TYPE = 'beforeSearch';
