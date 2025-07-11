@@ -13,6 +13,9 @@
   --background-full: #ffffff;
   --white-color: #ffffff;
   --text-color: #2b2e34;
+  --header-button-active: #fafafa;
+  --header-text-active: #6b76ff;
+  --header-text: #f5f5f5;
 
   /* Neutral */
   --gray-color-1: #f5f5f5;
@@ -83,7 +86,6 @@
   }
 
   @keyframes up-down-slider-md {
-
     0%,
     19% {
       transform: translateY(0);
@@ -121,6 +123,9 @@
     --background-full: #202020;
     --white-color: #2e3746;
     --header-color: #2e3746;
+    --header-button-active: #6b76ff;
+    --header-text: #f5f5f5;
+    --header-text-active: #f5f5f5;
 
     /* Main Color Palette */
     --main-color-3: #6b76ff;
@@ -175,4 +180,8 @@ body {
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.pc-header-button {
+  @apply flex h-[46px] w-[180px] items-center justify-start gap-[10px] rounded-[15px] px-3 text-[var(--header-text)] active:bg-[var(--header-button-active)] active:text-[var(--header-text-active)];
 }
