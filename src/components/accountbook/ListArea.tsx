@@ -3,8 +3,6 @@ import { useDummyData } from '@/stores/dummyStore';
 
 export default function ListArea() {
   const { dummyData } = useDummyData();
-  const data = dummyData.flat
-  console.log(data);
   return (
     <>
       <span className="mt-[65px] ml-[24px] text-[24px] font-semibold">
@@ -14,7 +12,7 @@ export default function ListArea() {
         <div className="border-b-1">
           <p>25.07.01</p>
         </div>
-        {dummyData.map((v, i) => (
+        {dummyData.dummy.map((v, i) => (
           <ListCard value={v} index={i} key={i} />
         ))}
       </div>

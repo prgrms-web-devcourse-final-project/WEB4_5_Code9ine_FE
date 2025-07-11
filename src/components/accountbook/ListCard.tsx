@@ -8,7 +8,6 @@ export default function ListCard({
   value: PayList;
   index: number;
 }) {
-  console.log(index);
   return (
     <>
       <div className="group relative flex h-[95px] w-[315px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md">
@@ -21,11 +20,19 @@ export default function ListCard({
             <p>{value.content}</p>
           </div>
         </div>
-        <div className="absolute right-[20px]">
-          <span className="ml-[26px] text-[var(--point-color-1)]">
-            -{value.price}원
-          </span>
-        </div>
+        {value.type === 'expense' ? (
+          <div className="absolute right-[20px]">
+            <span className="ml-[26px] text-[var(--point-color-1)]">
+              -{value.price.toLocaleString('ko-KR')}원
+            </span>
+          </div>
+        ) : (
+          <div className="absolute right-[20px]">
+            <span className="ml-[26px] text-[var(--main-color-1)]">
+              {value.price.toLocaleString('ko-KR')}원
+            </span>
+          </div>
+        )}
         <div className="absolute top-[80px] right-[13px] hidden group-hover:flex">
           <CardMenu index={index} />
         </div>

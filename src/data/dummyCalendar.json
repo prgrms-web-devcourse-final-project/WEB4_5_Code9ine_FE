@@ -1,0 +1,29 @@
+{
+  "code": "2000",
+  "message": "정상적으로 완료되었습니다.",
+  "data": {
+    "totalIncome": 1250000,
+    "totalExpense": 870000,
+    "month": "2025-07",
+    "days": [
+      {
+        "date": "2025-07-01",
+        "income": 50000,
+        "expense": 32000,
+        "difference": 18000
+      },
+      {
+        "date": "2025-07-02",
+        "income": 0,
+        "expense": 28000,
+        "difference": -28000
+      },
+      {
+        "date": "2025-07-03",
+        "income": 10000,
+        "expense": 10000,
+        "difference": 0
+      }
+    ]
+  }
+}
