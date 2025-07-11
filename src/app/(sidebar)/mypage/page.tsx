@@ -2,6 +2,7 @@ import MyThreads from '@/components/profile/MyThreads';
 import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
+
 import EditProfile from '@/components/profile/EditProfile';
 // import SetGoalModal from '@/components/profile/SetGoalModal';
 // import Modal from '@/components/common/Modal';
