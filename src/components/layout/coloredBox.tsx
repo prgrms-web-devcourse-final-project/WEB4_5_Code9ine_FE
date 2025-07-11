@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { FiMoon } from 'react-icons/fi';
 import { IoMdNotificationsOutline, IoMdPower } from 'react-icons/io';
 import MobileMenu from '../common/MobileMenu';
+import Link from 'next/link';
 
 export default function ColoredBox({
   changeLogin,
@@ -25,6 +26,12 @@ export default function ColoredBox({
   const handleLogin = () => {
     setLogin(!login);
     changeLogin(!login);
+  };
+  const handleSideBarLogin = (sign: boolean) => {
+    setLogin(sign);
+  };
+  const sideBarClose = (close: boolean) => {
+    setMenu(close);
   };
   return (
     <div className="relative">
@@ -51,27 +58,35 @@ export default function ColoredBox({
               className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? '-translate-y-[5px] -rotate-45' : ''}`}
             ></div>
           </button>
-          <div className="mt-[5px] mb-[6px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px] md:h-[29px] md:w-[87px]">
-            <Image src={logo} alt="티태 로고" />
-            <span className="text-[#ffffff]">티태</span>
-          </div>
+          <Link href={'/'}>
+            <div className="mt-[5px] mb-[6px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px] md:h-[29px] md:w-[87px]">
+              <Image src={logo} alt="티태 로고" />
+              <span className="text-[#ffffff]">티태</span>
+            </div>
+          </Link>
 
           {!login ? (
             <div className="hidden md:block">
-              <Button className="pc-header-button">
-                <LuNotebook size={20} />
-                가계부
-              </Button>
+              <Link href={'/accountbook'}>
+                <Button className="pc-header-button">
+                  <LuNotebook size={20} />
+                  가계부
+                </Button>
+              </Link>
 
-              <Button className="pc-header-button">
-                <IoSearchSharp size={20} />
-                갓플찾기
-              </Button>
+              <Link href={'/godplaces'}>
+                <Button className="pc-header-button">
+                  <IoSearchSharp size={20} />
+                  갓플찾기
+                </Button>
+              </Link>
 
-              <Button className="pc-header-button">
-                <HiOutlineUserGroup size={20} />
-                커뮤니티
-              </Button>
+              <Link href={'/board'}>
+                <Button className="pc-header-button">
+                  <HiOutlineUserGroup size={20} />
+                  커뮤니티
+                </Button>
+              </Link>
 
               <Button className="pc-header-button" onClick={handleLogin}>
                 <BsPersonRaisedHand size={20} />
@@ -80,25 +95,33 @@ export default function ColoredBox({
             </div>
           ) : (
             <div className="hidden md:block">
-              <Button className="pc-header-button">
-                <LuNotebook size={20} />
-                가계부
-              </Button>
+              <Link href={'/accountbook'}>
+                <Button className="pc-header-button">
+                  <LuNotebook size={20} />
+                  가계부
+                </Button>
+              </Link>
 
-              <Button className="pc-header-button">
-                <IoSearchSharp size={20} />
-                갓플찾기
-              </Button>
+              <Link href={'/godplaces'}>
+                <Button className="pc-header-button">
+                  <IoSearchSharp size={20} />
+                  갓플찾기
+                </Button>
+              </Link>
 
-              <Button className="pc-header-button">
-                <HiOutlineUserGroup size={20} />
-                커뮤니티
-              </Button>
+              <Link href={'/board'}>
+                <Button className="pc-header-button">
+                  <HiOutlineUserGroup size={20} />
+                  커뮤니티
+                </Button>
+              </Link>
 
-              <Button className="pc-header-button">
-                <IoPersonCircleOutline size={20} />
-                마이페이지
-              </Button>
+              <Link href={'/profile'}>
+                <Button className="pc-header-button">
+                  <IoPersonCircleOutline size={20} />
+                  마이페이지
+                </Button>
+              </Link>
 
               <Button className="pc-header-button" onClick={handleLogin}>
                 <IoMdPower size={20} />
@@ -122,9 +145,18 @@ export default function ColoredBox({
       </div>
 
       <div
+        className={`fixed inset-0 z-40 mt-[60px] bg-black/50 transition-opacity duration-300 md:hidden ${menu ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        onClick={() => setMenu(false)}
+      ></div>
+
+      <div
         className={`absolute z-900 -translate-x-full transition-all duration-300 ${menu ? 'translate-x-0' : ''} md:hidden`}
       >
-        <MobileMenu />
+        <MobileMenu
+          login={login}
+          loginSet={handleSideBarLogin}
+          closeSideBar={sideBarClose}
+        />
       </div>
     </div>
   );
