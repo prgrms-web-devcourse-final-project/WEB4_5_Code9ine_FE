@@ -2,13 +2,15 @@ import MyThreads from '@/components/profile/MyThreads';
 import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
+// import SetGoalModal from '@/components/profile/SetGoalModal';
 // import Modal from '@/components/common/Modal';
 export default function page() {
   return (
     <>
       <div className="flex gap-[15px]">
-        <div className="h-[870px] w-[756px] rounded-[10px] bg-[var(--white-color)] shadow-md">
+        <div className="h-[870px] w-[756px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
           <MyThreads />
+          {/* <SetGoalModal /> */}
           {/* <Modal
             title="로그인 후 이용 가능해요!"
             buttons={
@@ -26,11 +28,11 @@ export default function page() {
           /> */}
         </div>
         <div className="flex flex-col gap-[20px]">
-          <div className="h-[390px] w-[350px] rounded-[10px] bg-[var(--white-color)] shadow-md">
+          <div className="h-[390px] w-[350px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
             <TitleSwiper />
             <Profile />
           </div>
-          <div className="h-[460px] w-[350px] rounded-[10px] bg-[var(--white-color)] shadow-md">
+          <div className="h-[460px] w-[350px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
             <Mission />
           </div>
         </div>
