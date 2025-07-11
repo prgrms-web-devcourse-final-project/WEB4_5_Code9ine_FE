@@ -8,6 +8,16 @@
     "totalDifference": 330000,
     "dummy": [
       {
+        "id": 100,
+        "type": "income",
+        "category": "급여",
+        "categoryIcon": "💸",
+        "content": "월급",
+        "date": "2025-07-05",
+        "price": 1000000,
+        "repeatCycle": "MONTHLY"
+      },
+      {
         "id": 101,
         "type": "expense",
         "category": "식비",
@@ -100,16 +110,6 @@
         "content": "게임",
         "date": "2025-07-02",
         "price": 20000,
-        "repeatCycle": "MONTHLY"
-      },
-      {
-        "id": 108,
-        "type": "income",
-        "category": "급여",
-        "categoryIcon": "💸",
-        "content": "월급",
-        "date": "2025-07-05",
-        "price": 1000000,
         "repeatCycle": "MONTHLY"
       }
     ]

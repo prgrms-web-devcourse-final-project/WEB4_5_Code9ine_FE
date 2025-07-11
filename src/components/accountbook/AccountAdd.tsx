@@ -11,20 +11,34 @@ export default function AccountAdd({
   onDataChange: (arg0: boolean) => void;
 }) {
   const [toolStatus, isToolStatus] = useState<string>('날짜');
-  console.log(toolStatus);
+  const [accountTag, setAccountTag] = useState<string>('지출');
+  const handleTag = (tag: string) => {
+    setAccountTag(tag);
+  };
   const handleStatus = () => {
     const status = false;
     onDataChange(status);
   };
+  console.log(accountTag);
   return (
     <>
       <div className="relative flex h-full flex-col items-center py-[30px]">
         <span className="font-bold">가계부 입력</span>
         <div className="mt-[30px] flex gap-[5px]">
-          <button className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] focus:bg-[var(--main-color-2)]">
+          <button
+            className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] active:bg-[var(--main-color-2)]"
+            onClick={() => {
+              handleTag('지출');
+            }}
+          >
             지출
           </button>
-          <button className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] focus:bg-[var(--main-color-2)]">
+          <button
+            className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] active:bg-[var(--main-color-2)]"
+            onClick={() => {
+              handleTag('수입');
+            }}
+          >
             수입
           </button>
           <button className="ml-[74px] h-[35px] w-[120px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] active:bg-[var(--main-color-2)]">

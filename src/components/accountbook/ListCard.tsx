@@ -10,7 +10,7 @@ export default function ListCard({
 }) {
   return (
     <>
-      <div className="group relative flex h-[95px] w-[315px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md">
+      <div className="group relative flex min-h-[95px] w-[315px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md hover:z-999">
         <div className="absolute left-[10px] flex gap-[10px]">
           <div className="flex size-[50px] items-center justify-center rounded-full bg-[var(--main-color-1)]">
             <span className="text-[25px]">{value.categoryIcon}</span>

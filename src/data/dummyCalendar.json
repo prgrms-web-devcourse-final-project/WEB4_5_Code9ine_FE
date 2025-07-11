@@ -7,18 +7,21 @@
     "month": "2025-07",
     "days": [
       {
+        "id": 1,
         "date": "2025-07-01",
         "income": 50000,
         "expense": 32000,
         "difference": 18000
       },
       {
+        "id": 2,
         "date": "2025-07-02",
         "income": 0,
         "expense": 28000,
         "difference": -28000
       },
       {
+        "id": 3,
         "date": "2025-07-03",
         "income": 10000,
         "expense": 10000,

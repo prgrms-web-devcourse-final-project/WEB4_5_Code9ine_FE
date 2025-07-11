@@ -14,24 +14,20 @@ export default function Calander({
   const { dummyCalendar } = useDummyData();
 
   const addContent = ({ date, view }: { date: Date; view: string }) => {
-    // view가 'month'일 때만 실행
     if (view === 'month') {
-      // 1. 현재 날짜(date)를 "YYYY-MM-DD" 형식의 문자열로 변환
       const formattedCurrentDate = format(date, 'yyyy-MM-dd');
 
-      // 2. dummyData에서 현재 날짜와 일치하는 모든 데이터를 'filter'로 찾음
       const dayData = dummyCalendar.days.filter(
         (item) => item.date === formattedCurrentDate,
       );
 
-      // 3. 찾은 데이터가 있으면 'map'으로 JSX 요소를 만들어 반환
       if (dayData.length > 0) {
         return (
           <div>
             {dayData.map((item, index) => (
-              <div key={index}>
+              <div key={item.id}>
                 <p
-                  key={index}
+                  key={item.id}
                   className="mx-[10px] w-[50px] justify-end text-end text-[14px] text-[var(--point-color-1)]"
                 >
                   {item.expense}
@@ -49,8 +45,6 @@ export default function Calander({
         );
       }
     }
-
-    // 일치하는 데이터가 없으면 null 반환
     return null;
   };
 
@@ -59,16 +53,15 @@ export default function Calander({
     onDataChange(status);
   };
 
-
   return (
     <>
       <div className="relative h-[765px] w-[755px] rounded-[10px] bg-[var(--white-color)] shadow-md">
         <div className="absolute top-[36px] left-[565px] flex gap-[10px]">
-          <button className="h-[30px] w-[120px] items-center justify-center rounded-[5px] bg-[var(--main-color-1)] text-[14px] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)]">
+          <button className="h-[30px] w-[120px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--main-color-1)] text-[14px] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)]">
             오늘 지출이 없어요!
           </button>
           <button
-            className="size-[30px] rounded-[5px] bg-[var(--main-color-1)] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)]"
+            className="size-[30px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)]"
             onClick={handleStatus}
           >
             +
