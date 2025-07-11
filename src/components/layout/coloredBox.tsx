@@ -13,6 +13,7 @@ import { BsPersonRaisedHand } from 'react-icons/bs';
 import { useState } from 'react';
 import { FiMoon } from 'react-icons/fi';
 import { IoMdNotificationsOutline, IoMdPower } from 'react-icons/io';
+import MobileMenu from '../common/MobileMenu';
 
 export default function ColoredBox({
   changeLogin,
@@ -118,6 +119,9 @@ export default function ColoredBox({
             <p className="text-[10px]">© Code9ine All Right Reserved</p>
           </div>
         </div>
+      </div>
+      <div className="absolute z-900">
+        <MobileMenu />
       </div>
     </div>
   );
