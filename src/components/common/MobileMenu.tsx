@@ -1,7 +1,7 @@
 export default function MobileMenu() {
   return (
     <>
-      <div className="h-full w-[200px] bg-[#ffffff]"></div>
+      <div className="z-[900] h-screen w-[200px] border-1 bg-[#ffffff]"></div>
     </>
   );
 }
