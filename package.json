@@ -10,6 +10,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "embla-carousel-react": "^8.6.0",
+    "date-fns": "^4.1.0",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-calendar": "^6.0.0",
