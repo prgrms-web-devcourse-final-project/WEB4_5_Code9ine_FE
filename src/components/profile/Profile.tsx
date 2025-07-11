@@ -3,7 +3,11 @@ import DefaultProfile from './DefaultProfile';
 import ProgressBar from '../common/ProgressBar';
 import Button from './Button';
 
-export default function Profile({ isMain = false }: { isMain?: boolean }) {
+export default function Profile({
+  isPersonal = false,
+}: {
+  isPersonal?: boolean;
+}) {
   return (
     <>
       <div className="my-[20px] flex flex-col items-center justify-center">
@@ -26,7 +30,7 @@ export default function Profile({ isMain = false }: { isMain?: boolean }) {
           baseBgColor="var(--white-color)"
           labelVisible={true}
         />
-        {!isMain && (
+        {!isPersonal && (
           <div className="mt-[10px] flex items-center gap-[10px]">
             <Button
               button={
