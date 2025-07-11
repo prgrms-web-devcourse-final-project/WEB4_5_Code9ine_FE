@@ -9,7 +9,6 @@ export default function CardMenu({ index }: { index: number }) {
   const handleDelete = () => {
     dummyData.dummy.splice(index, 1);
     setDummy(dummyData);
-    console.log(dummyData.dummy);
   };
   return (
     <>
