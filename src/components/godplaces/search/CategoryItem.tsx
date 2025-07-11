@@ -6,8 +6,10 @@ export default function CategoryItem({
   classType: 'beforeSearch' | 'afterSearch';
 }) {
   const divSizeVariants = {
-    beforeSearch: 'h-[37px] w-[66px] text-[16px] leading-[37px]',
-    afterSearch: 'h-[37px] w-[66px] text-[16px] leading-[37px]',
+    beforeSearch:
+      'h-[27px] md:h-[37px] px-[10px] md:px-[16px] text-[12px] md:text-[16px] leading-[26px] md:leading-[37px]',
+    afterSearch:
+      'h-[27px] md:h-[37px] px-[10px] md:px-[16px] text-[12px] md:text-[16px] leading-[26px] md:leading-[37px]',
   };
   return (
     <div

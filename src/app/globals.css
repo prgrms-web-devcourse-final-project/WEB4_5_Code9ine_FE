@@ -48,8 +48,41 @@
 @theme {
   /* 애니매이션 */
   --animate-up-down-slider: up-down-slider 10s linear infinite;
+  --animate-up-down-slider-md: up-down-slider-md 10s linear infinite;
 
   @keyframes up-down-slider {
+
+    0%,
+    19% {
+      transform: translateY(0);
+    }
+
+    20%,
+    39% {
+      transform: translateY(-23px);
+    }
+
+    40%,
+    59% {
+      transform: translateY(-46px);
+    }
+
+    60%,
+    79% {
+      transform: translateY(-69px);
+    }
+
+    80%,
+    99% {
+      transform: translateY(-92px);
+    }
+
+    100% {
+      transform: translateY(-115px);
+    }
+  }
+
+  @keyframes up-down-slider-md {
 
     0%,
     19% {

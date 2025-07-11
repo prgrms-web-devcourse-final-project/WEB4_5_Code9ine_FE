@@ -118,11 +118,11 @@ export default function SearchListBox() {
     ],
   };
   return (
-    <div className="py-[28px]">
-      <div className="mb-[18px] pl-[12px] text-[20px] text-[var(--gray-color-2)]">
+    <div className="py-[13px] md:py-[28px]">
+      <div className="mb-[10px] pl-[10px] text-[16px] text-[var(--gray-color-2)] md:mb-[18px] md:pl-[12px] md:text-[20px]">
         검색 결과
       </div>
-      <div className="flex flex-col items-center gap-[13px] overflow-y-scroll pt-[4px] md:h-[782px]">
+      <div className="flex h-[210px] flex-col items-center gap-[8px] overflow-y-scroll pt-[4px] md:h-[782px] md:gap-[13px]">
         {dummyData.data.map((d, idx) => (
           <SearchListCard key={idx} type={d.type} name={d.name} />
         ))}

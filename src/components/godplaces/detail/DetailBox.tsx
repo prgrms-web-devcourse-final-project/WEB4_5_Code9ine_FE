@@ -14,15 +14,16 @@ export default function DetailBox() {
         url: '도서관 URL',
         latitude: '13.~',
         longitude: '13.~',
+        contact: '02-xxxx-xxxx',
       },
     ],
   };
   return (
-    <div className="mt-[20px]">
-      <div className="mb-[10px] h-[30px] w-[30px]">
-        <IoIosArrowRoundBack className="ml-[12px] text-[25px] text-[var(--text-color-white)]" />
+    <div className="mt-[7px] pb-[20px] md:mt-[20px]">
+      <div className="h-[30px] w-[22px] md:mb-[10px] md:w-[30px]">
+        <IoIosArrowRoundBack className="ml-[10px] text-[20px] text-[var(--text-color-white)] md:ml-[12px] md:text-[25px]" />
       </div>
-      <div className="mb-[23px] pl-[12px] text-[20px] text-[var(--gray-color-2)]">
+      <div className="mb-[18px] pl-[10px] text-[16px] text-[var(--gray-color-2)] md:mb-[23px] md:pl-[12px] md:text-[20px]">
         상세 정보
       </div>
       <DetailCard type={TYPE} {...dummyData.data[0]} />

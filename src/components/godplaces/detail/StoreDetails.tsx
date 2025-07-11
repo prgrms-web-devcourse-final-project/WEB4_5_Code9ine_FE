@@ -16,8 +16,10 @@ export default function StoreDetails({
   thirdPrice?: string;
 }) {
   return (
-    <div className="flex flex-col gap-[17px]">
-      <div className="text-[20px] text-[var(--gray-color-2)]">메뉴</div>
+    <div className="flex flex-col gap-[16px] md:gap-[17px]">
+      <div className="text-[16px] text-[var(--gray-color-2)] md:text-[20px]">
+        메뉴
+      </div>
       <DetailsItem title={'메뉴1'} price={'3000'} />
       <DetailsItem title={'메뉴2'} price={'12000'} />
       <DetailsItem title={'메뉴3'} price={'1000'} />
