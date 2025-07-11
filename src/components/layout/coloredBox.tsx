@@ -13,7 +13,6 @@ import { BsPersonRaisedHand } from 'react-icons/bs';
 import { useState } from 'react';
 import { FiMoon } from 'react-icons/fi';
 import { IoMdNotificationsOutline, IoMdPower } from 'react-icons/io';
-import MobileMenu from '../common/MobileMenu';
 
 export default function ColoredBox({
   changeLogin,
@@ -21,6 +20,7 @@ export default function ColoredBox({
   changeLogin: (arg0: boolean) => void;
 }) {
   const [login, setLogin] = useState<boolean>(false);
+  const [menu, setMenu] = useState<boolean>(false);
   const handleLogin = () => {
     setLogin(!login);
     changeLogin(!login);
@@ -35,12 +35,21 @@ export default function ColoredBox({
         </div>
 
         {/* 로고 및 네비게이션: 가운데 정렬 */}
-        <div className="flex items-center justify-center space-x-25 md:mt-6 md:flex-col md:gap-3">
-          <div className="flex cursor-pointer flex-col md:hidden">
-            <div className="mb-1 h-[1px] w-[20px] bg-[#ffffff] active:rotate-45"></div>
-            <div className="mb-1 h-[1px] w-[20px] bg-[#ffffff]"></div>
-            <div className="mb-1 h-[1px] w-[20px] bg-[#ffffff]"></div>
-          </div>
+        <div className="flex items-center justify-center space-x-[28vw] md:mt-6 md:flex-col md:gap-3 md:space-x-0">
+          <button
+            className="cursor-pointer md:hidden"
+            onClick={() => setMenu(!menu)}
+          >
+            <div
+              className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? 'translate-y-[5px] rotate-45' : ''}`}
+            ></div>
+            <div
+              className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? 'opacity-0' : 'opacity-100'}`}
+            ></div>
+            <div
+              className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? '-translate-y-[5px] -rotate-45' : ''}`}
+            ></div>
+          </button>
           <div className="mt-[5px] mb-[6px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px] md:h-[29px] md:w-[87px]">
             <Image src={logo} alt="티태 로고" />
             <span className="text-[#ffffff]">티태</span>
