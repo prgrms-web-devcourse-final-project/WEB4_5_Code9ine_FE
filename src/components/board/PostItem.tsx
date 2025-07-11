@@ -1,3 +1,4 @@
+'use client';
 import { AiFillStar } from 'react-icons/ai';
 import {
   FaHeart,
