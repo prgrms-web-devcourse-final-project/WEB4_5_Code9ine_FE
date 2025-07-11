@@ -12,10 +12,9 @@ export default function Button({ children, className, ...props }: ButtonProps) {
     h-[39px] w-[185px]
     rounded-[10px]
     bg-[var(--green-color-1)]
-    text-[16px] font-bold text-black
+    text-[16px] text-black
     transition-colors duration-200
-    hover:bg-[var(--green-color-2)]
-    active:bg-[var(--green-color-3)]
+    cursor-pointer
   `;
 
   return (
