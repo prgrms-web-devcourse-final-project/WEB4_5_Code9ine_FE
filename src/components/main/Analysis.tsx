@@ -8,7 +8,7 @@ import SpendingAnalysis from './SpendingAnalysis';
 export default function Analysis() {
   const { dummyData } = useDummyData();
   return (
-    <div className="flex flex-col gap-[20px]">
+    <div className="flex flex-col gap-[15px]">
       <div className="content-center justify-items-center rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[100px] md:w-[756px]">
         <TotalAmount data={dummyData} textSize="20px" />
       </div>
@@ -20,7 +20,7 @@ export default function Analysis() {
           <HalfYearAnalysis />
         </div>
       </div>
-      <div className="content-center justify-items-center rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[380px] md:w-[756px]">
+      <div className="content-center justify-items-center rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[390px] md:w-[756px]">
         <SpendingAnalysis />
       </div>
     </div>
