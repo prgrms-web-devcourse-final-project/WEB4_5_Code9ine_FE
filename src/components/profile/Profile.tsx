@@ -14,7 +14,7 @@ export default function Profile() {
             LV.1
           </span>{' '}
         </p>
-        <p className="mt-[5px] mb-[7px] text-[20px]">절약왕</p>
+        <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">절약왕</p>
         <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
           다음 레벨까지
         </span>
@@ -26,7 +26,7 @@ export default function Profile() {
           baseBgColor="var(--white-color)"
           labelVisible={true}
         />
-        <div className="mt-[10px] flex items-center gap-[10px]">
+        <div className="mt-[10px] flex items-center gap-[10px] text-[16px]">
           <Button
             button={
               <>

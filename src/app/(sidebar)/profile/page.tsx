@@ -8,14 +8,26 @@ import Mission from '@/components/profile/Mission';
 export default function page() {
   return (
     <>
-      <div className="flex gap-[15px] select-none">
-        <div className="h-[870px] w-[756px] overflow-hidden rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
+      <div className="flex flex-col items-center justify-center gap-[15px] select-none md:flex-row">
+        <div className="flex flex-col items-center justify-center gap-[40px] md:order-2 md:gap-[20px]">
+          <div className="h-[390px] w-[340px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[390px] md:w-[350px]">
+            <TitleSwiper />
+            <Profile />
+          </div>
+          <div className="h-[460px] w-[340px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[460px] md:w-[350px]">
+            <Mission />
+          </div>
+        </div>
+
+        <div className="mt-[40px] w-[340px] overflow-hidden rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:mt-[0px] md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
             <MyThreads />
           </div>
-          {/* <EditProfile /> */}
-          {/* <SetGoalModal /> */}
-          {/* <Modal
+        </div>
+      </div>
+      {/* <EditProfile /> */}
+      {/* <SetGoalModal /> */}
+      {/* <Modal
             title="로그인 후 이용 가능해요!"
             buttons={
               <>
@@ -30,17 +42,6 @@ export default function page() {
               </>
             }
           /> */}
-        </div>
-        <div className="flex flex-col gap-[20px]">
-          <div className="h-[390px] w-[350px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
-            <TitleSwiper />
-            <Profile />
-          </div>
-          <div className="h-[460px] w-[350px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
-            <Mission />
-          </div>
-        </div>
-      </div>
     </>
   );
 }
