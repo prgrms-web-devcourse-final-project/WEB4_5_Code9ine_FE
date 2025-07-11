@@ -10,7 +10,7 @@ export default function SearchListCard({
   name: string;
 }) {
   return (
-    <div className="h-[91px] w-[290px] cursor-pointer rounded-[10px] bg-[--white-color] px-[14px] py-[12px] shadow-[var(--shadow-md)] hover:scale-101 md:h-[100px] md:w-[310px]">
+    <div className="h-[91px] w-[305px] cursor-pointer rounded-[10px] bg-[--white-color] px-[14px] py-[12px] shadow-[var(--shadow-md)] hover:scale-101 md:h-[100px] md:w-[324px]">
       <div className="flex justify-between">
         <div className="text-[12px] text-[var(--main-color-3)] md:text-[14px]">
           {type}

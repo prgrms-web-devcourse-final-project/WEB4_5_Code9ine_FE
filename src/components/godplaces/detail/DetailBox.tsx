@@ -20,10 +20,10 @@ export default function DetailBox() {
   };
   return (
     <div className="mt-[7px] pb-[20px] md:mt-[20px]">
-      <div className="h-[30px] w-[22px] md:mb-[10px] md:w-[30px]">
-        <IoIosArrowRoundBack className="ml-[10px] text-[20px] text-[var(--text-color-white)] md:ml-[12px] md:text-[25px]" />
+      <div className="h-[22px] w-[22px] md:mb-[10px] md:w-[30px]">
+        <IoIosArrowRoundBack className="ml-[8px] text-[20px] text-[var(--text-color-white)] md:ml-[12px] md:text-[25px]" />
       </div>
-      <div className="mb-[18px] pl-[10px] text-[16px] text-[var(--gray-color-2)] md:mb-[23px] md:pl-[12px] md:text-[20px]">
+      <div className="mb-[11px] pl-[9px] text-[16px] text-[var(--gray-color-2)] md:mb-[23px] md:pl-[12px] md:text-[20px]">
         상세 정보
       </div>
       <DetailCard type={TYPE} {...dummyData.data[0]} />
