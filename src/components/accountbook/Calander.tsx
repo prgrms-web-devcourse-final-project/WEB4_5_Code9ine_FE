@@ -23,22 +23,22 @@ export default function Calander({
 
       if (dayData.length > 0) {
         return (
-          <div>
+          <div className="w-full">
             {dayData.map((item) => (
               <div key={Math.random().toString(36)}>
                 <p
                   key={Math.random().toString(36)}
-                  className="w-full justify-end text-end items-end text-[14px] text-[var(--point-color-1)]"
+                  className="block w-full items-end justify-end truncate text-end text-[8px] text-[var(--point-color-1)] md:text-[14px]"
                 >
                   -{item.expense.toLocaleString('ko-KR')}
                 </p>
                 <p
                   key={Math.random().toString(36)}
-                  className="justify-end text-end text-[14px] text-[var(--main-color-3)]"
+                  className="justify-end text-end text-[8px] text-[var(--main-color-3)] md:text-[14px]"
                 >
                   +{item.income.toLocaleString('ko-KR')}
                 </p>
-                <p className="justify-end text-end text-[14px]">
+                <p className="justify-end text-end text-[8px] md:text-[14px]">
                   {item.difference.toLocaleString('ko-KR')}
                 </p>
               </div>
@@ -58,25 +58,27 @@ export default function Calander({
   return (
     <>
       <div className="relative rounded-[10px] bg-[var(--white-color)] shadow-md md:h-[765px] md:w-[755px]">
-        <div className="absolute flex gap-[10px] md:top-[36px] md:left-[565px]">
-          <button className="h-[30px] w-[120px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--main-color-1)] text-[14px] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)]">
+        <div className="absolute top-[25px] right-[10px] flex gap-[10px] md:top-[36px] md:left-[565px]">
+          <button className="h-[20px] w-[70px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--main-color-1)] text-[8px] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)] md:h-[30px] md:w-[120px] md:text-[14px]">
             오늘 지출이 없어요!
           </button>
           <button
-            className="size-[30px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)]"
+            className="flex size-[20px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--main-color-1)] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)] md:size-[30px]"
             onClick={handleStatus}
           >
             +
           </button>
         </div>
-        <div className="flex  justify-center border-1 h-full">
+        <div className="flex h-full justify-center">
           <Calendar
             calendarType="gregory"
             formatDay={(locale, date) => format(date, 'd')}
             tileContent={addContent}
             navigationLabel={({ date }) => (
               <div className="custom-navigation-label">
-                <span className="year-display">{date.getFullYear()}년</span>
+                <span className="year-display">
+                  {date.getFullYear()}년
+                </span>
                 <span className="month-display">{date.getMonth() + 1}월</span>
               </div>
             )}

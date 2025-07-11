@@ -13,9 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="flex min-h-screen items-center justify-center bg-[var(--background-full)]">
+      <body className="flex min-h-screen bg-[var(--background)] md:items-center md:justify-center md:bg-[var(--background-full)]">
         {/* 메인 컨테이너를 flex로 지정해 내부를 가로 배치 */}
-        <main className="flex h-[900px] w-[1366px] gap-[15px] rounded-[10px] bg-[var(--background)] p-[15px]">
+        <main className="flex w-[1366px] gap-[15px] rounded-[10px] bg-[var(--background)] md:h-[900px] md:p-[15px]">
           {/* 사이드바 */}
           {/* <ColoredBox /> */}
           {/* 콘텐츠 영역 */}
