@@ -10,7 +10,7 @@ export default function layout({
   const clicked = true;
   return (
     <>
-      <div className="flex gap-[15px]">
+      <div className="gap-[15px] md:flex">
         {search}
         {clicked ? detail : results}
       </div>

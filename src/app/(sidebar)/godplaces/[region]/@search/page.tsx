@@ -5,8 +5,8 @@ import SearchBox from '@/components/godplaces/search/SearchBox';
 
 export default function page() {
   return (
-    <div className="h-[870px] w-[756px] rounded-[10px]">
-      <div className="flex flex-col gap-[24px]">
+    <div className="w-[330px] rounded-[10px] md:h-[870px] md:w-[756px]">
+      <div className="flex flex-col gap-[15px] md:gap-[24px]">
         <div>
           <SearchBox classType="afterSearch" />
           <CategoryBox classType="afterSearch" />
