@@ -19,8 +19,12 @@ export default function GoalAnalysis() {
           {GOAL}를 한 대 살 수 있겠군요!!
         </div>
       </div>
-      <Image src={car} alt={GOAL} className="md:h-[113px] md:w-[113px]"></Image>
-      <div className="flex flex-col gap-[3px]">
+      <Image
+        src={car}
+        alt={GOAL}
+        className="h-[140px] w-[140px] md:h-[113px] md:w-[113px]"
+      ></Image>
+      <div className="flex flex-col gap-[7px] md:gap-[5px]">
         <ProgressBar
           completed={PERCENT}
           width="240px"
