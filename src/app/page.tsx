@@ -10,6 +10,12 @@ import selectaccount from '@/assets/mainpage/selectaccount.png';
 import chatbot from '@/assets/mainpage/chatbot.png';
 import bubble from '@/assets/mainpage/bubble.svg';
 import robot from '@/assets/mainpage/robot.svg';
+import godplace from '@/assets/mainpage/godplace.png';
+import girl from '@/assets/mainpage/girl.png';
+import boy from '@/assets/mainpage/boy.png';
+import board from '@/assets/mainpage/board.png';
+import { CiSearch } from 'react-icons/ci';
+import { BsPersonUp } from 'react-icons/bs';
 
 export default function Page() {
   return (
@@ -222,6 +228,71 @@ export default function Page() {
               <br />
               명쾌한 해답을 알려줄거에요.
             </p>
+          </div>
+        </div>
+        {/* 갓플레이스 */}
+        <div className="flex gap-[100px]">
+          <div className="flex flex-col gap-[20px]">
+            <p className="text-[24px]">
+              티태는 <span className="text-[var(--main-color-3)]">가성비</span>
+              있는 장소들도
+              <br />
+              살펴볼 수 있는 공간도 있어요.
+            </p>
+            <div className="flex">
+              <CiSearch className="h-[32px] w-[42px] text-[var(--main-color-3)]" />
+              <p className="text-[20px] text-[var(--main-color-3)]">
+                검색 서비스
+              </p>
+            </div>
+            <p className="text-[24px] text-[var(--main-color-3)]">
+              동 단위로 지역을 검색해서
+              <br />
+              가성비있는 장소를 탐색
+            </p>
+            <p className="text-[24px] text-[var(--main-color-3)]">
+              이제부터 티태와 함께
+              <br />
+              착한 가게를 찾고 돈을 절약해요.
+            </p>
+          </div>
+          <Image src={godplace} alt="갓플레이스" width={390} height={442} />
+        </div>
+        {/* 게시판 */}
+        <div className="flex flex-row items-start gap-[60px]">
+          {/* 왼쪽 텍스트+아이콘 영역 */}
+          <div className="flex max-w-[400px] flex-col gap-[30px]">
+            <p className="text-[24px]">
+              <span className="text-[var(--main-color-3)]">게시판</span>에서
+              나만의 장소를
+              <br />
+              서로 공유해보세요.
+            </p>
+            <div className="flex flex-col gap-[30px]">
+              <div className="flex items-center">
+                <BsPersonUp className="h-[32px] w-[42px] text-[var(--main-color-3)]" />
+                <p className="text-[20px] text-[var(--main-color-3)]">
+                  커뮤니티 서비스
+                </p>
+              </div>
+              <p className="text-[24px]">다양한 유저들과 즐거운 커뮤니티</p>
+              <p className="text-[24px] text-[var(--main-color-3)]">
+                내가 찾은 갓플을 공유해요.
+                <br />
+                다른 유저들이 쓴 갓플 게시물도 저장할 수 있어요.
+              </p>
+            </div>
+            <div className="flex gap-1">
+              <Image src={girl} alt="여자" width={86} height={46} />
+              <Image src={boy} alt="남자" width={86} height={46} />
+              <Image src={girl} alt="여자" width={86} height={46} />
+              <Image src={boy} alt="남자" width={86} height={46} />
+            </div>
+          </div>
+
+          {/* 오른쪽 이미지 */}
+          <div>
+            <Image src={board} alt="게시판" width={360} height={300} />
           </div>
         </div>
       </div>
