@@ -8,7 +8,7 @@ export default function AiChat() {
   // const message = '메세지';
   return (
     <>
-      <div className="relative mt-[16px] flex h-[70px] max-h-[500px] w-[350px] flex-col items-center overflow-scroll rounded-[10px] bg-[var(--white-color)] shadow-md transition-[height] focus-within:h-[500px]">
+      <div className="relative mt-[16px] flex h-[70px] max-h-[400px] w-[350px] flex-col items-center overflow-scroll rounded-[10px] bg-[var(--white-color)] shadow-md transition-[height] focus-within:h-[500px]">
         {/* {!showIcon ? (
           <div className="my-[25px] mb-[45px] flex w-full flex-col justify-end gap-[25px] px-[10px] text-center">
             <TalkBalloon message={message} />

@@ -10,7 +10,7 @@ export default function ListCard({
 }) {
   return (
     <>
-      <div className="group relative flex min-h-[95px] w-[315px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md hover:z-999">
+      <div className="group relative mx-[3px] mb-[15px] flex min-h-[95px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md hover:z-999 md:w-[310px]">
         <div className="absolute left-[10px] flex gap-[10px]">
           <div className="flex size-[50px] items-center justify-center rounded-full bg-[var(--main-color-1)]">
             <span className="text-[25px]">{value.categoryIcon}</span>
@@ -28,8 +28,8 @@ export default function ListCard({
           </div>
         ) : (
           <div className="absolute right-[20px]">
-            <span className="ml-[26px] text-[var(--main-color-1)]">
-              {value.price.toLocaleString('ko-KR')}원
+            <span className="ml-[26px] text-[var(--main-color-3)]">
+              +{value.price.toLocaleString('ko-KR')}원
             </span>
           </div>
         )}

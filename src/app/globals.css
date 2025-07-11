@@ -163,7 +163,6 @@ body {
 .animate-draw-underline {
   animation: drawUnderline 0.4s ease-out forwards;
 }
-
 .swiper-button-prev,
 .swiper-button-next {
   padding: 15px 5px;
@@ -202,3 +201,8 @@ rect:focus {
   outline: none !important;
   border: none !important;
 }
+
+.mobileMenuButton {
+  @apply mb-1 h-[1px] w-[20px] bg-[#ffffff] transition-all duration-300;
+}
+
