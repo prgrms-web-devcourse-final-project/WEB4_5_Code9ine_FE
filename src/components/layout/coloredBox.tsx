@@ -1,22 +1,7 @@
 'use client';
 import Image from 'next/image';
 import logo from '@/assets/mainpage/logo.png';
-// import darkmodBtn from '@/assets/mainpage/darkmodebtn.png';
 import Button from '../login/SignupButton';
-import account from '@/assets/mainpage/account.png';
-import godplaceicon from '@/assets/mainpage/godplaceicon.png';
-import community from '@/assets/mainpage/community.png';
-import login from '@/assets/mainpage/login.png';
-import mypage from '@/assets/coloredBox/mypage.png';
-import logout from '@/assets/coloredBox/logout.png';
-import alarm from '@/assets/coloredBox/alarm.png';
-import selectaccount from '@/assets/mainpage/selectaccount.png';
-import selectgodplaceicon from '@/assets/mainpage/selectgodplace.png';
-import selectcommunity from '@/assets/mainpage/selectcommunity.png';
-import selectlogin from '@/assets/mainpage/selectlogin.png';
-import github from '@/assets/coloredBox/github.png';
-import selectmypage from '@/assets/coloredBox/selectmypage.png';
-import selectlogout from '@/assets/coloredBox/selectlogout.png';
 import { LuNotebook } from 'react-icons/lu';
 import {
   IoLogoGithub,
