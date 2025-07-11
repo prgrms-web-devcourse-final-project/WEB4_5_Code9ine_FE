@@ -33,7 +33,7 @@ export default function MissionSwiperTabs() {
     des: string;
     missionTitle: string;
   }) => (
-    <div className="flex flex-col items-center justify-center rounded-[10px] bg-white p-[10px] shadow-md">
+    <div className="flex flex-col items-center justify-center rounded-[10px] bg-white p-[10px] shadow-[var(--shadow-md)]">
       <p className="mt-[10px] text-center text-[16px] whitespace-pre-line">
         {des}
       </p>

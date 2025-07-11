@@ -16,7 +16,7 @@ export default function SetGoalModal() {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div className="relative h-[600px] w-[350px] items-center justify-center rounded-[10px] bg-[var(--white-color)] p-[20px] shadow-md">
+        <div className="relative h-[600px] w-[350px] items-center justify-center rounded-[10px] bg-[var(--white-color)] p-[20px] shadow-[var(--shadow-md)]">
           <MdCancel className="absolute top-4 right-4 cursor-pointer text-[30px] text-[var(--gray-color-2)]" />
           <h1 className="p-[25px] text-center text-[20px] font-semibold">
             <span className="text-[var(--main-color-3)]">목표</span>를

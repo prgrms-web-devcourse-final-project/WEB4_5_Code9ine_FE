@@ -13,7 +13,7 @@ export default function Modal({
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div className="h-[180px] w-[250px] rounded-[10px] bg-[var(--white-color)] p-[20px] shadow-md">
+        <div className="h-[180px] w-[250px] rounded-[10px] bg-[var(--white-color)] p-[20px] shadow-[var(--shadow-md)]">
           {title && (
             <h1 className="text-center text-[20px] leading-relaxed font-semibold whitespace-pre-line">
               {title}
