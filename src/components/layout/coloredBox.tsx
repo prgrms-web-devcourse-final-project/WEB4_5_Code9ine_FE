@@ -14,8 +14,16 @@ import { useState } from 'react';
 import { FiMoon } from 'react-icons/fi';
 import { IoMdNotificationsOutline, IoMdPower } from 'react-icons/io';
 
-export default function ColoredBox() {
+export default function ColoredBox({
+  changeLogin,
+}: {
+  changeLogin: (arg0: boolean) => void;
+}) {
   const [login, setLogin] = useState<boolean>(false);
+  const handleLogin = () => {
+    setLogin(!login);
+    changeLogin(!login);
+  };
   return (
     <div className="relative rounded-[10px] bg-[var(--header-color)] p-[10px] md:flex md:h-[870px] md:w-[200px] md:flex-col md:items-center">
       {/* 다크 모드 버튼: 오른쪽 위 */}
@@ -47,7 +55,7 @@ export default function ColoredBox() {
               커뮤니티
             </Button>
 
-            <Button className="pc-header-button" onClick={() => setLogin(true)}>
+            <Button className="pc-header-button" onClick={handleLogin}>
               <BsPersonRaisedHand size={20} />
               로그인/회원가입
             </Button>
@@ -74,10 +82,7 @@ export default function ColoredBox() {
               마이페이지
             </Button>
 
-            <Button
-              className="pc-header-button"
-              onClick={() => setLogin(false)}
-            >
+            <Button className="pc-header-button" onClick={handleLogin}>
               <IoMdPower size={20} />
               로그아웃
             </Button>
