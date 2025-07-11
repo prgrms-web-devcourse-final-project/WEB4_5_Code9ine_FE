@@ -15,6 +15,7 @@ import { FiMoon } from 'react-icons/fi';
 import { IoMdNotificationsOutline, IoMdPower } from 'react-icons/io';
 import MobileMenu from '../common/MobileMenu';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function ColoredBox({
   changeLogin,
@@ -23,6 +24,8 @@ export default function ColoredBox({
 }) {
   const [login, setLogin] = useState<boolean>(false);
   const [menu, setMenu] = useState<boolean>(false);
+  const location = usePathname();
+  console.log('현재 위치:', location);
   const handleLogin = () => {
     setLogin(!login);
     changeLogin(!login);
@@ -68,27 +71,36 @@ export default function ColoredBox({
           {!login ? (
             <div className="hidden md:block">
               <Link href={'/accountbook'}>
-                <Button className="pc-header-button">
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
                   <LuNotebook size={20} />
                   가계부
                 </Button>
               </Link>
 
               <Link href={'/godplaces'}>
-                <Button className="pc-header-button">
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/godplaces' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/godplaces' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
                   <IoSearchSharp size={20} />
                   갓플찾기
                 </Button>
               </Link>
 
               <Link href={'/board'}>
-                <Button className="pc-header-button">
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
                   <HiOutlineUserGroup size={20} />
                   커뮤니티
                 </Button>
               </Link>
 
-              <Button className="pc-header-button" onClick={handleLogin}>
+              <Button
+                className={`pc-header-button text-[var(--header-text)]`}
+                onClick={handleLogin}
+              >
                 <BsPersonRaisedHand size={20} />
                 로그인/회원가입
               </Button>
@@ -96,28 +108,36 @@ export default function ColoredBox({
           ) : (
             <div className="hidden md:block">
               <Link href={'/accountbook'}>
-                <Button className="pc-header-button">
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
                   <LuNotebook size={20} />
                   가계부
                 </Button>
               </Link>
 
               <Link href={'/godplaces'}>
-                <Button className="pc-header-button">
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
                   <IoSearchSharp size={20} />
                   갓플찾기
                 </Button>
               </Link>
 
               <Link href={'/board'}>
-                <Button className="pc-header-button">
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
                   <HiOutlineUserGroup size={20} />
                   커뮤니티
                 </Button>
               </Link>
 
               <Link href={'/profile'}>
-                <Button className="pc-header-button">
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
                   <IoPersonCircleOutline size={20} />
                   마이페이지
                 </Button>

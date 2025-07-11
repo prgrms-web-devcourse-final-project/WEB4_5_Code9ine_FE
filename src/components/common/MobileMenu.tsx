@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import Button from '../login/SignupButton';
 import { LuNotebook } from 'react-icons/lu';
@@ -9,6 +10,7 @@ import {
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { BsPersonRaisedHand } from 'react-icons/bs';
 import { IoMdPower } from 'react-icons/io';
+import { usePathname } from 'next/navigation';
 
 export default function MobileMenu({
   login,
@@ -19,6 +21,7 @@ export default function MobileMenu({
   loginSet: (arg0: boolean) => void;
   closeSideBar: (arg0: boolean) => void;
 }) {
+  const location = usePathname();
   const handleLogin = () => {
     loginSet(!login);
     closeSideBar(false);
@@ -31,7 +34,7 @@ export default function MobileMenu({
             <div className="mt-[30px] block">
               <Link href={'/accountbook'}>
                 <Button
-                  className="pc-header-button"
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
                 >
                   <LuNotebook size={20} />
@@ -41,7 +44,7 @@ export default function MobileMenu({
 
               <Link href={'/godplaces'}>
                 <Button
-                  className="pc-header-button"
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/godplaces' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/godplaces' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
                 >
                   <IoSearchSharp size={20} />
@@ -51,7 +54,7 @@ export default function MobileMenu({
 
               <Link href={'/board'}>
                 <Button
-                  className="pc-header-button"
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
                 >
                   <HiOutlineUserGroup size={20} />
@@ -59,7 +62,10 @@ export default function MobileMenu({
                 </Button>
               </Link>
 
-              <Button className="pc-header-button" onClick={handleLogin}>
+              <Button
+                className={`pc-header-button text-[var(--header-text)]`}
+                onClick={handleLogin}
+              >
                 <BsPersonRaisedHand size={20} />
                 로그인/회원가입
               </Button>
@@ -68,7 +74,7 @@ export default function MobileMenu({
             <div className="mt-[30px] block">
               <Link href={'/accountbook'}>
                 <Button
-                  className="pc-header-button"
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
                 >
                   <LuNotebook size={20} />
@@ -78,7 +84,7 @@ export default function MobileMenu({
 
               <Link href={'/godplaces'}>
                 <Button
-                  className="pc-header-button"
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/godplaces' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/godplaces' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
                 >
                   <IoSearchSharp size={20} />
@@ -88,7 +94,7 @@ export default function MobileMenu({
 
               <Link href={'/board'}>
                 <Button
-                  className="pc-header-button"
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
                 >
                   <HiOutlineUserGroup size={20} />
@@ -98,7 +104,7 @@ export default function MobileMenu({
 
               <Link href={'/profile'}>
                 <Button
-                  className="pc-header-button"
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/profile' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/profile' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
                 >
                   <IoPersonCircleOutline size={20} />
@@ -106,7 +112,10 @@ export default function MobileMenu({
                 </Button>
               </Link>
 
-              <Button className="pc-header-button" onClick={handleLogin}>
+              <Button
+                className={`pc-header-button text-[var(--header-text)]`}
+                onClick={handleLogin}
+              >
                 <IoMdPower size={20} />
                 로그아웃
               </Button>
