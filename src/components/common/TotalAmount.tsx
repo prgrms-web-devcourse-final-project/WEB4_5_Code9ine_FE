@@ -2,7 +2,7 @@ import { DataList } from '@/types/payData';
 
 export default function TotalAmount({ data }: { data: DataList }) {
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center text-[14px] md:text-[20px]">
       <div>
         <span>7월 9일까지의 총수입은 </span>
         <span className="text-[var(--main-color-3)]">
