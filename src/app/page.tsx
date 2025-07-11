@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import ColoredBox from '@/components/layout/coloredBox';
+import AuthorizedMain from '@/components/main/AuthorizedMain';
 import rank1 from '@/assets/mainpage/rank1.png';
 import rank2 from '@/assets/mainpage/rank2.png';
 import rank3 from '@/assets/mainpage/rank3.png';
@@ -21,6 +22,9 @@ export default function Page() {
   return (
     <>
       <ColoredBox />
+      {/* <h1>Home Component</h1> */}
+      {/* <AuthorizedMain /> */}
+
       <div className="flex h-[870px] w-[1200px] flex-col items-center gap-[150px] overflow-y-auto rounded-[10px] bg-[var(--white-color)] pt-[70px]">
         <p className="text-[24px]">
           지금까지 티태 유저가 절약한 금액{' '}

@@ -5,6 +5,7 @@ import AiChat from './AiChat';
 import Calander from './Calander';
 import ListArea from './ListArea';
 import AccountAdd from './AccountAdd';
+import TotalAmount from '../common/TotalAmount';
 import { useDummyData } from '@/stores/dummyStore';
 
 export default function Page() {
@@ -20,26 +21,7 @@ export default function Page() {
       <div className="md:flex md:gap-[15px]">
         <div className="md:flex md:flex-col">
           <div className="mx-[13px] mt-[9px] mb-[16px] flex text-[20px]">
-            <div className="md:flex md:flex-col md:justify-center">
-              <div>
-                <span className="text-[14px] md:text-[20px]">
-                  7월 9일까지의 총수입은
-                </span>
-                <span className="text-[14px] text-[var(--main-color-3)] md:text-[20px]">
-                  {dummyData.totalIncome.toLocaleString('ko-KR')}
-                </span>
-                <span className="text-[14px] md:text-[20px]">원이에요</span>
-              </div>
-              <div>
-                <span className="text-[14px] md:text-[20px]">
-                  7월 9일까지의 총지출은
-                </span>
-                <span className="text-[14px] text-[var(--point-color-1)] md:text-[20px]">
-                  {dummyData.totalExpense.toLocaleString('ko-KR')}
-                </span>
-                <span className="text-[14px] md:text-[20px]">원이에요</span>
-              </div>
-            </div>
+            <TotalAmount />
             <div className="md:ml-[290px] md:size-[80px] md:rounded-full md:border-1 md:border-[var(--main-color-3)]"></div>
           </div>
           <Calander onDataChange={handleMenu} />
