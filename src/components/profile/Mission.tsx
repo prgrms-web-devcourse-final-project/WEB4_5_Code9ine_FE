@@ -33,14 +33,16 @@ export default function MissionSwiperTabs() {
     des: string;
     missionTitle: string;
   }) => (
-    <div className="flex flex-col items-center justify-center rounded-[10px] bg-white p-[10px] shadow-[var(--shadow-md)]">
+    <div className="flex flex-col items-center justify-center rounded-[10px] p-[10px]">
       <p className="mt-[10px] text-center text-[16px] whitespace-pre-line">
         {des}
       </p>
       <p className="text-[18px] font-semibold">{missionTitle}</p>
       <PiFlowerFill size={47} color="#FFFAC5" />
       <button className="mt-[5px] h-[30px] w-[60px] rounded-[10px] bg-[var(--main-color-1)]">
-        <p className="text-center text-[16px] font-semibold">0 / 3</p>
+        <p className="text-center text-[16px] font-semibold dark:text-[#2b2e34]">
+          0 / 3
+        </p>
       </button>
     </div>
   );

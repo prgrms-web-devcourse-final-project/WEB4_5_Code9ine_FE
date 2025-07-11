@@ -16,20 +16,20 @@ export default function ThreadsTab({
   ];
 
   return (
-    <div className="relative flex justify-around border-b-[2px] border-[var(--main-color-1)]">
+    <div className="relative mx-auto mt-[40px] flex w-fit justify-center border-b border-[var(--main-color-1)]">
       {tabs.map((tab) => (
         <button
           key={tab.key}
           onClick={() => onChange(tab.key)}
-          className={`relative mx-[7px] py-2 text-[16px] font-medium transition-colors duration-300 ${
+          className={`relative mx-[7px] cursor-pointer py-2 text-[20px] font-medium transition-colors duration-300 ${
             selectedTab === tab.key
               ? 'font-semibold text-[var(--main-color-3)]'
-              : 'text-black hover:text-[var(--main-color-3)]'
+              : 'hover:text-[var(--main-color-3)]'
           }`}
         >
           {tab.label}
           {selectedTab === tab.key && (
-            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] bg-[var(--main-color-3)]" />
+            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] w-0 bg-[var(--main-color-3)]" />
           )}
         </button>
       ))}

@@ -2,6 +2,7 @@
 import SetGoal from './SetGoal';
 import PostItem from '../board/PostItem';
 import ThreadsTab from './ThreadsTab';
+import DetailBox from '../godplaces/detail/DetailBox';
 import { useState } from 'react';
 // import DetailBox from '../godplaces/detail/DetailBox';
 export default function MyThreads() {
@@ -13,7 +14,7 @@ export default function MyThreads() {
     <>
       <SetGoal />
       <ThreadsTab selectedTab={selectedTab} onChange={setSelectedTab} />
-      <div className="mt-[200px] flex w-full flex-col gap-[20px] p-[20px]">
+      <div className="mt-[40px] flex w-full flex-col gap-[20px] p-[20px]">
         {ThreadList.map((prev, i) => (
           <div key={i}>
             <PostItem />
@@ -22,7 +23,7 @@ export default function MyThreads() {
 
         {/* 내가 찜한 장소 */}
         {/* {ThreadList.map((prev, i) => (
-          <div key={i} className="rounded-[10px] shadow">
+          <div key={i} className="rounded-[10px] shadow dark:shadow-md">
             <DetailBox />
           </div>
         ))} */}

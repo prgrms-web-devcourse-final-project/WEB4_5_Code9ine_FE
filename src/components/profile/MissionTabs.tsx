@@ -25,7 +25,7 @@ export default function MissionTabs({
           className={`relative mx-[7px] py-2 text-[16px] font-medium transition-colors duration-300 ${
             selectedTab === tab.key
               ? 'font-semibold text-[var(--main-color-3)]'
-              : 'text-black hover:text-[var(--main-color-3)]'
+              : 'hover:text-[var(--main-color-3)]'
           }`}
         >
           {tab.label}
