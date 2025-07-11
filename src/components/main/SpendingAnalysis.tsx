@@ -36,7 +36,7 @@ export default function SpendingAnalysis() {
             <span className="text-[var(--main-color-3)]">이번 달 지출,</span>{' '}
             어디에 가장 많이 쓰셨을까요?
           </div>
-          <div>OO님의 소비 패턴이에요.</div>
+          <div>OO님의 지출 패턴이에요.</div>
         </div>
         <div className="mb-[-35px] md:h-[270px]">
           <PieChartClient data={dummyData} colors={COLORS} />
