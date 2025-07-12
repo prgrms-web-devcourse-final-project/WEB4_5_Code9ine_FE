@@ -22,11 +22,11 @@ export default function AccountAdd({
   console.log(accountTag);
   return (
     <>
-      <div className="relative flex h-full flex-col items-center py-[30px]">
-        <span className="font-bold">가계부 입력</span>
+      <div className="relative mx-[5px] flex w-[97.7vw] flex-col items-center rounded-[10px] bg-[var(--white-color)] py-[30px] md:h-[870px] md:w-full">
+        <span className="font-bold text-[var(--text-color)]">가계부 입력</span>
         <div className="mt-[30px] flex gap-[5px]">
           <button
-            className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] active:bg-[var(--main-color-2)]"
+            className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] active:bg-[var(--main-color-2)]"
             onClick={() => {
               handleTag('지출');
             }}
@@ -34,14 +34,14 @@ export default function AccountAdd({
             지출
           </button>
           <button
-            className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] active:bg-[var(--main-color-2)]"
+            className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] active:bg-[var(--main-color-2)]"
             onClick={() => {
               handleTag('수입');
             }}
           >
             수입
           </button>
-          <button className="ml-[74px] h-[35px] w-[120px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] active:bg-[var(--main-color-2)]">
+          <button className="ml-[74px] h-[35px] w-[120px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] active:bg-[var(--main-color-2)]">
             영수증 첨부하기
           </button>
         </div>
@@ -83,12 +83,12 @@ export default function AccountAdd({
         </div>
         {toolStatus === '카테고리' ? <Category /> : null}
         {toolStatus === '금액' ? <Calculator /> : null}
-        <div className="absolute bottom-[60px] left-[70px] flex gap-[10px]">
-          <button className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)]">
+        <div className="absolute bottom-[25px] flex gap-[25px] md:bottom-[60px] md:left-[70px] md:gap-[10px]">
+          <button className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]">
             확인
           </button>
           <button
-            className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--gray-color-1)]"
+            className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--gray-color-1)] text-black"
             onClick={handleStatus}
           >
             취소
