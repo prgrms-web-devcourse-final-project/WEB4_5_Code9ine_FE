@@ -26,7 +26,7 @@ export default function AiChat() {
             <div></div>
           </div>
         ) : null} */}
-        <div className="absolute right-[30px] bottom-[10px] flex gap-[20px]">
+        <div className="absolute right-[30px] bottom-[15px] flex gap-[20px]">
           {showIcon ? <TiTaeProfile /> : null}
           <input
             type="text"
