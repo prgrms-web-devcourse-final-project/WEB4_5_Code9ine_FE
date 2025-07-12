@@ -13,7 +13,7 @@ export default function SignupBox() {
           <input
             type="text"
             placeholder="2자 이상 6자 이하"
-            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-[218px] md:flex-none"
+            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-[218px] md:flex-none"
             maxLength={6}
             minLength={2}
           />
@@ -32,7 +32,7 @@ export default function SignupBox() {
           <input
             type="email"
             placeholder="example@gmail.com"
-            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-[218px] md:flex-none"
+            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-[218px] md:flex-none"
           />
           <Button className="h-[35px] w-[80px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)] md:w-[100px]">
             인증하기
@@ -48,7 +48,7 @@ export default function SignupBox() {
         <input
           type="password"
           placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요"
-          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
       </div>
 
@@ -60,12 +60,12 @@ export default function SignupBox() {
         <input
           type="password"
           placeholder="비밀번호를 한번 더 입력해 주세요"
-          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
       </div>
 
       {/* 이용약관 */}
-      <div className="flex h-[100px] self-center overflow-auto rounded-[10px] border-2 border-[var(--main-color-1)] bg-white p-2 md:w-[300px]">
+      <div className="flex h-[100px] self-center overflow-auto rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] p-2 md:w-[300px]">
         <p className="text-[12px] leading-relaxed">
           제 1 조 (목적) 본 약관은 (주)티태(이하 “회사”라 합니다)이 운영하는
           웹사이트 ‘티태’ (www.urbanlaunderette.com) (이하 “웹사이트”라
