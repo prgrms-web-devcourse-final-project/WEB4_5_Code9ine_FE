@@ -1,5 +1,9 @@
+'use client';
 import { PayList } from '@/types/payData';
 import CardMenu from './CardMenu';
+import { IoEllipsisVertical } from 'react-icons/io5';
+import MobileCardMenu from './MobileCardMenu';
+import { useState } from 'react';
 
 export default function ListCard({
   value,
@@ -8,9 +12,10 @@ export default function ListCard({
   value: PayList;
   index: number;
 }) {
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
   return (
     <>
-      <div className="group relative mx-[3px] mb-[15px] flex min-h-[95px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md hover:z-999 md:w-[310px]">
+      <div className="group relative mx-[3px] mb-[15px] flex min-h-[95px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md hover:z-50 md:w-[310px]">
         <div className="absolute left-[10px] flex gap-[10px]">
           <div className="flex size-[50px] items-center justify-center rounded-full bg-[var(--main-color-1)]">
             <span className="text-[25px]">{value.categoryIcon}</span>
@@ -33,7 +38,22 @@ export default function ListCard({
             </span>
           </div>
         )}
-        <div className="absolute top-[80px] right-[13px] hidden group-hover:flex">
+        <button
+          className="absolute top-[10px] right-[10px] cursor-pointer md:hidden"
+          onClick={() => setOpenMenu(true)}
+        >
+          <IoEllipsisVertical size={10} />
+        </button>
+        <div
+          className={`fixed inset-0 mt-[60px] transition-opacity duration-300 md:hidden ${openMenu ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+          onClick={() => setOpenMenu(false)}
+        ></div>
+        {openMenu ? (
+          <div className="absolute top-[10px] right-[10px] shadow">
+            <MobileCardMenu index={index} />
+          </div>
+        ) : null}
+        <div className="absolute top-[80px] right-[13px] hidden md:group-hover:flex">
           <CardMenu index={index} />
         </div>
       </div>

@@ -18,7 +18,12 @@ export default function Page() {
   };
   return (
     <>
-      <div className="md:flex md:gap-[15px]">
+      <div className="relative md:flex md:gap-[15px]">
+        <div
+          className={`absolute flex h-[92vh] md:hidden ${isInsert ? 'absolute z-50' : ''}`}
+        >
+          {isInsert ? <AccountAdd onDataChange={handleMenu} /> : null}
+        </div>
         <div className="md:flex md:flex-col">
           <div className="mx-[5px] mt-[9px] mb-[16px] flex text-[20px] md:mx-[13px]">
             <TotalAmount data={dummyData} />
@@ -27,11 +32,14 @@ export default function Page() {
           <Calander onDataChange={handleMenu} />
         </div>
         <div className="mt-[15px] flex h-[870px] flex-col md:mt-[0px]">
-          <div className="flex w-full flex-col rounded-[10px] bg-[var(--white-color)] shadow-md md:max-h-[782px] md:w-[350px]">
+          <div className="hidden w-full flex-col rounded-[10px] bg-[var(--white-color)] shadow-md md:flex md:min-h-[100px] md:w-[350px]">
             {isInsert ? <AccountAdd onDataChange={handleMenu} /> : <ListArea />}
           </div>
           <div className="hidden items-center justify-center md:flex">
             {isInsert ? null : <AiChat />}
+          </div>
+          <div className="md:hidden">
+            <ListArea />
           </div>
         </div>
       </div>

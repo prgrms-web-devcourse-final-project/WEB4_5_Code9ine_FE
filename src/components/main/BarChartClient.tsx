@@ -1,7 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { BarChart, Bar, Cell, ResponsiveContainer, XAxis } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  Cell,
+  ResponsiveContainer,
+  XAxis,
+  Tooltip,
+} from 'recharts';
 
 const dummyData = [
   {
@@ -31,25 +38,33 @@ const dummyData = [
 ];
 
 export default function BarChartClient() {
-  const [activeIndex, setActiveIndex] = useState(5);
-  const activeItem = dummyData[activeIndex];
-
-  const handleClick = (_, index: number) => {
-    setActiveIndex(index);
-  };
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
-        width={368}
-        height={140}
         data={dummyData}
-        className="items-center"
+        margin={{ top: 40, left: 5 }}
+        onMouseLeave={() => setActiveIndex(null)}
       >
-        <Bar dataKey="price" onClick={handleClick}>
+        <Tooltip
+          cursor={{ fill: 'transparent' }}
+          content={({ active, payload }) => {
+            if (active && payload && payload.length) {
+              return (
+                <div className="rounded-[10px] border bg-[var(--white-color)] px-2 py-1 text-[14px]">
+                  {`${payload[0].value.toLocaleString()}원`}
+                </div>
+              );
+            }
+            return null;
+          }}
+        />
+
+        <Bar barSize={20} dataKey="price">
           {dummyData.map((_, index) => (
             <Cell
-              width={10}
+              width={19}
               key={`cell-${index}`}
               cursor="pointer"
               fill={
@@ -57,10 +72,15 @@ export default function BarChartClient() {
                   ? 'var(--main-color-3)'
                   : 'var(--main-color-2)'
               }
+              onMouseEnter={() => setActiveIndex(index)}
             />
           ))}
         </Bar>
-        <XAxis dataKey="name" />
+        <XAxis
+          dataKey="name"
+          interval={0}
+          tick={{ fill: 'var(--text-color)', fontSize: 14 }}
+        />
       </BarChart>
     </ResponsiveContainer>
   );

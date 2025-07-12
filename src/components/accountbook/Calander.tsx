@@ -24,8 +24,8 @@ export default function Calander({
       if (dayData.length > 0) {
         return (
           <div className="w-full">
-            {dayData.map((item) => (
-              <div key={Math.random().toString(36)}>
+            {dayData.map((item, index) => (
+              <div key={index}>
                 <p
                   key={Math.random().toString(36)}
                   className="block w-full items-end justify-end truncate text-end text-[8px] text-[var(--point-color-1)] md:text-[14px]"
@@ -76,9 +76,7 @@ export default function Calander({
             tileContent={addContent}
             navigationLabel={({ date }) => (
               <div className="custom-navigation-label">
-                <span className="year-display">
-                  {date.getFullYear()}년
-                </span>
+                <span className="year-display">{date.getFullYear()}년</span>
                 <span className="month-display">{date.getMonth() + 1}월</span>
               </div>
             )}
