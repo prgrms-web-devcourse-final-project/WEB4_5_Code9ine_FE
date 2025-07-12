@@ -2,8 +2,11 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: '티태',
+  title: '티태 | 티끌모아 부자되기',
   description: '티태',
+  icons: {
+    icon: '/Logo.png',
+  },
 };
 
 export default function RootLayout({

@@ -48,10 +48,10 @@ export default function Calculator() {
             -
           </button>
           <button className="h-[60px] w-[75px] cursor-pointer text-[20px] font-bold active:bg-[var(--main-color-2)]">
-            *
+            ×
           </button>
           <button className="h-[60px] w-[75px] cursor-pointer text-[20px] font-bold active:bg-[var(--main-color-2)]">
-            /
+            ÷
           </button>
           <button className="h-[60px] w-[75px] cursor-pointer rounded-br-[10px] text-[20px] font-bold active:bg-[var(--main-color-2)]">
             =

@@ -9,7 +9,7 @@ export default function TotalAmount({
 }) {
   return (
     <div
-      className={`flex flex-col justify-center ${textSize ? `text-[${textSize}]` : 'text-[14px] md:text-[20px]'}`}
+      className={`my-[10px] flex flex-col justify-center ${textSize ? `text-[${textSize}]` : 'text-[14px] md:text-[20px]'}`}
     >
       <div>
         <span>7월 9일까지의 총수입은 </span>
