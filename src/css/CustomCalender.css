@@ -26,7 +26,6 @@
   font-size: 30px;
   min-width: 30px;
   position: relative; /* z-index를 적용하려면 position 속성이 필요 */
-  z-index: 9999;
 }
 
 .react-calendar__navigation__prev2-button,
@@ -50,7 +49,6 @@
   align-items: center;
   flex-grow: 0 !important;
   position: relative;
-  z-index: 9999;
   background-color: transparent;
   pointer-events: none;
 }
