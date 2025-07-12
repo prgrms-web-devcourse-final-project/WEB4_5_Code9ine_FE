@@ -3,46 +3,46 @@ import Button from '../login/SignupButton';
 
 export default function SignupBox() {
   return (
-    <div className="flex h-[650px] w-[500px] flex-col gap-4 rounded-[20px] bg-[var(--background)] p-8 pt-[50px] pb-[50px]">
+    <div className="flex h-auto w-[270px] flex-col gap-4 rounded-[20px] bg-[var(--background)] p-8 pt-[50px] pb-[50px] md:h-[650px] md:w-[500px]">
       {/* 닉네임 */}
-      <div className="mb-[10px] flex w-[300px] flex-col items-start gap-1 self-center">
-        <p className="text-[20px] font-semibold text-[var(--main-color-3)]">
+      <div className="mb-[10px] flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
+        <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           닉네임
         </p>
-        <div className="flex w-full items-center gap-2">
+        <div className="flex w-full min-w-0 items-center gap-2">
           <input
             type="text"
             placeholder="2자 이상 6자 이하"
-            className="h-[35px] flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-[218px] md:flex-none"
             maxLength={6}
             minLength={2}
           />
-          <Button className="h-[35px] w-[100px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)]">
+          <Button className="h-[35px] w-[80px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)] md:w-[100px]">
             중복확인
           </Button>
         </div>
       </div>
 
       {/* 이메일 */}
-      <div className="mb-[10px] flex w-[300px] flex-col items-start gap-1 self-center">
-        <p className="text-[20px] font-semibold text-[var(--main-color-3)]">
+      <div className="mb-[10px] flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
+        <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           이메일
         </p>
-        <div className="flex w-full items-center gap-2">
+        <div className="flex w-full min-w-0 items-center gap-2">
           <input
             type="email"
             placeholder="example@gmail.com"
-            className="h-[35px] flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-[218px] md:flex-none"
           />
-          <Button className="h-[35px] w-[100px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)]">
+          <Button className="h-[35px] w-[80px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)] md:w-[100px]">
             인증하기
           </Button>
         </div>
       </div>
 
       {/* 비밀번호 */}
-      <div className="mb-[10px] flex w-[300px] flex-col items-start gap-1 self-center">
-        <p className="text-[20px] font-semibold text-[var(--main-color-3)]">
+      <div className="mb-[10px] flex flex-col items-start gap-1 self-center md:w-[300px]">
+        <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           비밀번호
         </p>
         <input
@@ -53,8 +53,8 @@ export default function SignupBox() {
       </div>
 
       {/* 비밀번호 확인 */}
-      <div className="mb-[10px] flex w-[300px] flex-col items-start gap-1 self-center">
-        <p className="text-[20px] font-semibold text-[var(--main-color-3)]">
+      <div className="mb-[10px] flex flex-col items-start gap-1 self-center md:w-[300px]">
+        <p className="font-semibold text-[var(--main-color-3)] md:text-[20px]">
           비밀번호 확인
         </p>
         <input
@@ -65,7 +65,7 @@ export default function SignupBox() {
       </div>
 
       {/* 이용약관 */}
-      <div className="flex h-[100px] w-[300px] self-center overflow-auto rounded-[10px] border-2 border-[var(--main-color-1)] bg-white p-2">
+      <div className="flex h-[100px] self-center overflow-auto rounded-[10px] border-2 border-[var(--main-color-1)] bg-white p-2 md:w-[300px]">
         <p className="text-[12px] leading-relaxed">
           제 1 조 (목적) 본 약관은 (주)티태(이하 “회사”라 합니다)이 운영하는
           웹사이트 ‘티태’ (www.urbanlaunderette.com) (이하 “웹사이트”라
@@ -76,7 +76,7 @@ export default function SignupBox() {
       </div>
 
       {/* 약관 동의 */}
-      <div className="flex w-[300px] items-center self-center">
+      <div className="flex items-center self-center md:w-[300px]">
         <input
           type="checkbox"
           id="agree"
@@ -89,7 +89,7 @@ export default function SignupBox() {
 
       {/* 가입하기 버튼 */}
       <div className="mt-2 flex self-center">
-        <Button className="h-[35px] w-[300px] rounded-[10px] bg-[var(--main-color-1)] text-[20px] font-semibold hover:bg-[var(--main-color-2)]">
+        <Button className="h-[35px] rounded-[10px] bg-[var(--main-color-1)] text-[20px] font-semibold hover:bg-[var(--main-color-2)] md:w-[300px]">
           가입하기
         </Button>
       </div>
