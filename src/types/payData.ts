@@ -26,6 +26,17 @@ export interface DataList {
   }[];
 }
 
+export interface DummyData {
+  id: number;
+  type: string;
+  category: string;
+  categoryIcon: string;
+  content: string;
+  date: string;
+  price: number;
+  repeatCycle: string;
+}
+
 export interface CalendarList {
   totalIncome: number;
   totalExpense: number;

@@ -4,11 +4,13 @@ import { useDummyData } from '@/stores/dummyStore';
 import { IoPencil, IoTrash } from 'react-icons/io5';
 
 export default function CardMenu({ index }: { index: number }) {
-  const { dummyData } = useDummyData();
-  const { setDummy } = useDummyData.getState();
+  const { dummyData2 } = useDummyData();
+  const { setDummy2 } = useDummyData.getState();
   const handleDelete = () => {
-    dummyData.dummy.splice(index, 1);
-    setDummy(dummyData);
+    const dummydata = dummyData2.filter((item) => item.id !== index);
+    console.log(index);
+    console.log(dummydata);
+    setDummy2(dummydata);
   };
   return (
     <>
