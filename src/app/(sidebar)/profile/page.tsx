@@ -8,8 +8,8 @@ import Mission from '@/components/profile/Mission';
 export default function page() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-[15px] select-none md:flex-row">
-        <div className="flex flex-col items-center justify-center gap-[40px] md:order-2 md:gap-[20px]">
+      <div className="mt-[15px] flex flex-col items-center justify-center gap-[15px] select-none md:mt-[0px] md:flex-row">
+        <div className="flex flex-col items-center justify-center gap-[15px] md:order-2 md:gap-[20px]">
           <div className="h-[390px] w-[340px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[390px] md:w-[350px]">
             <TitleSwiper />
             <Profile />
@@ -19,7 +19,7 @@ export default function page() {
           </div>
         </div>
 
-        <div className="mt-[40px] w-[340px] overflow-hidden rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:mt-[0px] md:h-[870px] md:w-[756px]">
+        <div className="min-w-[340px] overflow-hidden rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:mt-[0px] md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
             <MyThreads />
           </div>

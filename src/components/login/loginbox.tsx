@@ -17,7 +17,7 @@ export default function LoginBox() {
         <input
           type="email"
           placeholder="아이디를 입력하세요"
-          className="h-[35px] w-[200px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 focus:border-[var(--main-color-2)] focus:outline-none md:w-[300px]"
+          className="h-[35px] w-[200px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 focus:border-[var(--main-color-2)] focus:outline-none md:w-[300px]"
         />
       </div>
 
@@ -28,7 +28,7 @@ export default function LoginBox() {
         <input
           type="password"
           placeholder="비밀번호를 입력하세요"
-          className="h-[35px] w-[200px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 focus:border-[var(--main-color-2)] focus:outline-none md:w-[300px]"
+          className="h-[35px] w-[200px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 focus:border-[var(--main-color-2)] focus:outline-none md:w-[300px]"
         />
       </div>
 

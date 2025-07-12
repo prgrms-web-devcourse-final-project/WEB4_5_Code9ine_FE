@@ -25,7 +25,7 @@ export default function Page() {
           {isInsert ? <AccountAdd onDataChange={handleMenu} /> : null}
         </div>
         <div className="relative md:flex md:flex-col">
-          <div className="mx-[5px] mt-[9px] mb-[16px] flex text-[20px] md:mx-[13px]">
+          <div className="mx-[15px] mt-[9px] mb-[16px] flex text-[20px] md:mx-[13px]">
             <TotalAmount data={dummyData} />
             <div className="absolute right-[30px] md:ml-[290px] md:size-[80px] md:rounded-full md:border-1 md:border-[var(--main-color-3)]"></div>
           </div>
@@ -38,7 +38,7 @@ export default function Page() {
           <div className="hidden items-center justify-center md:flex">
             {isInsert ? null : <AiChat />}
           </div>
-          <div className="md:hidden">
+          <div className="mt-[40px] md:hidden">
             <ListArea />
           </div>
         </div>
