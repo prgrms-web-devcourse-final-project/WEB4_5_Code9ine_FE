@@ -10,11 +10,10 @@ export default async function SearchListCard({
   type: string;
   name: string;
 }) {
-
   return (
     <Link
       href={`/godplaces/성수/detail`}
-      className="h-[91px] w-[305px] cursor-pointer rounded-[10px] bg-[--white-color] px-[14px] py-[12px] shadow-[var(--shadow-md)] hover:scale-101 md:h-[100px] md:w-[324px]"
+      className="h-[91px] min-w-[310px] w-full cursor-pointer rounded-[10px] bg-[--white-color] px-[14px] py-[12px] shadow-[var(--shadow-md)] hover:scale-101 md:h-[100px] md:w-[324px]"
     >
       <div className="flex justify-between">
         <div className="text-[12px] text-[var(--main-color-3)] md:text-[14px]">

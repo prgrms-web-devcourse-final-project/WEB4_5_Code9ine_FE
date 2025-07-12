@@ -31,7 +31,7 @@ export default function MobileMenu({
       <div>
         <div className="flex min-h-[94vh] w-[200px] flex-col items-center bg-[var(--header-color)]">
           {!login ? (
-            <div className="mt-[30px] block">
+            <div className="mt-[30px] flex flex-col gap-[10px]">
               <Link href={'/accountbook'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
@@ -71,7 +71,7 @@ export default function MobileMenu({
               </Button>
             </div>
           ) : (
-            <div className="mt-[30px] block">
+            <div className="mt-[30px] flex flex-col gap-[10px]">
               <Link href={'/accountbook'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
