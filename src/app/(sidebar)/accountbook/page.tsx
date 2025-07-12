@@ -6,7 +6,7 @@ import Page from '@/components/accountbook/Page';
 
 export default function page() {
   return (
-    <div className="h-[702px] w-[330px] md:h-[870px] md:w-[1121px]">
+    <div className="h-[702px] min-w-[350px] md:h-[870px] md:w-[1121px]">
       <Page />
     </div>
   );

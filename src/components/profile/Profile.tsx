@@ -3,7 +3,11 @@ import DefaultProfile from './DefaultProfile';
 import ProgressBar from '../common/ProgressBar';
 import Button from './Button';
 
-export default function Profile() {
+export default function Profile({
+  isPersonal = false,
+}: {
+  isPersonal?: boolean;
+}) {
   return (
     <>
       <div className="my-[20px] flex flex-col items-center justify-center">
@@ -14,7 +18,7 @@ export default function Profile() {
             LV.1
           </span>{' '}
         </p>
-        <p className="mt-[5px] mb-[7px] text-[20px]">절약왕</p>
+        <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">절약왕</p>
         <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
           다음 레벨까지
         </span>
@@ -26,26 +30,29 @@ export default function Profile() {
           baseBgColor="var(--white-color)"
           labelVisible={true}
         />
-        <div className="mt-[10px] flex items-center gap-[10px]">
-          <Button
-            button={
-              <>
-                <button className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]">
-                  프로필 수정하기
-                </button>
-              </>
-            }
-          />
-          <Button
-            button={
-              <>
-                <button className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]">
-                  내 초대 코드 복사
-                </button>
-              </>
-            }
-          />
-        </div>
+
+        {!isPersonal && (
+          <div className="mt-[10px] flex items-center gap-[10px] text-[16px]">
+            <Button
+              button={
+                <>
+                  <button className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]">
+                    프로필 수정하기
+                  </button>
+                </>
+              }
+            />
+            <Button
+              button={
+                <>
+                  <button className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]">
+                    내 초대 코드 복사
+                  </button>
+                </>
+              }
+            />
+          </div>
+        )}
       </div>
     </>
   );

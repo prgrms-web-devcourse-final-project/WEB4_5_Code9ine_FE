@@ -24,15 +24,17 @@ export default function ListArea() {
       <span className="mt-[65px] ml-[24px] text-[24px] font-semibold">
         내역
       </span>
-      <div className="mx-[17px] mt-[45px] flex flex-col gap-[15px] overflow-scroll">
+      <div className="hide-scrollbar w-320px mx-[17px] mt-[45px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
         {Object.keys(dateGroup).map((date) => (
           <div key={date}>
-            <div className="border-b-1">
+            <div className="mb-[15px] w-[315px] border-b-1 text-[var(--main-color-3)] dark:text-[var(--text-color)]">
               <p>{date}</p>
             </div>
-            {dateGroup[date].map((item, index) => (
-              <ListCard value={item} index={index} key={index} />
-            ))}
+            <div className="mb-[25px]">
+              {dateGroup[date].map((item, index) => (
+                <ListCard value={item} index={index} key={index} />
+              ))}
+            </div>
           </div>
         ))}
       </div>
