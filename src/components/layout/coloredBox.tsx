@@ -61,7 +61,7 @@ export default function ColoredBox({
             ></div>
           </button>
           <Link href={'/'}>
-            <div className="md: mt-[5px] mb-[6px] md:mb-[20px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px] md:h-[29px] md:w-[87px]">
+            <div className="md: mt-[5px] mb-[6px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px] md:mb-[20px] md:h-[29px] md:w-[87px]">
               <Image src={logo} alt="티태 로고" />
               <span className="text-[#ffffff]">티태</span>
             </div>
@@ -105,7 +105,7 @@ export default function ColoredBox({
               </Button>
             </div>
           ) : (
-            <div className="hidden md:block">
+            <div className="hidden gap-[10px] md:flex md:flex-col">
               <Link href={'/accountbook'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
@@ -167,7 +167,7 @@ export default function ColoredBox({
       </div>
 
       <div
-        className={`fixed inset-0 z-40 mt-[70px] bg-black/50 transition-opacity duration-300 md:hidden ${menu ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`fixed inset-0 z-40 mt-[60px] bg-black/50 transition-opacity duration-300 md:hidden ${menu ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
         onClick={() => setMenu(false)}
       ></div>
 
