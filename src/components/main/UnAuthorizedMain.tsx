@@ -15,6 +15,7 @@ import boy from '@/assets/mainpage/boy.png';
 import board from '@/assets/mainpage/board.png';
 import { CiSearch } from 'react-icons/ci';
 import { BsPersonUp } from 'react-icons/bs';
+import SpendingGraph from './SpendingGraph';
 
 export default function UnAuthorizedMain() {
   return (
@@ -25,47 +26,7 @@ export default function UnAuthorizedMain() {
           <span className="text-[var(--main-color-3)]"> 123,456,789원</span>
         </p>
         {/* 지출그래프 */}
-        <div className="flex flex-col items-center py-[30px] md:h-[430px] md:w-full">
-          <p className="mb-4 md:text-[24px]">지출그래프 통계</p>
-
-          {/* 일반사용자 vs 티태사용자 막대 */}
-          <div className="flex h-[200px] items-end justify-center gap-[50px] md:w-full md:gap-[350px]">
-            <div className="flex flex-col items-center">
-              <p className="mb-2 text-[var(--point-color-1)] md:text-[20px]">
-                123,456원
-              </p>
-              <div className="h-[100px] w-[50px] bg-[var(--point-color-1)] md:w-[105px]" />
-            </div>
-
-            <div className="flex flex-col items-center">
-              <p className="mb-2 text-[var(--main-color-3)] md:text-[20px]">
-                78,900원
-              </p>
-              <div className="h-[100px] w-[50px] bg-[var(--main-color-3)] md:w-[105px]" />
-            </div>
-          </div>
-
-          {/* 구분선 */}
-          <div className="mb-[30px] h-[2px] w-[300px] bg-[var(--text-color)] md:w-[910px]" />
-
-          {/* 범례 */}
-          <div className="flex items-center gap-[30px] md:gap-[300px]">
-            {/* 일반 사용자 */}
-            <div className="flex items-center gap-2">
-              <div className="h-[10px] w-[30px] bg-[var(--point-color-1)] md:w-[70px]" />
-              <span className="text-[var(--text-color)] md:text-[20px]">
-                일반 소비자
-              </span>
-            </div>
-            {/* 티태 사용자 */}
-            <div className="flex items-center gap-2">
-              <div className="h-[10px] w-[30px] bg-[var(--main-color-3)] md:w-[70px]" />
-              <span className="text-[var(--text-color)] md:text-[20px]">
-                티태 사용자
-              </span>
-            </div>
-          </div>
-        </div>
+        <SpendingGraph userAmount={1200000} titaeAmount={700000} />
 
         {/* 이번주 티태왕 TOP3 */}
         <div className="mt-8 flex flex-col items-center md:w-[910px]">
