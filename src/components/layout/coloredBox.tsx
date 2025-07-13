@@ -10,12 +10,13 @@ import {
 } from 'react-icons/io5';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { BsPersonRaisedHand } from 'react-icons/bs';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FiMoon } from 'react-icons/fi';
 import { IoMdNotificationsOutline, IoMdPower } from 'react-icons/io';
 import MobileMenu from '../common/MobileMenu';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export default function ColoredBox({
   changeLogin,
@@ -24,6 +25,7 @@ export default function ColoredBox({
 }) {
   const [login, setLogin] = useState<boolean>(false);
   const [menu, setMenu] = useState<boolean>(false);
+  const sidebarRef = useRef(null);
   const location = usePathname();
   const handleLogin = () => {
     setLogin(!login);
@@ -35,12 +37,29 @@ export default function ColoredBox({
   const sideBarClose = (close: boolean) => {
     setMenu(close);
   };
+
+  useEffect(() => {
+    const targetElement = sidebarRef.current;
+    if (menu) {
+      // 스크롤 잠금 (사이드바 자체는 스크롤 가능하도록 targetElement 전달)
+      disableBodyScroll(targetElement!);
+    }
+
+    // cleanup 함수: 컴포넌트가 unmount 되거나 isOpen 상태가 바뀌기 직전에 실행
+    return () => {
+      if (targetElement) {
+        // 스크롤 잠금 해제
+        enableBodyScroll(targetElement);
+      }
+    };
+  }, [menu]); // isOpen 상태가 변경될 때만 이 effect를 실행
   return (
     <div className="relative">
       <div className="relative flex w-full items-center justify-center bg-[var(--header-color)] p-[10px] md:h-[870px] md:w-[200px] md:flex-col md:rounded-[10px]">
         {/* 다크 모드 버튼: 오른쪽 위 */}
         <div
           className={`cursor-pointer ${login ? `gap-[12px]` : ''} text-[var(--header-text)] md:flex md:self-end`}
+          ref={sidebarRef}
         >
           <div className="hidden md:flex">
             <FiMoon size={12} />
