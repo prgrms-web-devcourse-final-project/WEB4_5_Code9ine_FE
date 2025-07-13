@@ -113,7 +113,7 @@
 
 /* 선택된 날짜 */
 .react-calendar__tile--active {
-  background: var(--main-color-1); /* 선택 시 전체 배경 변경 없음 */
+  background: none; /* 선택 시 전체 배경 변경 없음 */
   color: #000000;
 }
 .react-calendar__tile--active .date-display {
@@ -131,7 +131,7 @@
 }
 
 .react-calendar__tile:enabled:focus {
-  background: var(--main-color-1);
+  background: none;
 }
 
 /* 다른 달의 날짜들 */
@@ -200,4 +200,12 @@
     font-size: 24px;
     color: var(--main-color-3); /* 메인 블루 */
   }
+}
+
+.react-calendar__tile--active abbr {
+  background-color: #d1eaff;
+  color: #333;
+  padding-right: 75px;
+  padding-left: 10px;
+  border-radius: 8px;
 }
