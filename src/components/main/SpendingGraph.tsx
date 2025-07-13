@@ -29,7 +29,7 @@ const SpendingGraph: React.FC<SpendingGraphProps> = ({
   return (
     <div className="flex w-full flex-col items-center py-[30px] md:h-[430px] md:w-full">
       {/* 제목 */}
-      <p className="mb-4 text-xl md:text-2xl">지출그래프 통계</p>
+      <p className="mb-20 text-xl md:text-2xl">지출그래프 통계</p>
 
       {/* Recharts 막대그래프 */}
       <div className="h-[250px] w-full md:h-[300px]">
