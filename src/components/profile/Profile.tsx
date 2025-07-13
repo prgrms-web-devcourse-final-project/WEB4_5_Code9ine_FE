@@ -10,7 +10,7 @@ export default function Profile({
 }) {
   return (
     <>
-      <div className="my-[20px] flex flex-col items-center justify-center">
+      <div className="my-[20px] flex w-full flex-col items-center justify-center">
         <DefaultProfile />
         <p className="mt-[10px] text-[20px] font-semibold text-[var(--main-color-3)]">
           유저 닉네임{' '}

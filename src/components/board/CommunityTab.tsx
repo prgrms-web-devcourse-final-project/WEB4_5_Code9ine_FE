@@ -16,12 +16,12 @@ export default function CommunityTab({
   ];
 
   return (
-    <div className="relative mx-auto flex w-fit justify-center border-b border-[var(--main-color-1)]">
+    <div className="border-b-2px relative mx-auto flex w-fit justify-center border-[var(--main-color-1)]">
       {tabs.map((tab) => (
         <button
           key={tab.key}
           onClick={() => onChange(tab.key)}
-          className={`relative mx-[7px] cursor-pointer py-2 text-[20px] font-medium transition-colors duration-300 ${
+          className={`relative mx-[7px] cursor-pointer py-2 text-[16px] font-medium transition-colors duration-300 md:text-[20px] ${
             selectedTab === tab.key
               ? 'font-semibold text-[var(--main-color-3)]'
               : 'hover:text-[var(--main-color-3)]'
@@ -29,7 +29,7 @@ export default function CommunityTab({
         >
           {tab.label}
           {selectedTab === tab.key && (
-            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] w-0 bg-[var(--main-color-3)]" />
+            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] bg-[var(--main-color-3)]" />
           )}
         </button>
       ))}

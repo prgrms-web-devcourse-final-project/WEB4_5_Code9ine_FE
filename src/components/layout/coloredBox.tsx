@@ -10,12 +10,13 @@ import {
 } from 'react-icons/io5';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { BsPersonRaisedHand } from 'react-icons/bs';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FiMoon } from 'react-icons/fi';
 import { IoMdNotificationsOutline, IoMdPower } from 'react-icons/io';
 import MobileMenu from '../common/MobileMenu';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export default function ColoredBox({
   changeLogin,
@@ -24,6 +25,7 @@ export default function ColoredBox({
 }) {
   const [login, setLogin] = useState<boolean>(false);
   const [menu, setMenu] = useState<boolean>(false);
+  const sidebarRef = useRef(null);
   const location = usePathname();
   const handleLogin = () => {
     setLogin(!login);
@@ -35,33 +37,55 @@ export default function ColoredBox({
   const sideBarClose = (close: boolean) => {
     setMenu(close);
   };
+
+  useEffect(() => {
+    const targetElement = sidebarRef.current;
+    if (menu) {
+      // 스크롤 잠금 (사이드바 자체는 스크롤 가능하도록 targetElement 전달)
+      disableBodyScroll(targetElement!);
+    }
+
+    // cleanup 함수: 컴포넌트가 unmount 되거나 isOpen 상태가 바뀌기 직전에 실행
+    return () => {
+      if (targetElement) {
+        // 스크롤 잠금 해제
+        enableBodyScroll(targetElement);
+      }
+    };
+  }, [menu]); // isOpen 상태가 변경될 때만 이 effect를 실행
   return (
     <div className="relative">
       <div className="relative flex w-full items-center justify-center bg-[var(--header-color)] p-[10px] md:h-[870px] md:w-[200px] md:flex-col md:rounded-[10px]">
         {/* 다크 모드 버튼: 오른쪽 위 */}
-        <div className="hidden cursor-pointer gap-[12px] text-[var(--header-text)] md:flex md:self-end">
-          <FiMoon size={12} />
-          {login ? <IoMdNotificationsOutline size={12} /> : null}
+        <div
+          className={`cursor-pointer ${login ? `gap-[12px]` : ''} text-[var(--header-text)] md:flex md:self-end`}
+          ref={sidebarRef}
+        >
+          <div className="hidden md:flex">
+            <FiMoon size={12} />
+          </div>
+          <div className="absolute top-[23px] right-[20px] md:flex">
+            {login ? <IoMdNotificationsOutline size={12} /> : null}
+          </div>
         </div>
-
+        <button
+          className="absolute left-[20px] cursor-pointer md:hidden"
+          onClick={() => setMenu(!menu)}
+        >
+          <div
+            className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? 'translate-y-[5px] rotate-45' : ''}`}
+          ></div>
+          <div
+            className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? 'opacity-0' : 'opacity-100'}`}
+          ></div>
+          <div
+            className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? '-translate-y-[5px] -rotate-45' : ''}`}
+          ></div>
+        </button>
         {/* 로고 및 네비게이션: 가운데 정렬 */}
-        <div className="flex items-center justify-center space-x-[28vw] md:mt-6 md:flex-col md:gap-3 md:space-x-0">
-          <button
-            className="cursor-pointer md:hidden"
-            onClick={() => setMenu(!menu)}
-          >
-            <div
-              className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? 'translate-y-[5px] rotate-45' : ''}`}
-            ></div>
-            <div
-              className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? 'opacity-0' : 'opacity-100'}`}
-            ></div>
-            <div
-              className={`${'mb-1 h-[1px] w-[20px] rounded-full bg-[#ffffff] transition-all duration-300'} ${menu ? '-translate-y-[5px] -rotate-45' : ''}`}
-            ></div>
-          </button>
+        <div className="flex items-center justify-center md:mt-6 md:flex-col md:gap-3 md:space-x-0">
           <Link href={'/'}>
-            <div className="md: mt-[5px] mb-[6px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px] md:mb-[20px] md:h-[29px] md:w-[87px]">
+            <div className="mt-[5px] mb-[6px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px] md:mb-[20px] md:h-[29px] md:w-[87px]">
               <Image src={logo} alt="티태 로고" />
               <span className="text-[#ffffff]">티태</span>
             </div>
@@ -151,9 +175,9 @@ export default function ColoredBox({
               </Button>
             </div>
           )}
-          <button className="cursor-pointer text-[var(--white-color)] md:hidden">
+          {/* <button className="cursor-pointer text-[var(--white-color)] md:hidden border-1">
             <IoMdNotificationsOutline size={16} />
-          </button>
+          </button> */}
         </div>
         <div className="mt-auto hidden flex-col items-center gap-2 md:flex">
           <p className="cursor-pointer self-end text-[14px] text-[var(--header-text)]">

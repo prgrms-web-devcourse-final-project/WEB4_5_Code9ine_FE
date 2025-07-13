@@ -8,23 +8,26 @@ import Mission from '@/components/profile/Mission';
 export default function page() {
   return (
     <>
-      <div className="mt-[15px] flex flex-col items-center justify-center gap-[15px] select-none md:mt-[0px] md:flex-row">
-        <div className="flex flex-col items-center justify-center gap-[15px] md:order-2 md:gap-[20px]">
-          <div className="h-[390px] w-[340px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[390px] md:w-[350px]">
+      <div className="mt-[15px] flex flex-col items-center justify-center gap-[15px] overflow-x-hidden select-none md:mt-0 md:flex-row md:items-start">
+        {/* 오른쪽 섹션 (Profile + Mission) */}
+        <div className="flex w-full max-w-[calc(100vw-32px)] flex-col items-center justify-center gap-[15px] md:order-2 md:w-[350px] md:gap-[20px]">
+          <div className="h-[390px] w-full rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
             <TitleSwiper />
             <Profile />
           </div>
-          <div className="h-[460px] w-[340px] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[460px] md:w-[350px]">
+          <div className="h-[460px] w-full rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)]">
             <Mission />
           </div>
         </div>
 
-        <div className="min-w-[340px] overflow-hidden rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:mt-[0px] md:h-[870px] md:w-[756px]">
+        {/* 왼쪽 섹션 (MyThreads) */}
+        <div className="w-full max-w-[calc(100vw-32px)] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
             <MyThreads />
           </div>
         </div>
       </div>
+
       {/* <EditProfile /> */}
       {/* <SetGoalModal /> */}
       {/* <Modal

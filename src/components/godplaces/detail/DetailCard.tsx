@@ -32,7 +32,7 @@ export default function DetailCard({
   type: string;
 } & DetailType) {
   return (
-    <div className="hide-scrollbar flex h-[180px] flex-col gap-[16px] overflow-y-scroll px-[18px] md:h-[745px] md:gap-[20px] md:px-[32px]">
+    <div className="hide-scrollbar flex flex-1 min-h-[180px] flex-col gap-[16px] overflow-y-scroll px-[18px] md:h-[745px] md:gap-[20px] md:px-[32px]">
       <DetailTopInfo
         type={type}
         name={props.name}
