@@ -12,9 +12,11 @@
   "dependencies": {
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.23.3",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-calendar": "^6.0.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-kakao-maps-sdk": "^1.2.0",

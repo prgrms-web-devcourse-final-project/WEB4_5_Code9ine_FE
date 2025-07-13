@@ -16,26 +16,65 @@ import board from '@/assets/mainpage/board.png';
 import { CiSearch } from 'react-icons/ci';
 import { BsPersonUp } from 'react-icons/bs';
 import SpendingGraph from './SpendingGraph';
+import CountUp from 'react-countup';
+import { motion } from 'framer-motion';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function UnAuthorizedMain() {
   return (
     <>
-      <div className="mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] overflow-y-auto rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px]">
-        <p className="md:text-[32px]">
-          지금까지 티태 유저가 절약한 금액
-          <span className="text-[var(--main-color-3)]"> 123,456,789원</span>
-        </p>
+      <div className="mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <p className="md:text-[32px]">
+            지금까지 티태 유저가 절약한 금액
+            <span className="text-[var(--main-color-3)]">
+              {' '}
+              <CountUp
+                start={0}
+                end={123456789}
+                duration={2}
+                separator=","
+                suffix="원"
+              />
+            </span>
+          </p>
+        </motion.div>
         {/* 지출그래프 */}
-        <SpendingGraph userAmount={1200000} titaeAmount={700000} />
+        <motion.div
+          className="flex w-full flex-col items-center py-[30px] md:h-[430px] md:w-full"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <SpendingGraph userAmount={1200000} titaeAmount={700000} />
+        </motion.div>
 
         {/* 이번주 티태왕 TOP3 */}
-        <div className="mt-8 flex flex-col items-center md:w-[910px]">
-          {/* 제목을 맨 위, 왼쪽 정렬 */}
+        <motion.div
+          className="mt-8 flex flex-col items-center md:w-[910px]"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <p className="mb-15 md:text-[32px]">
             이번주 티태왕
             <span className="text-[var(--main-color-3)]">TOP3</span>
           </p>
-          {/* 1등이 가운데 오도록 순서 2,1,3 */}
+
           <div className="flex w-full items-end justify-evenly gap-[30px] overflow-x-auto px-2 md:justify-between md:px-0">
             {[2, 1, 3].map((rank) => {
               const lift = rank === 1 ? 'mb-8 md:mb-16' : '';
@@ -60,9 +99,16 @@ export default function UnAuthorizedMain() {
               );
             })}
           </div>
-        </div>
+        </motion.div>
         {/* 유저챌린지 */}
-        <div className="flex flex-col items-center gap-8 md:gap-13">
+        <motion.div
+          className="flex flex-col items-center gap-8 md:gap-13"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <p className="text-[16px] md:text-[32px]">
             유저들이 가장 많이 달성한
             <span> 챌린지</span>
@@ -113,10 +159,16 @@ export default function UnAuthorizedMain() {
               오늘 사용한 영수증 인증하기
             </p>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col items-center gap-4 px-4 text-center md:px-0">
-          {/* 반응형 이미지 */}
+        <motion.div
+          className="flex flex-col items-center gap-4 px-4 text-center md:px-0"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div className="relative h-[122px] w-[100px] md:h-[172px] md:w-[140px]">
             <Image
               src={mascot}
@@ -126,7 +178,6 @@ export default function UnAuthorizedMain() {
             />
           </div>
 
-          {/* 반응형 텍스트1 */}
           <p className="mt-[20px] text-[16px] md:mt-[30px] md:text-[24px]">
             이제껏 경험 못했던{' '}
             <span className="text-[var(--main-color-3)]">
@@ -134,23 +185,35 @@ export default function UnAuthorizedMain() {
             </span>
           </p>
 
-          {/* 반응형 텍스트2 */}
           <p className="text-[16px] md:text-[24px]">
             티태와 즐겁게 가계부를 작성해보시는건 어떨까요?
           </p>
-        </div>
+        </motion.div>
 
         {/* 챌린지 소개란 */}
-        <div>
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <p className="mt-[30px] md:text-[32px]">
             내 돈 관리,
             <span className="text-[var(--main-color-3)]"> 챌린지</span>와 함께
             즐겁게!
           </p>
-        </div>
+        </motion.div>
 
         {/* 가계부 소개란 */}
-        <div className="flex flex-col items-center justify-between gap-[130px] md:flex-row md:items-start">
+        <motion.div
+          className="flex flex-col items-center justify-between gap-[130px] md:flex-row md:items-start"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           {/* 왼쪽 블록 */}
           <div className="flex flex-col gap-[10px]">
             <p className="md:text-[24px]">
@@ -192,11 +255,17 @@ export default function UnAuthorizedMain() {
             <Image src={waffle} alt="가계부예시" width={316} height={96} />
             <Image src={gimbap} alt="가계부예시" width={316} height={96} />
           </div>
-        </div>
+        </motion.div>
 
         {/* 챗봇 */}
-        <div className="flex flex-col-reverse items-center gap-6 md:flex-row md:items-center md:gap-[130px]">
-          {/* 모바일에서 위로 올라오는 텍스트 블록 */}
+        <motion.div
+          className="flex flex-col-reverse items-center gap-6 md:flex-row md:items-center md:gap-[130px]"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div className="mt-6 flex flex-col gap-[10px] md:mt-0">
             <div className="flex items-center gap-2">
               <Image
@@ -218,7 +287,6 @@ export default function UnAuthorizedMain() {
             </p>
           </div>
 
-          {/* 챗봇 이미지 + 말풍선 (항상 가로로, 말풍선은 이미지 오른쪽) */}
           <div className="flex items-start gap-4">
             <Image src={chatbot} alt="챗봇" width={150} height={258} />
             <div className="relative h-[95px] w-[210px]">
@@ -235,11 +303,17 @@ export default function UnAuthorizedMain() {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* 갓플레이스 */}
-        <div className="flex flex-col items-center gap-[20px] md:flex-row md:gap-[100px]">
-          {/* 텍스트 블록 */}
+        <motion.div
+          className="flex flex-col items-center gap-[20px] md:flex-row md:gap-[100px]"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div className="flex flex-col gap-[10px]">
             <p className="text-[16px] md:text-[24px]">
               티태는 <span className="text-[var(--main-color-3)]">가성비</span>{' '}
@@ -265,7 +339,6 @@ export default function UnAuthorizedMain() {
             </p>
           </div>
 
-          {/* 이미지 블록 */}
           <div className="flex w-full justify-center md:w-auto">
             <Image
               src={godplace}
@@ -273,11 +346,17 @@ export default function UnAuthorizedMain() {
               className="h-auto w-[200px] md:h-[442px] md:w-[390px]"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* 게시판 */}
-        <div className="flex flex-col items-center gap-[30px] md:flex-row">
-          {/* 왼쪽 텍스트+아이콘 영역 */}
+        <motion.div
+          className="flex flex-col items-center gap-[30px] md:flex-row"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div className="flex max-w-[400px] flex-col gap-[10px]">
             <p className="md:text-[24px]">
               <span className="text-[var(--main-color-3)]">게시판</span>에서
@@ -331,11 +410,10 @@ export default function UnAuthorizedMain() {
             </div>
           </div>
 
-          {/* 오른쪽 이미지 */}
           <div>
             <Image src={board} alt="게시판" width={360} height={300} />
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );
