@@ -16,7 +16,7 @@ export default function ThreadsTab({
   ];
 
   return (
-    <div className="relative mx-auto mt-[40px] flex w-fit justify-center border-b border-[var(--main-color-1)]">
+    <div className="relative mx-auto mt-[40px] flex w-fit justify-center border-b-[2px] border-[var(--main-color-1)]">
       {tabs.map((tab) => (
         <button
           key={tab.key}
@@ -29,7 +29,7 @@ export default function ThreadsTab({
         >
           {tab.label}
           {selectedTab === tab.key && (
-            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] w-0 bg-[var(--main-color-3)]" />
+            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] bg-[var(--main-color-3)]" />
           )}
         </button>
       ))}

@@ -30,7 +30,7 @@ export default function MissionTabs({
         >
           {tab.label}
           {selectedTab === tab.key && (
-            <span className="animate-draw-underline absolute right-0 bottom-[-2px] left-0 h-[2px] bg-[var(--main-color-3)]" />
+            <span className="animate-draw-underline absolute right-0 bottom-[-2px] h-[2px] bg-[var(--main-color-3)]" />
           )}
         </button>
       ))}
