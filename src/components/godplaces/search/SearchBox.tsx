@@ -7,9 +7,9 @@ export default function SearchBox({
 }) {
   const divSizeVariants = {
     beforeSearch:
-      'h-[55px] md:h-[65px] w-[274px] md:w-[850px] gap-[18px] md:gap-[20px] mb-[20px] md:mb-[18px] mt-[46px] md:mt-[50px]',
+      'h-[55px] md:h-[65px] min-w-[274px] md:w-[850px] gap-[18px] md:gap-[20px] mb-[20px] md:mb-[18px] mt-[46px] md:mt-[50px] mx-[43px] md:mx-[0px]',
     afterSearch:
-      'h-[55px] md:h-[65px] w-[330px] md:w-[756px] gap-[18px] md:gap-[20px] mb-[7px] md:mb-[10px]',
+      'h-[55px] md:h-[65px] min-w-[330px] md:w-[756px] gap-[18px] md:gap-[20px] mb-[7px] md:mb-[10px]',
   };
 
   const iconSizeVariants = {
@@ -19,9 +19,9 @@ export default function SearchBox({
 
   const inputSizeVariants = {
     beforeSearch:
-      'h-[50px] md:h-[51px] w-[180px] md:w-[500px] text-[16px] md:text-[20px]',
+      'h-[50px] md:h-[51px] min-w-[180px] md:w-[500px] text-[16px] md:text-[20px]',
     afterSearch:
-      'h-[50px] md:h-[51px] w-[180px] md:w-[500px] text-[16px] md:text-[20px]',
+      'h-[50px] md:h-[51px] min-w-[180px] md:w-[500px] text-[16px] md:text-[20px]',
   };
 
   const inputColorVariants = {
@@ -30,18 +30,20 @@ export default function SearchBox({
   };
 
   return (
-    <div
-      className={`flex items-center rounded-[10px] bg-[var(--white-color)] px-[24px] shadow-[var(--shadow-md)] ${divSizeVariants[classType]}`}
-    >
-      <CiSearch
-        className={`-scale-x-100 fill-[var(--gray-color-2)] stroke-[var(--gray-color-2)] stroke-[0.5px] ${iconSizeVariants[classType]}`}
-      />
-      <input
-        type="text"
-        placeholder="Ex. 성동구"
-        className={`focus:outline-none ${inputSizeVariants[classType]} ${inputColorVariants[classType]}`}
-        // value="성동구"
-      />
+    <div className="w-full md:w-[850px]">
+      <div
+        className={`flex items-center rounded-[10px] bg-[var(--white-color)] px-[24px] shadow-[var(--shadow-md)] ${divSizeVariants[classType]}`}
+      >
+        <CiSearch
+          className={`-scale-x-100 fill-[var(--gray-color-2)] stroke-[var(--gray-color-2)] stroke-[0.5px] ${iconSizeVariants[classType]}`}
+        />
+        <input
+          type="text"
+          placeholder="Ex. 성동구"
+          className={`focus:outline-none ${inputSizeVariants[classType]} ${inputColorVariants[classType]}`}
+          // value="성동구"
+        />
+      </div>
     </div>
   );
 }

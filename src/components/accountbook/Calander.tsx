@@ -57,7 +57,7 @@ export default function Calander({
 
   return (
     <>
-      <div className="relative rounded-[10px] bg-[var(--white-color)] shadow-md md:h-[765px] md:w-[755px]">
+      <div className="relative mx-[15px] rounded-[10px] bg-[var(--white-color)] shadow-md md:mx-[0px] md:h-[765px] md:w-[755px]">
         <div className="absolute top-[25px] right-[10px] flex gap-[10px] md:top-[36px] md:left-[565px]">
           <button className="h-[20px] w-[70px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--main-color-1)] text-[8px] text-[#000000] hover:bg-[var(--main-color-2)] active:bg-[var(--main-color-2)] md:h-[30px] md:w-[120px] md:text-[14px]">
             오늘 지출이 없어요!
