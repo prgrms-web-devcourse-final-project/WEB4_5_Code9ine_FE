@@ -21,7 +21,7 @@ export default function CommunityTab({
         <button
           key={tab.key}
           onClick={() => onChange(tab.key)}
-          className={`relative mx-[7px] cursor-pointer py-2 text-[20px] font-medium transition-colors duration-300 ${
+          className={`relative mx-[7px] cursor-pointer py-2 text-[16px] font-medium transition-colors duration-300 md:text-[20px] ${
             selectedTab === tab.key
               ? 'font-semibold text-[var(--main-color-3)]'
               : 'hover:text-[var(--main-color-3)]'

@@ -13,8 +13,12 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex">
-        <div className="hide-scrollbar flex h-[869px] w-[756px] flex-col overflow-y-auto rounded-[10px] bg-[var(--white-color)] p-4 shadow">
+      <div className="flex w-full max-w-screen flex-col px-[15px] md:flex-row md:px-[0px]">
+        <div className="hide-scrollbar order-1 ml-0 flex max-h-[300px] flex-1 flex-col overflow-y-auto rounded-[10px] shadow md:order-2 md:ml-[15px] md:h-[869px] md:max-h-none md:w-[350px]">
+          <PopularPostList />
+        </div>
+
+        <div className="hide-scrollbar order-2 mt-[15px] flex h-[869px] w-full flex-col overflow-y-auto rounded-[10px] bg-[var(--white-color)] p-4 shadow md:order-1 md:mt-0 md:w-[756px]">
           <div className="mb-[25px]">
             <div className="mt-[15px] mb-[30px]">
               <CommunityTab
@@ -24,16 +28,12 @@ export default function Page() {
             </div>
             <PostWriteForm />
           </div>
-          <div className="mb-[25px]">
+          <div className="mb-[15px]">
             <PostItem />
           </div>
-          <div className="mb-[25px]">
+          <div className="mb-[15px]">
             <PostItem />
           </div>
-        </div>
-
-        <div className="ml-[15px] flex h-[869px] w-[350px] flex-col rounded-[10px] shadow">
-          <PopularPostList />
         </div>
       </div>
     </>
