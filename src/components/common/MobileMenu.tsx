@@ -121,7 +121,7 @@ export default function MobileMenu({
               </Button>
             </div>
           )}
-          <div className="mt-auto flex-col items-center gap-2 md:flex">
+          <div className="mt-auto flex-col items-center gap-2 text-end md:flex">
             <p className="cursor-pointer self-end text-[14px] text-[var(--header-text)]">
               1:1 문의하기
             </p>

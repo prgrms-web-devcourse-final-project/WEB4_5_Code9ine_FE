@@ -19,10 +19,10 @@ export default function ListArea() {
 
   return (
     <>
-      <span className="mt-[65px] ml-[24px] text-[24px] font-semibold">
+      <span className="mt-[30px] ml-[24px] text-[24px] font-semibold">
         내역
       </span>
-      <div className="hide-scrollbar w-320px mx-[17px] mt-[45px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
+      <div className="hide-scrollbar w-320px mx-[17px] mt-[20px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
         {Object.keys(dateGroup).map((date) => (
           <div key={date}>
             <div className="mb-[15px] min-w-[315px] border-b-1 text-[var(--main-color-3)] dark:text-[var(--text-color)]">

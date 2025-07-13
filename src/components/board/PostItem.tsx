@@ -25,7 +25,7 @@ export default function PostItem() {
   const [commentsOpen, setCommentsOpen] = useState(false);
 
   return (
-    <div className="flex items-start gap-6 rounded-[16px] bg-[var(--background)] p-6 text-[var(--text-color-white)] shadow">
+    <div className="flex items-start gap-6 rounded-[10px] bg-[var(--background)] p-6 text-[var(--text-color-white)] shadow">
       <div className="flex min-w-[90px] flex-col items-center">
         <Image
           src="/profileTest.png"
@@ -40,7 +40,7 @@ export default function PostItem() {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col gap-[10px]">
         <div className="flex items-start justify-between">
           <div>
             <div className="text-[24px] font-bold">다람이 다람이 다람아~!</div>
@@ -117,10 +117,10 @@ export default function PostItem() {
           </div>
 
           <div className="flex gap-2">
-            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[16px] transition-colors hover:bg-[var(--main-color-2)]">
+            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[16px] text-black transition-colors hover:bg-[var(--main-color-2)]">
               수정
             </button>
-            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[16px] transition-colors hover:bg-[var(--point-color-2)]">
+            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[16px] text-black transition-colors hover:bg-[var(--point-color-2)]">
               삭제
             </button>
           </div>
