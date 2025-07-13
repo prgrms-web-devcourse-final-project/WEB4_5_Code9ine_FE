@@ -41,16 +41,16 @@ export default function CommentList() {
 
   return (
     <div className="mt-[10px] text-[var(--text-color-white)]">
-      <form className="mb-4 flex items-center gap-2 py-2">
+      <form className="mb-4 flex items-center py-2">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="댓글을 입력하세요"
-          className="flex w-[487px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-4 py-2 outline-none focus:border-[var(--main-color-2)]"
+          className="mr-[10px] flex w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-4 py-2 outline-none focus:border-[var(--main-color-2)] md:w-[500px]"
         />
         <button
           type="submit"
-          className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[16px] text-black transition-colors hover:bg-[var(--main-color-2)]"
+          className="h-[28px] w-[48px] shrink-0 cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:w-[58px] md:text-[16px]"
         >
           작성
         </button>
@@ -84,7 +84,7 @@ export default function CommentList() {
                 {c.content}
               </span>
 
-              <button className="h-[28px] w-[58px] rounded-[20px] bg-[var(--point-color-1)] text-[16px] text-black transition-colors hover:bg-[var(--point-color-2)]">
+              <button className="h-[28px] w-[48px] shrink-0 rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:w-[58px] md:text-[16px]">
                 삭제
               </button>
             </div>
