@@ -61,7 +61,7 @@ export default function BarChartClient() {
           }}
         />
 
-        <Bar barSize={20} dataKey="price">
+        <Bar barSize={20} dataKey="price" animationDuration={1800}>
           {dummyData.map((_, index) => (
             <Cell
               width={19}
