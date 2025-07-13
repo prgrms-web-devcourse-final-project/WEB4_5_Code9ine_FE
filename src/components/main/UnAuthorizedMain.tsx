@@ -101,7 +101,7 @@ export default function UnAuthorizedMain() {
           </div>
         </div>
         {/* 유저챌린지 */}
-        <div className="flex flex-col gap-8 md:gap-13">
+        <div className="flex flex-col items-center gap-8 md:gap-13">
           <p className="text-[16px] md:text-[32px]">
             유저들이 가장 많이 달성한
             <span> 챌린지</span>
@@ -189,33 +189,33 @@ export default function UnAuthorizedMain() {
         </div>
 
         {/* 가계부 소개란 */}
-        <div className="flex flex-col items-start justify-between gap-[100px] md:flex-row">
+        <div className="flex flex-col items-center justify-between gap-[130px] md:flex-row md:items-start">
           {/* 왼쪽 블록 */}
-          <div className="space-y-4">
-            <p className="mb-[30px] md:text-[24px]">
+          <div className="flex flex-col gap-[10px]">
+            <p className="md:text-[24px]">
               <span className="text-[var(--main-color-3)]">가계부</span> 내역은
               <br />
               쉽고, 명료하게
             </p>
-            <div>
-              <p className="mb-[30px] flex text-[var(--main-color-3)] md:text-[20px]">
-                <Image
-                  src={selectaccount}
-                  alt="가계부"
-                  width={32}
-                  height={32}
-                />
-                가계부 서비스
-              </p>
-              <p className="mb-[30px] md:text-[24px]">
-                쉽고 간편하게 작성 가능한
-                <br />
-                원터치 가계부
-              </p>
-              <p className="text-[var(--main-color-3)] md:text-[20px]">
-                티태의 쓰기 쉬운 가계부를 만나보세요
-              </p>
-            </div>
+
+            <p className="flex gap-2 text-[var(--main-color-3)] md:text-[20px]">
+              <Image
+                src={selectaccount}
+                alt="가계부"
+                width={22}
+                height={22}
+                className="md:h-[32px] md:w-[32px]"
+              />
+              가계부 서비스
+            </p>
+            <p className="md:text-[24px]">
+              쉽고 간편하게 작성 가능한
+              <br />
+              원터치 가계부
+            </p>
+            <p className="text-[var(--main-color-3)] md:text-[20px]">
+              티태의 쓰기 쉬운 가계부를 만나보세요
+            </p>
           </div>
 
           {/* 오른쪽 블록 */}
@@ -238,7 +238,13 @@ export default function UnAuthorizedMain() {
           {/* 모바일에서 위로 올라오는 텍스트 블록 */}
           <div className="mt-6 flex flex-col gap-[10px] md:mt-0">
             <div className="flex items-center gap-2">
-              <Image src={robot} alt="로봇이미지" width={42} height={42} />
+              <Image
+                src={robot}
+                alt="로봇이미지"
+                width={32}
+                height={32}
+                className="md:h-[42px] md:w-[42px]"
+              />
               <p className="text-[var(--main-color-3)] md:text-[20px]">
                 자산 관리 AI 비서
               </p>
@@ -273,14 +279,14 @@ export default function UnAuthorizedMain() {
         {/* 갓플레이스 */}
         <div className="flex flex-col items-center gap-[20px] md:flex-row md:gap-[100px]">
           {/* 텍스트 블록 */}
-          <div className="flex flex-col gap-[20px]">
+          <div className="flex flex-col gap-[10px]">
             <p className="text-[16px] md:text-[24px]">
               티태는 <span className="text-[var(--main-color-3)]">가성비</span>{' '}
               있는 장소들도
               <br />
               살펴볼 수 있는 공간도 있어요.
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center">
               <CiSearch className="h-[24px] w-[32px] text-[var(--main-color-3)] md:h-[32px] md:w-[42px]" />
               <p className="text-[14px] text-[var(--main-color-3)] md:text-[20px]">
                 검색 서비스
@@ -309,34 +315,58 @@ export default function UnAuthorizedMain() {
         </div>
 
         {/* 게시판 */}
-        <div className="flex flex-row items-start gap-[60px]">
+        <div className="flex flex-col items-center gap-[30px] md:flex-row">
           {/* 왼쪽 텍스트+아이콘 영역 */}
-          <div className="flex max-w-[400px] flex-col gap-[30px]">
-            <p className="text-[24px]">
+          <div className="flex max-w-[400px] flex-col gap-[10px]">
+            <p className="md:text-[24px]">
               <span className="text-[var(--main-color-3)]">게시판</span>에서
               나만의 장소를
               <br />
               서로 공유해보세요.
             </p>
-            <div className="flex flex-col gap-[30px]">
-              <div className="flex items-center">
-                <BsPersonUp className="h-[32px] w-[42px] text-[var(--main-color-3)]" />
-                <p className="text-[20px] text-[var(--main-color-3)]">
+            <div className="flex flex-col gap-[10px]">
+              <div className="flex items-center gap-[2px]">
+                <BsPersonUp className="h-[22px] w-[32px] text-[var(--main-color-3)] md:h-[32px] md:w-[42px]" />
+                <p className="text-[var(--main-color-3)] md:text-[20px]">
                   커뮤니티 서비스
                 </p>
               </div>
-              <p className="text-[24px]">다양한 유저들과 즐거운 커뮤니티</p>
-              <p className="text-[24px] text-[var(--main-color-3)]">
+              <p className="md:text-[24px]">다양한 유저들과 즐거운 커뮤니티</p>
+              <p className="text-[var(--main-color-3)] md:text-[24px]">
                 내가 찾은 갓플을 공유해요.
                 <br />
                 다른 유저들이 쓴 갓플 게시물도 저장할 수 있어요.
               </p>
             </div>
             <div className="flex gap-1">
-              <Image src={girl} alt="여자" width={86} height={46} />
-              <Image src={boy} alt="남자" width={86} height={46} />
-              <Image src={girl} alt="여자" width={86} height={46} />
-              <Image src={boy} alt="남자" width={86} height={46} />
+              <Image
+                src={girl}
+                alt="여자"
+                width={86}
+                height={46}
+                className="h-[96px] w-[66px]"
+              />
+              <Image
+                src={boy}
+                alt="남자"
+                width={86}
+                height={46}
+                className="h-[96px] w-[66px]"
+              />
+              <Image
+                src={girl}
+                alt="여자"
+                width={86}
+                height={46}
+                className="h-[96px] w-[66px]"
+              />
+              <Image
+                src={boy}
+                alt="남자"
+                width={86}
+                height={46}
+                className="h-[96px] w-[66px]"
+              />
             </div>
           </div>
 
