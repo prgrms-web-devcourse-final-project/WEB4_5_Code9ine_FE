@@ -1,78 +1,176 @@
 'use client';
+import { useState } from 'react';
 import Button from '../login/SignupButton';
 
 export default function SignupBox() {
+  const [nickname, setNickname] = useState('');
+  const [nicknameError, setNicknameError] = useState('');
+
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const [confirmPwd, setConfirmPwd] = useState('');
+  const [confirmPwdError, setConfirmPwdError] = useState('');
+
+  const [agree, setAgree] = useState(false);
+  const [agreeError, setAgreeError] = useState('');
+
+  // 이메일 형식 검사 함수
+  const validateEmail = (email: string): boolean => {
+    // 기본적인 이메일 패턴 (앞뒤 공백, @, . 최소 하나씩 포함)
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const handleSignup = () => {
+    let valid = true;
+
+    // 닉네임 검사
+    if (nickname.trim() === '') {
+      setNicknameError('닉네임을 입력해주세요');
+      valid = false;
+    } else {
+      setNicknameError('');
+    }
+
+    // 이메일 검사
+    if (email.trim() === '') {
+      setEmailError('이메일을 입력해주세요');
+      valid = false;
+    } else if (!validateEmail(email)) {
+      setEmailError('유효한 이메일 주소를 입력해주세요');
+      valid = false;
+    } else {
+      setEmailError('');
+    }
+
+    // 비밀번호 검사 (예시: 8자 이상)
+    if (password.length < 8) {
+      setPasswordError('비밀번호는 8자 이상이어야 합니다');
+      valid = false;
+    } else {
+      setPasswordError('');
+    }
+
+    // 비밀번호 확인 검사
+    if (confirmPwd !== password) {
+      setConfirmPwdError('비밀번호가 일치하지 않습니다');
+      valid = false;
+    } else {
+      setConfirmPwdError('');
+    }
+
+    // 약관 동의 검사
+    if (!agree) {
+      setAgreeError('약관에 동의해주세요');
+      valid = false;
+    } else {
+      setAgreeError('');
+    }
+
+    if (!valid) return;
+
+    // TODO: 실제 회원가입 API 호출
+    // signUp({ name: nickname, email, password })
+  };
+
   return (
-    <div className="flex h-auto w-[270px] flex-col gap-4 rounded-[20px] bg-[var(--background)] p-8 pt-[50px] pb-[50px] md:h-[650px] md:w-[500px]">
+    <div className="flex h-auto w-[270px] flex-col gap-[5px] rounded-[20px] bg-[var(--background)] p-8 pt-[50px] pb-[50px] md:h-[650px] md:w-[500px]">
       {/* 닉네임 */}
-      <div className="mb-[10px] flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
+      <div className="flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           닉네임
         </p>
-        <div className="flex w-full min-w-0 items-center gap-2">
-          <input
-            type="text"
-            placeholder="2자 이상 6자 이하"
-            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-full md:flex-none"
-            maxLength={6}
-            minLength={2}
-          />
-          {/* <Button className="h-[35px] w-[80px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)] md:w-[100px]">
-            중복확인
-          </Button> */}
-        </div>
+        <input
+          type="text"
+          value={nickname}
+          onChange={(e) => {
+            setNickname(e.target.value);
+            if (nicknameError) setNicknameError('');
+          }}
+          placeholder="2자 이상 6자 이하"
+          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+          maxLength={6}
+          minLength={2}
+        />
+        <p
+          className={`min-h-[12px] text-[12px] ${nicknameError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+        >
+          {nicknameError || '\u00A0'}
+        </p>
       </div>
 
       {/* 이메일 */}
-      <div className="mb-4 flex w-full flex-col items-start self-center md:w-[300px]">
+      <div className="flex w-full flex-col items-start self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           이메일
         </p>
-
-        {/* 상대 위치 지정 */}
-        <div className="relative w-full min-w-0 md:w-[300px]">
-          <input
-            type="email"
-            placeholder="example@gmail.com"
-            className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
-          />
-
-          {/* input 바로 아래 오른쪽 */}
-          <button
-            type="button"
-            className="absolute top-full right-2 mt-1 cursor-pointer text-[12px] text-[var(--gray-color-2)] hover:text-[var(--gray-color-3)]"
-          >
-            인증하기
-          </button>
-        </div>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (emailError) setEmailError('');
+          }}
+          placeholder="example@gmail.com"
+          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+        />
+        <p
+          className={`min-h-[12px] text-[12px] ${emailError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+        >
+          {emailError || '\u00A0'}
+        </p>
       </div>
 
       {/* 비밀번호 */}
-      <div className="mb-[10px] flex flex-col items-start gap-1 self-center md:w-[300px]">
+      <div className="flex flex-col items-start self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           비밀번호
         </p>
         <input
           type="password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            if (passwordError) setPasswordError('');
+          }}
           placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요"
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
+        <p
+          className={`min-h-[12px] text-[12px] ${passwordError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+        >
+          {passwordError || '\u00A0'}
+        </p>
       </div>
 
       {/* 비밀번호 확인 */}
-      <div className="mb-[10px] flex flex-col items-start gap-1 self-center md:w-[300px]">
+      <div className="flex flex-col items-start self-center md:w-[300px]">
         <p className="font-semibold text-[var(--main-color-3)] md:text-[20px]">
           비밀번호 확인
         </p>
         <input
           type="password"
+          value={confirmPwd}
+          onChange={(e) => {
+            setConfirmPwd(e.target.value);
+            if (confirmPwdError) setConfirmPwdError('');
+          }}
           placeholder="비밀번호를 한번 더 입력해 주세요"
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
+        <p
+          className={`min-h-[12px] text-[12px] ${confirmPwdError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+        >
+          {confirmPwdError || '\u00A0'}
+        </p>
       </div>
 
       {/* 이용약관 */}
-      <div className="flex h-[100px] self-center overflow-auto rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] p-2 md:w-[300px]">
+      <div className="mb-[5px] flex h-[100px] self-center overflow-auto rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] p-2 md:w-[300px]">
         <p className="text-[12px] leading-relaxed">
           제 1 조 (목적) 본 약관은 (주)티태(이하 “회사”라 합니다)이 운영하는
           웹사이트 ‘티태’ (www.urbanlaunderette.com) (이하 “웹사이트”라
@@ -81,22 +179,35 @@ export default function SignupBox() {
           합니다.
         </p>
       </div>
-
-      {/* 약관 동의 */}
       <div className="flex items-center self-center md:w-[300px]">
         <input
           type="checkbox"
           id="agree"
+          checked={agree}
+          onChange={(e) => {
+            setAgree(e.target.checked);
+            if (agreeError) setAgreeError('');
+          }}
           className="h-[16px] w-[16px] rounded border-[var(--main-color-1)] focus:ring-[var(--main-color-2)]"
         />
-        <label htmlFor="agree" className="ml-2 text-[14px]">
-          이용약관에 동의합니다.
-        </label>
+        <div className="flex gap-2">
+          <label htmlFor="agree" className="ml-2 text-[14px]">
+            이용약관에 동의합니다.
+          </label>
+          <p
+            className={`min-h-[12px] self-center text-[12px] ${agreeError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+          >
+            {agreeError || '\u00A0'}
+          </p>
+        </div>
       </div>
 
       {/* 가입하기 버튼 */}
       <div className="mt-2 flex self-center">
-        <Button className="h-[35px] rounded-[10px] bg-[var(--main-color-1)] text-[20px] font-semibold hover:bg-[var(--main-color-2)] md:w-[300px]">
+        <Button
+          onClick={handleSignup}
+          className="h-[35px] w-full rounded-[10px] bg-[var(--main-color-1)] text-[20px] font-semibold hover:bg-[var(--main-color-2)] md:w-[300px]"
+        >
           가입하기
         </Button>
       </div>
