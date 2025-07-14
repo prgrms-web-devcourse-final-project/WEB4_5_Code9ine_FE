@@ -17,7 +17,7 @@
 
 .marqueeContent {
   display: flex;
-  animation: slide 20s linear infinite;
+  animation: slide 50s linear infinite;
 }
 
 @keyframes slide {

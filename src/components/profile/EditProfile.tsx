@@ -1,12 +1,15 @@
 import { MdCancel, MdEdit } from 'react-icons/md';
 import Button from './Button';
 import DefaultProfile from './DefaultProfile';
-export default function EditProfile() {
+export default function EditProfile({ onClose }: { onClose: () => void }) {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
         <div className="relative h-[600px] w-[350px] items-center justify-center rounded-[10px] bg-[var(--white-color)] p-[25px] shadow-[var(--shadow-md)] select-none">
-          <MdCancel className="absolute top-4 right-4 cursor-pointer text-[30px] text-[var(--gray-color-2)]" />
+          <MdCancel
+            onClick={onClose}
+            className="absolute top-4 right-4 cursor-pointer text-[30px] text-[var(--gray-color-2)]"
+          />
           <h1 className="p-[25px] text-center text-[20px] font-semibold text-[var(--main-color-3)]">
             정보 수정
           </h1>
@@ -33,9 +36,9 @@ export default function EditProfile() {
               <p className="ml-[3px] text-[12px] text-[var(--main-color-3)]">
                 사용 가능한 닉네임입니다.
               </p>
-              <button className="mr-[3px] cursor-pointer text-[12px] text-[var(--gray-color-2)]">
+              {/* <button className="mr-[3px] cursor-pointer text-[12px] text-[var(--gray-color-2)]">
                 중복 확인
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="mt-[10px] flex w-[300px] flex-col items-start gap-1 self-center">
@@ -82,7 +85,10 @@ export default function EditProfile() {
             <Button
               button={
                 <>
-                  <button className="h-[35px] w-[80px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-3)]">
+                  <button
+                    onClick={onClose}
+                    className="h-[35px] w-[80px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-3)] dark:text-[#2b2e34]"
+                  >
                     수정 완료
                   </button>
                 </>
