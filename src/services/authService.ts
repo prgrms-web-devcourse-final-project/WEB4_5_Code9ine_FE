@@ -1,5 +1,3 @@
-// src/services/authService.ts
-
 export interface SignUpPayload {
   name: string;
   email: string;
@@ -22,7 +20,6 @@ async function signUp(payload: SignUpPayload): Promise<SignUpResponse> {
   });
   const json = await res.json();
   if (!res.ok) {
-    // 서버에서 내려준 message를 에러로 던집니다.
     throw new Error(json.message || '회원가입에 실패했습니다.');
   }
   return json.data;
