@@ -27,7 +27,7 @@ const fadeUp = {
 export default function UnAuthorizedMain() {
   return (
     <>
-      <div className="mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
+      <div className="hide-scrollbar mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -216,7 +216,7 @@ export default function UnAuthorizedMain() {
         >
           {/* 왼쪽 블록 */}
           <div className="flex flex-col gap-[10px]">
-            <p className="md:text-[24px]">
+            <p className="md:text-[20px]">
               <span className="text-[var(--main-color-3)]">가계부</span> 내역은
               <br />
               쉽고, 명료하게
@@ -232,7 +232,7 @@ export default function UnAuthorizedMain() {
               />
               가계부 서비스
             </p>
-            <p className="md:text-[24px]">
+            <p className="md:text-[20px]">
               쉽고 간편하게 작성 가능한
               <br />
               원터치 가계부
@@ -279,7 +279,7 @@ export default function UnAuthorizedMain() {
                 자산 관리 AI 비서
               </p>
             </div>
-            <p className="md:text-[24px]">AI를 활용한 똑똑한 자산 관리</p>
+            <p className="md:text-[20px]">AI를 활용한 똑똑한 자산 관리</p>
             <p className="text-[var(--main-color-3)] md:text-[20px]">
               티태에게 무엇이든 물어보세요.
               <br />
@@ -315,7 +315,7 @@ export default function UnAuthorizedMain() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="flex flex-col gap-[10px]">
-            <p className="text-[16px] md:text-[24px]">
+            <p className="text-[16px] md:text-[20px]">
               티태는 <span className="text-[var(--main-color-3)]">가성비</span>{' '}
               있는 장소들도
               <br />
@@ -327,12 +327,12 @@ export default function UnAuthorizedMain() {
                 검색 서비스
               </p>
             </div>
-            <p className="text-[14px] text-[var(--main-color-3)] md:text-[24px]">
+            <p className="text-[14px] text-[var(--main-color-3)] md:text-[20px]">
               동 단위로 지역을 검색해서
               <br />
               가성비있는 장소를 탐색
             </p>
-            <p className="text-[14px] text-[var(--main-color-3)] md:text-[24px]">
+            <p className="text-[14px] text-[var(--main-color-3)] md:text-[20px]">
               이제부터 티태와 함께
               <br />
               착한 가게를 찾고 돈을 절약해요.
@@ -350,7 +350,7 @@ export default function UnAuthorizedMain() {
 
         {/* 게시판 */}
         <motion.div
-          className="flex flex-col items-center gap-[30px] md:flex-row"
+          className="mb-[100px] flex flex-col items-center gap-[30px] md:flex-row"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
@@ -358,7 +358,7 @@ export default function UnAuthorizedMain() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="flex max-w-[400px] flex-col gap-[10px]">
-            <p className="md:text-[24px]">
+            <p className="md:text-[20px]">
               <span className="text-[var(--main-color-3)]">게시판</span>에서
               나만의 장소를
               <br />
@@ -371,8 +371,8 @@ export default function UnAuthorizedMain() {
                   커뮤니티 서비스
                 </p>
               </div>
-              <p className="md:text-[24px]">다양한 유저들과 즐거운 커뮤니티</p>
-              <p className="text-[var(--main-color-3)] md:text-[24px]">
+              <p className="md:text-[20px]">다양한 유저들과 즐거운 커뮤니티</p>
+              <p className="text-[var(--main-color-3)] md:text-[20px]">
                 내가 찾은 갓플을 공유해요.
                 <br />
                 다른 유저들이 쓴 갓플 게시물도 저장할 수 있어요.
