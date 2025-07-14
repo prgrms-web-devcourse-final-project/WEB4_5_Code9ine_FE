@@ -27,18 +27,21 @@ export default function Calander({
             {dayData.map((item, index) => (
               <div key={index}>
                 <p
-                  key={Math.random().toString(36)}
+                  key={index + 1}
                   className="block w-full items-end justify-end truncate text-end text-[8px] text-[var(--point-color-1)] md:text-[14px]"
                 >
                   -{item.expense.toLocaleString('ko-KR')}
                 </p>
                 <p
-                  key={Math.random().toString(36)}
+                  key={index + 2}
                   className="justify-end text-end text-[8px] text-[var(--main-color-3)] md:text-[14px]"
                 >
                   +{item.income.toLocaleString('ko-KR')}
                 </p>
-                <p className="justify-end text-end text-[8px] md:text-[14px]">
+                <p
+                  className="justify-end text-end text-[8px] md:text-[14px]"
+                  key={index + 3}
+                >
                   {item.difference.toLocaleString('ko-KR')}
                 </p>
               </div>
@@ -71,6 +74,7 @@ export default function Calander({
         </div>
         <div className="flex h-full justify-center">
           <Calendar
+            locale="ko"
             calendarType="gregory"
             formatDay={(locale, date) => format(date, 'd')}
             tileContent={addContent}

@@ -123,7 +123,7 @@
 
 /* 호버 및 포커스 효과 제거 */
 .react-calendar__tile:enabled:hover {
-  background: var(--main-color-1);
+  background: none;
   color: #000000;
 }
 .react-calendar__navigation_label:enabled:hover {
@@ -206,6 +206,12 @@
   background-color: #d1eaff;
   color: #333;
   padding-right: 75px;
-  padding-left: 10px;
+  border-radius: 8px;
+}
+
+.react-calendar__tile:enabled:hover abbr {
+  background-color: #d1eaff;
+  color: #333;
+  padding-right: 75px;
   border-radius: 8px;
 }

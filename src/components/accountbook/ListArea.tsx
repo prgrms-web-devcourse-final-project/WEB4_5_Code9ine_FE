@@ -15,8 +15,6 @@ export default function ListArea() {
     return acc;
   }, {});
 
-  console.log(dummyData2);
-
   return (
     <>
       <span className="mt-[30px] ml-[24px] text-[24px] font-semibold">

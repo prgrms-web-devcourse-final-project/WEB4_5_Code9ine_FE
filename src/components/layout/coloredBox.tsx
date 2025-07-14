@@ -64,7 +64,7 @@ export default function ColoredBox({
           <div className="hidden md:flex">
             <FiMoon size={12} />
           </div>
-          <div className="absolute top-[23px] right-[20px] md:flex">
+          <div className="absolute top-[23px] right-[20px] md:static md:flex">
             {login ? <IoMdNotificationsOutline size={12} /> : null}
           </div>
         </div>
