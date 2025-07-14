@@ -1,13 +1,17 @@
+'use client';
 import DefaultProfile from './DefaultProfile';
 // import Title from './Title';
 import ProgressBar from '../common/ProgressBar';
 import Button from './Button';
+import { useState } from 'react';
+import EditProfile from './EditProfile';
 
 export default function Profile({
   isPersonal = false,
 }: {
   isPersonal?: boolean;
 }) {
+  const [isEditProfile, setIsEditProfile] = useState(false);
   return (
     <>
       <div className="my-[20px] flex w-full flex-col items-center justify-center">
@@ -36,7 +40,10 @@ export default function Profile({
             <Button
               button={
                 <>
-                  <button className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]">
+                  <button
+                    onClick={() => setIsEditProfile(true)}
+                    className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]"
+                  >
                     프로필 수정하기
                   </button>
                 </>
@@ -52,6 +59,9 @@ export default function Profile({
               }
             />
           </div>
+        )}
+        {isEditProfile && (
+          <EditProfile onClose={() => setIsEditProfile(false)}></EditProfile>
         )}
       </div>
     </>
