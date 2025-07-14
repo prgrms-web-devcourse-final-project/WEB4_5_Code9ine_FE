@@ -16,7 +16,7 @@ export default function ThreadsTab({
   ];
 
   return (
-    <div className="relative mx-auto mt-[40px] flex w-fit justify-center border-b-[2px] border-[var(--main-color-1)]">
+    <div className="border-b-2px relative mx-auto mt-[40px] flex w-fit justify-center border-[var(--main-color-1)]">
       {tabs.map((tab) => (
         <button
           key={tab.key}
