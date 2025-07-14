@@ -1,8 +1,12 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '../login/SignupButton';
+import { signUp, SignUpPayload } from '@/services/authService';
 
 export default function SignupBox() {
+  const router = useRouter();
+
   const [nickname, setNickname] = useState('');
   const [nicknameError, setNicknameError] = useState('');
 
@@ -18,26 +22,31 @@ export default function SignupBox() {
   const [agree, setAgree] = useState(false);
   const [agreeError, setAgreeError] = useState('');
 
-  // 이메일 형식 검사 함수
-  const validateEmail = (email: string): boolean => {
-    // 기본적인 이메일 패턴 (앞뒤 공백, @, . 최소 하나씩 포함)
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
+  const [serverError, setServerError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = () => {
+  const validateEmail = (email: string): boolean =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const validatePassword = (pwd: string): boolean =>
+    /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$/.test(
+      pwd,
+    );
+
+  const handleSignup = async () => {
     let valid = true;
+    setServerError('');
 
     // 닉네임 검사
-    if (nickname.trim() === '') {
-      setNicknameError('닉네임을 입력해주세요');
+    if (nickname.trim().length < 2 || nickname.trim().length > 6) {
+      setNicknameError('2자 이상 6자 이하로 입력해주세요');
       valid = false;
     } else {
       setNicknameError('');
     }
 
     // 이메일 검사
-    if (email.trim() === '') {
+    if (!email) {
       setEmailError('이메일을 입력해주세요');
       valid = false;
     } else if (!validateEmail(email)) {
@@ -47,9 +56,12 @@ export default function SignupBox() {
       setEmailError('');
     }
 
-    // 비밀번호 검사 (예시: 8자 이상)
-    if (password.length < 8) {
-      setPasswordError('비밀번호는 8자 이상이어야 합니다');
+    // 비밀번호 검사
+    if (!password) {
+      setPasswordError('비밀번호를 입력해주세요');
+      valid = false;
+    } else if (!validatePassword(password)) {
+      setPasswordError('비밀번호는 8~16자, 대문자·특수문자 포함');
       valid = false;
     } else {
       setPasswordError('');
@@ -73,8 +85,20 @@ export default function SignupBox() {
 
     if (!valid) return;
 
-    // TODO: 실제 회원가입 API 호출
-    // signUp({ name: nickname, email, password })
+    try {
+      setLoading(true);
+      const payload: SignUpPayload = { name: nickname, email, password };
+      await signUp(payload);
+      router.push('/login');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setServerError(err.message);
+      } else {
+        setServerError('알 수 없는 오류가 발생했습니다');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -94,7 +118,6 @@ export default function SignupBox() {
           placeholder="2자 이상 6자 이하"
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
           maxLength={6}
-          minLength={2}
         />
         <p
           className={`min-h-[12px] text-[12px] ${nicknameError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
@@ -190,25 +213,33 @@ export default function SignupBox() {
           }}
           className="h-[16px] w-[16px] rounded border-[var(--main-color-1)] focus:ring-[var(--main-color-2)]"
         />
-        <div className="flex gap-2">
-          <label htmlFor="agree" className="ml-2 text-[14px]">
-            이용약관에 동의합니다.
-          </label>
-          <p
-            className={`min-h-[12px] self-center text-[12px] ${agreeError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
-          >
-            {agreeError || '\u00A0'}
-          </p>
-        </div>
+        <label htmlFor="agree" className="ml-2 text-[14px]">
+          이용약관에 동의합니다.
+        </label>
+        <p
+          className={`ml-2 min-h-[12px] text-[12px] ${agreeError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+        >
+          {agreeError || '\u00A0'}
+        </p>
       </div>
 
+      {/* 서버 에러 */}
+      {serverError && (
+        <p className="mt-2 self-center text-[12px] text-[var(--point-color-2)]">
+          {serverError}
+        </p>
+      )}
+
       {/* 가입하기 버튼 */}
-      <div className="mt-2 flex self-center">
+      <div className="mt-2 flex w-full self-center md:w-[300px]">
         <Button
           onClick={handleSignup}
-          className="h-[35px] w-full rounded-[10px] bg-[var(--main-color-1)] text-[20px] font-semibold hover:bg-[var(--main-color-2)] md:w-[300px]"
+          disabled={loading}
+          className={`h-[35px] w-full rounded-[10px] bg-[var(--main-color-1)] text-[20px] font-semibold hover:bg-[var(--main-color-2)] ${
+            loading ? 'cursor-not-allowed opacity-50' : ''
+          }`}
         >
-          가입하기
+          {loading ? '가입 중...' : '가입하기'}
         </Button>
       </div>
     </div>
