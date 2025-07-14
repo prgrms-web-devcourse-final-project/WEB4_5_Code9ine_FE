@@ -1,3 +1,6 @@
+'use client';
+import { useGodplacesStore } from '@/stores/godplacesStore';
+import { ChangeEvent } from 'react';
 import { CiSearch } from 'react-icons/ci';
 
 export default function SearchBox({
@@ -5,6 +8,8 @@ export default function SearchBox({
 }: {
   classType: 'beforeSearch' | 'afterSearch';
 }) {
+  const setLocation = useGodplacesStore((state) => state.setLocation);
+
   const divSizeVariants = {
     beforeSearch:
       'h-[55px] md:h-[65px] min-w-[274px] md:w-[850px] gap-[18px] md:gap-[20px] mb-[20px] md:mb-[18px] mt-[46px] md:mt-[50px] mx-[43px] md:mx-[0px]',
@@ -29,6 +34,10 @@ export default function SearchBox({
     afterSearch: 'text-[var(--text-color-white)]',
   };
 
+  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setLocation(e.target.value);
+  };
+
   return (
     <div className="w-full md:w-[850px]">
       <div
@@ -41,6 +50,7 @@ export default function SearchBox({
           type="text"
           placeholder="Ex. 성동구"
           className={`focus:outline-none ${inputSizeVariants[classType]} ${inputColorVariants[classType]}`}
+          onChange={inputHandler}
           // value="성동구"
         />
       </div>
