@@ -6,15 +6,12 @@ import Calander from './Calander';
 import ListArea from './ListArea';
 import AccountAdd from './AccountAdd';
 import TotalAmount from '../common/TotalAmount';
-import { useDummyData } from '@/stores/dummyStore';
 
 export default function Page() {
   const [isInsert, setIsInsert] = useState<boolean>(false);
-  const { dummyData } = useDummyData();
 
   const handleMenu = (handle: boolean) => {
     setIsInsert(handle);
-    console.log(handle);
   };
   return (
     <>
@@ -26,7 +23,7 @@ export default function Page() {
         </div>
         <div className="relative md:flex md:flex-col">
           <div className="mx-[15px] mt-[9px] mb-[16px] flex text-[20px] md:mx-[13px]">
-            <TotalAmount data={dummyData} />
+            <TotalAmount />
             <div className="absolute right-[30px] md:ml-[290px] md:size-[80px] md:rounded-full md:border-1 md:border-[var(--main-color-3)]"></div>
           </div>
           <Calander onDataChange={handleMenu} />
