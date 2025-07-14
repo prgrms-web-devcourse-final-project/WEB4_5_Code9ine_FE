@@ -13,30 +13,37 @@ export default function SignupBox() {
           <input
             type="text"
             placeholder="2자 이상 6자 이하"
-            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-[218px] md:flex-none"
+            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-full md:flex-none"
             maxLength={6}
             minLength={2}
           />
-          <Button className="h-[35px] w-[80px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)] md:w-[100px]">
+          {/* <Button className="h-[35px] w-[80px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)] md:w-[100px]">
             중복확인
-          </Button>
+          </Button> */}
         </div>
       </div>
 
       {/* 이메일 */}
-      <div className="mb-[10px] flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
+      <div className="mb-4 flex w-full flex-col items-start self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           이메일
         </p>
-        <div className="flex w-full min-w-0 items-center gap-2">
+
+        {/* 상대 위치 지정 */}
+        <div className="relative w-full min-w-0 md:w-[300px]">
           <input
             type="email"
             placeholder="example@gmail.com"
-            className="h-[35px] min-w-0 flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none md:w-[218px] md:flex-none"
+            className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
           />
-          <Button className="h-[35px] w-[80px] bg-[var(--main-color-1)] text-[14px] font-semibold hover:bg-[var(--main-color-2)] md:w-[100px]">
+
+          {/* input 바로 아래 오른쪽 */}
+          <button
+            type="button"
+            className="absolute top-full right-2 mt-1 cursor-pointer text-[12px] text-[var(--gray-color-2)] hover:text-[var(--gray-color-3)]"
+          >
             인증하기
-          </Button>
+          </button>
         </div>
       </div>
 

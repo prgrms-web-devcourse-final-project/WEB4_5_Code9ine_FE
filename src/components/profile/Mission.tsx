@@ -2,11 +2,13 @@
 import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import missionsData from '@/assets/missionData.json';
+import { missionData } from '@/data/missionData';
 import { PiFlowerFill } from 'react-icons/pi';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import MissionTabs from './MissionTabs';
+import { StaticImageData } from 'next/image';
+import Image from 'next/image';
 
 export default function MissionSwiperTabs() {
   const [selectedTab, setSelectedTab] = useState<
@@ -14,7 +16,7 @@ export default function MissionSwiperTabs() {
   >('daily');
   const [reset, setReset] = useState(0);
 
-  const missions = missionsData[selectedTab];
+  const missions = missionData[selectedTab];
   const showSwiper = missions.length > 2;
 
   const groups = [];
@@ -27,9 +29,11 @@ export default function MissionSwiperTabs() {
   }, [selectedTab]);
 
   const MissionCard = ({
+    icon,
     des,
     missionTitle,
   }: {
+    icon: StaticImageData;
     des: string;
     missionTitle: string;
   }) => (
@@ -37,7 +41,18 @@ export default function MissionSwiperTabs() {
       <p className="mt-[10px] text-center text-[16px] whitespace-pre-line">
         {des}
       </p>
-      <p className="text-[18px] font-semibold">{missionTitle}</p>
+      <p className="flex text-[18px] font-semibold">
+        {icon && (
+          <Image
+            src={icon}
+            alt="미션 아이콘"
+            width={25}
+            height={25}
+            className="mr-[5px]"
+          />
+        )}
+        {missionTitle}
+      </p>
       <PiFlowerFill size={47} color="#FFFAC5" />
       <button className="mt-[5px] h-[30px] w-[60px] rounded-[10px] bg-[var(--main-color-1)]">
         <p className="text-center text-[16px] font-semibold dark:text-[#2b2e34]">
@@ -71,6 +86,7 @@ export default function MissionSwiperTabs() {
                 <div className="gap-[10px]">
                   {group.map((item, i) => (
                     <MissionCard
+                      icon={item.icon}
                       key={i}
                       des={item.des}
                       missionTitle={item.missionTitle}
@@ -85,6 +101,7 @@ export default function MissionSwiperTabs() {
             {missions.map((item, index) => (
               <MissionCard
                 key={index}
+                icon={item.icon}
                 des={item.des}
                 missionTitle={item.missionTitle}
               />

@@ -17,7 +17,7 @@ export default function MissionTabs({
   ];
 
   return (
-    <div className="relative flex justify-around border-b-[2px] border-[var(--main-color-1)]">
+    <div className="border-b-2px relative mx-auto flex w-fit justify-center border-[var(--main-color-1)]">
       {tabs.map((tab) => (
         <button
           key={tab.key}

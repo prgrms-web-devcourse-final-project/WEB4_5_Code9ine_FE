@@ -7,7 +7,7 @@ export default function layout({
 }) {
   return (
     <>
-      <div className="mt-[15px] flex flex-1 flex-col gap-[15px] md:mt-[0px] md:flex-row mx-[15px]">
+      <div className="mt-[15px] flex flex-1 flex-col gap-[15px] md:mt-[0px] md:flex-row">
         {search}
         {results}
       </div>

@@ -16,7 +16,7 @@ export default function PopularPostList() {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="mx-auto mb-[7px] h-[72px] w-[320px] border-b border-[var(--main-color-2)] px-2 last:border-b-0"
+            className="mx-auto mb-[7px] h-[72px] w-full border-b border-[var(--main-color-2)] px-2 last:border-b-0 md:max-w-[320px]"
           >
             <div className="flex items-start">
               <Image

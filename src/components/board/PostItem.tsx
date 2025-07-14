@@ -25,51 +25,60 @@ export default function PostItem() {
   const [commentsOpen, setCommentsOpen] = useState(false);
 
   return (
-    <div className="flex items-start gap-6 rounded-[10px] bg-[var(--background)] p-6 text-[var(--text-color-white)] shadow">
-      <div className="flex min-w-[90px] flex-col items-center">
+    <div className="relative flex flex-col items-start gap-3 rounded-[10px] bg-[var(--background)] p-6 text-[var(--text-color-white)] shadow md:flex-row md:gap-6">
+      <div className="flex min-w-[90px] flex-col flex-row items-center md:flex-col">
         <Image
           src="/profileTest.png"
           alt="프로필"
           width={70}
           height={70}
-          className="rounded-full border-2 border-[var(--main-color-2)]"
+          className="h-[30px] w-[30px] rounded-full border-2 border-[var(--main-color-2)] md:h-[70px] md:w-[70px]"
         />
-        <div className="mt-2 text-[20px]">다람이</div>
-        <div className="text-[16px] text-[var(--text-color-2)]">
-          노노커피 마스터
+        <div className="flex flex-row items-baseline gap-1 whitespace-nowrap md:flex-col md:items-center">
+          <div className="ml-[4px] text-center text-[18px] leading-none md:text-[20px]">
+            다람이
+          </div>
+          <div className="text-center text-[12px] leading-none text-[var(--text-color-2)] md:text-[16px]">
+            노노커피 마스터
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-[10px]">
+      <div className="absolute top-0 right-0 mt-[24px] mr-[24px]">
+        <div className="flex items-center md:gap-1">
+          <span className="text-[12px] text-[var(--text-color-2)] md:text-[16px]">
+            25.07.10
+          </span>
+          <AiFillStar
+            size={22}
+            className="ml-[0px] cursor-pointer text-[#FFD600] md:ml-1"
+          />
+        </div>
+      </div>
+
+      <div className="flex w-full flex-col gap-[10px]">
         <div className="flex items-start justify-between">
           <div>
-            <div className="text-[24px] font-bold">다람이 다람이 다람아~!</div>
+            <div className="text-[20px] font-bold md:text-[24px]">
+              다람이 다람이 다람아~!
+            </div>
             <div className="mt-1 text-[18px] text-[var(--text-color-white)]">
               다람이 다람이 다람아~!
             </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="text-[16px] text-[var(--text-color-2)]">
-              25.07.10
-            </span>
-            <AiFillStar
-              size={22}
-              className="ml-1 cursor-pointer text-[#FFD600]"
-            />
           </div>
         </div>
 
         <div className="relative mx-auto w-full max-w-[500px]">
           <button
             onClick={() => emblaApi && emblaApi.scrollPrev()}
-            className="absolute top-1/2 left-[-32px] z-10 -translate-y-1/2"
+            className="absolute top-1/2 left-[-24px] z-10 -translate-y-1/2 md:left-[-32px]"
             aria-label="이전"
           >
             <FaChevronLeft size={28} style={{ color: 'var(--main-color-2)' }} />
           </button>
           <button
             onClick={() => emblaApi && emblaApi.scrollNext()}
-            className="absolute top-1/2 right-[-32px] z-10 -translate-y-1/2"
+            className="absolute top-1/2 right-[-24px] z-10 -translate-y-1/2 md:right-[-32px]"
             aria-label="다음"
           >
             <FaChevronRight
@@ -101,14 +110,14 @@ export default function PostItem() {
           <div className="flex items-center gap-4">
             <button
               type="button"
-              className="flex cursor-pointer items-center gap-1 text-[16px] text-[var(--point-color-1)]"
+              className="flex cursor-pointer items-center gap-1 text-[14px] text-[var(--point-color-1)] md:text-[16px]"
               aria-label="좋아요"
             >
               <FaHeart size={17} /> 35개
             </button>
             <button
               type="button"
-              className="flex cursor-pointer items-center gap-1 text-[16px] text-[var(--main-color-2)] transition hover:text-[var(--main-color-1)]"
+              className="flex cursor-pointer items-center gap-1 text-[14px] text-[var(--main-color-2)] transition hover:text-[var(--main-color-1)] md:text-[16px]"
               aria-label="댓글"
               onClick={() => setCommentsOpen((open) => !open)}
             >
@@ -117,10 +126,10 @@ export default function PostItem() {
           </div>
 
           <div className="flex gap-2">
-            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[16px] text-black transition-colors hover:bg-[var(--main-color-2)]">
+            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]">
               수정
             </button>
-            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[16px] text-black transition-colors hover:bg-[var(--point-color-2)]">
+            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]">
               삭제
             </button>
           </div>

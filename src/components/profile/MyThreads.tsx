@@ -15,11 +15,11 @@ export default function MyThreads() {
       <SetGoal />
       <ThreadsTab selectedTab={selectedTab} onChange={setSelectedTab} />
       <div className="mt-[40px] flex w-full flex-col gap-[20px] p-[20px]">
-        {/* {ThreadList.map((prev, i) => (
+        {ThreadList.map((prev, i) => (
           <div key={i}>
             <PostItem />
           </div>
-        ))} */}
+        ))}
 
         {/* 내가 찜한 장소 */}
         {/* {ThreadList.map((prev, i) => (
