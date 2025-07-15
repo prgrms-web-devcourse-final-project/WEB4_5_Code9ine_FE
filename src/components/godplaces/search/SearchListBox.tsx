@@ -25,6 +25,7 @@ export default function SearchListBox({ region }: { region: string }) {
         검색 결과
       </div>
       <div className="hide-scrollbar flex h-[35dvh] flex-col items-center gap-[8px] overflow-y-auto px-[10px] pt-[4px] md:h-[782px] md:gap-[13px] md:px-[0px]">
+        {godplaces.length === 0 && '검색 결과가 없습니다'}
         {godplaces.map((d) => {
           const id = d[`${d.type}Id` as keyof typeof d];
 
