@@ -1,5 +1,3 @@
-'use client';
-
 import styles from '../../css/TitleSwiper.module.css';
 import Image from 'next/image';
 import { missionData } from '@/data/missionData';

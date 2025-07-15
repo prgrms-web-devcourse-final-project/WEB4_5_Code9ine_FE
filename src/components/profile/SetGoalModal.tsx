@@ -4,7 +4,7 @@ import { goalData } from '@/data/goalData';
 import Image from 'next/image';
 export default function SetGoalModal({ onClose }: { onClose: () => void }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
       <div className="relative h-[600px] w-[350px] rounded-[10px] bg-[var(--white-color)] p-[20px] shadow-[var(--shadow-md)]">
         {/* 닫기 버튼 */}
         <MdCancel
