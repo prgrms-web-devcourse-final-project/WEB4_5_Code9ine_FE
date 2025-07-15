@@ -25,16 +25,23 @@ export default function SearchListBox({ region }: { region: string }) {
         검색 결과
       </div>
       <div className="hide-scrollbar flex h-[35dvh] flex-col items-center gap-[8px] overflow-y-auto px-[10px] pt-[4px] md:h-[782px] md:gap-[13px] md:px-[0px]">
-        {godplaces.map((d, idx) => (
-          <SearchListCard
-            key={idx}
-            category={d.category}
-            type={d.type}
-            name={d.name}
-            firstMenu={d.firstmenu}
-            firstPrice={d.firstprice}
-          />
-        ))}
+        {godplaces.map((d) => {
+          const id = d[`${d.type}Id` as keyof typeof d];
+
+          if (typeof id !== 'string') return null;
+
+          return (
+            <SearchListCard
+              key={`${d.type}-${id}`}
+              category={d.category}
+              type={d.type}
+              name={d.name}
+              firstMenu={d.firstmenu}
+              firstPrice={d.firstprice}
+              id={id}
+            />
+          );
+        })}
       </div>
     </div>
   );

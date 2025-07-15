@@ -1,4 +1,5 @@
 // import { BsStar, BsStarFill } from 'react-icons/bs';
+import { getLabel } from '@/lib/helper/getLabel';
 import Link from 'next/link';
 import { BsStar } from 'react-icons/bs';
 import { IoCheckmark } from 'react-icons/io5';
@@ -9,38 +10,21 @@ export default function SearchListCard({
   name,
   firstMenu,
   firstPrice,
+  id,
 }: {
   category: string | null;
   type: string;
   name: string;
   firstMenu?: string;
   firstPrice?: string;
+  id: string;
 }) {
-  const TYPE_LABEL_MAP: Record<string, string> = {
-    festival: '축제',
-    library: '도서관',
-  };
 
-  const CATEGORY_LABEL_MAP: Record<string, string> = {
-    미용업: '미용',
-    세탁업: '세탁',
-    숙박업: '숙박',
-  };
-
-  const getLabel = () => {
-    if (type === 'store') {
-      if (!category) return '착한가게';
-      return CATEGORY_LABEL_MAP[category] ?? category;
-    } else {
-      return TYPE_LABEL_MAP[type];
-    }
-  };
-
-  const label = getLabel();
+  const label = getLabel(type, category);
 
   return (
     <Link
-      href={`/godplaces/성수/detail`}
+      href={`/godplaces/성수/detail?type=${type}&id=${id}`}
       className="h-[91px] w-full min-w-[310px] cursor-pointer rounded-[10px] bg-[--white-color] px-[14px] py-[12px] shadow-[var(--shadow-md)] hover:scale-101 md:h-[100px] md:w-[324px]"
     >
       <div className="flex justify-between">
