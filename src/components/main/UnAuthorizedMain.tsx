@@ -18,6 +18,8 @@ import { BsPersonUp } from 'react-icons/bs';
 import SpendingGraph from './SpendingGraph';
 import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
+import { getAverageSaving } from '@/services/mainService';
+import { useEffect, useState } from 'react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -25,6 +27,19 @@ const fadeUp = {
 };
 
 export default function UnAuthorizedMain() {
+  const [totalSaving, setTotalSaving] = useState<number>(0);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const { totalsaving } = await getAverageSaving();
+        setTotalSaving(totalsaving);
+      } catch (e) {
+        console.error('평균 저축액 로드 실패', e);
+      }
+    }
+    fetchStats();
+  }, []);
   return (
     <>
       <div className="hide-scrollbar mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
@@ -41,7 +56,7 @@ export default function UnAuthorizedMain() {
               {' '}
               <CountUp
                 start={0}
-                end={123456789}
+                end={totalSaving}
                 duration={2}
                 separator=","
                 suffix="원"
