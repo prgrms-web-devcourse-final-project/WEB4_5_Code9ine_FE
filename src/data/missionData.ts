@@ -25,7 +25,7 @@ export const missionData = {
     {
       icon: receipt,
       des: '오늘 사용한 영수증 인증하기',
-      missionTitle: '영수증 기록러',
+      missionTitle: '찐 기록러',
     },
     {
       icon: zeroFood,
@@ -35,7 +35,7 @@ export const missionData = {
     {
       icon: zeroTransition,
       des: '하루 교통비 0원 달성',
-      missionTitle: '튼튼한 다리 소유자',
+      missionTitle: '강철 다리',
     },
   ],
   weekly: [
@@ -74,14 +74,14 @@ export const missionData = {
     {
       icon: salary,
       des: '월급 입력하기',
-      missionTitle: '내 돈 관리자',
+      missionTitle: '머니 매니저',
     },
   ],
   community: [
     {
       icon: noMoney,
       des: '하루 0원으로 이거까지?',
-      missionTitle: '노머니 생존자',
+      missionTitle: '제로 마스터',
     },
     {
       icon: angel,
@@ -91,12 +91,12 @@ export const missionData = {
     {
       icon: detective,
       des: '나가게 글 5개 이상 작성하기',
-      missionTitle: '숨은 맛집 탐정',
+      missionTitle: '숨.맛.탐',
     },
     {
       icon: noCafe,
       des: '노노 카페 데이',
-      missionTitle: '홈카페 마스터',
+      missionTitle: '노노 카페',
     },
     {
       icon: cook,
