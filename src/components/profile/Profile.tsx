@@ -25,7 +25,6 @@ export default function Profile({
         setUserData(data);
       })
       .catch((err) => console.log('마이페이지 에러', err));
-    console.log('useEffect');
   }, []);
 
   // if (!userData) return <div>loading</div>;
