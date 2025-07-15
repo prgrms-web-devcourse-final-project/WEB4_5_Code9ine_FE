@@ -4,7 +4,7 @@ import DefaultProfile from './DefaultProfile';
 export default function EditProfile({ onClose }: { onClose: () => void }) {
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
         <div className="relative h-[600px] w-[350px] items-center justify-center rounded-[10px] bg-[var(--white-color)] p-[25px] shadow-[var(--shadow-md)] select-none">
           <MdCancel
             onClick={onClose}
