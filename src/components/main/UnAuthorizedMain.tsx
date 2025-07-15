@@ -13,6 +13,7 @@ import godplace from '@/assets/mainpage/godplace.png';
 import girl from '@/assets/mainpage/girl.png';
 import boy from '@/assets/mainpage/boy.png';
 import board from '@/assets/mainpage/board.png';
+import challenge from '@/assets/mainpage/challenge.png';
 import { CiSearch } from 'react-icons/ci';
 import { BsPersonUp } from 'react-icons/bs';
 import SpendingGraph from './SpendingGraph';
@@ -213,11 +214,22 @@ export default function UnAuthorizedMain() {
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <p className="mt-[30px] md:text-[32px]">
+          <p className="mt-[30px] mb-[80px] text-center md:text-[32px]">
             내 돈 관리,
             <span className="text-[var(--main-color-3)]"> 챌린지</span>와 함께
             즐겁게!
           </p>
+
+          {/* wrapper에 반응형 크기 지정 */}
+          <div className="relative mx-auto h-[300px] w-[300px] md:h-[600px] md:w-[600px]">
+            <Image
+              src={challenge}
+              alt="챌린지"
+              fill
+              sizes="(max-width: 768px) 300px, 1033px" // 모바일에서는 300px, 그 이상에서는 1033px 사용
+              className="object-contain"
+            />
+          </div>
         </motion.div>
 
         {/* 가계부 소개란 */}

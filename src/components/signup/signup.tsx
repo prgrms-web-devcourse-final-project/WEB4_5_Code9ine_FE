@@ -25,6 +25,10 @@ export default function SignupBox() {
   const [serverError, setServerError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [codeError, setCodeError] = useState('');
+
   const validateEmail = (email: string): boolean =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -126,7 +130,7 @@ export default function SignupBox() {
   };
 
   return (
-    <div className="flex h-auto w-[270px] flex-col gap-[5px] rounded-[20px] bg-[var(--background)] p-8 pt-[50px] pb-[50px] md:h-[650px] md:w-[500px]">
+    <div className="flex h-auto w-[270px] flex-col gap-[5px] rounded-[20px] bg-[var(--background)] p-8 pt-[50px] pb-[50px] md:h-auto md:w-[500px]">
       {/* 닉네임 */}
       <div className="flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
@@ -183,13 +187,51 @@ export default function SignupBox() {
           <button
             type="button"
             className="cursor-pointer text-[12px] font-medium text-[var(--text-color)] hover:underline"
-            onClick={() => {
-              /* 인증 요청 로직 */
-            }}
+            onClick={() => setIsCodeSent(true)}
           >
-            인증하기
+            인증번호 받기
           </button>
         </div>
+        {/* 인증번호 입력 & 확인 버튼 (API 없이 토글만) */}
+        {isCodeSent && (
+          <>
+            <div className="mt-2 flex w-full items-center gap-2">
+              <input
+                type="text"
+                value={verificationCode}
+                onChange={(e) => {
+                  setVerificationCode(e.target.value);
+                  if (codeError) setCodeError('');
+                }}
+                placeholder="인증번호 입력"
+                className="h-[35px] flex-1 rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+              />
+            </div>
+            <div className="flex w-full items-center justify-between">
+              <p
+                className={`text-[12px] ${codeError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+              >
+                {codeError || '\u00A0'}
+              </p>
+              <button
+                type="button"
+                className="h-[35px] cursor-pointer rounded-[10px] text-[12px] font-medium text-[var(--text-color)] hover:underline"
+                onClick={() => {
+                  // 여기서 실제 검증 로직 대신 토글만 할 수도 있고
+                  if (!verificationCode) {
+                    setCodeError('코드를 입력해주세요');
+                  } else {
+                    // 검증 성공 처리 (예: 버튼 비활성화)
+                    setCodeError('');
+                    // setIsCodeSent(false) // 원하면 다시 숨기기
+                  }
+                }}
+              >
+                인증하기
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       {/* 비밀번호 */}
@@ -234,6 +276,35 @@ export default function SignupBox() {
         >
           {confirmPwdError || '\u00A0'}
         </p>
+      </div>
+
+      {/* 친구초대 */}
+      <div className="flex flex-col items-start self-center md:w-[300px]">
+        <p className="font-semibold text-[var(--main-color-3)] md:text-[20px]">
+          추천인
+        </p>
+        <input
+          type="text"
+          placeholder="추천인 코드를 입력해주세요"
+          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+        />
+        <div className="flex w-full items-center justify-between">
+          {/* TODO:추천인 api확인시 에러메시지 구현 */}
+          <p
+            className={`min-h-[12px] text-[12px] ${confirmPwdError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+          >
+            {confirmPwdError || '\u00A0'}
+          </p>
+          <button
+            type="button"
+            className="h-[35px] cursor-pointer rounded-[10px] text-[12px] font-medium text-[var(--text-color)] hover:underline"
+            onClick={() => {
+              //TODO:추천인 확인로직 구현
+            }}
+          >
+            추천인 코드 확인
+          </button>
+        </div>
       </div>
 
       {/* 이용약관 */}
