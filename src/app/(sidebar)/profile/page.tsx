@@ -2,8 +2,6 @@ import MyThreads from '@/components/profile/MyThreads';
 import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
-// import EditProfile from '@/components/profile/EditProfile';
-// import SetGoalModal from '@/components/profile/SetGoalModal';
 // import Modal from '@/components/common/Modal';
 export default function page() {
   return (
@@ -27,9 +25,6 @@ export default function page() {
           </div>
         </div>
       </div>
-
-      {/* <EditProfile /> */}
-      {/* <SetGoalModal /> */}
       {/* <Modal
             title="로그인 후 이용 가능해요!"
             buttons={

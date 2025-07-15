@@ -2,10 +2,12 @@
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import DetailCard from './DetailCard';
 import { useRouter } from 'next/navigation';
-
+interface DetailBoxProps {
+  showBackButton?: boolean;
+}
 const TYPE = '한식';
 
-export default function DetailBox() {
+export default function DetailBox({ showBackButton = true }: DetailBoxProps) {
   const router = useRouter();
 
   const dummyData = {
@@ -29,12 +31,14 @@ export default function DetailBox() {
 
   return (
     <div className="mt-[7px] pb-[20px] md:mt-[20px]">
-      <div
-        className="h-[22px] w-[22px] cursor-pointer md:mb-[10px] md:w-[30px]"
-        onClick={backHandler}
-      >
-        <IoIosArrowRoundBack className="ml-[8px] text-[20px] text-[var(--text-color-white)] md:ml-[12px] md:text-[25px]" />
-      </div>
+      {showBackButton && (
+        <div
+          className="h-[22px] w-[22px] cursor-pointer md:mb-[10px] md:w-[30px]"
+          onClick={backHandler}
+        >
+          <IoIosArrowRoundBack className="ml-[8px] text-[20px] text-[var(--text-color-white)] md:ml-[12px] md:text-[25px]" />
+        </div>
+      )}
       <div className="mb-[11px] pl-[9px] text-[16px] text-[var(--gray-color-2)] md:mb-[23px] md:pl-[12px] md:text-[20px]">
         상세 정보
       </div>
