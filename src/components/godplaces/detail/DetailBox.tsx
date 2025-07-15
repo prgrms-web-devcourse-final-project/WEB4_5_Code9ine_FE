@@ -61,6 +61,7 @@ export default function DetailBox({
       <div className="mb-[11px] pl-[9px] text-[16px] text-[var(--gray-color-2)] md:mb-[23px] md:pl-[12px] md:text-[20px]">
         상세 정보
       </div>
+      {!details && '로딩중'}
       {details && <DetailCard type={type} {...details} />}
     </div>
   );
