@@ -17,3 +17,7 @@ export const getGodplaceDetails = async (type: string, id: string) => {
     await fetch(`${url}/api/places/detail?type=${type}&id=${id}`)
   ).json();
 };
+
+export const getHotLocation = async () => {
+  return await (await fetch(`${url}/api/searches/top`)).json();
+};
