@@ -23,6 +23,7 @@ export default function Profile({
       .then((data) => {
         console.log('성공:', data);
         setUserData(data);
+        console.log(userData);
       })
       .catch((err) => console.log('마이페이지 에러', err));
   }, []);
@@ -31,25 +32,33 @@ export default function Profile({
   return (
     <>
       <div className="my-[20px] flex w-full flex-col items-center justify-center">
-        <DefaultProfile />
-        <p className="mt-[10px] text-[20px] font-semibold text-[var(--main-color-3)]">
-          유저 닉네임{' '}
-          <span className="text-[16px] font-normal text-[var(--gray-color-2)]">
-            LV.1
-          </span>{' '}
-        </p>
-        <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">절약왕</p>
-        <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
-          다음 레벨까지
-        </span>
-        <ProgressBar
-          completed={70}
-          width="200px"
-          height="20px"
-          bgColor="var(--main-color-3)"
-          baseBgColor="var(--white-color)"
-          labelVisible={true}
-        />
+        {userData ? (
+          <>
+            <DefaultProfile />
+            <p className="mt-[10px] text-[20px] font-semibold text-[var(--main-color-3)]">
+              {userData.name}{' '}
+              <span className="text-[16px] font-normal text-[var(--gray-color-2)]">
+                {userData.level}
+              </span>{' '}
+            </p>
+            <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">
+              절약왕
+            </p>
+            <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
+              다음 레벨까지
+            </span>
+            <ProgressBar
+              completed={70}
+              width="200px"
+              height="20px"
+              bgColor="var(--main-color-3)"
+              baseBgColor="var(--white-color)"
+              labelVisible={true}
+            />
+          </>
+        ) : (
+          <p>불러오는 중</p>
+        )}
 
         {!isPersonal && (
           <div className="mt-[10px] flex items-center gap-[10px] text-[16px]">
