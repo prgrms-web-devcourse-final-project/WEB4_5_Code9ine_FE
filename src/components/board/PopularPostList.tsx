@@ -25,7 +25,7 @@ export default function PopularPostList() {
     const fetchPopularPosts = async () => {
       try {
         const res = await fetch(
-          'http://34.60.162.230/api/community/posts/top',
+          process.env.NEXT_PUBLIC_API_BASE_URL + '/api/community/posts/top',
           {
             headers: {
               Accept: 'application/json',
