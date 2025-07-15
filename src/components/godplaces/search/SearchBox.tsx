@@ -1,6 +1,7 @@
 'use client';
 import { useGodplacesStore } from '@/stores/godplacesStore';
-import { ChangeEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, KeyboardEvent } from 'react';
 import { CiSearch } from 'react-icons/ci';
 
 export default function SearchBox({
@@ -8,7 +9,10 @@ export default function SearchBox({
 }: {
   classType: 'beforeSearch' | 'afterSearch';
 }) {
+  const router = useRouter();
+  const location = useGodplacesStore((state) => state.location);
   const setLocation = useGodplacesStore((state) => state.setLocation);
+  const category = useGodplacesStore((state) => state.category);
 
   const divSizeVariants = {
     beforeSearch:
@@ -38,6 +42,14 @@ export default function SearchBox({
     setLocation(e.target.value);
   };
 
+  const searchHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      console.log(location);
+      router.push(`/godplaces/${location}?${Array.from(category).join(',')}`);
+    }
+    console.log(e);
+  };
+
   return (
     <div className="w-full md:w-[850px]">
       <div
@@ -51,7 +63,8 @@ export default function SearchBox({
           placeholder="Ex. 성동구"
           className={`focus:outline-none ${inputSizeVariants[classType]} ${inputColorVariants[classType]}`}
           onChange={inputHandler}
-          // value="성동구"
+          value={location}
+          onKeyDown={searchHandler}
         />
       </div>
     </div>

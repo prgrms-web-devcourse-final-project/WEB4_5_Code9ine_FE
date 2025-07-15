@@ -1,25 +1,23 @@
 'use client';
 import { getGodplaces } from '@/lib/api/godplaces';
 import SearchListCard from './SearchListCard';
-import { useGodplacesStore } from '@/stores/godplacesStore';
 import { startTransition, useEffect, useState } from 'react';
 import { GodplacesSearchList } from '@/types/godplaces';
 
-export default function SearchListBox() {
-  const location = useGodplacesStore((state) => state.location);
+export default function SearchListBox({ region }: { region: string }) {
   const [godplaces, setGodplaces] = useState<GodplacesSearchList[]>([]);
 
   useEffect(() => {
     startTransition(async () => {
       try {
-        const res = await getGodplaces(location);
-        console.log(res.data);
+        const res = await getGodplaces(region);
+        console.log(res);
         setGodplaces(res.data);
       } catch (e) {
         console.error('god places fetch error', e);
       }
     });
-  }, [location]);
+  }, [region]);
 
   return (
     <div className="flex flex-1 flex-col py-[13px] md:h-full md:py-[28px]">
@@ -30,8 +28,11 @@ export default function SearchListBox() {
         {godplaces.map((d, idx) => (
           <SearchListCard
             key={idx}
-            type={d.category ? d.category : d.type}
+            category={d.category}
+            type={d.type}
             name={d.name}
+            firstMenu={d.firstmenu}
+            firstPrice={d.firstprice}
           />
         ))}
       </div>

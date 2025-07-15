@@ -4,21 +4,39 @@ import { BsStar } from 'react-icons/bs';
 import { IoCheckmark } from 'react-icons/io5';
 
 export default function SearchListCard({
+  category,
   type,
   name,
+  firstMenu,
+  firstPrice,
 }: {
+  category: string | null;
   type: string;
   name: string;
+  firstMenu?: string;
+  firstPrice?: string;
 }) {
-  const CATEGORY_LABEL_MAP: Record<string, string> = {
+  const TYPE_LABEL_MAP: Record<string, string> = {
     festival: '축제',
     library: '도서관',
+  };
+
+  const CATEGORY_LABEL_MAP: Record<string, string> = {
     미용업: '미용',
     세탁업: '세탁',
     숙박업: '숙박',
   };
 
-  const label = CATEGORY_LABEL_MAP[type] ?? type;
+  const getLabel = () => {
+    if (type === 'store') {
+      if (!category) return '착한가게';
+      return CATEGORY_LABEL_MAP[category] ?? category;
+    } else {
+      return TYPE_LABEL_MAP[type];
+    }
+  };
+
+  const label = getLabel();
 
   return (
     <Link
@@ -39,10 +57,18 @@ export default function SearchListCard({
         <BsStar className="mt-[-2px] size-[12px] text-[var(--point-color-1)] md:size-[18px]" />
         {/* <BsStarFill className="mt-[-2px] size-[18px] text-[var(--point-color-1)]" /> */}
       </div>
-      <div className="flex gap-[6px] text-[12px] md:text-[14px]">
-        <div>입장료</div>
-        <div>0원</div>
-      </div>
+      {type === 'store' && (
+        <div className="flex gap-[6px] text-[12px] md:text-[14px]">
+          <div>{firstMenu}</div>
+          <div>{firstPrice}원</div>
+        </div>
+      )}
+      {type !== 'store' && (
+        <div className="flex gap-[6px] text-[12px] md:text-[14px]">
+          <div>입장료</div>
+          <div>0원</div>
+        </div>
+      )}
     </Link>
   );
 }
