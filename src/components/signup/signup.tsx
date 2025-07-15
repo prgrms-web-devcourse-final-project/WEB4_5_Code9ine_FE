@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../login/SignupButton';
-import { signUp, SignUpPayload } from '@/services/authService';
+import { signUp, SignUpPayload, checkNickname } from '@/services/authService';
 
 export default function SignupBox() {
   const router = useRouter();
@@ -32,6 +32,28 @@ export default function SignupBox() {
     /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$/.test(
       pwd,
     );
+
+  useEffect(() => {
+    if (nickname.trim().length < 2) {
+      setNicknameError('');
+      return;
+    }
+
+    const handler = setTimeout(async () => {
+      try {
+        const { available } = await checkNickname({ nickname });
+        setNicknameError(
+          available
+            ? '사용 가능한 닉네임입니다.'
+            : '이미 사용 중인 닉네임입니다.',
+        );
+      } catch {
+        setNicknameError('닉네임 확인에 실패했습니다.');
+      }
+    }, 500); // 0.5초 디바운스
+
+    return () => clearTimeout(handler);
+  }, [nickname]);
 
   const handleSignup = async () => {
     let valid = true;
@@ -119,8 +141,15 @@ export default function SignupBox() {
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
           maxLength={6}
         />
+
         <p
-          className={`min-h-[12px] text-[12px] ${nicknameError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+          className={`min-h-[12px] text-[12px] ${
+            nicknameError
+              ? nicknameError === '사용 가능한 닉네임입니다.'
+                ? 'text-green-500'
+                : 'text-[var(--point-color-2)]'
+              : 'invisible'
+          } `}
         >
           {nicknameError || '\u00A0'}
         </p>
@@ -141,11 +170,24 @@ export default function SignupBox() {
           placeholder="example@gmail.com"
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
-        <p
-          className={`min-h-[12px] text-[12px] ${emailError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
-        >
-          {emailError || '\u00A0'}
-        </p>
+        <div className="mt-1 flex w-full items-center justify-between">
+          <p
+            className={`text-[12px] ${
+              emailError ? 'text-[var(--point-color-2)]' : 'invisible'
+            }`}
+          >
+            {emailError || '\u00A0'}
+          </p>
+          <button
+            type="button"
+            className="cursor-pointer text-[12px] font-medium text-[var(--text-color)] hover:underline"
+            onClick={() => {
+              /* 인증 요청 로직 */
+            }}
+          >
+            인증하기
+          </button>
+        </div>
       </div>
 
       {/* 비밀번호 */}
