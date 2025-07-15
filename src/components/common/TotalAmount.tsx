@@ -1,7 +1,16 @@
-import { useDummyData } from '@/stores/dummyStore';
+'use client';
+import { fetchCalendarAccount } from '@/data/accountData';
+import { CalendarList } from '@/types/payData';
+import { useEffect, useState } from 'react';
 
 export default function TotalAmount({ textSize }: { textSize?: string }) {
-  const { dummyData } = useDummyData();
+  const [data, setData] = useState<CalendarList>();
+
+  useEffect(() => {
+    fetchCalendarAccount()
+      .then(setData)
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div
@@ -10,14 +19,14 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
       <div>
         <span>7월 9일까지의 총수입은 </span>
         <span className="text-[var(--main-color-3)]">
-          {dummyData.totalIncome.toLocaleString('ko-KR')}
+          {data?.data.totalIncome.toLocaleString('ko-KR')}
         </span>
         <span>원이에요</span>
       </div>
       <div>
         <span>7월 9일까지의 총지출은 </span>
         <span className="text-[var(--point-color-1)]">
-          {dummyData.totalExpense.toLocaleString('ko-KR')}
+          {data?.data.totalExpense.toLocaleString('ko-KR')}
         </span>
         <span>원이에요</span>
       </div>

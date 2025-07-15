@@ -3,7 +3,7 @@ import { PayList } from '@/types/payData';
 import CardMenu from './CardMenu';
 import { IoEllipsisVertical } from 'react-icons/io5';
 import MobileCardMenu from './MobileCardMenu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ListCard({
   value,
@@ -13,6 +13,11 @@ export default function ListCard({
   index: number;
 }) {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [price, setPrice] = useState<string>('0원');
+
+  useEffect(() => {
+    setPrice(value.price.toLocaleString('ko-KR'));
+  }, [value.price]);
   return (
     <>
       <div className="group relative mx-[3px] mb-[15px] flex min-h-[95px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md hover:z-50 md:w-[310px]">
@@ -25,16 +30,16 @@ export default function ListCard({
             <p>{value.content}</p>
           </div>
         </div>
-        {value.type === 'expense' ? (
+        {value.type === '지출' ? (
           <div className="absolute right-[20px]">
             <span className="ml-[26px] text-[var(--point-color-1)]">
-              -{value.price.toLocaleString('ko-KR')}원
+              -{price}원
             </span>
           </div>
         ) : (
           <div className="absolute right-[20px]">
             <span className="ml-[26px] text-[var(--main-color-3)]">
-              +{value.price.toLocaleString('ko-KR')}원
+              +{price}원
             </span>
           </div>
         )}

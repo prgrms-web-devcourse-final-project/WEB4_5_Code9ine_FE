@@ -2,16 +2,18 @@
 import ColoredBox from '@/components/layout/coloredBox';
 import AuthorizedMain from '@/components/main/AuthorizedMain';
 import UnAuthorizedMain from '@/components/main/UnAuthorizedMain';
-import { useState } from 'react';
+import { useDummyData } from '@/stores/dummyStore';
+import { useEffect, useState } from 'react';
 
 export default function Page() {
   const [loginState, setLoginState] = useState<boolean>(false);
-  const handleLogin = (login: boolean) => {
-    setLoginState(login);
-  };
+  const {isLogin} = useDummyData()
+  useEffect(() => {
+    setLoginState(isLogin)
+  },[isLogin])
   return (
     <>
-      <ColoredBox changeLogin={handleLogin} />
+      <ColoredBox />
       {/* <h1>Home Component</h1> */}
       {!loginState ? <UnAuthorizedMain /> : <AuthorizedMain />}
     </>
