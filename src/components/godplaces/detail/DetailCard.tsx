@@ -14,7 +14,7 @@ export default function DetailCard({
   const label = getLabel(type, props.category);
 
   return (
-    <div className="hide-scrollbar flex min-h-[180px] flex-1 flex-col gap-[16px] overflow-y-scroll px-[18px] md:h-[745px] md:gap-[20px] md:px-[32px]">
+    <div className="hide-scrollbar flex min-h-[180px] flex-1 flex-col gap-[16px] overflow-y-scroll px-[18px] md:h-auto md:gap-[20px] md:px-[32px]">
       <DetailTopInfo
         type={label}
         name={props.name}

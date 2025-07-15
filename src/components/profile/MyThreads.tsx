@@ -4,7 +4,7 @@ import PostItem from '../board/PostItem';
 import ThreadsTab from './ThreadsTab';
 import DetailBox from '../godplaces/detail/DetailBox';
 import { useState } from 'react';
-// import DetailBox from '../godplaces/detail/DetailBox';
+
 export default function MyThreads() {
   const [selectedTab, setSelectedTab] = useState<'thread' | 'saved' | 'place'>(
     'thread',
@@ -16,7 +16,14 @@ export default function MyThreads() {
       <SetGoal />
       <ThreadsTab selectedTab={selectedTab} onChange={setSelectedTab} />
 
-      <div className="mt-[40px] flex w-full flex-col gap-[20px] p-[20px]">
+      {/* ✅ 탭에 따라 레이아웃 변경 */}
+      <div
+        className={`mt-[40px] w-full gap-[20px] p-[20px] ${
+          selectedTab === 'place'
+            ? 'grid grid-cols-1 md:grid-cols-2'
+            : 'flex flex-col'
+        }`}
+      >
         {selectedTab === 'thread' || selectedTab === 'saved'
           ? threadList.map((_, i) => (
               <div key={i}>
