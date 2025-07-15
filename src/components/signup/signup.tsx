@@ -33,6 +33,7 @@ export default function SignupBox() {
       pwd,
     );
 
+  //닉네임 중복검사 로직
   useEffect(() => {
     if (nickname.trim().length < 2) {
       setNicknameError('');
@@ -50,11 +51,12 @@ export default function SignupBox() {
       } catch {
         setNicknameError('닉네임 확인에 실패했습니다.');
       }
-    }, 500); // 0.5초 디바운스
+    }, 500);
 
     return () => clearTimeout(handler);
   }, [nickname]);
 
+  //가입하기 버튼 함수
   const handleSignup = async () => {
     let valid = true;
     setServerError('');
