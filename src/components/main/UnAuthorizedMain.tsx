@@ -19,6 +19,8 @@ import SpendingGraph from './SpendingGraph';
 import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { getAverageSaving } from '@/services/mainService';
+import { getTopSavers, TopSaver } from '@/services/mainService';
+
 import { useEffect, useState } from 'react';
 
 const fadeUp = {
@@ -28,7 +30,9 @@ const fadeUp = {
 
 export default function UnAuthorizedMain() {
   const [totalSaving, setTotalSaving] = useState<number>(0);
+  const [topChallenges, setTopChallenges] = useState<TopSaver[]>([]);
 
+  //평균 저축
   useEffect(() => {
     async function fetchStats() {
       try {
@@ -40,6 +44,14 @@ export default function UnAuthorizedMain() {
     }
     fetchStats();
   }, []);
+
+  //유저들이 달성한 top3챌린지
+  useEffect(() => {
+    getTopSavers()
+      .then((data) => setTopChallenges(data))
+      .catch((e) => console.error('챌린지 TOP3 로드 실패', e));
+  }, []);
+
   return (
     <>
       <div className="hide-scrollbar mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
@@ -73,7 +85,7 @@ export default function UnAuthorizedMain() {
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <SpendingGraph userAmount={1200000} titaeAmount={700000} />
+          <SpendingGraph userAmount={2480000} titaeAmount={1850000} />
         </motion.div>
 
         {/* 이번주 티태왕 TOP3 */}
@@ -130,50 +142,19 @@ export default function UnAuthorizedMain() {
             <span className="text-[var(--main-color-3)]"> TOP3</span>
           </p>
 
-          {/* 1위 */}
-          <div className="flex items-center gap-2 md:gap-4">
-            <div className="relative h-[50px] w-[50px] md:h-[90px] md:w-[90px]">
-              <Image
-                src={rank1}
-                alt="가장많이한챌린지1"
-                fill
-                className="object-contain"
-              />
+          {topChallenges.slice(0, 3).map((item, idx) => (
+            <div key={idx} className="flex items-center gap-2 md:gap-4">
+              <div className="relative h-[50px] w-[50px] md:h-[90px] md:w-[90px]">
+                <Image
+                  src={idx === 0 ? rank1 : idx === 1 ? rank2 : rank3}
+                  alt={`챌린지 ${idx + 1}위 이미지`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <p className="text-[14px] md:text-[20px]">{item.name}</p>
             </div>
-            <p className="text-[14px] md:text-[20px]">
-              1만원으로 하루 살아보기!
-            </p>
-          </div>
-
-          {/* 2위 */}
-          <div className="flex items-center gap-2 md:gap-4">
-            <div className="relative h-[50px] w-[50px] md:h-[90px] md:w-[90px]">
-              <Image
-                src={rank2}
-                alt="가장많이한챌린지2"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <p className="text-[14px] md:text-[20px]">
-              하루 식비카테고리 0원 달성
-            </p>
-          </div>
-
-          {/* 3위 */}
-          <div className="flex items-center gap-2 md:gap-4">
-            <div className="relative h-[50px] w-[50px] md:h-[90px] md:w-[90px]">
-              <Image
-                src={rank3}
-                alt="가장많이한챌린지3"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <p className="text-[14px] md:text-[20px]">
-              오늘 사용한 영수증 인증하기
-            </p>
-          </div>
+          ))}
         </motion.div>
 
         <motion.div
@@ -274,7 +255,7 @@ export default function UnAuthorizedMain() {
 
         {/* 챗봇 */}
         <motion.div
-          className="flex flex-col-reverse items-center gap-6 md:flex-row md:items-center md:gap-[130px]"
+          className="flex flex-col-reverse items-center gap-6 md:flex-row md:items-center md:gap-[170px]"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
@@ -322,7 +303,7 @@ export default function UnAuthorizedMain() {
 
         {/* 갓플레이스 */}
         <motion.div
-          className="flex flex-col items-center gap-[20px] md:flex-row md:gap-[100px]"
+          className="flex flex-col items-center gap-[20px] md:flex-row md:gap-[140px]"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
