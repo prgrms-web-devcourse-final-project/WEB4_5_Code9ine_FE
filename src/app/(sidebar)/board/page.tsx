@@ -30,7 +30,7 @@ export default function Page() {
                 onChange={setSelectedTab}
               />
             </div>
-            <PostWriteForm />
+            <PostWriteForm category={selectedTab} />
           </div>
           <div className="mb-[15px]">
             <PostItem />
