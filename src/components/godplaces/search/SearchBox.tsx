@@ -44,10 +44,13 @@ export default function SearchBox({
 
   const searchHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      console.log(location);
-      router.push(`/godplaces/${location}?${Array.from(category).join(',')}`);
+      // console.log(location);
+      // console.log(category);
+      const searchCategory =
+        category.size === 0 ? null : Array.from(category).join(',');
+      router.push(`/godplaces/${location}?category=${searchCategory}`);
     }
-    console.log(e);
+    // console.log(e);
   };
 
   return (

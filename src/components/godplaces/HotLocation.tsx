@@ -26,7 +26,7 @@ export default function HotLocation() {
     });
   }, []);
 
-  console.log(hotLocations);
+  // console.log(hotLocations);
 
   return (
     <>

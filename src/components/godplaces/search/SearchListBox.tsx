@@ -4,20 +4,26 @@ import SearchListCard from './SearchListCard';
 import { startTransition, useEffect, useState } from 'react';
 import { GodplacesSearchList } from '@/types/godplaces';
 
-export default function SearchListBox({ region }: { region: string }) {
+export default function SearchListBox({
+  region,
+  category,
+}: {
+  region: string;
+  category: string;
+}) {
   const [godplaces, setGodplaces] = useState<GodplacesSearchList[]>();
 
   useEffect(() => {
     startTransition(async () => {
       try {
-        const res = await getGodplaces(region);
+        const res = await getGodplaces(region, category);
         console.log(res);
         setGodplaces(res.data);
       } catch (e) {
         console.error('god places fetch error', e);
       }
     });
-  }, [region]);
+  }, [region, category]);
 
   return (
     <div className="flex flex-1 flex-col py-[13px] md:h-full md:py-[28px]">
