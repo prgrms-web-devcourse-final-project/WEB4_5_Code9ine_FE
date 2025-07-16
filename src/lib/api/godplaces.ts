@@ -7,62 +7,59 @@ const options = {
 };
 
 export const getGodplaces = async (location: string, category: string) => {
-  if (category !== 'null') {
-    const searchType: string[] = category.split(',');
-
-    const typeArr: string[] = [];
-    const categoryArr: string[] = [];
-    searchType.forEach((d) => {
-      if (d === '도서관') {
-        typeArr.push('library');
-      } else if (d === '축제') {
-        typeArr.push('festival');
-      } else {
-        typeArr.push('store');
-        if (d === '미용') {
-          categoryArr.push('미용업');
-        } else if (d === '세탁') {
-          categoryArr.push('세탁업');
-        } else if (d === '숙박') {
-          categoryArr.push('숙박업');
-        } else {
-          categoryArr.push(d);
-        }
-      }
-    });
-
-    console.log(typeArr, categoryArr);
-
-    if (typeArr.length > 0) {
-      // console.log(`location=${location}&type=${typeArr.join(',')}`);
-
-      if (categoryArr.length > 0) {
-        return await (
-          await fetch(
-            `${url}/api/places/search?location=${location}&type=${typeArr.join(',')}&category=${categoryArr.join(',')}`,
-            {
-              ...options,
-            },
-          )
-        ).json();
-      } else {
-        return await (
-          await fetch(
-            `${url}/api/places/search?location=${location}&type=${typeArr.join(',')}`,
-            {
-              ...options,
-            },
-          )
-        ).json();
-      }
-    }
-  } else {
+  if (category === 'null') {
     return await (
       await fetch(`${url}/api/places/search?location=${location}`, {
         ...options,
       })
     ).json();
   }
+
+  const query = new URLSearchParams({ location: decodeURIComponent(location) });
+  const searchTypes = category.split(',');
+
+  const typeMap: Record<string, string> = {
+    도서관: 'library',
+    축제: 'festival',
+  };
+
+  const categoryMap: Record<string, string> = {
+    미용: '미용업',
+    세탁: '세탁업',
+    숙박: '숙박업',
+  };
+
+  const typeSet = new Set<string>();
+  const categorySet = new Set<string>();
+
+  for (const item of searchTypes) {
+    const mappedType = typeMap[item];
+    if (mappedType) {
+      typeSet.add(mappedType);
+    } else {
+      typeSet.add('store');
+      const mappedCategory = categoryMap[item];
+      if (mappedCategory) {
+        categorySet.add(mappedCategory);
+      } else {
+        categorySet.add(item);
+      }
+    }
+  }
+
+  if (typeSet.size > 0) {
+    query.append('type', Array.from(typeSet).join(','));
+  }
+
+  if (categorySet.size > 0) {
+    query.append('category', Array.from(categorySet).join(','));
+  }
+
+  return await (
+    await fetch(`${url}/api/places/search?${query.toString()}`, {
+      ...options,
+    })
+  ).json();
 };
 
 export const getGodplaceDetails = async (type: string, id: string) => {
