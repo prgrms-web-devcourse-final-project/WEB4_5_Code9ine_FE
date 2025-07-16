@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from './SignupButton';
 import { login, LoginPayload } from '@/services/authService';
+import toast from 'react-hot-toast';
 
 export default function LoginBox() {
   const router = useRouter();
