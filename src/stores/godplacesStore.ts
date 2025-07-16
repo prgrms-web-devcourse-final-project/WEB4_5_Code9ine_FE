@@ -5,6 +5,7 @@ type GodplacesStore = {
   setLocation: (newLocation: string) => void;
   category: Set<string>;
   setCategory: (type: string) => void;
+  reset: () => void;
 };
 
 export const useGodplacesStore = create<GodplacesStore>((set) => ({
@@ -18,4 +19,5 @@ export const useGodplacesStore = create<GodplacesStore>((set) => ({
       else newSet.add(type);
       return { category: newSet };
     }),
+  reset: () => set({ location: '', category: new Set() }),
 }));
