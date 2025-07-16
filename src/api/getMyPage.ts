@@ -1,5 +1,5 @@
-import { UserData } from '@/types/userType';
-export async function getMyPage(): Promise<UserData> {
+import { GetMyPageData } from '@/types/userType';
+export async function getMyPage(): Promise<GetMyPageData> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/members/mypage`,
     {
