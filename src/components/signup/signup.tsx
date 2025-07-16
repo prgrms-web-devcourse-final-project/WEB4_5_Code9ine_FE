@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../login/SignupButton';
 import { signUp, SignUpPayload, checkNickname } from '@/services/authService';
+import toast from 'react-hot-toast';
 
 export default function SignupBox() {
   const router = useRouter();
@@ -22,7 +23,6 @@ export default function SignupBox() {
   const [agree, setAgree] = useState(false);
   const [agreeError, setAgreeError] = useState('');
 
-  const [serverError, setServerError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -63,7 +63,6 @@ export default function SignupBox() {
   //가입하기 버튼 함수
   const handleSignup = async () => {
     let valid = true;
-    setServerError('');
 
     // 닉네임 검사
     if (nickname.trim().length < 2 || nickname.trim().length > 6) {
@@ -116,14 +115,16 @@ export default function SignupBox() {
     try {
       setLoading(true);
       const payload: SignUpPayload = { name: nickname, email, password };
-      await signUp(payload);
+
+      const { message } = await signUp(payload);
+
+      toast.success(message);
       router.push('/login');
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setServerError(err.message);
-      } else {
-        setServerError('알 수 없는 오류가 발생했습니다');
-      }
+      const msg =
+        err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.';
+
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -290,11 +291,11 @@ export default function SignupBox() {
         />
         <div className="flex w-full items-center justify-between">
           {/* TODO:추천인 api확인시 에러메시지 구현 */}
-          <p
+          {/* <p
             className={`min-h-[12px] text-[12px] ${confirmPwdError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
           >
             {confirmPwdError || '\u00A0'}
-          </p>
+          </p> */}
           <button
             type="button"
             className="h-[35px] cursor-pointer rounded-[10px] text-[12px] font-medium text-[var(--text-color)] hover:underline"
@@ -337,13 +338,6 @@ export default function SignupBox() {
           {agreeError || '\u00A0'}
         </p>
       </div>
-
-      {/* 서버 에러 */}
-      {serverError && (
-        <p className="mt-2 self-center text-[12px] text-[var(--point-color-2)]">
-          {serverError}
-        </p>
-      )}
 
       {/* 가입하기 버튼 */}
       <div className="mt-2 flex w-full self-center md:w-[300px]">

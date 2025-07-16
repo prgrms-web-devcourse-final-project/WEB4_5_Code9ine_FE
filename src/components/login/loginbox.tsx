@@ -14,12 +14,12 @@ export default function LoginBox() {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  const [serverError, setServerError] = useState('');
+  // const [serverError, setServerError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     let valid = true;
-    setServerError('');
+    // setServerError('');
 
     if (!email.trim()) {
       setEmailError('아이디를 입력해주세요');
@@ -40,15 +40,17 @@ export default function LoginBox() {
     setLoading(true);
     try {
       const payload: LoginPayload = { email, password };
-      const data = await login(payload);
+      const { data, message } = await login(payload);
 
       localStorage.setItem('accessToken', data.accessToken);
+      toast.success(message);
+
+      router.push('/');
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setServerError(err.message);
-      } else {
-        setServerError('알 수 없는 오류가 발생했습니다.');
-      }
+      const msg =
+        err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.';
+      // setServerError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -62,12 +64,12 @@ export default function LoginBox() {
         환영합니다!
       </p>
 
-      {/* 서버 에러 */}
+      {/* 서버 에러
       {serverError && (
         <p className="mb-2 text-center text-[var(--point-color-2)]">
           {serverError}
         </p>
-      )}
+      )} */}
 
       {/* 이메일 입력 */}
       <div className="flex w-[200px] flex-col items-start gap-1 self-center md:w-[300px]">
@@ -140,6 +142,21 @@ export default function LoginBox() {
           className="cursor-pointer self-center text-[14px] font-semibold text-[var(--main-color-3)] md:text-[18px]"
         >
           회원가입 하러 가기
+        </p>
+      </div>
+      {/* 아이디 비밀번호찾기 */}
+      <div className="flex justify-center gap-4 self-center">
+        <p
+          onClick={() => router.push('/findid')}
+          className="cursor-pointer text-[14px] font-semibold text-[var(--main-color-3)] md:text-[18px]"
+        >
+          아이디 찾기
+        </p>
+        <p
+          onClick={() => router.push('/findpassword')}
+          className="cursor-pointer text-[14px] font-semibold text-[var(--main-color-3)] md:text-[18px]"
+        >
+          비밀번호 찾기
         </p>
       </div>
     </div>
