@@ -1,21 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AiChat from './AiChat';
 import Calander from './Calander';
 import ListArea from './ListArea';
 import AccountAdd from './AccountAdd';
 import TotalAmount from '../common/TotalAmount';
-import { useDummyData } from '@/stores/dummyStore';
+import Image from 'next/image';
+import AIBot from '../../assets/TiTae.svg';
 
 export default function Page() {
+  const [isClient, setIsClient] = useState<boolean>(false);
   const [isInsert, setIsInsert] = useState<boolean>(false);
-  const { dummyData } = useDummyData();
 
   const handleMenu = (handle: boolean) => {
     setIsInsert(handle);
-    console.log(handle);
   };
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  if (!isClient) {
+    return null;
+  }
   return (
     <>
       <div className="relative md:flex md:gap-[15px]">
@@ -26,13 +32,15 @@ export default function Page() {
         </div>
         <div className="relative md:flex md:flex-col">
           <div className="mx-[15px] mt-[9px] mb-[16px] flex text-[20px] md:mx-[13px]">
-            <TotalAmount data={dummyData} />
+            <TotalAmount />
             <div className="absolute right-[30px] md:ml-[290px] md:size-[80px] md:rounded-full md:border-1 md:border-[var(--main-color-3)]"></div>
           </div>
           <Calander onDataChange={handleMenu} />
         </div>
-        <div className="mt-[15px] flex h-[870px] flex-col md:mt-[0px]">
-          <div className="hidden w-full flex-col rounded-[10px] bg-[var(--white-color)] shadow-md md:flex md:min-h-[100px] md:w-[350px]">
+        <div className="mt-[15px] flex flex-col md:mt-[0px] md:h-[870px]">
+          <div
+            className={`hidden w-full flex-col rounded-[10px] bg-[var(--white-color)] shadow-md md:flex ${isInsert ? 'md:h-[870px]' : 'md:h-[785px]'} md:min-h-[100px] md:w-[350px]`}
+          >
             {isInsert ? <AccountAdd onDataChange={handleMenu} /> : <ListArea />}
           </div>
           <div className="hidden items-center justify-center md:flex">
@@ -41,6 +49,9 @@ export default function Page() {
           <div className="mt-[40px] md:hidden">
             <ListArea />
           </div>
+        </div>
+        <div className="fixed right-[20px] bottom-[20px] z-70 flex size-[60px] items-center justify-center overflow-hidden rounded-full border-[var(--main-color-2)] bg-[var(--white-color)] shadow-md md:hidden">
+          <Image src={AIBot} height={55} alt="titae" />
         </div>
       </div>
     </>

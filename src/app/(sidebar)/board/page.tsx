@@ -4,6 +4,7 @@ import CommunityTab from '@/components/board/CommunityTab';
 import PopularPostList from '@/components/board/PopularPostList';
 import PostItem from '@/components/board/PostItem';
 import PostWriteForm from '@/components/board/PostWriteForm';
+import TopButton from '@/components/board/TopButton';
 import { useState } from 'react';
 
 export default function Page() {
@@ -18,7 +19,10 @@ export default function Page() {
           <PopularPostList />
         </div>
 
-        <div className="hide-scrollbar order-2 mt-[15px] flex h-[869px] w-full flex-col overflow-y-auto rounded-[10px] bg-[var(--white-color)] p-4 shadow md:order-1 md:mt-0 md:w-[756px]">
+        <div
+          id="scrollTop-content"
+          className="hide-scrollbar relative order-2 mt-[15px] flex h-[869px] w-full flex-col overflow-y-auto rounded-[10px] bg-[var(--white-color)] p-4 shadow md:order-1 md:mt-0 md:w-[756px]"
+        >
           <div className="mb-[25px]">
             <div className="mt-[15px] mb-[30px]">
               <CommunityTab
@@ -26,7 +30,7 @@ export default function Page() {
                 onChange={setSelectedTab}
               />
             </div>
-            <PostWriteForm />
+            <PostWriteForm category={selectedTab} />
           </div>
           <div className="mb-[15px]">
             <PostItem />
@@ -34,6 +38,19 @@ export default function Page() {
           <div className="mb-[15px]">
             <PostItem />
           </div>
+          <div className="mb-[15px]">
+            <PostItem />
+          </div>
+          <div className="mb-[15px]">
+            <PostItem />
+          </div>
+          <div className="mb-[15px]">
+            <PostItem />
+          </div>
+          <div className="mb-[15px]">
+            <PostItem />
+          </div>
+          <TopButton scrollTargetId="scrollTop-content" />
         </div>
       </div>
     </>

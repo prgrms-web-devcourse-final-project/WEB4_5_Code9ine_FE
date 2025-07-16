@@ -36,7 +36,9 @@
   color: var(--text-color) !important;
 }
 
-.react-datepicker__day:not(.react-datepicker__day--disabled) {
+.react-datepicker__day:not(.react-datepicker__day--disabled):not(
+    .react-datepicker__day--selected
+  ) {
   color: var(--text-color) !important;
   cursor: pointer;
 }

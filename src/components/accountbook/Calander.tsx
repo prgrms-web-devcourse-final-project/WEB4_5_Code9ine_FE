@@ -4,41 +4,62 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../../css/CustomCalender.css';
 import { format } from 'date-fns';
-import { useDummyData } from '@/stores/dummyStore';
+import { useEffect, useState } from 'react';
+import { fetchCalendarAccount } from '@/data/accountData';
+import { CalendarList } from '@/types/payData';
+import { Value } from 'react-calendar/dist/shared/types.js';
 
 export default function Calander({
   onDataChange,
 }: {
   onDataChange: (arg0: boolean) => void;
 }) {
-  const { dummyCalendar } = useDummyData();
+  const [data, setData] = useState<CalendarList>();
+  const [date, setDate] = useState<Date | null>(null);
 
+  const onChange = (newDate: Value) => {
+    if (newDate instanceof Date) {
+      setDate(newDate);
+    }
+  };
+
+  console.log(date);
+
+  useEffect(() => {
+    fetchCalendarAccount()
+      .then(setData)
+      .catch((err) => console.error(err));
+    setDate(new Date());
+  }, []);
   const addContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === 'month') {
-      const formattedCurrentDate = format(date, 'yyyy-MM-dd');
+      const formattedCurrentDate = format(date, 'yyyy/MM-dd');
 
-      const dayData = dummyCalendar.days.filter(
+      const dayData = (data?.data?.days ?? []).filter(
         (item) => item.date === formattedCurrentDate,
       );
 
-      if (dayData.length > 0) {
+      if (dayData?.length > 0) {
         return (
           <div className="w-full">
-            {dayData.map((item, index) => (
+            {dayData?.map((item, index) => (
               <div key={index}>
                 <p
-                  key={Math.random().toString(36)}
+                  key={index + 1}
                   className="block w-full items-end justify-end truncate text-end text-[8px] text-[var(--point-color-1)] md:text-[14px]"
                 >
                   -{item.expense.toLocaleString('ko-KR')}
                 </p>
                 <p
-                  key={Math.random().toString(36)}
+                  key={index + 2}
                   className="justify-end text-end text-[8px] text-[var(--main-color-3)] md:text-[14px]"
                 >
                   +{item.income.toLocaleString('ko-KR')}
                 </p>
-                <p className="justify-end text-end text-[8px] md:text-[14px]">
+                <p
+                  className="justify-end text-end text-[8px] md:text-[14px]"
+                  key={index + 3}
+                >
                   {item.difference.toLocaleString('ko-KR')}
                 </p>
               </div>
@@ -71,15 +92,23 @@ export default function Calander({
         </div>
         <div className="flex h-full justify-center">
           <Calendar
+            locale="ko"
             calendarType="gregory"
             formatDay={(locale, date) => format(date, 'd')}
             tileContent={addContent}
-            navigationLabel={({ date }) => (
-              <div className="custom-navigation-label">
-                <span className="year-display">{date.getFullYear()}년</span>
-                <span className="month-display">{date.getMonth() + 1}월</span>
-              </div>
-            )}
+            navigationLabel={({ date }) =>
+              date ? (
+                <div className="custom-navigation-label">
+                  <span className="year-display">
+                    {date.getFullYear()}년
+                  </span>
+                  <span className="month-display">
+                    {date.getMonth() + 1}월
+                  </span>
+                </div>
+              ) : null
+            }
+            onChange={onChange}
           />
         </div>
       </div>
