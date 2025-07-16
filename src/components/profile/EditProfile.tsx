@@ -13,7 +13,6 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
           <h1 className="p-[25px] text-center text-[20px] font-semibold text-[var(--main-color-3)]">
             정보 수정
           </h1>
-
           <div className="flex items-center justify-center">
             <div className="relative">
               <DefaultProfile />
@@ -30,7 +29,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
             <input
               type="text"
               placeholder="2 ~ 6자 이하로 입력해주세요."
-              className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+              className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none dark:bg-[var(--white-color)]"
             />
             <div className="flex w-full justify-between">
               <p className="ml-[3px] text-[12px] text-[var(--main-color-3)]">
@@ -48,7 +47,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
             <input
               type="password"
               placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요."
-              className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+              className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none dark:bg-[var(--white-color)]"
             />
             <div className="flex w-full justify-between">
               <p className="ml-[3px] text-[12px] text-[var(--main-color-3)]">
@@ -74,7 +73,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
             <input
               type="password"
               placeholder="비밀번호를 한번 더 입력해 주세요."
-              className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+              className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none dark:bg-[var(--white-color)]"
             />
           </div>
 

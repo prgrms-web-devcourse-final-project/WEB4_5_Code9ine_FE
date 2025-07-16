@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: '티태 | 티끌모아 부자되기',
@@ -23,6 +24,37 @@ export default function RootLayout({
           {/* <ColoredBox /> */}
           {/* 콘텐츠 영역 */}
           {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              className: 'rounded-lg shadow-lg',
+              style: {
+                padding: '1rem 1.25rem',
+                color: 'var(--white-color)',
+                fontWeight: 500,
+              },
+
+              success: {
+                style: {
+                  background: 'var(--main-color-3)',
+                },
+                iconTheme: {
+                  primary: 'var(--white-color)',
+                  secondary: 'var(--main-color-3)',
+                },
+              },
+
+              error: {
+                style: {
+                  background: 'var(--point-color-2)',
+                },
+                iconTheme: {
+                  primary: 'var(--white-color)',
+                  secondary: 'var(--point-color-2)',
+                },
+              },
+            }}
+          />
         </main>
       </body>
     </html>
