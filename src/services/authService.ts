@@ -147,3 +147,62 @@ export async function findPassword(
   // json.data = { code: 2000, message: "비밀번호 찾기 메일이 발송되었습니다." }
   return json.data;
 }
+
+//이메일인증코드요청
+export interface EmailSendResponse {
+  code: number;
+  message: string;
+  data: null;
+}
+
+export async function sendEmailVerification(
+  email: string,
+): Promise<ApiResponse<EmailSendResponse>> {
+  const res = await fetch(`${API_BASE}/api/members/email/send`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  const json: ApiResponse<EmailSendResponse> = await res.json();
+
+  if (!res.ok || json.code !== '0000' || json.data?.code !== 2000) {
+    throw new Error(json.data?.message || json.message || '이메일 전송 실패');
+  }
+
+  return json;
+}
+
+export interface EmailVerifyPayload {
+  email: string;
+  code: string;
+}
+
+export interface ApiNestedResponse {
+  code: number;
+  message: string;
+  data: string;
+}
+
+export async function verifyEmailCode(
+  payload: EmailVerifyPayload,
+): Promise<ApiResponse<ApiNestedResponse>> {
+  const res = await fetch(`${API_BASE}/api/members/email/verify`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  const json = await res.json();
+
+  if (!res.ok || json.code !== '0000' || json.data.code !== 2000) {
+    throw new Error(
+      json.data?.message || json.message || '이메일 인증에 실패했습니다.',
+    );
+  }
+
+  return json;
+}
