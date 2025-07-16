@@ -1,3 +1,4 @@
+import { GodplacesSearchList } from '@/types/godplaces';
 import { create } from 'zustand';
 
 type GodplacesStore = {
@@ -6,6 +7,8 @@ type GodplacesStore = {
   category: Set<string>;
   setCategory: (type: string) => void;
   reset: () => void;
+  godplaces: GodplacesSearchList[] | undefined;
+  setGodplaces: (data: GodplacesSearchList[]) => void;
 };
 
 export const useGodplacesStore = create<GodplacesStore>((set) => ({
@@ -19,5 +22,7 @@ export const useGodplacesStore = create<GodplacesStore>((set) => ({
       else newSet.add(type);
       return { category: newSet };
     }),
-  reset: () => set({ location: '', category: new Set() }),
+  reset: () => set({ location: '', category: new Set(), godplaces: undefined }),
+  godplaces: undefined,
+  setGodplaces: (data) => set({ godplaces: data }),
 }));

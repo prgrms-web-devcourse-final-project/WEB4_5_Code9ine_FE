@@ -1,8 +1,8 @@
 'use client';
 import { getGodplaces } from '@/lib/api/godplaces';
 import SearchListCard from './SearchListCard';
-import { startTransition, useEffect, useState } from 'react';
-import { GodplacesSearchList } from '@/types/godplaces';
+import { startTransition, useEffect } from 'react';
+import { useGodplacesStore } from '@/stores/godplacesStore';
 
 export default function SearchListBox({
   region,
@@ -11,7 +11,8 @@ export default function SearchListBox({
   region: string;
   category: string;
 }) {
-  const [godplaces, setGodplaces] = useState<GodplacesSearchList[]>();
+  const godplaces = useGodplacesStore((state) => state.godplaces);
+  const setGodplaces = useGodplacesStore((state) => state.setGodplaces);
 
   useEffect(() => {
     startTransition(async () => {
