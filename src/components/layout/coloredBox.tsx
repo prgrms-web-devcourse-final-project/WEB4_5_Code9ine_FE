@@ -5,31 +5,30 @@ import Button from '../login/SignupButton';
 import { LuNotebook } from 'react-icons/lu';
 import {
   IoLogoGithub,
+  IoMoonOutline,
   IoPersonCircleOutline,
   IoSearchSharp,
 } from 'react-icons/io5';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { BsPersonRaisedHand } from 'react-icons/bs';
 import { useEffect, useRef, useState } from 'react';
-import { FiMoon } from 'react-icons/fi';
 import { IoMdNotificationsOutline, IoMdPower } from 'react-icons/io';
 import MobileMenu from '../common/MobileMenu';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { useDummyData } from '@/stores/dummyStore';
 
-export default function ColoredBox({
-  changeLogin,
-}: {
-  changeLogin: (arg0: boolean) => void;
-}) {
+export default function ColoredBox() {
   const [login, setLogin] = useState<boolean>(false);
   const [menu, setMenu] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState<boolean>(false);
   const sidebarRef = useRef(null);
   const location = usePathname();
+  const { isLogin, setIsLogin } = useDummyData();
   const handleLogin = () => {
     setLogin(!login);
-    changeLogin(!login);
+    setIsLogin(!login);
   };
   const handleSideBarLogin = (sign: boolean) => {
     setLogin(sign);
@@ -39,6 +38,8 @@ export default function ColoredBox({
   };
 
   useEffect(() => {
+    setIsClient(true);
+    setLogin(isLogin);
     const targetElement = sidebarRef.current;
     if (menu) {
       // 스크롤 잠금 (사이드바 자체는 스크롤 가능하도록 targetElement 전달)
@@ -52,21 +53,25 @@ export default function ColoredBox({
         enableBodyScroll(targetElement);
       }
     };
-  }, [menu]); // isOpen 상태가 변경될 때만 이 effect를 실행
+  }, [menu, isLogin]); // isOpen 상태가 변경될 때만 이 effect를 실행
+
+  if (!isClient) return null;
+
   return (
     <div className="relative">
       <div className="relative flex w-full items-center justify-center bg-[var(--header-color)] p-[10px] md:h-[870px] md:w-[200px] md:flex-col md:rounded-[10px]">
         {/* 다크 모드 버튼: 오른쪽 위 */}
         <div
-          className={`cursor-pointer ${login ? `gap-[12px]` : ''} text-[var(--header-text)] md:flex md:self-end`}
+          className={`cursor-pointer items-center justify-center ${login ? `gap-[12px]` : ''} text-[var(--header-text)] md:flex md:self-end`}
           ref={sidebarRef}
         >
           <div className="hidden md:flex">
-            <FiMoon size={12} />
+            <IoMoonOutline size={18} />
           </div>
-          <div className="absolute top-[23px] right-[20px] md:flex">
-            {login ? <IoMdNotificationsOutline size={12} /> : null}
+          <div className="absolute top-[18px] right-[20px] md:static md:top-[23px] md:flex">
+            {login ? <IoMdNotificationsOutline size={20} /> : null}
           </div>
+          {/* <div className="absolute top-[12px] right-[12px] size-[5px] rounded-full bg-red-400"></div> */}
         </div>
         <button
           className="absolute left-[20px] cursor-pointer md:hidden"

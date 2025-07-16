@@ -10,6 +10,8 @@ interface dummyState {
   setCalendar: (data: CalendarList | undefined) => void;
   dummyData2: DummyData[];
   setDummy2: (data: DummyData[] | undefined) => void;
+  isLogin: boolean;
+  setIsLogin: (data: boolean | undefined) => void;
 }
 
 export const useDummyData = create<dummyState>((set) => ({
@@ -19,4 +21,6 @@ export const useDummyData = create<dummyState>((set) => ({
   setCalendar: (data) => set({ dummyCalendar: data }),
   dummyData2: Dummy.data.dummy,
   setDummy2: (data) => set({ dummyData2: data }),
+  isLogin: true,
+  setIsLogin: (data) => set({ isLogin: data }),
 }));

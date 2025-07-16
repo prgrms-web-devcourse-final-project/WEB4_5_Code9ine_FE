@@ -14,16 +14,7 @@ export interface DataList {
   totalIncome: number;
   totalExpense: number;
   totalDifference: number;
-  dummy: {
-    id: number;
-    type: string;
-    category: string;
-    categoryIcon: string;
-    content: string;
-    date: string;
-    price: number;
-    repeatCycle: string;
-  }[];
+  dummy: PayList[];
 }
 
 export interface DummyData {
@@ -37,15 +28,31 @@ export interface DummyData {
   repeatCycle: string;
 }
 
+export interface DailySummary {
+  date: string;
+  income: number;
+  expense: number;
+  difference: number;
+}
+
 export interface CalendarList {
-  totalIncome: number;
-  totalExpense: number;
-  month: string;
-  days: {
-    id: number;
-    date: string;
-    income: number;
-    expense: number;
-    difference: number;
-  }[];
+  code: string;
+  message: string;
+  data: {
+    month: string;
+    totalIncome: number;
+    totalExpense: number;
+    days: DailySummary[];
+  };
+}
+
+export interface totalData {
+  code: string;
+  message: string;
+  data: {
+    yearMonth: string;
+    totalIncome: number;
+    totalExpense: number;
+    details: PayList[];
+  };
 }

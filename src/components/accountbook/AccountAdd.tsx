@@ -60,7 +60,6 @@ export default function AccountAdd({
               selected={startDate}
               onChange={(date) => setStartDate(date!)}
               dateFormat="yyyy년 MM월 dd일"
-              maxDate={new Date()}
               className="text-center"
               onFocus={() => isToolStatus('날짜')}
               renderCustomHeader={({

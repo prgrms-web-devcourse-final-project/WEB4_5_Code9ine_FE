@@ -1,21 +1,31 @@
-import { PayList } from '@/types/payData';
+import { PayList, totalData } from '@/types/payData';
 import ListCard from './ListCard';
-import { useDummyData } from '@/stores/dummyStore';
+import { useEffect, useState } from 'react';
+import { fetchTotlaAccount } from '@/data/accountData';
 
 type GroupedByDate = Record<string, PayList[]>;
 
 export default function ListArea() {
-  const { dummyData2 } = useDummyData();
-  const dateGroup = dummyData2.reduce((acc: GroupedByDate, curr: PayList) => {
-    const date = curr.date;
-    if (!acc[date]) {
-      acc[date] = [];
-    }
-    acc[date].push(curr);
-    return acc;
-  }, {});
+  const [totalData, setTotalData] = useState<totalData>();
+  const dateGroup = (totalData?.data.details ?? []).reduce(
+    (acc: GroupedByDate, curr: PayList) => {
+      const date = curr.date;
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(curr);
+      return acc;
+    },
+    {},
+  );
 
-  console.log(dummyData2);
+  console.log(dateGroup);
+
+  useEffect(() => {
+    fetchTotlaAccount()
+      .then(setTotalData)
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <>
