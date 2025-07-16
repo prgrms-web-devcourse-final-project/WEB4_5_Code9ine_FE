@@ -2,6 +2,10 @@ import styles from '../../css/TitleSwiper.module.css';
 import Image from 'next/image';
 import { missionData } from '@/data/missionData';
 
+// const iconList = {
+//   절약왕 : missionData.daily[0].icon,
+// }
+
 export default function TitleSwiper() {
   const allMossions = [
     ...missionData.daily,
@@ -19,7 +23,7 @@ export default function TitleSwiper() {
               className="mx-[30px] flex text-[16px] md:text-[20px] dark:text-[#2b2e34]"
             >
               <Image
-                src={mission.icon}
+                src={mission.icon} // iconList[mission.missionTitle]
                 alt="미션 아이콘"
                 width={25}
                 height={25}
