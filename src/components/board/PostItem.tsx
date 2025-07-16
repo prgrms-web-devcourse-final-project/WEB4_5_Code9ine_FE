@@ -98,7 +98,7 @@ export default function PostItem() {
                     alt={`이미지${idx + 1}`}
                     width={130}
                     height={230}
-                    className="h-full w-full rounded-xl object-cover"
+                    className="h-full w-full rounded-[10px] object-cover"
                   />
                 </div>
               ))}
