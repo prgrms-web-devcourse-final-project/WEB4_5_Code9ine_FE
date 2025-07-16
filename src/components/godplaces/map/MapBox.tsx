@@ -122,7 +122,11 @@ export default function MapBox() {
   return (
     <Map
       className="h-[230px] min-w-[330px] rounded-[10px] bg-gray-300 shadow-[var(--shadow-md)] md:h-[637px] md:w-[756px]"
-      center={godplacesPositions ? godplacesPositions[0] : dummyCenter}
+      center={
+        godplacesPositions && godplacesPositions.length > 0
+          ? godplacesPositions[0]
+          : dummyCenter
+      }
       level={7}
     >
       {koreanRestaurantPositions &&
