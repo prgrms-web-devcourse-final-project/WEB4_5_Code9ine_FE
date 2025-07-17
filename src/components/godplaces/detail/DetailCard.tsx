@@ -1,48 +1,30 @@
+import { GodplacesDetail } from '@/types/godplaces';
 import DetailTopInfo from './DetailTopInfo';
 import FestivalDetails from './FestivalDetails';
 import LibraryDetails from './LibraryDetails';
 import StoreDetails from './StoreDetails';
-
-type DetailType = {
-  name: string;
-  address: string;
-  latitude: string;
-  longitude: string;
-  url?: string;
-  category?: string;
-  contact?: string;
-  firstmenu?: string;
-  firstprice?: string;
-  secondmenu?: string;
-  secondprice?: string;
-  thirdmenu?: string;
-  thirdprice?: string;
-  target?: string;
-  startAt?: string;
-  endAt?: string;
-  libraryId?: string;
-  fetivalId?: string;
-  storeId?: string;
-};
+import { getLabel } from '@/lib/helper/getLabel';
 
 export default function DetailCard({
   type,
   ...props
 }: {
   type: string;
-} & DetailType) {
+} & GodplacesDetail) {
+  const label = getLabel(type, props.category);
+
   return (
-    <div className="hide-scrollbar flex min-h-[180px] flex-1 flex-col gap-[16px] overflow-y-scroll px-[18px] md:h-auto md:gap-[20px] md:px-[32px]">
+    <div className="hide-scrollbar flex min-h-[180px] flex-col gap-[16px] overflow-y-scroll px-[18px] md:h-auto md:gap-[20px] md:px-[25px]">
       <DetailTopInfo
-        type={type}
+        type={label}
         name={props.name}
         address={props.address}
         contact={props.contact}
         url={props.url}
       />
-      <hr className="w-[294px] border-[var(--gray-color-1)] md:w-[286px]" />
-      {type === '도서관' && <LibraryDetails />}
-      {type === '축제' && (
+      <hr className="w-full border-[var(--gray-color-1)]" />
+      {type === 'library' && <LibraryDetails />}
+      {type === 'festival' && (
         <FestivalDetails
           startAt={props.startAt}
           endAt={props.endAt}
@@ -50,7 +32,7 @@ export default function DetailCard({
           target={props.target}
         />
       )}
-      {type !== '도서관' && type !== '축제' && (
+      {type !== 'library' && type !== 'festival' && (
         <StoreDetails
           firstMenu={props.firstmenu}
           firstPrice={props.firstprice}

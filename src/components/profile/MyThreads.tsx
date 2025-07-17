@@ -15,8 +15,6 @@ export default function MyThreads() {
     <>
       <SetGoal />
       <ThreadsTab selectedTab={selectedTab} onChange={setSelectedTab} />
-
-      {/* ✅ 탭에 따라 레이아웃 변경 */}
       <div
         className={`mt-[40px] w-full gap-[20px] p-[20px] ${
           selectedTab === 'place'
