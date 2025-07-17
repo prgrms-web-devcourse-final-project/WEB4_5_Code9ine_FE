@@ -3,6 +3,7 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import useKaKaoLoader from './useKaKaoLoader';
 import markers from '../../../assets/icons/markers.png';
 import { useGodplacesStore } from '@/stores/godplacesStore';
+import { getGodplacePositions } from '@/lib/helper/getGodplacePositions';
 
 const dummyCenter = { lat: 37.5452442, lng: 127.0473267 };
 // const dummyData = [
@@ -27,97 +28,48 @@ export default function MapBox() {
     return { lat: Number(godplace.latitude), lng: Number(godplace.longitude) };
   });
 
-  const koreanRestaurantPositions = godplaces
-    ?.filter((godplace) => godplace.category === '한식')
-    .map((krRestaurant) => {
-      return {
-        lat: Number(krRestaurant.latitude),
-        lng: Number(krRestaurant.longitude),
-      };
-    });
+  const koreanRestaurantPositions = getGodplacePositions(
+    godplaces,
+    true,
+    '한식',
+  );
   const koreanRestaurantMarkerOrigin = { x: 16, y: 0 };
 
-  const chineseRestaurantPositions = godplaces
-    ?.filter((godplace) => godplace.category === '중식')
-    .map((cnRestaurant) => {
-      return {
-        lat: Number(cnRestaurant.latitude),
-        lng: Number(cnRestaurant.longitude),
-      };
-    });
+  const chineseRestaurantPositions = getGodplacePositions(
+    godplaces,
+    true,
+    '중식',
+  );
   const chineseRestaurantMarkerOrigin = { x: 16, y: 55 };
 
-  const japaneseRestaurantPositions = godplaces
-    ?.filter((godplace) => godplace.category === '일식')
-    .map((jpRestaurant) => {
-      return {
-        lat: Number(jpRestaurant.latitude),
-        lng: Number(jpRestaurant.longitude),
-      };
-    });
+  const japaneseRestaurantPositions = getGodplacePositions(
+    godplaces,
+    true,
+    '일식',
+  );
   const japaneseRestaurantMarkerOrigin = { x: 16, y: 110 };
 
-  const westernRestaurantPositions = godplaces
-    ?.filter((godplace) => godplace.category === '양식')
-    .map((westernRestaurant) => {
-      return {
-        lat: Number(westernRestaurant.latitude),
-        lng: Number(westernRestaurant.longitude),
-      };
-    });
+  const westernRestaurantPositions = getGodplacePositions(
+    godplaces,
+    true,
+    '양식',
+  );
   const westernRestaurantMarkerOrigin = { x: 16, y: 165 };
 
-  const libraryPositions = godplaces
-    ?.filter((godplace) => godplace.type === 'library')
-    .map((library) => {
-      return {
-        lat: Number(library.latitude),
-        lng: Number(library.longitude),
-      };
-    });
+  const libraryPositions = getGodplacePositions(godplaces, false, 'library');
   const libraryMarkerOrigin = { x: 16, y: 220 };
 
-  const beautySalonPositions = godplaces
-    ?.filter((godplace) => godplace.category === '미용업')
-    .map((beautySalon) => {
-      return {
-        lat: Number(beautySalon.latitude),
-        lng: Number(beautySalon.longitude),
-      };
-    });
+  const beautySalonPositions = getGodplacePositions(godplaces, true, '미용업');
   const beautySalonMarkerOrigin = { x: 16, y: 275 };
 
-  const laundryPositions = godplaces
-    ?.filter((godplace) => godplace.category === '세탁업')
-    .map((laundry) => {
-      return {
-        lat: Number(laundry.latitude),
-        lng: Number(laundry.longitude),
-      };
-    });
+  const laundryPositions = getGodplacePositions(godplaces, true, '세탁업');
   const laundryMarkerOrigin = { x: 16, y: 330 };
 
-  const hotelPositions = godplaces
-    ?.filter((godplace) => godplace.category === '숙박업')
-    .map((hotel) => {
-      return {
-        lat: Number(hotel.latitude),
-        lng: Number(hotel.longitude),
-      };
-    });
+  const hotelPositions = getGodplacePositions(godplaces, true, '숙박업');
   const hotelMarkerOrigin = { x: 16, y: 385 };
 
-  const festivalPositions = godplaces
-    ?.filter((godplace) => godplace.type === 'festival')
-    .map((festival) => {
-      return {
-        lat: Number(festival.latitude),
-        lng: Number(festival.longitude),
-      };
-    });
+  const festivalPositions = getGodplacePositions(godplaces, false, 'festival');
   const festivalMarkerOrigin = { x: 16, y: 440 };
-
-  console.log(godplacesPositions);
 
   return (
     <Map
