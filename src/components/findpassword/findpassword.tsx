@@ -61,7 +61,7 @@ export default function FindPassword() {
       {/* 버튼 */}
       <div className="mt-4 flex flex-col items-center gap-3">
         <button
-          className={`h-[35px] w-[195px] rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold text-white hover:bg-[var(--main-color-2)] md:w-[300px] md:text-[20px] ${
+          className={`h-[35px] w-[195px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-2)] md:w-[300px] md:text-[20px] ${
             loading ? 'cursor-not-allowed opacity-50' : ''
           }`}
           onClick={handleFindPassword}

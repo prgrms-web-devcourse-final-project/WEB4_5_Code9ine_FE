@@ -69,7 +69,7 @@ export default function UnAuthorizedMain() {
               {' '}
               <CountUp
                 start={0}
-                end={totalSaving}
+                end={123456789}
                 duration={2}
                 separator=","
                 suffix="원"
@@ -86,7 +86,7 @@ export default function UnAuthorizedMain() {
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <SpendingGraph userAmount={2480000} titaeAmount={1850000} />
+          <SpendingGraph userAmount={2480000} titaeAmount={totalSaving} />
         </motion.div>
 
         {/* 이번주 티태왕 TOP3 */}

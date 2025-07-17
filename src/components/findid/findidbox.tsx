@@ -1,8 +1,20 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function FindIdBox() {
   const router = useRouter();
+
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  // 전화번호 검증
+  function formatPhoneNumber(value: string) {
+    const onlyNums = value.replace(/\D/g, '');
+    if (onlyNums.length <= 3) return onlyNums;
+    if (onlyNums.length <= 7)
+      return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3)}`;
+    return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3, 7)}-${onlyNums.slice(7, 11)}`;
+  }
 
   return (
     <div className="flex h-auto w-[270px] flex-col gap-4 overflow-y-auto rounded-[20px] bg-[var(--background)] p-8 pt-[80px] md:h-auto md:w-[500px] md:overflow-hidden">

@@ -186,12 +186,12 @@ export default function SignupBox() {
     try {
       const res = await sendEmailVerification(email);
       toast.success(res.data.message);
-      setEmailError(''); // 에러 지우기
-      setEmailSuccess(res.data.message); // 성공 메시지 세팅
+      setEmailError('');
+      setEmailSuccess(res.data.message);
       setIsCodeSent(true);
     } catch (err) {
       const msg = err instanceof Error ? err.message : '이메일 전송 실패';
-      setEmailSuccess(''); // 성공 메시지 지우기
+      setEmailSuccess('');
       setEmailError(msg);
       toast.error(msg);
     }
