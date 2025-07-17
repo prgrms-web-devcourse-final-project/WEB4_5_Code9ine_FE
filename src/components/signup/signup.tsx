@@ -66,7 +66,7 @@ export default function SignupBox() {
 
     // 닉네임 검사
     if (nickname.trim().length < 2 || nickname.trim().length > 6) {
-      setNicknameError('2자 이상 6자 이하로 입력해주세요');
+      setNicknameError('2자 이상 6자 이하로 입력해주세요.');
       valid = false;
     } else {
       setNicknameError('');
@@ -74,10 +74,10 @@ export default function SignupBox() {
 
     // 이메일 검사
     if (!email) {
-      setEmailError('이메일을 입력해주세요');
+      setEmailError('이메일을 입력해주세요.');
       valid = false;
     } else if (!validateEmail(email)) {
-      setEmailError('유효한 이메일 주소를 입력해주세요');
+      setEmailError('유효한 이메일 주소를 입력해주세요.');
       valid = false;
     } else {
       setEmailError('');
@@ -85,7 +85,7 @@ export default function SignupBox() {
 
     // 비밀번호 검사
     if (!password) {
-      setPasswordError('비밀번호를 입력해주세요');
+      setPasswordError('비밀번호를 입력해주세요.');
       valid = false;
     } else if (!validatePassword(password)) {
       setPasswordError('비밀번호는 8~16자, 대문자·특수문자 포함');
@@ -96,7 +96,7 @@ export default function SignupBox() {
 
     // 비밀번호 확인 검사
     if (confirmPwd !== password) {
-      setConfirmPwdError('비밀번호가 일치하지 않습니다');
+      setConfirmPwdError('비밀번호가 일치하지 않습니다.');
       valid = false;
     } else {
       setConfirmPwdError('');
@@ -104,7 +104,7 @@ export default function SignupBox() {
 
     // 약관 동의 검사
     if (!agree) {
-      setAgreeError('약관에 동의해주세요');
+      setAgreeError('약관에 동의해주세요.');
       valid = false;
     } else {
       setAgreeError('');
@@ -247,7 +247,7 @@ export default function SignupBox() {
             setPassword(e.target.value);
             if (passwordError) setPasswordError('');
           }}
-          placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요"
+          placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요."
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
         <p
@@ -269,7 +269,7 @@ export default function SignupBox() {
             setConfirmPwd(e.target.value);
             if (confirmPwdError) setConfirmPwdError('');
           }}
-          placeholder="비밀번호를 한번 더 입력해 주세요"
+          placeholder="비밀번호를 한번 더 입력해 주세요."
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
         <p
@@ -286,7 +286,7 @@ export default function SignupBox() {
         </p>
         <input
           type="text"
-          placeholder="추천인 코드를 입력해주세요"
+          placeholder="추천인 코드를 입력해주세요."
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
         <div className="flex w-full items-center justify-between">

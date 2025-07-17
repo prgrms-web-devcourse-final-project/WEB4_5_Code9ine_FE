@@ -15,8 +15,8 @@ export default function SetGoal() {
     getMyPage()
       .then((res) => {
         console.log('성공:', res);
-        setGoalName(res.data.goalStuff);
-        setRemainAmount(res.data.remainPrice);
+        setGoalName(res.data.data.goalStuff);
+        setRemainAmount(res.data.data.remainPrice);
       })
       .catch((err) => console.log('마이페이지 에러', err));
   }, []);
