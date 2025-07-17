@@ -16,12 +16,11 @@ export default function ChineseRestaurantMarkers() {
     <>
       {chineseRestaurantPositions &&
         chineseRestaurantPositions.map((position) => (
-          <div key={`cnRestaurant-${position.lat},${position.lng}`}>
-            <CustomMarker
-              position={position}
-              markerOrigin={chineseRestaurantMarkerOrigin}
-            />
-          </div>
+          <CustomMarker
+            position={position}
+            markerOrigin={chineseRestaurantMarkerOrigin}
+            key={`cnRestaurant-${position.lat},${position.lng}`}
+          />
         ))}
     </>
   );

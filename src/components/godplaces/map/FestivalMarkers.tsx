@@ -12,12 +12,11 @@ export default function FestivalMarkers() {
     <>
       {festivalPositions &&
         festivalPositions.map((position) => (
-          <div key={`krRestaurant-${position.lat},${position.lng}`}>
-            <CustomMarker
-              position={position}
-              markerOrigin={festivalMarkerOrigin}
-            />
-          </div>
+          <CustomMarker
+            position={position}
+            markerOrigin={festivalMarkerOrigin}
+            key={`festival-${position.lat},${position.lng}`}
+          />
         ))}
     </>
   );

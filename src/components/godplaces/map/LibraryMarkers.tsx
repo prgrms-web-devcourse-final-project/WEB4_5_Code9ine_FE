@@ -12,12 +12,11 @@ export default function LibraryMarkers() {
     <>
       {libraryPositions &&
         libraryPositions.map((position) => (
-          <div key={`library-${position.lat},${position.lng}`}>
-            <CustomMarker
-              position={position}
-              markerOrigin={libraryMarkerOrigin}
-            />
-          </div>
+          <CustomMarker
+            position={position}
+            markerOrigin={libraryMarkerOrigin}
+            key={`library-${position.lat},${position.lng}`}
+          />
         ))}
     </>
   );

@@ -12,12 +12,11 @@ export default function HotelMarkers() {
     <>
       {hotelPositions &&
         hotelPositions.map((position) => (
-          <div key={`hotel-${position.lat},${position.lng}`}>
-            <CustomMarker
-              position={position}
-              markerOrigin={hotelMarkerOrigin}
-            />
-          </div>
+          <CustomMarker
+            position={position}
+            markerOrigin={hotelMarkerOrigin}
+            key={`hotel-${position.lat},${position.lng}`}
+          />
         ))}
     </>
   );

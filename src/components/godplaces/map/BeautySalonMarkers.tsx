@@ -12,12 +12,11 @@ export default function BeautySalonMarkers() {
     <>
       {beautySalonPositions &&
         beautySalonPositions.map((position) => (
-          <div key={`salon-${position.lat},${position.lng}`}>
-            <CustomMarker
-              position={position}
-              markerOrigin={beautySalonMarkerOrigin}
-            />
-          </div>
+          <CustomMarker
+            position={position}
+            markerOrigin={beautySalonMarkerOrigin}
+            key={`salon-${position.lat},${position.lng}`}
+          />
         ))}
     </>
   );

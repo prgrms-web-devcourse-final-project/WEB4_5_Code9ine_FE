@@ -16,12 +16,11 @@ export default function WesternRestaurantMarkers() {
     <>
       {westernRestaurantPositions &&
         westernRestaurantPositions.map((position) => (
-          <div key={`wRestaurant-${position.lat},${position.lng}`}>
-            <CustomMarker
-              position={position}
-              markerOrigin={westernRestaurantMarkerOrigin}
-            />
-          </div>
+          <CustomMarker
+            position={position}
+            markerOrigin={westernRestaurantMarkerOrigin}
+            key={`wRestaurant-${position.lat},${position.lng}`}
+          />
         ))}
     </>
   );

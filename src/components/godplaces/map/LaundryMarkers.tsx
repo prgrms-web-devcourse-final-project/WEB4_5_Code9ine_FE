@@ -12,12 +12,11 @@ export default function LaundryMarkers() {
     <>
       {laundryPositions &&
         laundryPositions.map((position) => (
-          <div key={`laundry-${position.lat},${position.lng}`}>
-            <CustomMarker
-              position={position}
-              markerOrigin={laundryMarkerOrigin}
-            />
-          </div>
+          <CustomMarker
+            position={position}
+            markerOrigin={laundryMarkerOrigin}
+            key={`laundry-${position.lat},${position.lng}`}
+          />
         ))}
     </>
   );

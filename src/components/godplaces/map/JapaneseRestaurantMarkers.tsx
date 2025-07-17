@@ -16,12 +16,11 @@ export default function JapaneseRestaurantMarkers() {
     <>
       {japaneseRestaurantPositions &&
         japaneseRestaurantPositions.map((position) => (
-          <div key={`jpRestaurant-${position.lat},${position.lng}`}>
-            <CustomMarker
-              position={position}
-              markerOrigin={japaneseRestaurantMarkerOrigin}
-            />
-          </div>
+          <CustomMarker
+            position={position}
+            markerOrigin={japaneseRestaurantMarkerOrigin}
+            key={`jpRestaurant-${position.lat},${position.lng}`}
+          />
         ))}
     </>
   );
