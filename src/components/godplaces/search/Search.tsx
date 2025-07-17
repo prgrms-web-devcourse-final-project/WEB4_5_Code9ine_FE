@@ -1,3 +1,4 @@
+'use client';
 import CategoryBox from './CategoryBox';
 import HotLocation from '../HotLocation';
 import SearchBox from './SearchBox';
@@ -8,6 +9,7 @@ export default function Search() {
   return (
     <div className="mt-[260px] flex min-w-[360px] flex-col items-center">
       <HotLocation />
+
       <SearchBox classType={TYPE} />
       <CategoryBox classType={TYPE} />
     </div>
