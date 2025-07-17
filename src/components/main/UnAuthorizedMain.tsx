@@ -20,7 +20,7 @@ import SpendingGraph from './SpendingGraph';
 import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { getAverageSaving } from '@/services/mainService';
-import { getTopSavers, TopSaver } from '@/services/mainService';
+import { getTopSavers, TopSaver, getAllSaving } from '@/services/mainService';
 
 import { useEffect, useState } from 'react';
 
@@ -32,6 +32,7 @@ const fadeUp = {
 export default function UnAuthorizedMain() {
   const [totalSaving, setTotalSaving] = useState<number>(0);
   const [topChallenges, setTopChallenges] = useState<TopSaver[]>([]);
+  const [allSaving, setAllSaving] = useState<number>(0);
 
   //평균 저축
   useEffect(() => {
@@ -53,6 +54,19 @@ export default function UnAuthorizedMain() {
       .catch((e) => console.error('챌린지 TOP3 로드 실패', e));
   }, []);
 
+  //전체유저 절약금액
+  useEffect(() => {
+    async function fetchAllSaving() {
+      try {
+        const { allsaving } = await getAllSaving();
+        setAllSaving(allsaving);
+      } catch (e) {
+        console.error('전체 절약액 로드 실패', e);
+      }
+    }
+    fetchAllSaving();
+  }, []);
+
   return (
     <>
       <div className="hide-scrollbar mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
@@ -69,7 +83,7 @@ export default function UnAuthorizedMain() {
               {' '}
               <CountUp
                 start={0}
-                end={123456789}
+                end={allSaving}
                 duration={2}
                 separator=","
                 suffix="원"

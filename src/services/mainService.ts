@@ -65,3 +65,23 @@ export async function getTopChallenges(): Promise<TopChallenge[]> {
 
   return json.data;
 }
+
+// 전체 저축액
+export interface AllSavingResponse {
+  allsaving: number;
+}
+
+export async function getAllSaving(): Promise<AllSavingResponse> {
+  const res = await fetch(`${API_BASE}/api/users/all-saving`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const json = (await res.json()) as ApiResponse<AllSavingResponse>;
+
+  if (!res.ok) {
+    throw new Error(json.message || '전체 저축액 조회에 실패했습니다.');
+  }
+
+  return json.data;
+}
