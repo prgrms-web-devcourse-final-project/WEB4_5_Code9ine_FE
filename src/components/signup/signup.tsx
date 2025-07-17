@@ -204,7 +204,6 @@ export default function SignupBox() {
       setCodeError('코드를 입력해주세요');
       return;
     }
-
     try {
       const res = await verifyEmailCode({ email, code: verificationCode });
       toast.success(res.data.message);

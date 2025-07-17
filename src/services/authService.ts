@@ -176,6 +176,7 @@ export async function sendEmailVerification(
   return json;
 }
 
+// 요청코드 검증
 export interface EmailVerifyPayload {
   email: string;
   code: string;
@@ -205,4 +206,32 @@ export async function verifyEmailCode(
   }
 
   return json;
+}
+
+// 아이디찾기
+export interface FindEmailRequest {
+  name: string;
+  phoneNumber: string;
+}
+
+export interface FindEmailResponse {
+  emails: string[];
+}
+
+export async function findEmail(
+  payload: FindEmailRequest,
+): Promise<FindEmailResponse> {
+  const res = await fetch(`${API_BASE}/api/members/email/find`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  const json = await res.json();
+
+  if (!res.ok || json.code !== '2000') {
+    throw new Error(json.message || '이메일 찾기에 실패했습니다.');
+  }
+
+  return json.data as FindEmailResponse;
 }

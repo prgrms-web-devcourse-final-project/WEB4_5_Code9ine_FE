@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { findPassword } from '@/services/authService'; // ← API 함수 임포트
+import { findPassword } from '@/services/authService';
 
 export default function FindPassword() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function FindPassword() {
 
     try {
       const result = await findPassword({ email });
-      toast.success(result.message); // "비밀번호 찾기 메일이 발송되었습니다."
+      toast.success(result.message);
     } catch (err) {
       const msg =
         err instanceof Error ? err.message : '요청 중 오류가 발생했습니다.';
