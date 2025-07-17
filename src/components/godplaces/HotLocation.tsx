@@ -1,14 +1,32 @@
+'use client';
+import { getHotLocation } from '@/lib/api/godplaces';
+import { startTransition, useEffect, useState } from 'react';
+
 export default function HotLocation() {
-  const dummyData = {
-    status: 'success',
-    data: [
-      { region: '서초구' },
-      { region: '종로구' },
-      { region: '강남구' },
-      { region: '강북구' },
-      { region: '성동구' },
-    ],
-  };
+  // const dummyData = {
+  //   status: 'success',
+  //   data: [
+  //     { region: '서초구' },
+  //     { region: '종로구' },
+  //     { region: '강남구' },
+  //     { region: '강북구' },
+  //     { region: '성동구' },
+  //   ],
+  // };
+  const [hotLocations, setHotLocations] = useState<{ region: string }[]>();
+
+  useEffect(() => {
+    startTransition(async () => {
+      try {
+        const hotLocations = await getHotLocation();
+        setHotLocations(hotLocations.data);
+      } catch (e) {
+        console.error(e);
+      }
+    });
+  }, []);
+
+  // console.log(hotLocations);
 
   return (
     <>
@@ -19,17 +37,18 @@ export default function HotLocation() {
         </div>
         <div className="h-[23px] overflow-hidden text-[16px] md:h-[30px] md:text-[20px]">
           <div className="animate-up-down-slider md:animate-up-down-slider-md flex flex-col">
-            {[...dummyData.data, dummyData.data[0]].map((d, idx) => (
-              <div
-                key={idx}
-                className="m-auto flex h-[23px] gap-[15px] md:h-[30px]"
-              >
-                <div className="w-[20px] text-center">
-                  {(idx % dummyData.data.length) + 1}
+            {hotLocations &&
+              hotLocations.map((d, idx) => (
+                <div
+                  key={idx}
+                  className="m-auto flex h-[23px] gap-[15px] md:h-[30px]"
+                >
+                  <div className="w-[20px] text-center">
+                    {(idx % hotLocations.length) + 1}
+                  </div>
+                  <div>{d.region}</div>
                 </div>
-                <div>{d.region}</div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>

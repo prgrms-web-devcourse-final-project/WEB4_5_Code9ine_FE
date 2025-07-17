@@ -16,7 +16,11 @@ export default function CategoryBox({
   return (
     <div className={`grid md:flex ${divSizeVariants[classType]} h-auto w-full`}>
       {categories.category.map((data) => (
-        <CategoryItem key={data.id} type={data.type} classType={classType} />
+        <CategoryItem
+          key={data.id}
+          type={data.type}
+          classType={classType}
+        />
       ))}
     </div>
   );

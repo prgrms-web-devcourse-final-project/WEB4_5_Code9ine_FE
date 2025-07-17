@@ -17,7 +17,7 @@ export default function DetailButtonDiv({
         {contact && (
           <DetailButton color="gray">
             <FiPhone />
-            <div>02-xxxx-xxxx</div>
+            <div>{contact}</div>
           </DetailButton>
         )}
         {url && (
