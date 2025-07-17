@@ -85,3 +85,47 @@ export async function getAllSaving(): Promise<AllSavingResponse> {
 
   return json.data;
 }
+
+//메인페이지 로그인후 가계부분석
+export interface GoalItem {
+  itemName: string;
+  itemImage: string;
+  itemPrice: number;
+}
+
+export interface MonthlyExpense {
+  month: string;
+  amount: number;
+}
+
+export interface CategorySummary {
+  category: string;
+  totalAmount: number;
+}
+
+export interface BudgetAnalyzeResponse {
+  yearMonth: string;
+  totalIncome: number;
+  totalExpense: number;
+  goal: GoalItem;
+  currentMonthExpense: number;
+  monthlyExpenses: MonthlyExpense[];
+  categorySummary: CategorySummary[];
+  savedComparedToLastMonth: number;
+  totalsavedAmount: number;
+}
+
+export async function getBudgetAnalysis(): Promise<BudgetAnalyzeResponse> {
+  const res = await fetch(`${API_BASE}/api/budget/analyze`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const json = (await res.json()) as ApiResponse<BudgetAnalyzeResponse>;
+
+  if (!res.ok) {
+    throw new Error(json.message || '가계부 분석 정보를 불러오지 못했습니다.');
+  }
+
+  return json.data;
+}
