@@ -9,7 +9,6 @@ import { missionData } from '@/data/missionData';
 export default function TitleSwiper() {
   const allMossions = [
     ...missionData.daily,
-    ...missionData.weekly,
     ...missionData.monthly,
     ...missionData.community,
   ];

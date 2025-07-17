@@ -28,7 +28,8 @@ export default function SetGoal() {
           <h1 className="ml-[10px] gap-[40px] text-[16px] md:text-[20px] dark:text-[#2b2e34]">
             {goalName}까지
             <span className="text-[var(--main-color-3)]">
-              {remainAmount}
+              {' '}
+              {(remainAmount / 10000).toLocaleString()}만원
             </span>{' '}
             남았어요. 끝까지 화이팅!
           </h1>
