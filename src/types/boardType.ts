@@ -27,3 +27,30 @@ export interface WritePostRes {
   postId: number;
   createdAt: string;
 }
+
+export interface PostListRes {
+  content: PostRes[]; // 게시글 목록
+  page: number; // 기본값 1
+  size: number; // 기본값 10
+}
+
+export interface PostRes {
+  postId: number;  // 게시글 번호
+  userId: number;  // 유저번호
+  category: 'MYSTORE' | 'CHALLENGE' | 'FREE'; // 게시글 카테고리
+  challengeCategory: 'NO_MONEY' | 'KIND_CONSUMER' | 'DETECTIVE' | 'MASTER' | 'COOK_KING'; // 챌린지 카테고리
+  title: string; // 게시글 제목
+  content: string; // 게시글 내용
+  createdAt: string; // 게시글 작성일
+  imageUrls: string[]; // 게시글 이미지
+  commentCount: number; //댓글 개수
+  likeCount: number; // 좋아요 개수
+  isLiked: boolean; // 좋아요 여부
+  isBookmarked: boolean; // 북마크 여부
+  challengeAchieved: boolean; // 챌린지 달성여부
+  writerNickname: string; // 게시글 작성자 닉네임
+  writerTitle: string;  // 게시글 작성자 칭호
+  writerLevel: number;  // 게시글 작성자 레벨
+  writerProfileImage: string; // 게시글 작성자 프로필 이미지
+}
+

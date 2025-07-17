@@ -9,8 +9,8 @@ import { useState } from 'react';
 
 export default function Page() {
   const [selectedTab, setSelectedTab] = useState<
-    'myHiddenStore' | 'challenge' | 'freeBoard'
-  >('myHiddenStore');
+    'MYSTORE' | 'CHALLENGE' | 'FREE'
+  >('MYSTORE');
 
   return (
     <>
