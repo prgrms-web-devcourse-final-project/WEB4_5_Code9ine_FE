@@ -5,10 +5,10 @@ import rank3 from '@/assets/mainpage/rank3.png';
 import mascot from '@/assets/mainpage/mascot.png';
 import waffle from '@/assets/mainpage/waffle.png';
 import gimbap from '@/assets/mainpage/gimbap.png';
-import selectaccount from '@/assets/mainpage/selectaccount.png';
+import { LuNotebook } from 'react-icons/lu';
+import { PiRobotFill } from 'react-icons/pi';
 import chatbot from '@/assets/mainpage/chatbot.png';
 import bubble from '@/assets/mainpage/bubble.svg';
-import robot from '@/assets/mainpage/robot.svg';
 import godplace from '@/assets/mainpage/godplace.png';
 import girl from '@/assets/mainpage/girl.png';
 import boy from '@/assets/mainpage/boy.png';
@@ -144,8 +144,11 @@ export default function UnAuthorizedMain() {
           </p>
 
           {topChallenges.slice(0, 3).map((item, idx) => (
-            <div key={idx} className="flex items-center gap-2 md:gap-4">
-              <div className="relative h-[50px] w-[50px] md:h-[90px] md:w-[90px]">
+            <div
+              key={idx}
+              className="ml-[150px] flex w-full items-center gap-2 md:gap-4"
+            >
+              <div className="relative h-[50px] w-[50px] flex-shrink-0 md:h-[90px] md:w-[90px]">
                 <Image
                   src={idx === 0 ? rank1 : idx === 1 ? rank2 : rank3}
                   alt={`챌린지 ${idx + 1}위 이미지`}
@@ -153,7 +156,9 @@ export default function UnAuthorizedMain() {
                   className="object-contain"
                 />
               </div>
-              <p className="text-[14px] md:text-[20px]">{item.name}</p>
+              <p className="text-left text-[14px] md:text-[20px]">
+                {item.name}
+              </p>
             </div>
           ))}
         </motion.div>
@@ -215,7 +220,7 @@ export default function UnAuthorizedMain() {
 
         {/* 가계부 소개란 */}
         <motion.div
-          className="flex flex-col items-center justify-between gap-[130px] md:flex-row md:items-start"
+          className="flex flex-col items-center justify-between gap-[140px] md:flex-row md:items-start"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
@@ -223,21 +228,15 @@ export default function UnAuthorizedMain() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           {/* 왼쪽 블록 */}
-          <div className="flex flex-col gap-[10px]">
-            <p className="md:text-[20px]">
+          <div className="flex flex-col gap-[15px]">
+            <p className="md:text-[28px]">
               <span className="text-[var(--main-color-3)]">가계부</span> 내역은
               <br />
               쉽고, 명료하게
             </p>
 
             <p className="flex gap-2 text-[var(--main-color-3)] md:text-[20px]">
-              <Image
-                src={selectaccount}
-                alt="가계부"
-                width={22}
-                height={22}
-                className="md:h-[32px] md:w-[32px]"
-              />
+              <LuNotebook size={30} />
               가계부 서비스
             </p>
             <p className="md:text-[20px]">
@@ -274,15 +273,9 @@ export default function UnAuthorizedMain() {
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="mt-6 flex flex-col gap-[10px] md:mt-0">
+          <div className="mt-6 flex flex-col gap-[20px] md:mt-0">
             <div className="flex items-center gap-2">
-              <Image
-                src={robot}
-                alt="로봇이미지"
-                width={32}
-                height={32}
-                className="md:h-[42px] md:w-[42px]"
-              />
+              <PiRobotFill size={32} className="text-[var(--main-color-3)]" />
               <p className="text-[var(--main-color-3)] md:text-[20px]">
                 자산 관리 AI 비서
               </p>
@@ -304,7 +297,7 @@ export default function UnAuthorizedMain() {
                 fill
                 className="object-contain"
               />
-              <p className="absolute inset-0 flex flex-col items-center justify-center text-center leading-snug md:text-[20px]">
+              <p className="absolute inset-0 bottom-[10px] flex flex-col items-center justify-center text-center leading-snug md:text-[20px]">
                 티태에게 자산관리에 대해
                 <br />
                 무엇이든 물어보세요!
@@ -315,15 +308,15 @@ export default function UnAuthorizedMain() {
 
         {/* 갓플레이스 */}
         <motion.div
-          className="flex flex-col items-center gap-[20px] md:flex-row md:gap-[140px]"
+          className="flex flex-col items-center gap-[20px] md:flex-row md:gap-[80px]"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="flex flex-col gap-[10px]">
-            <p className="text-[16px] md:text-[20px]">
+          <div className="flex flex-col gap-[15px]">
+            <p className="text-[16px] md:text-[28px]">
               티태는 <span className="text-[var(--main-color-3)]">가성비</span>{' '}
               있는 장소들도
               <br />
@@ -335,7 +328,7 @@ export default function UnAuthorizedMain() {
                 검색 서비스
               </p>
             </div>
-            <p className="text-[14px] text-[var(--main-color-3)] md:text-[20px]">
+            <p className="text-[14px] text-[var(--text-color)] md:text-[20px]">
               동 단위로 지역을 검색해서
               <br />
               가성비있는 장소를 탐색
@@ -358,7 +351,7 @@ export default function UnAuthorizedMain() {
 
         {/* 게시판 */}
         <motion.div
-          className="mb-[100px] flex flex-col items-center gap-[30px] md:flex-row"
+          className="mb-[100px] flex flex-col items-center gap-[40px] md:flex-row"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
@@ -366,13 +359,13 @@ export default function UnAuthorizedMain() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="flex max-w-[400px] flex-col gap-[10px]">
-            <p className="md:text-[20px]">
+            <p className="md:text-[28px]">
               <span className="text-[var(--main-color-3)]">게시판</span>에서
               나만의 장소를
               <br />
               서로 공유해보세요.
             </p>
-            <div className="flex flex-col gap-[10px]">
+            <div className="flex flex-col gap-[15px]">
               <div className="flex items-center gap-[2px]">
                 <BsPersonUp className="h-[22px] w-[32px] text-[var(--main-color-3)] md:h-[32px] md:w-[42px]" />
                 <p className="text-[var(--main-color-3)] md:text-[20px]">
