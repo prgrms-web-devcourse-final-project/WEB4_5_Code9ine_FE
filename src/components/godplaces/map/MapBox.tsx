@@ -11,6 +11,7 @@ import BeautySalonMarkers from './BeautySalonMarkers';
 import LaundryMarkers from './LaundryMarkers';
 import HotelMarkers from './HotelMarkers';
 import FestivalMarkers from './FestivalMarkers';
+import { useSearchParams } from 'next/navigation';
 
 const dummyCenter = { lat: 37.5452442, lng: 127.0473267 };
 // const dummyData = [
@@ -26,6 +27,10 @@ const dummyCenter = { lat: 37.5452442, lng: 127.0473267 };
 
 export default function MapBox() {
   const godplaces = useGodplacesStore((state) => state.godplaces);
+  const searchParams = useSearchParams();
+  const isDetail = searchParams.get('id') !== null;
+  const mapHeight = isDetail ? 'md:h-[731px]' : 'md:h-[637px]';
+
   useKaKaoLoader();
 
   const godplacesPositions = godplaces?.map((godplace) => {
@@ -35,7 +40,7 @@ export default function MapBox() {
   return (
     <>
       <Map
-        className="h-[230px] min-w-[330px] rounded-[10px] bg-gray-300 shadow-[var(--shadow-md)] md:h-[637px] md:w-[756px]"
+        className={`h-[230px] min-w-[330px] rounded-[10px] bg-gray-300 shadow-[var(--shadow-md)] md:w-[756px] ${mapHeight}`}
         center={
           godplacesPositions && godplacesPositions.length > 0
             ? godplacesPositions[0]

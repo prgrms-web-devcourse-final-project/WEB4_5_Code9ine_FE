@@ -18,8 +18,6 @@ export default function KoreanRestaurantMarkers() {
   );
   const koreanRestaurantMarkerOrigin = { x: 16, y: 0 };
 
-  console.log(koreanRestaurantPositions);
-
   return (
     <>
       {koreanRestaurantPositions &&
