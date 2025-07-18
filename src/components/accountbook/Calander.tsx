@@ -32,7 +32,7 @@ export default function Calander({
 
   const handleNoExpense = async () => {
     try {
-      const response = await fetch(API_ADD + `api/budget/noexpenses`, {
+      const response = await fetch(API_ADD + `/api/budget/noexpenses`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -51,7 +51,7 @@ export default function Calander({
     const month = today.getMonth() + 1;
     fetch(
       API_ADD +
-        `api/budget/calendar?yearmonth=${today.getFullYear()}-${month.toString().padStart(2, '0')}`,
+        `/api/budget/calendar?yearmonth=${today.getFullYear()}-${month.toString().padStart(2, '0')}`,
     )
       .then((res) => res.json())
       .then((data) => setData(data));

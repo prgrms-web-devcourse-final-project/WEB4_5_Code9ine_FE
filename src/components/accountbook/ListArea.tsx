@@ -30,7 +30,7 @@ export default function ListArea() {
     }
     fetch(
       API_ADD +
-        `api/budget/detail?date=${dateData?.getFullYear()}-${(dateData!.getMonth() + 1).toString().padStart(2, '0')}-${dateData?.getDate().toString().padStart(2, '0')}`,
+        `/api/budget/detail?date=${dateData?.getFullYear()}-${(dateData!.getMonth() + 1).toString().padStart(2, '0')}-${dateData?.getDate().toString().padStart(2, '0')}`,
     )
       .then((res) => res.json())
       .then((data) => setDay(data));
