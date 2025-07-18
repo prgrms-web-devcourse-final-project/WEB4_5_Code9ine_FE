@@ -1,4 +1,4 @@
-import { GodplacesSearchList } from '@/types/godplaces';
+import { GodplacesSearchList, Plans } from '@/types/godplaces';
 import { create } from 'zustand';
 
 type GodplacesStore = {
@@ -11,6 +11,8 @@ type GodplacesStore = {
   setGodplaces: (data: GodplacesSearchList[]) => void;
   bookmarked: { placeId: string }[];
   setBookmarked: (data: { placeId: string }[]) => void;
+  plans: Plans[];
+  setPlans: (data: Plans) => void;
 };
 
 export const useGodplacesStore = create<GodplacesStore>((set) => ({
@@ -24,9 +26,29 @@ export const useGodplacesStore = create<GodplacesStore>((set) => ({
       else newSet.add(type);
       return { category: newSet };
     }),
-  reset: () => set({ location: '', category: new Set(), godplaces: undefined }),
+  reset: () =>
+    set({ location: '', category: new Set(), godplaces: undefined, plans: [] }),
   godplaces: undefined,
   setGodplaces: (data) => set({ godplaces: data }),
   bookmarked: [],
   setBookmarked: (data: { placeId: string }[]) => set({ bookmarked: data }),
+  plans: [],
+  setPlans: (data) =>
+    set((state) => {
+      const exists = state.plans.some(
+        (plan) => plan.type === data.type && plan.id === data.id,
+      );
+
+      if (exists) {
+        return {
+          plans: state.plans.filter(
+            (plan) => !(plan.type === data.type && plan.id === data.id),
+          ),
+        };
+      } else {
+        return {
+          plans: [...state.plans, data],
+        };
+      }
+    }),
 }));
