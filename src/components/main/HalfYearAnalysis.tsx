@@ -1,6 +1,17 @@
 import BarChartClient from './BarChartClient';
 
-export default function HalfYearAnalysis() {
+interface MonthlyExpense {
+  month: string;
+  amount: number;
+}
+
+interface HalfYearAnalysisProps {
+  monthlyExpenses: MonthlyExpense[];
+}
+
+export default function HalfYearAnalysis({
+  monthlyExpenses,
+}: HalfYearAnalysisProps) {
   return (
     <>
       <div className="text-center text-[16px]">
@@ -11,7 +22,7 @@ export default function HalfYearAnalysis() {
         </div>
       </div>
       <div className="h-[250px] w-[280px] md:w-[314px]">
-        <BarChartClient />
+        <BarChartClient monthlyExpenses={monthlyExpenses} />
       </div>
     </>
   );

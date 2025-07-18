@@ -21,15 +21,19 @@ export default function AccountAdd({
   const [accountTag, setAccountTag] = useState<string>('지출');
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [value, setValue] = useState<string>('');
-  const [price, setPrice] = useState<string | null>(null);
+  const [price, setPrice] = useState<string>('');
   const [content, setContent] = useState<string | null>(null);
 
+  const handleCalculator = (value: string) => {
+    setPrice(value);
+  };
+
   const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const priceValue = e.target.value;
+    const priceValue = e.target.value.replace(/[^0-9]/g, '');
     if (!/^\d+$/.test(priceValue) && priceValue !== '') {
       return;
     }
-    const numberValue = Number(priceValue.replace(/,/g, ''));
+    const numberValue = Number(priceValue.replace(/[^0-9]/g, ''));
     setPrice(numberValue.toLocaleString('ko-KR'));
   };
 
@@ -37,10 +41,9 @@ export default function AccountAdd({
     setContent(e.target.value);
   };
 
-  console.log(price);
-
   const handleTag = (tag: string) => {
     setAccountTag(tag);
+    setValue('');
   };
   const handleCategory = (category: string) => {
     setValue(category);
@@ -76,7 +79,6 @@ export default function AccountAdd({
       console.error(error);
     }
   };
-  console.log(startDate);
   return (
     <>
       <div className="relative mx-[5px] flex w-[97.7vw] flex-col items-center rounded-[10px] bg-[var(--white-color)] py-[30px] md:h-[870px] md:w-full">
@@ -187,7 +189,9 @@ export default function AccountAdd({
         {toolStatus === '카테고리' ? (
           <Category accountTag={accountTag} handleTag={handleCategory} />
         ) : null}
-        {toolStatus === '금액' ? <Calculator /> : null}
+        {toolStatus === '금액' ? (
+          <Calculator calcValue={handleCalculator} />
+        ) : null}
         <div className="absolute bottom-[25px] flex gap-[25px] md:bottom-[60px] md:left-[70px] md:gap-[10px]">
           <button
             className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]"
