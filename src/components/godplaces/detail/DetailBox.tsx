@@ -27,7 +27,7 @@ export default function DetailBox({
     });
   }, []);
 
-  console.log(details);
+  // console.log(details);
 
   // const dummyData = {
   //   status: 'success',

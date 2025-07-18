@@ -1,6 +1,6 @@
-import { BsStarFill } from 'react-icons/bs';
 import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
 import markers from '../../../assets/icons/markers.png';
+import BookmarkButton from '../common/BookmarkButton';
 
 export default function CustomMarker({
   position,
@@ -25,16 +25,9 @@ export default function CustomMarker({
           },
         }}
       />
-      <CustomOverlayMap position={position} yAnchor={2.3}>
+      <CustomOverlayMap position={position} yAnchor={2.36}>
         <div className="customoverlay">
-          <button className="cursor-pointer">
-            <BsStarFill
-              fill="white"
-              stroke="var(--point-color-1)"
-              strokeWidth={2}
-              size={20}
-            />
-          </button>
+          <BookmarkButton className="cursor-pointer" hasWhiteBG={true} />
         </div>
       </CustomOverlayMap>
     </>
