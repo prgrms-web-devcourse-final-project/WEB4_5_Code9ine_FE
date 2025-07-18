@@ -1,22 +1,37 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { missionData } from '@/data/missionData';
+import { iconMap } from '@/data/iconMap';
 import { PiFlowerFill } from 'react-icons/pi';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import MissionTabs from './MissionTabs';
-import { StaticImageData } from 'next/image';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
+import { getChallenge } from '@/api/getChallenge';
+import { Challenge } from '@/types/userType';
+
+type MissionType = 'daily' | 'monthly' | 'community';
+
+interface MappedChallenge extends Challenge {
+  iconImage?: StaticImageData;
+}
 
 export default function MissionSwiperTabs() {
-  const [selectedTab, setSelectedTab] = useState<
-    'daily' | 'weekly' | 'monthly' | 'community'
-  >('daily');
+  const [selectedTab, setSelectedTab] = useState<MissionType>('daily');
   const [reset, setReset] = useState(0);
+  const [challenges, setChallenges] = useState<MappedChallenge[]>([]);
 
-  const missions = missionData[selectedTab];
+  const typeMap = {
+    daily: '일일',
+    monthly: '월간',
+    community: '커뮤니티',
+  } as const;
+
+  const missions = challenges.filter(
+    (item) => item.type === typeMap[selectedTab],
+  );
   const showSwiper = missions.length > 2;
 
   const groups = [];
@@ -24,39 +39,58 @@ export default function MissionSwiperTabs() {
     groups.push(missions.slice(i, i + 2));
   }
 
+  // 챌린지 데이터
   useEffect(() => {
-    setReset(0);
+    const fetchChallenge = async () => {
+      setReset(0);
+      try {
+        const res = await getChallenge();
+        const mapped = res.data.map((item) => ({
+          ...item,
+          iconImage: iconMap[item.icon as keyof typeof iconMap] ?? undefined,
+        }));
+        setChallenges(mapped);
+      } catch (err) {
+        console.error('챌린지 목록 가져올 때 에러 발생', err);
+      }
+    };
+
+    fetchChallenge();
   }, [selectedTab]);
 
   const MissionCard = ({
-    icon,
-    des,
-    missionTitle,
+    iconImage,
+    description,
+    title,
+    progress,
+    total,
   }: {
-    icon: StaticImageData;
-    des: string;
-    missionTitle: string;
+    iconImage?: StaticImageData;
+    description: string;
+    title: string;
+    progress: number;
+    total: number;
   }) => (
     <div className="flex flex-col items-center justify-center rounded-[10px] p-[10px]">
       <p className="mt-[10px] text-center text-[16px] whitespace-pre-line">
-        {des}
+        {description}
       </p>
-      <p className="flex text-[18px] font-semibold">
-        {icon && (
+      <p className="flex items-center text-[18px] font-semibold">
+        {iconImage && (
           <Image
-            src={icon}
+            src={iconImage}
             alt="미션 아이콘"
             width={25}
             height={25}
             className="mr-[5px]"
           />
         )}
-        {missionTitle}
+        {title}
       </p>
       <PiFlowerFill size={47} color="#FFFAC5" />
       <button className="mt-[5px] h-[30px] w-[60px] rounded-[10px] bg-[var(--main-color-1)]">
         <p className="text-center text-[16px] font-semibold dark:text-[#2b2e34]">
-          0 / 3
+          {progress} / {total}
         </p>
       </button>
     </div>
@@ -68,10 +102,8 @@ export default function MissionSwiperTabs() {
         챌린지
       </h1>
       <div className="w-full px-[10px]">
-        {/* 탭 메뉴 */}
         <MissionTabs selectedTab={selectedTab} onChange={setSelectedTab} />
 
-        {/* 미션*/}
         {showSwiper ? (
           <Swiper
             key={selectedTab}
@@ -84,12 +116,14 @@ export default function MissionSwiperTabs() {
             {groups.map((group, index) => (
               <SwiperSlide key={index}>
                 <div className="gap-[10px]">
-                  {group.map((item, i) => (
+                  {group.map((item) => (
                     <MissionCard
-                      icon={item.icon}
-                      key={i}
-                      des={item.des}
-                      missionTitle={item.missionTitle}
+                      key={item.challengeId}
+                      iconImage={item.iconImage}
+                      description={item.description}
+                      title={item.title}
+                      progress={item.progress}
+                      total={item.total}
                     />
                   ))}
                 </div>
@@ -98,12 +132,14 @@ export default function MissionSwiperTabs() {
           </Swiper>
         ) : (
           <div className="gap-[10px]">
-            {missions.map((item, index) => (
+            {missions.map((item) => (
               <MissionCard
-                key={index}
-                icon={item.icon}
-                des={item.des}
-                missionTitle={item.missionTitle}
+                key={item.challengeId}
+                iconImage={item.iconImage}
+                description={item.description}
+                title={item.title}
+                progress={item.progress}
+                total={item.total}
               />
             ))}
           </div>

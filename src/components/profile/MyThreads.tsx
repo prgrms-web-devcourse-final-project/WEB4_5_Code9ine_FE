@@ -19,6 +19,7 @@ export default function MyThreads() {
   const threadList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [bookmarkedPlaces, setBookmarkedPlaces] = useState<SimpleProps[]>([]);
 
+  // 내가 찜한 갓플
   useEffect(() => {
     getBookmarkedPlaces().then((res) => {
       console.log('성공', res);
