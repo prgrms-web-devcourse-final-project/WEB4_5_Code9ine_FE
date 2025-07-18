@@ -42,9 +42,13 @@ export interface UserData {
 
 // 마이페이지 API 전체 응답
 export interface GetMyPageData {
-  code: number;
+  code: string; // "0000"
   message: string;
-  data: UserData;
+  data: {
+    code: number; // 2000
+    message: string;
+    data: UserData;
+  };
 }
 
 // 목표 설정 데이터
