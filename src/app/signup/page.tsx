@@ -12,7 +12,7 @@ export default function Login() {
   `;
   return (
     <div
-      className="mx-auto flex h-screen w-full items-center justify-center rounded-[20px] bg-cover bg-center md:h-[900px] md:w-[1366px]"
+      className="mx-auto flex h-auto w-full items-center justify-center rounded-[20px] bg-cover bg-center md:h-[1200px] md:w-[1366px]"
       style={{ background: gradient }}
     >
       <SignupBox />

@@ -56,6 +56,15 @@ export default function LoginBox() {
     }
   };
 
+  //카카오로그인
+  const handleKakaoLogin = () => {
+    const kakaoClientId = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+    const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${redirectUri}&response_type=code`;
+
+    window.location.href = kakaoAuthUrl;
+  };
+
   return (
     <div className="flex h-auto w-[270px] flex-col gap-4 overflow-y-auto rounded-[20px] bg-[var(--background)] p-8 pt-[80px] md:h-auto md:w-[500px] md:overflow-hidden">
       <p className="mb-[10px] self-center text-[20px] font-semibold md:text-[24px]">
@@ -127,7 +136,10 @@ export default function LoginBox() {
         <Button className="h-[35px] w-[195px] bg-[#FFFFFF] text-[16px] font-semibold md:w-[300px] md:text-[20px]">
           구글로 로그인 하기
         </Button>
-        <Button className="h-[35px] w-[195px] bg-[#FEE500] text-[16px] font-semibold md:w-[300px] md:text-[20px]">
+        <Button
+          onClick={handleKakaoLogin}
+          className="h-[35px] w-[195px] bg-[#FEE500] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
+        >
           카카오톡으로 로그인 하기
         </Button>
       </div>

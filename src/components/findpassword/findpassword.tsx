@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { findPassword } from '@/services/authService'; // ← API 함수 임포트
+import { findPassword } from '@/services/authService';
 
 export default function FindPassword() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function FindPassword() {
 
     try {
       const result = await findPassword({ email });
-      toast.success(result.message); // "비밀번호 찾기 메일이 발송되었습니다."
+      toast.success(result.message);
     } catch (err) {
       const msg =
         err instanceof Error ? err.message : '요청 중 오류가 발생했습니다.';
@@ -61,7 +61,7 @@ export default function FindPassword() {
       {/* 버튼 */}
       <div className="mt-4 flex flex-col items-center gap-3">
         <button
-          className={`h-[35px] w-[195px] rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold text-white hover:bg-[var(--main-color-2)] md:w-[300px] md:text-[20px] ${
+          className={`h-[35px] w-[195px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-2)] md:w-[300px] md:text-[20px] ${
             loading ? 'cursor-not-allowed opacity-50' : ''
           }`}
           onClick={handleFindPassword}
