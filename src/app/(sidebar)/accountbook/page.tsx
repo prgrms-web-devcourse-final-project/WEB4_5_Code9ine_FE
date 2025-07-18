@@ -6,7 +6,7 @@ import Page from '@/components/accountbook/Page';
 import { API_ADD } from '@/lib/api/api';
 
 export async function setData() {
-  const res = await fetch(API_ADD + 'api/budget/totaldetails', {
+  const res = await fetch(API_ADD + '/api/budget/totaldetails', {
     cache: 'force-cache',
   });
   return res.json();

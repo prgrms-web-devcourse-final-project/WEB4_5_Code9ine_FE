@@ -2,7 +2,7 @@
 import styles from '../../css/TitleSwiper.module.css';
 import Image, { StaticImageData } from 'next/image';
 import { useEffect, useState } from 'react';
-import { getMyPage } from '@/api/getMyPage';
+import { getMyPage } from '@/api/profile';
 import { iconMap } from '@/data/iconMap';
 import { Title } from '@/types/userType';
 

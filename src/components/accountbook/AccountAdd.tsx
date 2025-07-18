@@ -55,10 +55,11 @@ export default function AccountAdd({
   };
 
   const handlePost = async () => {
-    if (price === null || content === null || value === '') {
+    if (price === '' || content === null || value === '') {
+      return;
     }
     try {
-      const response = await fetch(API_ADD + `api/budget/detail`, {
+      const response = await fetch(API_ADD + `/api/budget/detail`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
