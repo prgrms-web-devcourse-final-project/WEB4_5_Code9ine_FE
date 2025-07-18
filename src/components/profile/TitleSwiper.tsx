@@ -1,39 +1,55 @@
+'use client';
 import styles from '../../css/TitleSwiper.module.css';
-import Image from 'next/image';
-import { missionData } from '@/data/missionData';
+import Image, { StaticImageData } from 'next/image';
+import { useEffect, useState } from 'react';
+import { getMyPage } from '@/api/getMyPage';
+import { iconMap } from '@/data/iconMap';
+import { Title } from '@/types/userType';
 
-// const iconList = {
-//   절약왕 : missionData.daily[0].icon,
-// }
+interface MappedTitle extends Title {
+  iconImage?: StaticImageData;
+}
 
 export default function TitleSwiper() {
-  const allMossions = [
-    ...missionData.daily,
-    ...missionData.weekly,
-    ...missionData.monthly,
-    ...missionData.community,
-  ];
+  const [achievedChallenge, setAchievedChallenge] = useState<MappedTitle[]>([]);
+
+  useEffect(() => {
+    const myTitles = async () => {
+      try {
+        const res = await getMyPage();
+        console.log(res.data.data.achievedTitles);
+        const mapped = res.data.data.achievedTitles.map((item) => ({
+          ...item,
+          iconImage: iconMap[item.icon as keyof typeof iconMap] ?? undefined,
+        }));
+        setAchievedChallenge(mapped);
+      } catch (err) {
+        console.log('획득한 칭호 에러', err);
+      }
+    };
+    myTitles();
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.marquee}>
         <div className={styles.marqueeContent}>
-          {allMossions.map((mission, i) => (
+          {achievedChallenge.map((mission, i) => (
             <div
               key={`1-${i}`}
               className="mx-[30px] flex text-[16px] md:text-[20px] dark:text-[#2b2e34]"
             >
               <Image
-                src={mission.icon} // iconList[mission.missionTitle]
+                src={mission.icon}
                 alt="미션 아이콘"
                 width={25}
                 height={25}
                 className="mr-[5px]"
               />
-              {mission.missionTitle}
+              {mission.title}
             </div>
           ))}
 
-          {allMossions.map((mission, i) => (
+          {achievedChallenge.map((mission, i) => (
             <div
               key={`2-${i}`}
               className="mx-[30px] flex text-[16px] md:text-[20px] dark:text-[#2b2e34]"
@@ -45,7 +61,7 @@ export default function TitleSwiper() {
                 height={25}
                 className="mr-[5px]"
               />
-              {mission.missionTitle}
+              {mission.title}
             </div>
           ))}
         </div>

@@ -1,4 +1,4 @@
-type TabType = 'myHiddenStore' | 'challenge' | 'freeBoard';
+type TabType = 'MYSTORE' | 'CHALLENGE' | 'FREE';
 
 interface MissionTabsProps {
   selectedTab: TabType;
@@ -10,9 +10,9 @@ export default function CommunityTab({
   onChange,
 }: MissionTabsProps) {
   const tabs: { key: TabType; label: string }[] = [
-    { key: 'myHiddenStore', label: '나만 아는 가게' },
-    { key: 'challenge', label: '챌린지' },
-    { key: 'freeBoard', label: '자유 게시판' },
+    { key: 'MYSTORE', label: '나만 아는 가게' },
+    { key: 'CHALLENGE', label: '챌린지' },
+    { key: 'FREE', label: '자유 게시판' },
   ];
 
   return (

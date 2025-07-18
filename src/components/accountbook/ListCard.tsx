@@ -4,6 +4,17 @@ import CardMenu from './CardMenu';
 import { IoEllipsisVertical } from 'react-icons/io5';
 import MobileCardMenu from './MobileCardMenu';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Gimbab from '../../assets/icons/gimbab.png';
+import Bus from '../../assets/icons/bus.png';
+import Guitar from '../../assets/icons/guitar.png';
+import Celebration from '../../assets/icons/celebration.png';
+import Headphone from '../../assets/icons/headphone.png';
+import Bag from '../../assets/icons/bag.png';
+import Note from '../../assets/icons/note.png';
+import Phone from '../../assets/icons/phone.png';
+import Health from '../../assets/icons/health.png';
+import Life from '../../assets/icons/life.png';
 
 export default function ListCard({
   value,
@@ -23,7 +34,45 @@ export default function ListCard({
       <div className="group relative mx-[3px] mb-[15px] flex min-h-[95px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md hover:z-50 md:w-[310px]">
         <div className="absolute left-[10px] flex gap-[10px]">
           <div className="flex size-[50px] items-center justify-center rounded-full bg-[var(--main-color-1)]">
-            <span className="text-[25px]">{value.categoryIcon}</span>
+            {value.category === '식비' ? (
+              <Image src={Gimbab} alt="식비" height={30} width={30} />
+            ) : null}
+            {value.category === '교통' ? (
+              <Image
+                src={Bus}
+                alt="교통"
+                height={30}
+                width={30}
+                style={{
+                  width: '30px',
+                  height: '30px',
+                }}
+              />
+            ) : null}
+            {value.category === '여가' ? (
+              <Image src={Headphone} alt="여가" height={30} width={30} />
+            ) : null}
+            {value.category === '경조사' ? (
+              <Image src={Celebration} alt="경조사" height={30} width={30} />
+            ) : null}
+            {value.category === '쇼핑' ? (
+              <Image src={Bag} alt="쇼핑" height={30} width={30} />
+            ) : null}
+            {value.category === '교육' ? (
+              <Image src={Note} alt="교육" height={30} width={30} />
+            ) : null}
+            {value.category === '생활' ? (
+              <Image src={Life} alt="생활" height={30} width={30} />
+            ) : null}
+            {value.category === '건강' ? (
+              <Image src={Health} alt="건강" height={30} width={30} />
+            ) : null}
+            {value.category === '주거/통신' ? (
+              <Image src={Phone} alt="주거/통신" height={30} width={30} />
+            ) : null}
+            {value.category === '기타' ? (
+              <Image src={Guitar} alt="기타" height={30} width={30} />
+            ) : null}
           </div>
           <div>
             <p className="text-[var(--main-color-3)]">{value.category}</p>

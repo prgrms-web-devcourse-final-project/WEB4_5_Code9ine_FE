@@ -17,10 +17,10 @@ import MobileMenu from '../common/MobileMenu';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import { useDummyData } from '@/stores/dummyStore';
 import NotificationBox from '../common/NotificationBox';
 import { getNotificationTitles } from '@/api/notification';
 import type { NotificationTitle } from '@/api/notification';
+import { useAccountData } from '@/stores/accountStore';
 
 export default function ColoredBox() {
   const [login, setLogin] = useState<boolean>(false);
@@ -28,7 +28,7 @@ export default function ColoredBox() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const sidebarRef = useRef(null);
   const location = usePathname();
-  const { isLogin, setIsLogin } = useDummyData();
+  const { isLogin, setIsLogin } = useAccountData();
   const [showNotification, setShowNotification] = useState(false);
   const notificationRef = useRef<HTMLDivElement | null>(null);
   const [notifications, setNotifications] = useState<NotificationTitle[]>([]);

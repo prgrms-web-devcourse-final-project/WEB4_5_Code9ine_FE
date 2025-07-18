@@ -1,47 +1,64 @@
+import { format, parseISO } from 'date-fns';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { boardApi } from '../../api/boardApi';
+import { CommentRes } from '../../types/boardType';
+import toast from 'react-hot-toast';
+import Link from 'next/link';
 
-export default function CommentList() {
+export default function CommentList({ postId }: { postId: number }) {
   const [input, setInput] = useState('');
+  const [comments, setComments] = useState<CommentRes[]>([]);
+  // const [loading, setLoading] = useState(true);
 
-  const comments = [
-    {
-      id: 1,
-      writer: '다람이',
-      content: '이 사이트 최고네요!',
-      date: '2024-07-10',
-      avatar: '/profileTest.png',
-      role: '노노커피 마스터',
-    },
-    {
-      id: 2,
-      writer: '도토리',
-      content: '알뜰 다람쥐는 오늘도 출석~',
-      date: '2024-07-10',
-      avatar: '/profileTest.png',
-      role: '',
-    },
-    {
-      id: 3,
-      writer: '도토리',
-      content: '알뜰 다람쥐는 오늘도 출석~',
-      date: '2024-07-10',
-      avatar: '/profileTest.png',
-      role: '',
-    },
-    {
-      id: 4,
-      writer: '도토리',
-      content: '알뜰 다람쥐는 오늘도 출석~',
-      date: '2024-07-10',
-      avatar: '/profileTest.png',
-      role: '',
-    },
-  ];
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const data = await boardApi.getCommentlist(postId);
+        setComments(data);
+      } catch (err) {
+        console.error('댓글 불러오기 실패:', err);
+      } finally {
+        //setLoading(false);
+      }
+    };
+
+    fetchComments();
+  }, [postId]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) {
+      toast.error('댓글을 입력해주세요!');
+      return;
+    }
+
+    try {
+      await boardApi.postCommentCreate(postId, input);
+      toast.success('댓글이 등록되었어요!');
+      setInput('');
+      const data = await boardApi.getCommentlist(postId);
+      setComments(data);
+    } catch (err) {
+      console.error(err);
+      toast.error('댓글 작성에 실패했어요');
+    }
+  };
+
+  const handleDelete = async (commentId: number) => {
+    try {
+      await boardApi.deleteComment(commentId);
+      setComments((prev) => prev.filter((c) => c.commentId !== commentId));
+      toast.success('댓글이 삭제되었어요!');
+    } catch (err) {
+      console.error(err);
+      toast.error('댓글이 삭제에 실패했어요');
+    }
+  };
 
   return (
     <div className="mt-[10px] text-[var(--text-color-white)]">
-      <form className="mb-4 flex items-center py-2">
+      <form onSubmit={handleSubmit} className="mb-4 flex items-center py-2">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -58,33 +75,43 @@ export default function CommentList() {
 
       {comments.map((c) => (
         <div
-          key={c.id}
+          key={c.commentId}
           className="flex items-start gap-3 border-t border-[var(--main-color-2)] py-4"
         >
-          <Image
-            src={c.avatar}
-            alt={`${c.writer} 프로필`}
-            width={32}
-            height={32}
-            className="h-8 w-8 rounded-full"
-          />
-
+          <Link href={`/profile/${c.memberId}`}>
+            <Image
+              src={'/profileTest.png'}
+              alt={'댓글 작성자 프로필'}
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded-full"
+            />
+          </Link>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <b className="text-[16px]">{c.writer}</b>
-              {c.role && (
-                <span className="text-xs text-gray-400">{c.role}</span>
+              <Link href={`/profile/${c.memberId}`}>
+                <b className="text-[16px]">{c.writerNickname}</b>
+              </Link>
+              {c.writerTitle && (
+                <Link href={`/profile/${c.memberId}`}>
+                  <span className="text-xs text-gray-400">{c.writerTitle}</span>
+                </Link>
               )}
+
               <span className="ml-1 text-xs text-gray-400">
-                {c.date.replaceAll('-', '.').slice(2)}
+                {format(parseISO(c.createdAt), 'yy.MM.dd')}
               </span>
             </div>
+
             <div className="flex items-center justify-between">
               <span className="mt-1 block text-[16px] break-all">
                 {c.content}
               </span>
 
-              <button className="h-[28px] w-[48px] shrink-0 rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:w-[58px] md:text-[16px]">
+              <button
+                onClick={() => handleDelete(c.commentId)}
+                className="h-[28px] w-[48px] shrink-0 rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:w-[58px] md:text-[16px]"
+              >
                 삭제
               </button>
             </div>
