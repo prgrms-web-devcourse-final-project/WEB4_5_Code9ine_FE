@@ -1,10 +1,11 @@
-export interface ApiResponse {
+export interface ApiResponse<T>{
   code: string;
   message: string;
-  data: PopularPostRes[];
+  data: T;
 }
 
 export interface PopularPostRes {
+  memberId: number;  // 유저번호
   postId: number; // 게시글 아이디
   title: string; // 게시글 제목
   writerNickname: string; // 작성자 닉네임
@@ -12,7 +13,7 @@ export interface PopularPostRes {
   writerSymbol: string; // 휘장
   writerTitle: string; // 칭호
   createdAt: string; // 작성일
-  //category: string; // 카테고리
+  category: string; // 카테고리
 }
 
 export interface WritePostReq {
@@ -36,7 +37,7 @@ export interface PostListRes {
 
 export interface PostRes {
   postId: number;  // 게시글 번호
-  userId: number;  // 유저번호
+  memberId: number;  // 유저번호
   category: 'MYSTORE' | 'CHALLENGE' | 'FREE'; // 게시글 카테고리
   challengeCategory: 'NO_MONEY' | 'KIND_CONSUMER' | 'DETECTIVE' | 'MASTER' | 'COOK_KING'; // 챌린지 카테고리
   title: string; // 게시글 제목
@@ -54,3 +55,14 @@ export interface PostRes {
   writerProfileImage: string; // 게시글 작성자 프로필 이미지
 }
 
+export interface CommentRes {
+  commentId: number;
+  memberId: number;
+  content: string;
+  writerNickname: string;
+  writerProfileImage: string;
+  writerTitle: string;
+  writerLevel: number;
+  createdAt: string;
+  modifiedAt: string;
+}
