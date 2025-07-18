@@ -9,6 +9,7 @@ import {
   getBookmarkedThreads,
   getBookmarkedPlaces,
 } from '@/api/profile';
+import { Post } from '@/types/userType';
 
 type SimpleProps = {
   id: string;
@@ -20,35 +21,58 @@ export default function MyThreads() {
     'thread',
   );
 
-  const threadList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [myThreads, setMyThreads] = useState<Post[]>([]);
+  const [savedThreads, setSavedThreads] = useState<Post[]>([]);
   const [bookmarkedPlaces, setBookmarkedPlaces] = useState<SimpleProps[]>([]);
 
-  // 내가 찜한 갓플
+  // 내가 쓴 글, 내가 찜한 글, 내가 찜한 갓플
   useEffect(() => {
-    getBookmarkedPlaces().then((res) => {
-      console.log('성공', res);
-      const finalId = res.data.map((item) => {
-        let id = '';
-        switch (item.type) {
-          case 'store':
-            id = item.storeId;
-            break;
-          case 'festival':
-            id = item.festivalId;
-            break;
-          case 'library':
-            id = item.libraryId;
-            break;
-        }
-        return {
-          type: item.type,
-          id,
-          name: item.name,
-        };
+    if (selectedTab === 'thread') {
+      getMyThreads()
+        .then((res) => {
+          console.log('내가 쓴 글 가져오기 성공!', res);
+          // userId는 로그인한 계정의 memberId
+          // const my = res.data.filter((post) => post.memberId === userId)
+          // setMyThreads(my);
+        })
+        .catch((err) => console.log('내가 쓴 글 가져오기 실패', err));
+    }
+
+    if (selectedTab === 'saved') {
+      getBookmarkedThreads()
+        .then((res) => {
+          console.log('내가 찜한 글 가져오기 성공', res);
+          setSavedThreads(res.data);
+        })
+        .catch((err) => console.log('내가 찜한 글 가져오기 실패', err));
+    }
+
+    if (selectedTab === 'place') {
+      getBookmarkedPlaces().then((res) => {
+        console.log('성공', res);
+        const finalId = res.data.map((item) => {
+          let id = '';
+          switch (item.type) {
+            case 'store':
+              id = item.storeId;
+              break;
+            case 'festival':
+              id = item.festivalId;
+              break;
+            case 'library':
+              id = item.libraryId;
+              break;
+          }
+          return {
+            type: item.type,
+            id,
+            name: item.name,
+          };
+        });
+        console.log('타입 추출', finalId);
+        setBookmarkedPlaces(finalId);
       });
-      console.log('타입 추출', finalId);
-      setBookmarkedPlaces(finalId);
-    });
+    }
   }, [selectedTab]);
 
   return (
@@ -62,26 +86,21 @@ export default function MyThreads() {
             : 'flex flex-col'
         }`}
       >
-        {selectedTab === 'thread' || selectedTab === 'saved'
-          ? threadList.map((_, i) => (
-              <div key={i}>
-                <PostItem />
-              </div>
-            ))
-          : selectedTab === 'place'
-            ? bookmarkedPlaces.map((place) => (
-                <div
-                  key={place.id}
-                  className="rounded-[10px] shadow dark:shadow-md"
-                >
-                  <DetailBox
-                    type={place.type}
-                    id={place.id}
-                    showBackButton={false}
-                  />
-                </div>
-              ))
-            : null}
+        {/* {selectedTab === 'thread' && myThreads.map((post) => <PostItem />)}
+        {selectedTab === 'saved' && savedThreads.map((post) => <PostItem />)} */}
+        {selectedTab === 'place' &&
+          bookmarkedPlaces.map((place) => (
+            <div
+              key={place.id}
+              className="rounded-[10px] shadow dark:shadow-md"
+            >
+              <DetailBox
+                type={place.type}
+                id={place.id}
+                showBackButton={false}
+              />
+            </div>
+          ))}
       </div>
     </>
   );
