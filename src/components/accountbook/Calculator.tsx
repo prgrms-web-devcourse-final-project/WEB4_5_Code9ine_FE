@@ -1,7 +1,12 @@
 export default function Calculator() {
+  // const calculated = [];
+  // const handleCalculator = (input: string, number: number) => {
+  //   if (input !== '=') calculated.push(input)
+  //   else if (input === '=') new Function('return' + calculated.toString())
+  // };
   return (
     <>
-      <div className="mt-[32px] flex max-size-[300px] rounded-[10px] bg-[var(--background)] shadow-md">
+      <div className="max-size-[300px] mt-[32px] flex rounded-[10px] bg-[var(--background)] shadow-md">
         <div className="grid grid-cols-3">
           <button className="size-[75px] cursor-pointer rounded-tl-[10px] text-[20px] active:bg-[var(--main-color-2)]">
             7

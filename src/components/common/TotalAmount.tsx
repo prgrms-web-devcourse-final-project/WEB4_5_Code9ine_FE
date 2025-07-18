@@ -1,5 +1,5 @@
 'use client';
-import { fetchCalendarAccount } from '@/data/accountData';
+import { API_ADD } from '@/lib/api/api';
 import { CalendarList } from '@/types/payData';
 import { useEffect, useState } from 'react';
 
@@ -7,9 +7,9 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
   const [data, setData] = useState<CalendarList>();
 
   useEffect(() => {
-    fetchCalendarAccount()
-      .then(setData)
-      .catch((err) => console.error(err));
+    fetch(API_ADD + 'api/budget/totaldetails')
+      .then((res) => res.json())
+      .then((data) => setData(data));
   }, []);
 
   return (

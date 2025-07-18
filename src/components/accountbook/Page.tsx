@@ -8,15 +8,20 @@ import AccountAdd from './AccountAdd';
 import TotalAmount from '../common/TotalAmount';
 import Image from 'next/image';
 import AIBot from '../../assets/TiTae.svg';
+import { useAccountData } from '@/stores/accountStore';
+import { totalData } from '@/types/payData';
 
-export default function Page() {
+export default function Page({ totalData }: { totalData: totalData }) {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isInsert, setIsInsert] = useState<boolean>(false);
+
+  const { setTotaldata } = useAccountData();
 
   const handleMenu = (handle: boolean) => {
     setIsInsert(handle);
   };
   useEffect(() => {
+    setTotaldata(totalData);
     setIsClient(true);
   }, []);
   if (!isClient) {

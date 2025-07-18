@@ -1,6 +1,15 @@
-import CategoryButton from './CategoryButton';
+'use client';
+import { useAccountData } from '@/stores/accountStore';
+import { useState } from 'react';
 
 export default function Category() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const { setCategory } = useAccountData();
+  const handleCategory = (value: string) => {
+    setSelectedCategory(value);
+    setCategory(selectedCategory);
+    console.log(selectedCategory);
+  };
   const paidCategoryTag = [
     '식비',
     '교통',
@@ -19,7 +28,13 @@ export default function Category() {
     <>
       <div className="mt-[40px] grid size-[300px] grid-cols-3 gap-x-[10px] gap-y-[20px] rounded-[10px] px-[20px] py-[40px] shadow-md">
         {paidCategoryTag.map((v, i) => (
-          <CategoryButton category={v} key={i} />
+          <button
+            className="h-[40px] w-[80px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-black active:bg-[var(--main-color-2)]"
+            key={i}
+            onClick={() => handleCategory(v)}
+          >
+            {v}
+          </button>
         ))}
       </div>
     </>

@@ -106,7 +106,7 @@ export default function AccountAdd({
           <label className="flex gap-[10px] border-b-1 border-[var(--main-color-3)]">
             <span className="w-[55px]">금액</span>
             <input
-              type="text"
+              type="number"
               className="items-center justify-center text-center focus:outline-none"
               onFocus={() => isToolStatus('금액')}
             />
@@ -118,6 +118,7 @@ export default function AccountAdd({
               type="text"
               className="items-center justify-center text-center focus:outline-none"
               onFocus={() => isToolStatus('카테고리')}
+              readOnly
             />
           </label>
           <label className="flex gap-[10px] border-b-1 border-[var(--main-color-3)]">
@@ -132,7 +133,10 @@ export default function AccountAdd({
         {toolStatus === '카테고리' ? <Category /> : null}
         {toolStatus === '금액' ? <Calculator /> : null}
         <div className="absolute bottom-[25px] flex gap-[25px] md:bottom-[60px] md:left-[70px] md:gap-[10px]">
-          <button className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]">
+          <button
+            className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]"
+            type="submit"
+          >
             확인
           </button>
           <button
