@@ -3,6 +3,7 @@ import { getLabel } from '@/lib/helper/getLabel';
 import Link from 'next/link';
 import { IoCheckmark } from 'react-icons/io5';
 import BookmarkButton from '../common/BookmarkButton';
+import { useParams } from 'next/navigation';
 
 export default function SearchListCard({
   category,
@@ -19,11 +20,12 @@ export default function SearchListCard({
   firstPrice?: string;
   id: string;
 }) {
+  const { region } = useParams();
   const label = getLabel(type, category);
 
   return (
     <Link
-      href={`/godplaces/성수/detail?type=${type}&id=${id}`}
+      href={`/godplaces/${region}/detail?type=${type}&id=${id}`}
       className="h-[91px] w-full min-w-[310px] cursor-pointer rounded-[10px] bg-[--white-color] px-[14px] py-[12px] shadow-[var(--shadow-md)] hover:scale-101 md:h-[100px] md:w-[324px]"
     >
       <div className="flex justify-between">
