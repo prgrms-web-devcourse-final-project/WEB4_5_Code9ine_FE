@@ -20,9 +20,15 @@ export default function StoreDetails({
       <div className="text-[16px] text-[var(--gray-color-2)] md:text-[20px]">
         메뉴
       </div>
-      <DetailsItem title={'메뉴1'} price={'3000'} />
-      <DetailsItem title={'메뉴2'} price={'12000'} />
-      <DetailsItem title={'메뉴3'} price={'1000'} />
+      {firstMenu && firstPrice && (
+        <DetailsItem title={firstMenu} price={firstPrice} />
+      )}
+      {secondMenu && secondPrice && (
+        <DetailsItem title={secondMenu} price={secondPrice} />
+      )}
+      {thirdMenu && thirdPrice && (
+        <DetailsItem title={thirdMenu} price={thirdPrice} />
+      )}
     </div>
   );
 }
