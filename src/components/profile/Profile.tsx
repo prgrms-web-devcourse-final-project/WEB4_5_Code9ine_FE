@@ -5,9 +5,8 @@ import ProgressBar from '../common/ProgressBar';
 import Button from './Button';
 import { useState, useEffect } from 'react';
 import EditProfile from './EditProfile';
-import { myCodeCopy, UserData } from '@/types/userType';
-import { getMyCode } from '@/api/getMyCode';
-import { getMyPage } from '@/api/getMyPage';
+import { UserData } from '@/types/userType';
+import { getMyCode, getMyPage } from '@/api/profile';
 import Modal from '../common/Modal';
 // import Image from 'next/image';
 
