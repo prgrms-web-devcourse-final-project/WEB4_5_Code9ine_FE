@@ -1,11 +1,21 @@
-export default function Calculator() {
-  let calculated = [''];
+'use client';
+import { useState } from 'react';
+
+export default function Calculator({
+  calcValue,
+}: {
+  calcValue: (arg0: string) => void;
+}) {
+  const [calculated, setCalculated] = useState<string[]>(['']);
+  const [result, setResult] = useState<string>('');
   const handleCalculator = (input: string) => {
     if (input !== '=') calculated.push(input);
     else if (input === '=') {
       const value = Function(`return ${calculated.join('').toString()}`)();
-      console.log(value);
-      calculated = [''];
+      setResult(value);
+      calcValue(result);
+      setCalculated(['']);
+      console.log(result);
     }
   };
   return (
