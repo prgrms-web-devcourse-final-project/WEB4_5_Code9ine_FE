@@ -1,8 +1,9 @@
 // import { BsStar, BsStarFill } from 'react-icons/bs';
 import { getLabel } from '@/lib/helper/getLabel';
 import Link from 'next/link';
-import { BsStar } from 'react-icons/bs';
 import { IoCheckmark } from 'react-icons/io5';
+import BookmarkButton from '../common/BookmarkButton';
+import { useParams } from 'next/navigation';
 
 export default function SearchListCard({
   category,
@@ -19,12 +20,12 @@ export default function SearchListCard({
   firstPrice?: string;
   id: string;
 }) {
-
+  const { region } = useParams();
   const label = getLabel(type, category);
 
   return (
     <Link
-      href={`/godplaces/성수/detail?type=${type}&id=${id}`}
+      href={`/godplaces/${region}/detail?type=${type}&id=${id}`}
       className="h-[91px] w-full min-w-[310px] cursor-pointer rounded-[10px] bg-[--white-color] px-[14px] py-[12px] shadow-[var(--shadow-md)] hover:scale-101 md:h-[100px] md:w-[324px]"
     >
       <div className="flex justify-between">
@@ -38,8 +39,7 @@ export default function SearchListCard({
       </div>
       <div className="mt-[-3px] mb-[10px] flex items-center gap-[7px] md:mt-[-5px] md:mb-[10px]">
         <div className="text-[16px] md:text-[20px]">{name}</div>
-        <BsStar className="mt-[-2px] size-[12px] text-[var(--point-color-1)] md:size-[18px]" />
-        {/* <BsStarFill className="mt-[-2px] size-[18px] text-[var(--point-color-1)]" /> */}
+        <BookmarkButton className="mt-[-2px] size-[12px] cursor-pointer text-[var(--point-color-1)] md:size-[18px]" />
       </div>
       {type === 'store' && (
         <div className="flex gap-[6px] text-[12px] md:text-[14px]">

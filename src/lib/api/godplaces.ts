@@ -64,10 +64,41 @@ export const getGodplaces = async (location: string, category: string) => {
 
 export const getGodplaceDetails = async (type: string, id: string) => {
   return await (
-    await fetch(`${url}/api/places/detail?type=${type}&id=${id}`)
+    await fetch(`${url}/api/places/detail?type=${type}&id=${id}`, {
+      ...options,
+    })
   ).json();
 };
 
 export const getHotLocation = async () => {
-  return await (await fetch(`${url}/api/searches/top`)).json();
+  return await (await fetch(`${url}/api/searches/top`, { ...options })).json();
+};
+
+export const patchBookmark = async (
+  userId: number,
+  type: string,
+  id: number,
+) => {
+  let requestItem;
+  if (type === 'store') requestItem = { storeId: id };
+  else if (type === 'festival') requestItem = { festivalId: id };
+  else if (type === 'library') requestItem = { libraryId: id };
+
+  return await (
+    await fetch(`${url}/api/users/${userId}/places-bookmarks/toggle`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestItem),
+    })
+  ).json();
+};
+
+export const getBookmarks = async () => {
+  return await (
+    await fetch(`${url}/api/members/bookmarks/places`, {
+      ...options,
+    })
+  ).json();
 };
