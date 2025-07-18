@@ -4,7 +4,11 @@ import PostItem from '../board/PostItem';
 import ThreadsTab from './ThreadsTab';
 import DetailBox from '../godplaces/detail/DetailBox';
 import { useEffect, useState } from 'react';
-import { getBookmarkedPlaces } from '@/api/getBookmarkedPlaces';
+import {
+  getMyThreads,
+  getBookmarkedThreads,
+  getBookmarkedPlaces,
+} from '@/api/profile';
 
 type SimpleProps = {
   id: string;
