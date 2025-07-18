@@ -25,7 +25,7 @@ export default function DetailBox({
       const details = await getGodplaceDetails(type, id);
       setDetails(details.data);
     });
-  }, []);
+  }, [type, id]);
 
   // console.log(details);
 

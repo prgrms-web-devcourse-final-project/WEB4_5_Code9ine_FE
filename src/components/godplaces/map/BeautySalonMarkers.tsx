@@ -1,21 +1,32 @@
 import { useGodplacesStore } from '@/stores/godplacesStore';
-import { getGodplacePositions } from '@/lib/helper/getGodplacePositions';
 import CustomMarker from './CustomMarker';
+import { useSearchParams } from 'next/navigation';
+import { getGodplaceMarkersByCategory } from '@/lib/helper/getGodplaceMarkersByCategory';
 
 export default function BeautySalonMarkers() {
+  const searchParams = useSearchParams();
+  const selectedType = searchParams.get('type');
+  const selectedId = searchParams.get('id');
   const godplaces = useGodplacesStore((state) => state.godplaces);
 
-  const beautySalonPositions = getGodplacePositions(godplaces, true, '미용업');
+  const beautySalonPositions = getGodplaceMarkersByCategory(
+    godplaces,
+    true,
+    '미용업',
+    selectedType === 'store' ? (selectedId ?? undefined) : undefined,
+  );
   const beautySalonMarkerOrigin = { x: 16, y: 275 };
 
   return (
     <>
       {beautySalonPositions &&
-        beautySalonPositions.map((position) => (
+        beautySalonPositions.map((markers) => (
           <CustomMarker
-            position={position}
+            position={markers.positions}
             markerOrigin={beautySalonMarkerOrigin}
-            key={`salon-${position.lat},${position.lng}`}
+            key={`${markers.type}-${markers.id}`}
+            type={markers.type}
+            id={markers.id}
           />
         ))}
     </>

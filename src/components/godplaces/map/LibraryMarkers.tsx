@@ -1,21 +1,33 @@
 import { useGodplacesStore } from '@/stores/godplacesStore';
-import { getGodplacePositions } from '@/lib/helper/getGodplacePositions';
 import CustomMarker from './CustomMarker';
+import { useSearchParams } from 'next/navigation';
+import { getGodplaceMarkersByCategory } from '@/lib/helper/getGodplaceMarkersByCategory';
 
 export default function LibraryMarkers() {
+  const searchParams = useSearchParams();
+  const selectedType = searchParams.get('type');
+  const selectedId = searchParams.get('id');
+
   const godplaces = useGodplacesStore((state) => state.godplaces);
 
-  const libraryPositions = getGodplacePositions(godplaces, false, 'library');
+  const libraryPositions = getGodplaceMarkersByCategory(
+    godplaces,
+    false,
+    'library',
+    selectedType === 'library' ? (selectedId ?? undefined) : undefined,
+  );
   const libraryMarkerOrigin = { x: 16, y: 220 };
 
   return (
     <>
       {libraryPositions &&
-        libraryPositions.map((position) => (
+        libraryPositions.map((markers) => (
           <CustomMarker
-            position={position}
+            position={markers.positions}
             markerOrigin={libraryMarkerOrigin}
-            key={`library-${position.lat},${position.lng}`}
+            key={`${markers.type}-${markers.id}`}
+            type={markers.type}
+            id={markers.id}
           />
         ))}
     </>
