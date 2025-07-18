@@ -5,6 +5,8 @@ import Button from './Button';
 import DefaultProfile from './DefaultProfile';
 import { checkNickname } from '@/services/authService';
 import toast from 'react-hot-toast';
+import { deleteProfile } from '@/api/deleteProfile';
+import Modal from '../common/Modal';
 
 export default function EditProfile({ onClose }: { onClose: () => void }) {
   const [nickname, setNickname] = useState('');
@@ -15,6 +17,8 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
 
   const [confirmPwd, setConfirmPwd] = useState('');
   const [confirmPwdError, setConfirmPwdError] = useState('');
+
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const validatePassword = (pwd: string): boolean =>
     /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$/.test(
@@ -169,15 +173,54 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
             </div>
 
             <div className="mt-[30px] flex justify-between">
-              <button className="ml-[10px] cursor-pointer text-[12px] text-[var(--gray-color-2)]">
+              <button
+                onClick={() => setShowConfirm(true)}
+                className="ml-[10px] cursor-pointer text-[12px] text-[var(--gray-color-2)]"
+              >
                 회원 탈퇴
               </button>
+
+              {showConfirm && (
+                <Modal
+                  title="정말 탈퇴하시겠어요..?"
+                  onClose={() => setShowConfirm(false)}
+                  buttons={
+                    <>
+                      <button
+                        onClick={async () => {
+                          try {
+                            await deleteProfile();
+                            toast.success('탈퇴 완료. 다음에 또 만나요..');
+                            setShowConfirm(false);
+                            onClose();
+                          } catch {
+                            toast.error('탈퇴 실패. 다시 시도해주세요.');
+                          }
+                        }}
+                        className="cursor-pointer rounded-[10px] bg-[var(--main-color-1)] px-4 py-1 hover:bg-[var(--main-color-3)] dark:text-[#2b2e34]"
+                      >
+                        네
+                      </button>
+                      <button
+                        onClick={() => setShowConfirm(false)}
+                        className="cursor-pointer rounded-[10px] bg-[var(--point-color-1)] px-4 py-1 hover:bg-[var(--point-color-1)] dark:text-[#2b2e34]"
+                      >
+                        아니요
+                      </button>
+                    </>
+                  }
+                />
+              )}
+
               <Button
                 button={
                   <>
                     <button
+                      onClick={() => {
+                        toast.success('수정 완료!');
+                        onClose();
+                      }}
                       type="submit"
-                      onClick={onClose}
                       className="h-[35px] w-[80px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-3)] dark:text-[#2b2e34]"
                     >
                       수정 완료
