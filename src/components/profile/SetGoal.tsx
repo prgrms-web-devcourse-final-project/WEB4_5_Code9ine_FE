@@ -3,7 +3,7 @@ import { MdEdit } from 'react-icons/md';
 import SetGoalModal from './SetGoalModal';
 import { useEffect, useState } from 'react';
 // import { GetMyPageData } from '@/types/userType';
-import { getMyPage } from '@/api/getMyPage';
+import { getMyPage } from '@/api/profile';
 // import { getSetGoal } from '@/api/getSetGoal';
 
 export default function SetGoal() {

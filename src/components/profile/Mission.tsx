@@ -9,7 +9,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import MissionTabs from './MissionTabs';
 import Image, { StaticImageData } from 'next/image';
-import { getChallenge } from '@/api/getChallenge';
+import { getChallenge } from '@/api/profile';
 import { Challenge } from '@/types/userType';
 
 type MissionType = 'daily' | 'monthly' | 'community';
