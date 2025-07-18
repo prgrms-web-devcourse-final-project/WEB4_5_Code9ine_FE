@@ -19,7 +19,7 @@ export const useAccountData = create<dummyState>((set) => ({
   setIsLogin: (data) => set({ isLogin: data }),
   category: null,
   setCategory: (data) => set({ category: data }),
-  dateData: null,
+  dateData: new Date(),
   setDateData: (data) => set({ dateData: data }),
   showDayData: false,
   setShowDayData: (data) => set({ showDayData: data }),

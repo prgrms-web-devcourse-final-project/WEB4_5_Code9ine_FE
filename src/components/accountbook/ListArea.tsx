@@ -10,10 +10,7 @@ type GroupedByDate = Record<string, PayList[]>;
 export default function ListArea() {
   const [totalData2, setTotalData] = useState<totalData>();
   const [day, setDay] = useState<totalData>();
-  // const [showDayData, setShowDayData] = useState<boolean>(false);
   const { dateData, showDayData, totalData } = useAccountData();
-
-  console.log(dateData);
 
   const dateGroup = (totalData2?.data.details ?? []).reduce(
     (acc: GroupedByDate, curr: PayList) => {
@@ -31,10 +28,13 @@ export default function ListArea() {
     if (totalData !== undefined && totalData !== null) {
       setTotalData(totalData);
     }
-    fetch(API_ADD + `api/budget/detail?date=0205-07-18`)
+    fetch(
+      API_ADD +
+        `api/budget/detail?date=${dateData?.getFullYear()}-${(dateData!.getMonth() + 1).toString().padStart(2, '0')}-${dateData?.getDate().toString().padStart(2, '0')}`,
+    )
       .then((res) => res.json())
       .then((data) => setDay(data));
-  }, [dateData]);
+  }, [dateData, totalData]);
 
   return (
     <>

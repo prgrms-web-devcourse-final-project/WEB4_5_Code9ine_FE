@@ -59,7 +59,7 @@ export default function Calander({
   }, []);
   const addContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === 'month') {
-      const formattedCurrentDate = format(date, 'yyyy/M-dd');
+      const formattedCurrentDate = format(date, 'yyyy-MM-dd');
 
       const dayData = (data?.data?.days ?? []).filter(
         (item) => item.date === formattedCurrentDate,
