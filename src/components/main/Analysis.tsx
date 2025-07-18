@@ -32,15 +32,15 @@ export default function Analysis() {
         <div className="h-[400px] content-center justify-items-center rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[350px] md:w-[368px]">
           <GoalAnalysis
             goal={data.goal}
-            savedComparedToLastMonth={data.savedComparedToLastMonth}
+            totalsavedAmount={data.totalsavedAmount}
           />
         </div>
         <div className="h-[400px] content-center justify-items-center rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[350px] md:w-[368px]">
-          <HalfYearAnalysis />
+          <HalfYearAnalysis monthlyExpenses={data.monthlyExpenses} />
         </div>
       </div>
       <div className="h-[880px] content-center justify-items-center rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[390px] md:w-[756px]">
-        <SpendingAnalysis />
+        <SpendingAnalysis categorySummary={data.categorySummary} />
       </div>
     </div>
   );
