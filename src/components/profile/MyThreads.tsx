@@ -86,8 +86,8 @@ export default function MyThreads() {
             : 'flex flex-col'
         }`}
       >
-        {selectedTab === 'thread' && myThreads.map((post) => <PostItem />)}
-        {selectedTab === 'saved' && savedThreads.map((post) => <PostItem />)}
+        {/* {selectedTab === 'thread' && myThreads.map((post) => <PostItem />)}
+        {selectedTab === 'saved' && savedThreads.map((post) => <PostItem />)} */}
         {selectedTab === 'place' &&
           bookmarkedPlaces.map((place) => (
             <div
