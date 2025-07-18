@@ -65,7 +65,7 @@ export default function BookmarkButton({
             <BsStarFill
               fill="var(--point-color-1)"
               stroke="var(--point-color-1)"
-              strokeWidth={2}
+              strokeWidth={1}
               size={20}
               className={className}
             />
