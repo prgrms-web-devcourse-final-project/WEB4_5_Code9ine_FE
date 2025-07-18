@@ -2,17 +2,30 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../login/SignupButton';
-import { signUp, SignUpPayload, checkNickname } from '@/services/authService';
+import {
+  signUp,
+  SignUpPayload,
+  checkNickname,
+  sendEmailVerification,
+  verifyEmailCode,
+} from '@/services/authService';
 import toast from 'react-hot-toast';
 
 export default function SignupBox() {
   const router = useRouter();
 
+  const [realName, setRealName] = useState('');
+  const [realNameError, setRealNameError] = useState('');
+
   const [nickname, setNickname] = useState('');
   const [nicknameError, setNicknameError] = useState('');
 
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumberError, setPhoneNumberError] = useState('');
+
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [emailSuccess, setEmailSuccess] = useState('');
 
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -28,6 +41,9 @@ export default function SignupBox() {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [codeError, setCodeError] = useState('');
+  const [codeSuccess, setCodeSuccess] = useState('');
+
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   const validateEmail = (email: string): boolean =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -36,6 +52,14 @@ export default function SignupBox() {
     /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$/.test(
       pwd,
     );
+
+  function formatPhoneNumber(value: string) {
+    const onlyNums = value.replace(/\D/g, '');
+    if (onlyNums.length <= 3) return onlyNums;
+    if (onlyNums.length <= 7)
+      return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3)}`;
+    return `${onlyNums.slice(0, 3)}-${onlyNums.slice(3, 7)}-${onlyNums.slice(7, 11)}`;
+  }
 
   //닉네임 중복검사 로직
   useEffect(() => {
@@ -63,29 +87,49 @@ export default function SignupBox() {
   //가입하기 버튼 함수
   const handleSignup = async () => {
     let valid = true;
-
+    // 이름 검사
+    if (realName.trim().length < 1) {
+      setRealNameError('이름을 입력해주세요');
+      valid = false;
+    } else {
+      setRealNameError('');
+    }
     // 닉네임 검사
     if (nickname.trim().length < 2 || nickname.trim().length > 6) {
-      setNicknameError('2자 이상 6자 이하로 입력해주세요');
+      setNicknameError('2자 이상 6자 이하로 입력해주세요.');
       valid = false;
     } else {
       setNicknameError('');
     }
 
+    // 전화번호 검사
+    if (!/^\d{10,11}$/.test(phoneNumber.trim())) {
+      setPhoneNumberError('전화번호는 숫자만 10~11자리로 입력해주세요');
+      valid = false;
+    } else {
+      setPhoneNumberError('');
+    }
+
     // 이메일 검사
     if (!email) {
-      setEmailError('이메일을 입력해주세요');
+      setEmailError('이메일을 입력해주세요.');
       valid = false;
     } else if (!validateEmail(email)) {
-      setEmailError('유효한 이메일 주소를 입력해주세요');
+      setEmailError('유효한 이메일 주소를 입력해주세요.');
       valid = false;
     } else {
       setEmailError('');
     }
 
+    // 이메일 인증 여부 검사
+    if (!isEmailVerified) {
+      setEmailError('이메일 인증을 완료해주세요');
+      valid = false;
+    }
+
     // 비밀번호 검사
     if (!password) {
-      setPasswordError('비밀번호를 입력해주세요');
+      setPasswordError('비밀번호를 입력해주세요.');
       valid = false;
     } else if (!validatePassword(password)) {
       setPasswordError('비밀번호는 8~16자, 대문자·특수문자 포함');
@@ -96,7 +140,7 @@ export default function SignupBox() {
 
     // 비밀번호 확인 검사
     if (confirmPwd !== password) {
-      setConfirmPwdError('비밀번호가 일치하지 않습니다');
+      setConfirmPwdError('비밀번호가 일치하지 않습니다.');
       valid = false;
     } else {
       setConfirmPwdError('');
@@ -104,7 +148,7 @@ export default function SignupBox() {
 
     // 약관 동의 검사
     if (!agree) {
-      setAgreeError('약관에 동의해주세요');
+      setAgreeError('약관에 동의해주세요.');
       valid = false;
     } else {
       setAgreeError('');
@@ -112,6 +156,7 @@ export default function SignupBox() {
 
     if (!valid) return;
 
+    // TODO: payload 추후에 수정해야함 전화번호,추천코드 등등..
     try {
       setLoading(true);
       const payload: SignUpPayload = { name: nickname, email, password };
@@ -130,8 +175,74 @@ export default function SignupBox() {
     }
   };
 
+  // 이메일전송
+  const handleSendEmail = async () => {
+    setEmailSuccess('');
+    if (!validateEmail(email)) {
+      setEmailError('유효한 이메일 주소를 입력해주세요');
+      return;
+    }
+
+    try {
+      const res = await sendEmailVerification(email);
+      toast.success(res.data.message);
+      setEmailError('');
+      setEmailSuccess(res.data.message);
+      setIsCodeSent(true);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : '이메일 전송 실패';
+      setEmailSuccess('');
+      setEmailError(msg);
+      toast.error(msg);
+    }
+  };
+
+  // 이메일인증코드검증
+  const handleVerifyEmail = async () => {
+    setCodeSuccess('');
+    if (!verificationCode.trim()) {
+      setCodeError('코드를 입력해주세요');
+      return;
+    }
+    try {
+      const res = await verifyEmailCode({ email, code: verificationCode });
+      toast.success(res.data.message);
+      setCodeError('');
+      setCodeSuccess(res.data.message);
+      setIsEmailVerified(true);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : '인증 실패';
+      setCodeSuccess('');
+      setCodeError(msg);
+      toast.error(msg);
+    }
+  };
+
   return (
     <div className="flex h-auto w-[270px] flex-col gap-[5px] rounded-[20px] bg-[var(--background)] p-8 pt-[50px] pb-[50px] md:h-auto md:w-[500px]">
+      {/* 이름 입력 */}
+      <div className="flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
+        <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
+          이름
+        </p>
+        <input
+          type="text"
+          value={realName}
+          onChange={(e) => {
+            setRealName(e.target.value);
+            if (realNameError) setRealNameError('');
+          }}
+          placeholder="실명을 입력해주세요"
+          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+        />
+        <p
+          className={`min-h-[12px] text-[12px] ${
+            realNameError ? 'text-[var(--point-color-2)]' : 'invisible'
+          }`}
+        >
+          {realNameError || '\u00A0'}
+        </p>
+      </div>
       {/* 닉네임 */}
       <div className="flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
@@ -162,8 +273,35 @@ export default function SignupBox() {
         </p>
       </div>
 
+      {/* 전화번호 입력 */}
+      <div className="flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
+        <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
+          전화번호
+        </p>
+        <input
+          inputMode="numeric"
+          type="tel"
+          value={formatPhoneNumber(phoneNumber)}
+          onChange={(e) => {
+            const raw = e.target.value;
+            const onlyDigits = raw.replace(/\D/g, '');
+            setPhoneNumber(onlyDigits);
+            if (phoneNumberError) setPhoneNumberError('');
+          }}
+          placeholder="전화번호를 입력해주세요"
+          className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
+        />
+        <p
+          className={`min-h-[12px] text-[12px] ${
+            phoneNumberError ? 'text-[var(--point-color-2)]' : 'invisible'
+          }`}
+        >
+          {phoneNumberError || '\u00A0'}
+        </p>
+      </div>
+
       {/* 이메일 */}
-      <div className="flex w-full flex-col items-start self-center md:w-[300px]">
+      <div className="flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           이메일
         </p>
@@ -177,22 +315,28 @@ export default function SignupBox() {
           placeholder="example@gmail.com"
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
-        <div className="mt-1 flex w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <p
             className={`text-[12px] ${
-              emailError ? 'text-[var(--point-color-2)]' : 'invisible'
+              emailError
+                ? 'text-[var(--point-color-2)]'
+                : emailSuccess
+                  ? 'text-green-500'
+                  : 'invisible'
             }`}
           >
-            {emailError || '\u00A0'}
+            {emailError || emailSuccess || '\u00A0'}
           </p>
+
           <button
             type="button"
             className="cursor-pointer text-[12px] font-medium text-[var(--text-color)] hover:underline"
-            onClick={() => setIsCodeSent(true)}
+            onClick={handleSendEmail}
           >
             인증번호 받기
           </button>
         </div>
+
         {/* 인증번호 입력 & 확인 버튼 (API 없이 토글만) */}
         {isCodeSent && (
           <>
@@ -210,23 +354,20 @@ export default function SignupBox() {
             </div>
             <div className="flex w-full items-center justify-between">
               <p
-                className={`text-[12px] ${codeError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
+                className={`text-[12px] ${
+                  codeError
+                    ? 'text-[var(--point-color-2)]'
+                    : codeSuccess
+                      ? 'text-green-500'
+                      : 'invisible'
+                }`}
               >
-                {codeError || '\u00A0'}
+                {codeError || codeSuccess || '\u00A0'}
               </p>
               <button
                 type="button"
                 className="h-[35px] cursor-pointer rounded-[10px] text-[12px] font-medium text-[var(--text-color)] hover:underline"
-                onClick={() => {
-                  // 여기서 실제 검증 로직 대신 토글만 할 수도 있고
-                  if (!verificationCode) {
-                    setCodeError('코드를 입력해주세요');
-                  } else {
-                    // 검증 성공 처리 (예: 버튼 비활성화)
-                    setCodeError('');
-                    // setIsCodeSent(false) // 원하면 다시 숨기기
-                  }
-                }}
+                onClick={handleVerifyEmail}
               >
                 인증하기
               </button>
@@ -236,7 +377,7 @@ export default function SignupBox() {
       </div>
 
       {/* 비밀번호 */}
-      <div className="flex flex-col items-start self-center md:w-[300px]">
+      <div className="flex flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           비밀번호
         </p>
@@ -247,7 +388,7 @@ export default function SignupBox() {
             setPassword(e.target.value);
             if (passwordError) setPasswordError('');
           }}
-          placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요"
+          placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요."
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
         <p
@@ -258,7 +399,7 @@ export default function SignupBox() {
       </div>
 
       {/* 비밀번호 확인 */}
-      <div className="flex flex-col items-start self-center md:w-[300px]">
+      <div className="flex flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="font-semibold text-[var(--main-color-3)] md:text-[20px]">
           비밀번호 확인
         </p>
@@ -269,7 +410,7 @@ export default function SignupBox() {
             setConfirmPwd(e.target.value);
             if (confirmPwdError) setConfirmPwdError('');
           }}
-          placeholder="비밀번호를 한번 더 입력해 주세요"
+          placeholder="비밀번호를 한번 더 입력해 주세요."
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
         <p
@@ -286,7 +427,7 @@ export default function SignupBox() {
         </p>
         <input
           type="text"
-          placeholder="추천인 코드를 입력해주세요"
+          placeholder="추천인 코드를 입력해주세요."
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
         <div className="flex w-full items-center justify-between">

@@ -2,7 +2,7 @@ import moneyIcon from '@/assets/icons/money1.png';
 import receipt from '@/assets/icons/receipt.png';
 import zeroFood from '@/assets/icons/zero_food _expenses.png';
 import zeroTransition from '@/assets/icons/zero_public_transportation.png';
-import prediction from '@/assets/icons/prediction.png';
+// import prediction from '@/assets/icons/prediction.png';
 import heart from '@/assets/icons/10heart.png';
 import oneMonth from '@/assets/icons/1_month.png';
 import saveMoney from '@/assets/icons/save_money.png';
@@ -46,13 +46,6 @@ export const missionData = {
       icon: zeroTransition,
       des: '하루 교통비 0원 달성',
       missionTitle: '강철 다리',
-    },
-  ],
-  weekly: [
-    {
-      icon: prediction,
-      des: '일주일 지출 예측',
-      missionTitle: '예측왕',
     },
   ],
   monthly: [

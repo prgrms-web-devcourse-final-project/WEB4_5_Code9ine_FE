@@ -4,6 +4,7 @@ import { goalData } from '@/data/goalData';
 import Image from 'next/image';
 import { useState } from 'react';
 import { setGoal } from '@/api/setGoal';
+import toast from 'react-hot-toast';
 
 export default function SetGoalModal({ onClose }: { onClose: () => void }) {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
@@ -14,14 +15,14 @@ export default function SetGoalModal({ onClose }: { onClose: () => void }) {
 
   const submitGoal = async () => {
     if (selectedGoal === null) {
-      alert('목표를 설정해주세요.');
+      toast.error('목표를 선택해주세요.');
       return;
     }
     const selected = goalData[selectedGoal];
 
     try {
       await setGoal(selected.name, selected.price);
-      alert('목표가 저장되었습니다.');
+      toast.success('목표가 설정되었습니다.');
       onClose();
     } catch (err) {
       console.log('목표 저장 에러', err);

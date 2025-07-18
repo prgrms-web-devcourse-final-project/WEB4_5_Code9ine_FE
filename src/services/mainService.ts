@@ -65,3 +65,67 @@ export async function getTopChallenges(): Promise<TopChallenge[]> {
 
   return json.data;
 }
+
+// 전체 저축액
+export interface AllSavingResponse {
+  allsaving: number;
+}
+
+export async function getAllSaving(): Promise<AllSavingResponse> {
+  const res = await fetch(`${API_BASE}/api/users/all-saving`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const json = (await res.json()) as ApiResponse<AllSavingResponse>;
+
+  if (!res.ok) {
+    throw new Error(json.message || '전체 저축액 조회에 실패했습니다.');
+  }
+
+  return json.data;
+}
+
+//메인페이지 로그인후 가계부분석
+export interface GoalItem {
+  itemName: string;
+  itemImage: string;
+  itemPrice: number;
+}
+
+export interface MonthlyExpense {
+  month: string;
+  amount: number;
+}
+
+export interface CategorySummary {
+  category: string;
+  totalAmount: number;
+}
+
+export interface BudgetAnalyzeResponse {
+  yearMonth: string;
+  totalIncome: number;
+  totalExpense: number;
+  goal: GoalItem;
+  currentMonthExpense: number;
+  monthlyExpenses: MonthlyExpense[];
+  categorySummary: CategorySummary[];
+  savedComparedToLastMonth: number;
+  totalsavedAmount: number;
+}
+
+export async function getBudgetAnalysis(): Promise<BudgetAnalyzeResponse> {
+  const res = await fetch(`${API_BASE}/api/budget/analyze`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const json = (await res.json()) as ApiResponse<BudgetAnalyzeResponse>;
+
+  if (!res.ok) {
+    throw new Error(json.message || '가계부 분석 정보를 불러오지 못했습니다.');
+  }
+
+  return json.data;
+}
