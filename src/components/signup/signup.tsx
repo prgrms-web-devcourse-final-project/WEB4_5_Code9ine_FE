@@ -301,7 +301,7 @@ export default function SignupBox() {
       </div>
 
       {/* 이메일 */}
-      <div className="flex w-full flex-col items-start self-center md:w-[300px]">
+      <div className="flex w-full flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           이메일
         </p>
@@ -315,7 +315,7 @@ export default function SignupBox() {
           placeholder="example@gmail.com"
           className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
         />
-        <div className="mt-1 flex w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <p
             className={`text-[12px] ${
               emailError
@@ -377,7 +377,7 @@ export default function SignupBox() {
       </div>
 
       {/* 비밀번호 */}
-      <div className="flex flex-col items-start self-center md:w-[300px]">
+      <div className="flex flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
           비밀번호
         </p>
@@ -399,7 +399,7 @@ export default function SignupBox() {
       </div>
 
       {/* 비밀번호 확인 */}
-      <div className="flex flex-col items-start self-center md:w-[300px]">
+      <div className="flex flex-col items-start gap-1 self-center md:w-[300px]">
         <p className="font-semibold text-[var(--main-color-3)] md:text-[20px]">
           비밀번호 확인
         </p>
