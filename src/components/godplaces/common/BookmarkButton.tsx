@@ -1,5 +1,6 @@
 import { patchBookmark } from '@/lib/api/godplaces';
-import { startTransition, useOptimistic, useState } from 'react';
+import { useGodplacesStore } from '@/stores/godplacesStore';
+import { startTransition, useOptimistic } from 'react';
 import toast from 'react-hot-toast';
 import { BsStar, BsStarFill } from 'react-icons/bs';
 
@@ -12,11 +13,12 @@ export default function BookmarkButton({
   className: string;
   hasWhiteBG?: boolean;
 }) {
-  const [myBookmarked, setMyBookmarked] = useState<{ placeId: string }[]>([]);
+  const bookmarked = useGodplacesStore((state) => state.bookmarked);
+  const setBookmarked = useGodplacesStore((state) => state.setBookmarked);
   const [optimisticMyBookmarked, addOptimisticMyBookmarked] = useOptimistic<
     { placeId: string }[],
     { placeId: string }
-  >(myBookmarked, (bookmarks, value) => [...bookmarks, value]);
+  >(bookmarked, (bookmarks, value) => [...bookmarks, value]);
 
   // useEffect(() => {
   //   startTransition(async () => {
@@ -44,7 +46,7 @@ export default function BookmarkButton({
         toast.success('북마크 완료');
         // console.log(message);
         startTransition(() => {
-          setMyBookmarked((state) => [...state, { placeId: PLACEID }]);
+          setBookmarked([{ placeId: PLACEID }]);
         });
         // console.log(myBookmarked);
       } else {
