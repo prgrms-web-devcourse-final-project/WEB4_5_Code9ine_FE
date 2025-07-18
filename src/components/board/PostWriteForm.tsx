@@ -8,16 +8,19 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { FaTrash } from 'react-icons/fa';
 import ChallengeSeleteBox from './ChallengeSeleteBox';
+import toast from 'react-hot-toast';
 
 interface PostWriteFormProps {
-  category: 'myHiddenStore' | 'challenge' | 'freeBoard';
+  category: 'MYSTORE' | 'CHALLENGE' | 'FREE';
 }
 
 export default function PostWriteForm({ category }: PostWriteFormProps) {
   console.log('카테고리 : ', category);
   const [title, setTitle] = useState('');
-  const [challengeOption, setChallengeOption] = useState('challenge1');
   const [content, setContent] = useState('');
+  const titleRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const [challengeOption, setChallengeOption] = useState('challenge1');
   // const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -41,6 +44,18 @@ export default function PostWriteForm({ category }: PostWriteFormProps) {
   ]);
 
   const handleSubmit = async () => {
+    if (!title.trim()) {
+      toast.error('제목을 입력해주세요!');
+      titleRef.current?.focus();
+      return;
+    }
+
+    if (!content.trim()) {
+      toast.error('내용을 입력해주세요!');
+      contentRef.current?.focus();
+      return;
+    }
+
     try {
       await boardApi.postBoardCreate({
         title,
@@ -49,10 +64,10 @@ export default function PostWriteForm({ category }: PostWriteFormProps) {
         imageUrls: [],
         //challengeCategory: challengeOption,
       });
-      alert('게시글이 작성되었습니다!');
+      toast.success('게시글이 등록되었어요!');
     } catch (err) {
       console.error(err);
-      alert('작성 실패');
+      toast.error('게시글 작성에 실패했어요');
     }
   };
 
@@ -98,12 +113,13 @@ export default function PostWriteForm({ category }: PostWriteFormProps) {
       <div className="flex w-full flex-col gap-2">
         <div className="relative">
           <input
+            ref={titleRef}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="h-[50px] w-full rounded-[10px] border border-[var(--main-color-1)] bg-[var(--white-color)] p-4 text-[18px] placeholder:text-[var(--gray-color-2)] focus:border-[var(--main-color-2)] focus:outline-none"
             placeholder="제목을 입력해 주세요."
           />
-          {category === 'challenge' && (
+          {category === 'CHALLENGE' && (
             <div className="absolute top-[8px] right-[10px] z-20">
               <ChallengeSeleteBox
                 selected={challengeOption}
@@ -114,11 +130,12 @@ export default function PostWriteForm({ category }: PostWriteFormProps) {
         </div>
         <div className="relative min-h-[140px] w-full">
           <textarea
+            ref={contentRef}
             value={content}
             onChange={(e) => setContent(e.target.value)}
             className="hide-scrollbar absolute inset-0 z-0 h-full w-full resize-none rounded-[10px] border border-[var(--main-color-1)] bg-[var(--white-color)] p-4 pr-[80px] text-[18px] placeholder:text-[var(--gray-color-2)] focus:border-[var(--main-color-2)] focus:outline-none"
             placeholder={
-              category === 'myHiddenStore'
+              category === 'MYSTORE'
                 ? '가게: \n메뉴: \n가격: \n위치: '
                 : '내용을 입력해 주세요.'
             }

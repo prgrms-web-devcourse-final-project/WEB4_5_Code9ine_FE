@@ -1,4 +1,6 @@
 'use client';
+
+import { format, parseISO } from 'date-fns';
 import { AiFillStar } from 'react-icons/ai';
 import {
   FaHeart,
@@ -10,6 +12,14 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import CommentList from './CommentList';
+import { PostRes } from '../../types/boardType';
+import { boardApi } from '@/api/boardApi';
+import toast from 'react-hot-toast';
+import Link from 'next/link';
+
+interface PostItemProps {
+  post: PostRes;
+}
 
 const images = [
   '/profileTest.png',
@@ -20,15 +30,31 @@ const images = [
   '/profileTest.png',
 ];
 
-export default function PostItem() {
+export default function PostItem({ post }: PostItemProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [commentsOpen, setCommentsOpen] = useState(false);
 
+  const handleDelete = async () => {
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+
+    try {
+      await boardApi.deletePost(post.postId);
+      toast.success('게시글이 삭제되었어요!');
+    } catch (err) {
+      console.error(err);
+      toast.error('게시글 삭제에 실패했어요');
+    }
+  };
+
   return (
     <div className="relative flex flex-col items-start gap-3 rounded-[10px] bg-[var(--background)] p-6 text-[var(--text-color-white)] shadow md:flex-row md:gap-6">
-      <div className="flex min-w-[90px] flex-col flex-row items-center md:flex-col">
+      <Link
+        href={`/profile/${post.memberId}`}
+        className="flex min-w-[90px] flex-col flex-row items-center md:flex-col"
+      >
         <Image
           src="/profileTest.png"
+          //src=writerProfileImage
           alt="프로필"
           width={70}
           height={70}
@@ -36,18 +62,18 @@ export default function PostItem() {
         />
         <div className="flex flex-row items-baseline gap-1 whitespace-nowrap md:flex-col md:items-center">
           <div className="ml-[4px] text-center text-[18px] leading-none md:text-[20px]">
-            다람이
+            {post.writerNickname}
           </div>
           <div className="text-center text-[12px] leading-none text-[var(--text-color-2)] md:text-[16px]">
-            노노커피 마스터
+            {post.writerTitle}
           </div>
         </div>
-      </div>
+      </Link>
 
       <div className="absolute top-0 right-0 mt-[24px] mr-[24px]">
         <div className="flex items-center md:gap-1">
           <span className="text-[12px] text-[var(--text-color-2)] md:text-[16px]">
-            25.07.10
+            {format(parseISO(post.createdAt), 'yy.MM.dd')}
           </span>
           <AiFillStar
             size={22}
@@ -60,10 +86,11 @@ export default function PostItem() {
         <div className="flex items-start justify-between">
           <div>
             <div className="text-[20px] font-bold md:text-[24px]">
-              다람이 다람이 다람아~!
+              {post.title}
             </div>
             <div className="mt-1 text-[18px] text-[var(--text-color-white)]">
-              다람이 다람이 다람아~!
+              {post.content}
+              {post.category}
             </div>
           </div>
         </div>
@@ -95,6 +122,7 @@ export default function PostItem() {
                 >
                   <Image
                     src={img}
+                    // src = imageUrls
                     alt={`이미지${idx + 1}`}
                     width={130}
                     height={230}
@@ -113,7 +141,7 @@ export default function PostItem() {
               className="flex cursor-pointer items-center gap-1 text-[14px] text-[var(--point-color-1)] md:text-[16px]"
               aria-label="좋아요"
             >
-              <FaHeart size={17} /> 35개
+              <FaHeart size={17} /> {post.likeCount}
             </button>
             <button
               type="button"
@@ -121,7 +149,7 @@ export default function PostItem() {
               aria-label="댓글"
               onClick={() => setCommentsOpen((open) => !open)}
             >
-              <FaRegCommentDots size={16} /> 124개
+              <FaRegCommentDots size={16} /> {post.commentCount}
             </button>
           </div>
 
@@ -129,12 +157,15 @@ export default function PostItem() {
             <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]">
               수정
             </button>
-            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]">
+            <button
+              onClick={handleDelete}
+              className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]"
+            >
               삭제
             </button>
           </div>
         </div>
-        {commentsOpen && <CommentList />}
+        {commentsOpen && <CommentList postId={post.postId} />}
       </div>
     </div>
   );
