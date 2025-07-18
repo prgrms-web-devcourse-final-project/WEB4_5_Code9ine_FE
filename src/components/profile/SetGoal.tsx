@@ -11,6 +11,7 @@ export default function SetGoal() {
   const [goalName, setGoalName] = useState<string | null>(null);
   const [remainAmount, setRemainAmount] = useState<number | null>(null);
 
+  // 유저 데이터
   useEffect(() => {
     getMyPage()
       .then((res) => {

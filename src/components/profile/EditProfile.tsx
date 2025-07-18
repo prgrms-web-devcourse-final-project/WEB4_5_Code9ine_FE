@@ -187,6 +187,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                   buttons={
                     <>
                       <button
+                        // 회원 탈퇴
                         onClick={async () => {
                           try {
                             await deleteProfile();
