@@ -9,6 +9,7 @@ import { IoRepeat } from 'react-icons/io5';
 import '../../css/CustomDatePicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
+import { API_ADD } from '@/lib/api/api';
 
 export default function AccountAdd({
   onDataChange,
@@ -18,22 +19,71 @@ export default function AccountAdd({
   registerLocale('ko', ko);
   const [toolStatus, isToolStatus] = useState<string>('날짜');
   const [accountTag, setAccountTag] = useState<string>('지출');
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [value, setValue] = useState<string>('');
+  const [price, setPrice] = useState<string | null>(null);
+  const [content, setContent] = useState<string | null>(null);
+
+  const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const priceValue = e.target.value;
+    if (!/^\d+$/.test(priceValue) && priceValue !== '') {
+      return;
+    }
+    const numberValue = Number(priceValue.replace(/,/g, ''));
+    setPrice(numberValue.toLocaleString('ko-KR'));
+  };
+
+  const handleContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
+  };
+
+  console.log(price);
+
   const handleTag = (tag: string) => {
     setAccountTag(tag);
   };
+  const handleCategory = (category: string) => {
+    setValue(category);
+  };
+
   const handleStatus = () => {
     const status = false;
     onDataChange(status);
   };
-  console.log(accountTag);
+
+  const handlePost = async () => {
+    if (price === null || content === null || value === '') {
+    }
+    try {
+      const response = await fetch(API_ADD + `api/budget/detail`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: accountTag,
+          date: `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate()}`,
+          category: value,
+          price: Number(price),
+          content: content,
+          repeatCycle: 'NONE',
+        }),
+      });
+
+      if (!response.ok) throw new Error('통신에 실패했습니다');
+
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  console.log(startDate);
   return (
     <>
       <div className="relative mx-[5px] flex w-[97.7vw] flex-col items-center rounded-[10px] bg-[var(--white-color)] py-[30px] md:h-[870px] md:w-full">
         <span className="font-bold text-[var(--text-color)]">가계부 입력</span>
         <div className="mt-[30px] flex gap-[5px]">
           <button
-            className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] active:bg-[var(--main-color-2)]"
+            className={`h-[35px] w-[45px] cursor-pointer rounded-[5px] text-[#000000] active:bg-[var(--main-color-2)] ${accountTag === '지출' ? 'bg-[var(--main-color-2)]' : 'bg-[var(--main-color-1)]'}`}
             onClick={() => {
               handleTag('지출');
             }}
@@ -41,7 +91,7 @@ export default function AccountAdd({
             지출
           </button>
           <button
-            className="h-[35px] w-[45px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] active:bg-[var(--main-color-2)]"
+            className={`h-[35px] w-[45px] cursor-pointer rounded-[5px] text-[#000000] active:bg-[var(--main-color-2)] ${accountTag === '수입' ? 'bg-[var(--main-color-2)]' : 'bg-[var(--main-color-1)]'}`}
             onClick={() => {
               handleTag('수입');
             }}
@@ -109,6 +159,8 @@ export default function AccountAdd({
               type="text"
               className="items-center justify-center text-center focus:outline-none"
               onFocus={() => isToolStatus('금액')}
+              onChange={handlePrice}
+              value={price!}
             />
             <span className="ml-[3px]">원</span>
           </label>
@@ -118,6 +170,8 @@ export default function AccountAdd({
               type="text"
               className="items-center justify-center text-center focus:outline-none"
               onFocus={() => isToolStatus('카테고리')}
+              value={value}
+              readOnly
             />
           </label>
           <label className="flex gap-[10px] border-b-1 border-[var(--main-color-3)]">
@@ -126,13 +180,20 @@ export default function AccountAdd({
               type="text"
               className="items-center justify-center text-center focus:outline-none"
               onFocus={() => isToolStatus('내용')}
+              onChange={handleContent}
             />
           </label>
         </div>
-        {toolStatus === '카테고리' ? <Category /> : null}
+        {toolStatus === '카테고리' ? (
+          <Category accountTag={accountTag} handleTag={handleCategory} />
+        ) : null}
         {toolStatus === '금액' ? <Calculator /> : null}
         <div className="absolute bottom-[25px] flex gap-[25px] md:bottom-[60px] md:left-[70px] md:gap-[10px]">
-          <button className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]">
+          <button
+            className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]"
+            type="submit"
+            onClick={handlePost}
+          >
             확인
           </button>
           <button
