@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 const challengeOptions = [
-  { value: 'challenge1', label: '제로 마스터' },
-  { value: 'challenge2', label: '착한 소비러' },
-  { value: 'challenge3', label: '숨.맛.탐' },
-  { value: 'challenge4', label: '노노카페' },
-  { value: 'challenge5', label: '냉털 요리왕' },
+  { value: 'NO_MONEY', label: '제로 마스터' },
+  { value: 'KIND_CONSUMER', label: '착한 소비러' },
+  { value: 'DETECTIVE', label: '숨.맛.탐' },
+  { value: 'MASTER', label: '노노카페' },
+  { value: 'COOK_KING', label: '냉털 요리왕' },
 ];
 
 interface ChallengeSeleteBoxProps {

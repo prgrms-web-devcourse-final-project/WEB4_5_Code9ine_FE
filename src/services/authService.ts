@@ -169,7 +169,7 @@ export async function sendEmailVerification(
 
   const json: ApiResponse<EmailSendResponse> = await res.json();
 
-  if (!res.ok || json.code !== '0000' || json.data?.code !== 2000) {
+  if (!res.ok || json.code !== '0000') {
     throw new Error(json.data?.message || json.message || '이메일 전송 실패');
   }
 

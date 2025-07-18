@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 export default function SetGoalModal({ onClose }: { onClose: () => void }) {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
+  // 목표 선택
   const handleGoalSelect = (index: number) => {
     setSelectedGoal(index);
   };
