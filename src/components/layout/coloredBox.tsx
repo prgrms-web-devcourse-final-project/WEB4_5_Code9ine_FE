@@ -18,6 +18,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { useDummyData } from '@/stores/dummyStore';
+import NotificationBox from '../common/NotificationBox';
+import { getNotificationTitles } from '@/api/notification';
+import type { NotificationTitle } from '@/api/notification';
 
 export default function ColoredBox() {
   const [login, setLogin] = useState<boolean>(false);
@@ -26,6 +29,36 @@ export default function ColoredBox() {
   const sidebarRef = useRef(null);
   const location = usePathname();
   const { isLogin, setIsLogin } = useDummyData();
+  const [showNotification, setShowNotification] = useState(false);
+  const notificationRef = useRef<HTMLDivElement | null>(null);
+  const [notifications, setNotifications] = useState<NotificationTitle[]>([]);
+
+  // 챌린지알람
+  useEffect(() => {
+    getNotificationTitles()
+      .then((titles) => setNotifications(titles))
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(e.target as Node)
+      ) {
+        setShowNotification(false);
+      }
+    };
+
+    if (showNotification) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showNotification]);
+
   const handleLogin = () => {
     setLogin(!login);
     setIsLogin(!login);
@@ -69,8 +102,25 @@ export default function ColoredBox() {
             <IoMoonOutline size={18} />
           </div>
           <div className="absolute top-[18px] right-[20px] md:static md:top-[23px] md:flex">
-            {login ? <IoMdNotificationsOutline size={20} /> : null}
+            {login ? (
+              <button
+                onClick={() => setShowNotification(!showNotification)}
+                className="cursor-pointer"
+              >
+                <IoMdNotificationsOutline size={20} />
+              </button>
+            ) : null}
+
+            {showNotification && (
+              <div ref={notificationRef} className="absolute right-0 z-50">
+                <NotificationBox
+                  onClose={() => setShowNotification(false)}
+                  notifications={notifications}
+                />
+              </div>
+            )}
           </div>
+
           {/* <div className="absolute top-[12px] right-[12px] size-[5px] rounded-full bg-red-400"></div> */}
         </div>
         <button
