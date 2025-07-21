@@ -7,7 +7,17 @@ const options = {
 };
 
 export const getTodayStats = async () => {
-  return await (await fetch(`${url}/api/admin-stats/daily-stats`, {
-    ...options
-  })).json();
-}
+  return await (
+    await fetch(`${url}/api/admin-stats/daily-stats`, {
+      ...options,
+    })
+  ).json();
+};
+
+export const getAllUsers = async (page = 1, size = 10) => {
+  return await (
+    await fetch(`${url}/api/admin-users?page=${page}&size=${size}`, {
+      ...options,
+    })
+  ).json();
+};
