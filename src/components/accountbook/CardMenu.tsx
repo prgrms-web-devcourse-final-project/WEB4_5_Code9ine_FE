@@ -5,9 +5,8 @@ import { IoPencil, IoTrash } from 'react-icons/io5';
 
 export default function CardMenu({ index }: { index: number }) {
   const handleDelete = async () => {
-    console.log(index);
     try {
-      const response = await fetch(API_ADD + `api/budget/detail/${index}`, {
+      const response = await fetch(API_ADD + `/api/budget/detail/${index}`, {
         method: 'DELETE',
       });
 
