@@ -11,6 +11,8 @@ import UserCard from './UserCard';
 import { User } from '@/types/admin';
 import { CiSearch } from 'react-icons/ci';
 
+const PAGES = [1, 2, 3, 4];
+
 export default function ManageUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
@@ -69,8 +71,8 @@ export default function ManageUsers() {
 
   return (
     <>
-      <div className="rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
-        <div className="mb-[15px] flex justify-between">
+      <div className="flex flex-col gap-[15px] rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
+        <div className="flex justify-between">
           <h1 className="font-bold">유저 조회</h1>
           <div className="flex items-center gap-[10px] rounded-[10px] px-[10px] shadow-[var(--shadow-md)]">
             <CiSearch />
@@ -110,6 +112,18 @@ export default function ManageUsers() {
           {users.length === 0 && (
             <div className="text-center">유저가 없습니다.</div>
           )}
+        </div>
+
+        <div className="flex justify-center gap-[10px]">
+          {PAGES &&
+            PAGES.map((item) => (
+              <div
+                key={item}
+                className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
+              >
+                {item}
+              </div>
+            ))}
         </div>
       </div>
     </>
