@@ -3,12 +3,13 @@ import { MdCancel } from 'react-icons/md';
 import { goalData } from '@/data/goalData';
 import Image from 'next/image';
 import { useState } from 'react';
-import { setGoal } from '@/api/setGoal';
+import { setGoal } from '@/api/profile';
 import toast from 'react-hot-toast';
 
 export default function SetGoalModal({ onClose }: { onClose: () => void }) {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
+  // 목표 선택
   const handleGoalSelect = (index: number) => {
     setSelectedGoal(index);
   };

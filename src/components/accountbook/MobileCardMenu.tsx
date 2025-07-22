@@ -1,11 +1,6 @@
-import { useDummyData } from '@/stores/dummyStore';
-
 export default function MobileCardMenu({ index }: { index: number }) {
-  const { dummyData } = useDummyData();
-  const { setDummy } = useDummyData.getState();
   const handleDelete = () => {
-    dummyData.dummy.splice(index, 1);
-    setDummy(dummyData);
+    console.log(index);
   };
   return (
     <>

@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://34.60.162.230';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 //회원가입
 export interface SignUpPayload {
@@ -65,7 +65,7 @@ export async function login(
     throw new Error(json.message || '로그인에 실패했습니다.');
   }
 
-  return json; // ✅ message + data 반환
+  return json;
 }
 
 //닉네임 중복
@@ -169,7 +169,7 @@ export async function sendEmailVerification(
 
   const json: ApiResponse<EmailSendResponse> = await res.json();
 
-  if (!res.ok || json.code !== '0000' || json.data?.code !== 2000) {
+  if (!res.ok || json.code !== '0000') {
     throw new Error(json.data?.message || json.message || '이메일 전송 실패');
   }
 

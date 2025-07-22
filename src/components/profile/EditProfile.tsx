@@ -5,7 +5,7 @@ import Button from './Button';
 import DefaultProfile from './DefaultProfile';
 import { checkNickname } from '@/services/authService';
 import toast from 'react-hot-toast';
-import { deleteProfile } from '@/api/deleteProfile';
+import { deleteProfile } from '@/api/profile';
 import Modal from '../common/Modal';
 
 export default function EditProfile({ onClose }: { onClose: () => void }) {
@@ -187,6 +187,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                   buttons={
                     <>
                       <button
+                        // 회원 탈퇴
                         onClick={async () => {
                           try {
                             await deleteProfile();

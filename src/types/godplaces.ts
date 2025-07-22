@@ -9,7 +9,7 @@ export interface GodplacesSearchList {
   firstmenu?: string;
   firstprice?: string;
   libraryId?: string;
-  fetivalId?: string;
+  festivalId?: string;
   storeId?: string;
 }
 
@@ -30,7 +30,13 @@ export interface GodplacesDetail {
   startAt?: string;
   endAt?: string;
   libraryId?: string;
-  fetivalId?: string;
+  festivalId?: string;
   storeId?: string;
   url?: string;
+}
+
+export interface Plans {
+  id: string;
+  type: string;
+  firstprice: number;
 }

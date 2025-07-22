@@ -3,7 +3,7 @@ import { MdEdit } from 'react-icons/md';
 import SetGoalModal from './SetGoalModal';
 import { useEffect, useState } from 'react';
 // import { GetMyPageData } from '@/types/userType';
-import { getMyPage } from '@/api/getMyPage';
+import { getMyPage } from '@/api/profile';
 // import { getSetGoal } from '@/api/getSetGoal';
 
 export default function SetGoal() {
@@ -11,6 +11,7 @@ export default function SetGoal() {
   const [goalName, setGoalName] = useState<string | null>(null);
   const [remainAmount, setRemainAmount] = useState<number | null>(null);
 
+  // 유저 데이터
   useEffect(() => {
     getMyPage()
       .then((res) => {

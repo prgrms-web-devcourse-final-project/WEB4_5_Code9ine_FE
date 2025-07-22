@@ -1,16 +1,22 @@
 'use client';
 
-import { useDummyData } from '@/stores/dummyStore';
+import { API_ADD } from '@/lib/api/api';
 import { IoPencil, IoTrash } from 'react-icons/io5';
 
 export default function CardMenu({ index }: { index: number }) {
-  const { dummyData2 } = useDummyData();
-  const { setDummy2 } = useDummyData.getState();
-  const handleDelete = () => {
-    const dummydata = dummyData2.filter((item) => item.id !== index);
-    console.log(index);
-    console.log(dummydata);
-    setDummy2(dummydata);
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(API_ADD + `/api/budget/detail/${index}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('통신에 실패했습니다');
+
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <>

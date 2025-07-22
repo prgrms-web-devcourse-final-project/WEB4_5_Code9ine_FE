@@ -1,13 +1,18 @@
+'use client';
 import { PayList, totalData } from '@/types/payData';
 import ListCard from './ListCard';
 import { useEffect, useState } from 'react';
-import { fetchTotlaAccount } from '@/data/accountData';
+import { API_ADD } from '@/lib/api/api';
+import { useAccountData } from '@/stores/accountStore';
 
 type GroupedByDate = Record<string, PayList[]>;
 
 export default function ListArea() {
-  const [totalData, setTotalData] = useState<totalData>();
-  const dateGroup = (totalData?.data.details ?? []).reduce(
+  const [totalData2, setTotalData] = useState<totalData>();
+  const [day, setDay] = useState<totalData>();
+  const { dateData, showDayData, totalData } = useAccountData();
+
+  const dateGroup = (totalData2?.data.details ?? []).reduce(
     (acc: GroupedByDate, curr: PayList) => {
       const date = curr.date;
       if (!acc[date]) {
@@ -19,33 +24,58 @@ export default function ListArea() {
     {},
   );
 
-  console.log(dateGroup);
-
   useEffect(() => {
-    fetchTotlaAccount()
-      .then(setTotalData)
-      .catch((err) => console.error(err));
-  }, []);
+    if (totalData !== undefined && totalData !== null) {
+      setTotalData(totalData);
+    }
+    fetch(
+      API_ADD +
+        `/api/budget/detail?date=${dateData?.getFullYear()}-${(dateData!.getMonth() + 1).toString().padStart(2, '0')}-${dateData?.getDate().toString().padStart(2, '0')}`,
+    )
+      .then((res) => res.json())
+      .then((data) => setDay(data));
+  }, [dateData, totalData]);
 
   return (
     <>
       <span className="mt-[30px] ml-[24px] text-[24px] font-semibold">
         내역
       </span>
-      <div className="hide-scrollbar w-320px mx-[17px] mt-[20px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
-        {Object.keys(dateGroup).map((date) => (
-          <div key={date}>
+      {!showDayData ? (
+        <div className="hide-scrollbar w-320px mx-[17px] mt-[20px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
+          {Object.keys(dateGroup).map((date) => (
+            <div key={date}>
+              <div className="mb-[15px] min-w-[315px] border-b-1 text-[var(--main-color-3)] dark:text-[var(--text-color)]">
+                <p>{date}</p>
+              </div>
+              <div className="mb-[25px]">
+                {dateGroup[date].map((item, index) => (
+                  <ListCard value={item} index={item.id} key={index} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="hide-scrollbar w-320px mx-[17px] mt-[20px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
+          <div key={dateData?.toLocaleString()}>
             <div className="mb-[15px] min-w-[315px] border-b-1 text-[var(--main-color-3)] dark:text-[var(--text-color)]">
-              <p>{date}</p>
+              <p>
+                {dateData?.getFullYear() +
+                  '-' +
+                  (dateData!.getMonth() + 1).toString().padStart(2, '0') +
+                  '-' +
+                  dateData?.getDate().toString().padStart(2, '0')}
+              </p>
             </div>
             <div className="mb-[25px]">
-              {dateGroup[date].map((item, index) => (
+              {day?.data.details.map((item, index) => (
                 <ListCard value={item} index={item.id} key={index} />
               ))}
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </>
   );
 }

@@ -6,7 +6,7 @@ import Button from './Button';
 import { useState, useEffect } from 'react';
 import EditProfile from './EditProfile';
 import { UserData } from '@/types/userType';
-import { getMyPage } from '@/api/getMyPage';
+import { getMyCode, getMyPage } from '@/api/profile';
 import Modal from '../common/Modal';
 // import Image from 'next/image';
 
@@ -19,6 +19,7 @@ export default function Profile({
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [showCopyModal, setShowCopyModal] = useState(false);
 
+  // 유저 데이터
   useEffect(() => {
     getMyPage()
       .then((res) => {
@@ -28,6 +29,19 @@ export default function Profile({
       })
       .catch((err) => console.log('마이페이지 에러', err));
   }, []);
+
+  // 초대 코드 복사
+  const handleCopy = async () => {
+    try {
+      const res = await getMyCode();
+      const invitedCode = res.data.inviteCode;
+      // console.log(invitedCode);
+      await navigator.clipboard.writeText(invitedCode);
+      setShowCopyModal(true);
+    } catch (err) {
+      console.log('내 초대 코드 에러', err);
+    }
+  };
 
   // if (!userData) return <div>loading</div>;
   return (
@@ -58,7 +72,7 @@ export default function Profile({
               </span>{' '}
             </p>
             <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">
-              절약왕
+              절약왕{/* {userData.equippedTitle.title} */}
             </p>
             <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
               다음 레벨까지
@@ -94,7 +108,7 @@ export default function Profile({
               button={
                 <>
                   <button
-                    onClick={() => setShowCopyModal(true)}
+                    onClick={handleCopy}
                     className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]"
                   >
                     내 초대 코드 복사

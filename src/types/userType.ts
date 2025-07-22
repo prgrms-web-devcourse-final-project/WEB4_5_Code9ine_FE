@@ -116,8 +116,9 @@ export interface BookmarkPostData {
   data: Post[];
 }
 
-// 북마크
+// 기본 북마크 타입
 export interface BaseBookmark {
+  placeId: string;
   name: string;
   address: string;
   type: 'store' | 'festival' | 'library';
@@ -128,7 +129,7 @@ export interface BaseBookmark {
 export interface StoreBookmark extends BaseBookmark {
   type: 'store';
   storeId: string;
-  categoey: string;
+  category: string;
   contact: string;
   firstmenu: string;
   firstprice: string;
@@ -146,7 +147,7 @@ export interface FestivalBookmark extends BaseBookmark {
   target: string;
   url: string;
   startAt: string;
-  EndAt: string;
+  endAt: string;
 }
 
 // 도서관 북마크
@@ -156,9 +157,11 @@ export interface LibraryBookmark extends BaseBookmark {
   url: string;
 }
 
-type BookmarkItem = StoreBookmark | FestivalBookmark | LibraryBookmark;
+export type BookmarkItem = StoreBookmark | FestivalBookmark | LibraryBookmark;
 
+// 전체 북마크 타입
 export interface BookmarkData {
-  status: string;
+  code: string;
+  message: string;
   data: BookmarkItem[];
 }
