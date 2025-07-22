@@ -18,6 +18,15 @@ const postOptions = {
   },
 };
 
+const patchOptions = {
+  method: 'PATCH',
+  headers: {
+    accept: 'application/json',
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ADMIN_KEY}`,
+  },
+};
+
 export const getTodayStats = async () => {
   return await (
     await fetch(`${url}/api/admin-stats/daily-stats`, {
@@ -76,6 +85,15 @@ export const postNewStore = async (data: NewStore) => {
   return await (
     await fetch(`${url}/api/admin-stores`, {
       ...postOptions,
+      body: JSON.stringify(data),
+    })
+  ).json();
+};
+
+export const modifyStore = async (data: NewStore, id: number) => {
+  return await (
+    await fetch(`${url}/api/admin-stores/${id}`, {
+      ...patchOptions,
       body: JSON.stringify(data),
     })
   ).json();

@@ -4,7 +4,7 @@ import { Store } from '@/types/admin';
 import { startTransition, useEffect, useState } from 'react';
 import StoreCard from './StoreCard';
 import Button from './Button';
-import AddModal from './AddModal';
+import AddModifyModal from './AddModifyModal';
 
 const PAGES = [1, 2, 3, 4];
 
@@ -13,7 +13,7 @@ export default function ManageStores() {
   const [page, setPage] = useState(1);
   const [selectedStorePerPage, setSelectedStorePerPage] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState('전체');
-  const [isShowAddModal, setIsShowAddModal] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
 
   const fetchAllStores = async () => {
     try {
@@ -45,18 +45,19 @@ export default function ManageStores() {
     }
   };
 
+  const refreshStores = () => {
+    if (selectedCategory === '전체') fetchAllStores();
+    else fetchStoresByCategory();
+  };
+
   useEffect(() => {
     startTransition(async () => {
-      if (selectedCategory === '전체') await fetchAllStores();
-      else {
-        console.log(selectedCategory);
-        await fetchStoresByCategory();
-      }
+      refreshStores();
     });
-  }, [selectedStorePerPage, page, selectedCategory, isShowAddModal]);
+  }, [selectedStorePerPage, page, selectedCategory]);
 
   const addHandler = () => {
-    setIsShowAddModal(true);
+    setIsShowModal(true);
   };
 
   return (
@@ -104,7 +105,11 @@ export default function ManageStores() {
         <div className="flex flex-col gap-[6px]">
           {stores.length > 0 &&
             stores.map((store) => (
-              <StoreCard key={store.storeId} {...store} />
+              <StoreCard
+                key={store.storeId}
+                {...store}
+                onSuccess={refreshStores}
+              />
               // <UserCard
               //   key={user.memberId}
               //   {...user}
@@ -130,7 +135,13 @@ export default function ManageStores() {
             ))}
         </div>
       </div>
-      {isShowAddModal && <AddModal setIsShowAddModal={setIsShowAddModal} />}
+      {isShowModal && (
+        <AddModifyModal
+          setIsShowModal={setIsShowModal}
+          type="add"
+          onSuccess={refreshStores}
+        />
+      )}
     </>
   );
 }

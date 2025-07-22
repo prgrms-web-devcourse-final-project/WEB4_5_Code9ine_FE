@@ -1,23 +1,39 @@
 'use client';
-import { postNewStore } from '@/api/admin';
+import { modifyStore, postNewStore } from '@/api/admin';
 import { ChangeEvent, FormEvent, startTransition, useState } from 'react';
 import toast from 'react-hot-toast';
 import { IoMdClose } from 'react-icons/io';
 
-export default function AddModal({
-  setIsShowAddModal,
+export default function AddModifyModal({
+  setIsShowModal,
+  name,
+  address,
+  category,
+  menus,
+  type,
+  storeId,
+  onSuccess,
 }: {
-  setIsShowAddModal: (state: boolean) => void;
+  setIsShowModal: (state: boolean) => void;
+  name?: string;
+  address?: string;
+  category?: string;
+  menus?: { name: string; price: number }[];
+  storeId?: number;
+  type: 'add' | 'modify';
+  onSuccess: () => void;
 }) {
   const [form, setForm] = useState({
-    name: '',
-    address: '',
-    category: '',
-    menus: [
-      { name: '', price: 0 },
-      { name: '', price: 0 },
-      { name: '', price: 0 },
-    ],
+    name: name ? name : '',
+    address: address ? address : '',
+    category: category ? category : '',
+    menus: menus
+      ? menus
+      : [
+          { name: '', price: 0 },
+          { name: '', price: 0 },
+          { name: '', price: 0 },
+        ],
   });
 
   const changeHandler = (
@@ -73,16 +89,33 @@ export default function AddModal({
 
     // console.log('제출할 데이터:', submissionData);
 
-    try {
-      startTransition(async () => {
-        const response = await postNewStore(submissionData);
-        if (response.code === '0000') {
-          toast.success('갓플 등록 완료');
-          setIsShowAddModal(false);
-        }
-      });
-    } catch (e) {
-      console.error(e);
+    if (type === 'add') {
+      try {
+        startTransition(async () => {
+          const response = await postNewStore(submissionData);
+          if (response.code === '0000') {
+            toast.success('갓플 등록 완료');
+            setIsShowModal(false);
+            onSuccess();
+          }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    if (type === 'modify' && storeId) {
+      try {
+        startTransition(async () => {
+          const response = await modifyStore(submissionData, storeId);
+          if (response.code === '0000') {
+            toast.success('갓플 수정 완료');
+            setIsShowModal(false);
+            onSuccess();
+          }
+        });
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
   return (
@@ -91,11 +124,11 @@ export default function AddModal({
         <div className="flex w-[500px] flex-col gap-[15px] rounded-[10px] bg-[var(--white-color)] p-[20px] shadow-[var(--shadow-md)]">
           <div className="flex">
             <h1 className="flex-[95%] pl-[20px] text-center text-[20px] font-semibold">
-              착한가게 추가하기
+              착한가게 추가 또는 수정
             </h1>
             <button
               type="button"
-              onClick={() => setIsShowAddModal(false)}
+              onClick={() => setIsShowModal(false)}
               className="flex-[5%] cursor-pointer"
             >
               <IoMdClose />

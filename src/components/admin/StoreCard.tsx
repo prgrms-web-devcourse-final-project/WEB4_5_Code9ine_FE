@@ -1,11 +1,31 @@
+'use client';
 import { Store } from '@/types/admin';
 import Button from './Button';
+import { useState } from 'react';
+import AddModifyModal from './AddModifyModal';
 
-export default function StoreCard({ name, address, category, menus }: Store) {
+type Props = Store & {
+  onSuccess: () => void;
+};
+
+export default function StoreCard({
+  name,
+  address,
+  category,
+  menus,
+  storeId,
+  onSuccess,
+}: Props) {
+  const [isShowModal, setIsShowModal] = useState(false);
+
   const modifyHandler = () => {
+    setIsShowModal(true);
+  };
+
+  const deleteHandler = () => {
     
   };
-  const deleteHandler = () => {};
+
   return (
     <div className="flex">
       <div className="flex-[10%]">{category}</div>
@@ -22,6 +42,18 @@ export default function StoreCard({ name, address, category, menus }: Store) {
         <Button onClick={modifyHandler} className={'bg-[var(--main-color-2)]'}>
           수정
         </Button>
+        {isShowModal && (
+          <AddModifyModal
+            setIsShowModal={setIsShowModal}
+            name={name}
+            address={address}
+            category={category}
+            menus={menus}
+            storeId={storeId}
+            type="modify"
+            onSuccess={onSuccess}
+          />
+        )}
       </div>
       <div className="flex-[5%]">
         <Button onClick={deleteHandler} className="bg-[var(--point-color-1)]">
