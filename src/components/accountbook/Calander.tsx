@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { CalendarList } from '@/types/payData';
 import { Value } from 'react-calendar/dist/shared/types.js';
-import { API_ADD } from '@/lib/api/api';
+import { API_ADD } from '@/api/api';
 import { useAccountData } from '@/stores/accountStore';
 
 export default function Calander({
@@ -18,7 +18,7 @@ export default function Calander({
   const [data, setData] = useState<CalendarList>();
   const [date, setDate] = useState<Date | null>(null);
 
-  const { setDateData, setShowDayData } = useAccountData();
+  const { setDateData, setShowDayData, setIsAccount } = useAccountData();
 
   const onChange = (newDate: Value) => {
     if (newDate instanceof Date) {
@@ -100,6 +100,7 @@ export default function Calander({
   const handleStatus = () => {
     const status = true;
     onDataChange(status);
+    setIsAccount('추가');
   };
 
   return (

@@ -2,7 +2,7 @@
 import { PayList, totalData } from '@/types/payData';
 import ListCard from './ListCard';
 import { useEffect, useState } from 'react';
-import { API_ADD } from '@/lib/api/api';
+import { API_ADD } from '@/api/api';
 import { useAccountData } from '@/stores/accountStore';
 
 type GroupedByDate = Record<string, PayList[]>;

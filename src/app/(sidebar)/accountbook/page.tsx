@@ -3,7 +3,7 @@
 // import ListArea from '@/components/accountbook/ListArea';
 
 import Page from '@/components/accountbook/Page';
-import { API_ADD } from '@/lib/api/api';
+import { API_ADD } from '@/api/api';
 
 export async function setData() {
   const res = await fetch(API_ADD + '/api/budget/totaldetails', {

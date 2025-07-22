@@ -1,5 +1,5 @@
 'use client';
-import { API_ADD } from '@/lib/api/api';
+import { API_ADD } from '@/api/api';
 import { CalendarList } from '@/types/payData';
 import { useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
   const [day, setDay] = useState<number>();
 
   useEffect(() => {
-    fetch(API_ADD + 'api/budget/totaldetails')
+    fetch(API_ADD + '/api/budget/totaldetails')
       .then((res) => res.json())
       .then((data) => setData(data));
     const today = new Date();
