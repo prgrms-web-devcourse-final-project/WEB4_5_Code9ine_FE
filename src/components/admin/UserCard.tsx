@@ -47,9 +47,15 @@ export default function UserCard({
 
   return (
     <div className="flex">
-      <div className="flex-[15%]">{memberId}</div>
-      <div className="flex-[25%]">{nickname}</div>
-      <div className="flex-[45%]">{email}</div>
+      <div className={`flex-[15%] ${!activated && 'line-through'}`}>
+        {memberId}
+      </div>
+      <div className={`flex-[25%] ${!activated && 'line-through'}`}>
+        {nickname}
+      </div>
+      <div className={`flex-[45%] ${!activated && 'line-through'}`}>
+        {email}
+      </div>
       <div className="flex-[15%] text-right">
         {optimisticIsBlock ? (
           <Button onClick={userHandler}>유저 차단</Button>
