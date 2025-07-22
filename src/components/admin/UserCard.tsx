@@ -58,9 +58,11 @@ export default function UserCard({
       </div>
       <div className="flex-[15%] text-right">
         {optimisticIsBlock ? (
-          <Button onClick={userHandler}>유저 차단</Button>
+          <Button onClick={userHandler} className="bg-[var(--point-color-1)]">
+            유저 차단
+          </Button>
         ) : (
-          <div>차단된 유저입니다</div>
+          <div></div>
         )}
       </div>
     </div>

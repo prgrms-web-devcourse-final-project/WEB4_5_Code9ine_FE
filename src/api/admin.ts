@@ -39,3 +39,11 @@ export const searchUserByNickname = async (nickname: string) => {
     })
   ).json();
 };
+
+export const getAllStores = async (page = 1, size = 10) => {
+  return await (
+    await fetch(`${url}/api/admin-stores?page=${page}&size=${size}`, {
+      ...options,
+    })
+  ).json();
+};

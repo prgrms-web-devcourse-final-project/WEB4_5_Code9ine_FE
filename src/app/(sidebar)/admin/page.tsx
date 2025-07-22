@@ -1,4 +1,4 @@
-import ManagePlaces from '@/components/admin/ManagePlaces';
+import ManageStores from '@/components/admin/ManageStores';
 import ManageUsers from '@/components/admin/ManageUsers';
 import TodayStats from '@/components/admin/TodayStats';
 
@@ -7,7 +7,7 @@ export default function Page() {
     <>
       <TodayStats />
       <ManageUsers />
-      <ManagePlaces />
+      <ManageStores />
     </>
   );
 }
