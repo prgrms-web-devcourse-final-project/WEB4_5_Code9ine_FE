@@ -1,5 +1,5 @@
 export type User = {
-  userId: number;
+  memberId: number;
   nickname: string;
   email: string;
   activated: boolean;
