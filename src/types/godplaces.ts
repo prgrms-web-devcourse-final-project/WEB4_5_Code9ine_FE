@@ -34,3 +34,9 @@ export interface GodplacesDetail {
   storeId?: string;
   url?: string;
 }
+
+export interface Plans {
+  id: string;
+  type: string;
+  firstprice: number;
+}
