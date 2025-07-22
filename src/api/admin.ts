@@ -31,3 +31,11 @@ export const blockUser = async (id: number) => {
     })
   ).json();
 };
+
+export const searchUserByNickname = async (nickname: string) => {
+  return await (
+    await fetch(`${url}/api/admin-users/search?nickname=${nickname}`, {
+      ...options,
+    })
+  ).json();
+};
