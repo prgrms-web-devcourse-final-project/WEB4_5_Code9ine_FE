@@ -12,3 +12,13 @@ export type Store = {
   category: string;
   menus: { name: string; price: number }[];
 };
+
+export type NewStore = {
+  name: string;
+  address: string;
+  category: string;
+  menus: {
+    name: string;
+    price: number;
+  }[];
+};

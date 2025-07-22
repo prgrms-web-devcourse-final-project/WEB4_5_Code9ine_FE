@@ -3,6 +3,9 @@ import { getAllStores, getStroesByCategory } from '@/api/admin';
 import { Store } from '@/types/admin';
 import { startTransition, useEffect, useState } from 'react';
 import StoreCard from './StoreCard';
+import Button from './Button';
+import Modal from '../common/Modal';
+import AddModal from './AddModal';
 
 const PAGES = [1, 2, 3, 4];
 
@@ -11,6 +14,7 @@ export default function ManageStores() {
   const [page, setPage] = useState(1);
   const [selectedStorePerPage, setSelectedStorePerPage] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [isShowAddModal, setIsShowAddModal] = useState(false);
 
   const fetchAllStores = async () => {
     try {
@@ -50,13 +54,21 @@ export default function ManageStores() {
         await fetchStoresByCategory();
       }
     });
-  }, [selectedStorePerPage, page, selectedCategory]);
+  }, [selectedStorePerPage, page, selectedCategory, isShowAddModal]);
+
+  const addHandler = () => {
+    setIsShowAddModal(true);
+  };
 
   return (
     <>
       <div className="hide-scrollbar flex flex-col gap-[15px] overflow-y-scroll rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
         <div className="flex justify-between">
           <h1 className="font-bold">갓플레이스 조회</h1>
+
+          <Button className="bg-[var(--main-color-2)]" onClick={addHandler}>
+            갓플레이스 추가
+          </Button>
 
           <label>
             카테고리
@@ -73,8 +85,6 @@ export default function ManageStores() {
               <option value={'미용업'}>미용</option>
               <option value={'세탁업'}>세탁</option>
               <option value={'숙박업'}>숙박</option>
-              <option value={'도서관'}>도서관</option>
-              <option value={'축제'}>축제</option>
             </select>
           </label>
 
@@ -121,6 +131,7 @@ export default function ManageStores() {
             ))}
         </div>
       </div>
+      {isShowAddModal && <AddModal setIsShowAddModal={setIsShowAddModal} />}
     </>
   );
 }

@@ -1,8 +1,19 @@
+import { NewStore } from '@/types/admin';
+
 const url = process.env.NEXT_PUBLIC_API_BASE_URL;
 const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ADMIN_KEY}`,
+  },
+};
+
+const postOptions = {
+  method: 'POST',
+  headers: {
+    accept: 'application/json',
+    'Content-Type': 'application/json',
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ADMIN_KEY}`,
   },
 };
@@ -58,5 +69,14 @@ export const getStroesByCategory = async (
       `${url}/api/admin-stores/search?category=${category}&page=${page}&size=${size}`,
       { ...options },
     )
+  ).json();
+};
+
+export const postNewStore = async (data: NewStore) => {
+  return await (
+    await fetch(`${url}/api/admin-stores`, {
+      ...postOptions,
+      body: JSON.stringify(data),
+    })
   ).json();
 };
