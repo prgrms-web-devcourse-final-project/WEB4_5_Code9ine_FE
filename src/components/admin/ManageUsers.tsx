@@ -117,12 +117,14 @@ export default function ManageUsers() {
         <div className="flex justify-center gap-[10px]">
           {PAGES &&
             PAGES.map((item) => (
-              <div
+              <button
                 key={item}
+                type="button"
                 className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
+                onClick={() => setPage(item)}
               >
                 {item}
-              </div>
+              </button>
             ))}
         </div>
       </div>
