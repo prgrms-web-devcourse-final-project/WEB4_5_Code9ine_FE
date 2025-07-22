@@ -98,3 +98,9 @@ export const modifyStore = async (data: NewStore, id: number) => {
     })
   ).json();
 };
+
+export const deleteStore = async (id: number) => {
+  return await (
+    await fetch(`${url}/api/admin-stores/${id}/delete`, { ...patchOptions })
+  ).json();
+};

@@ -1,8 +1,10 @@
 'use client';
 import { Store } from '@/types/admin';
 import Button from './Button';
-import { useState } from 'react';
+import { startTransition, useState } from 'react';
 import AddModifyModal from './AddModifyModal';
+import { deleteStore } from '@/api/admin';
+import toast from 'react-hot-toast';
 
 type Props = Store & {
   onSuccess: () => void;
@@ -23,7 +25,18 @@ export default function StoreCard({
   };
 
   const deleteHandler = () => {
-    
+    startTransition(async () => {
+      try {
+        const response = await deleteStore(storeId);
+        if (response.code === '0000') {
+          toast.success('장소 삭제 완료');
+          onSuccess();
+        }
+      } catch (e) {
+        toast.error('장소 삭제 실패');
+        console.error(e);
+      }
+    });
   };
 
   return (
