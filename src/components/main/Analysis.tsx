@@ -16,6 +16,7 @@ export default function Analysis() {
       try {
         const res = await getBudgetAnalysis();
         setData(res);
+        console.log(data);
       } catch (e) {
         console.error('가계부 분석 데이터 가져오기 실패', e);
       }

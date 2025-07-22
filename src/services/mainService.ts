@@ -118,6 +118,7 @@ export interface BudgetAnalyzeResponse {
 export async function getBudgetAnalysis(): Promise<BudgetAnalyzeResponse> {
   const res = await fetch(`${API_BASE}/api/budget/analyze`, {
     method: 'GET',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
   });
 
