@@ -4,7 +4,6 @@ import { Store } from '@/types/admin';
 import { startTransition, useEffect, useState } from 'react';
 import StoreCard from './StoreCard';
 import Button from './Button';
-import Modal from '../common/Modal';
 import AddModal from './AddModal';
 
 const PAGES = [1, 2, 3, 4];
@@ -64,10 +63,10 @@ export default function ManageStores() {
     <>
       <div className="hide-scrollbar flex flex-col gap-[15px] overflow-y-scroll rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
         <div className="flex justify-between">
-          <h1 className="font-bold">갓플레이스 조회</h1>
+          <h1 className="font-bold">착한가게 조회</h1>
 
           <Button className="bg-[var(--main-color-2)]" onClick={addHandler}>
-            갓플레이스 추가
+            착한가게 추가
           </Button>
 
           <label>
@@ -89,7 +88,7 @@ export default function ManageStores() {
           </label>
 
           <label>
-            페이지당 갓플 수
+            페이지당 착한가게 수
             <select
               value={selectedStorePerPage}
               onChange={(e) => setSelectedStorePerPage(Number(e.target.value))}
