@@ -10,7 +10,6 @@ import {
 import UserCard from './UserCard';
 import { User } from '@/types/admin';
 import { CiSearch } from 'react-icons/ci';
-import { dimensionValueTypes } from 'framer-motion';
 
 export default function ManageUsers() {
   const [users, setUsers] = useState<User[]>([]);
