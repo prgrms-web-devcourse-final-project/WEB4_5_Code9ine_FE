@@ -18,7 +18,7 @@ export default function SearchListBox({
     startTransition(async () => {
       try {
         const res = await getGodplaces(region, category);
-        console.log(res);
+        // console.log(res);
         setGodplaces(res.data);
       } catch (e) {
         console.error('god places fetch error', e);
