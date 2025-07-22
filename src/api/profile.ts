@@ -14,6 +14,7 @@ export async function getMyPage(): Promise<GetMyPageData> {
     method: 'GET',
     headers: {
       accept: 'application/json',
+      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
     },
   });
   if (!res.ok) {
@@ -32,6 +33,7 @@ export async function getMyCode(): Promise<myCodeCopy> {
     method: 'GET',
     headers: {
       accept: 'application/json',
+      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
     },
   });
   if (!res.ok) {
@@ -52,6 +54,7 @@ export async function getChallenge(): Promise<ChallengeData> {
       method: 'GET',
       headers: {
         accept: 'application/json',
+        // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
       },
     },
   );
@@ -74,7 +77,7 @@ export async function setGoal(
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      // 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
     },
     body: JSON.stringify({ goalStuff, goalAmount }),
   });
@@ -91,11 +94,12 @@ export async function setGoal(
 // 내가 쓴 글
 export async function getMyThreads(): Promise<BookmarkPostData> {
   const res = await fetch(
-    `${API_BASE_URL}/api/members/mypage/posts?page={page}&size={size}`,
+    `${API_BASE_URL}/api/members/mypage/posts?page=0&size=10`,
     {
       method: 'GET',
       headers: {
         accept: 'application/json',
+        // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
       },
     },
   );
@@ -112,6 +116,7 @@ export async function getBookmarkedThreads(): Promise<BookmarkPostData> {
     method: 'GET',
     headers: {
       accept: 'application/json',
+      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
     },
   });
   if (!res.ok) {
@@ -128,6 +133,7 @@ export async function getBookmarkedPlaces(): Promise<BookmarkData> {
     method: 'GET',
     headers: {
       accept: 'application/json',
+      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
     },
   });
   if (!res.ok) {
@@ -140,7 +146,7 @@ export async function getBookmarkedPlaces(): Promise<BookmarkData> {
   return data;
 }
 
-// 프로필 삭제
+// 계정 삭제
 export async function deleteProfile(): Promise<{
   code: string;
   message: string;
@@ -161,4 +167,27 @@ export async function deleteProfile(): Promise<{
   const data = await res.json();
 
   return data;
+}
+
+// 프로필 이미지 변경
+export async function changeImage(): Promise<{
+  code: string;
+  message: string;
+  data: object;
+}> {
+  const res = await fetch(`${API_BASE_URL}/api/members/mypage/profile-image`, {
+    method: 'PATCH',
+    headers: {
+      accept: 'application/json',
+      // 필요 시 Authorization, Content-Type 등 추가
+      // 'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`프로필 이미지 변경 실패: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result;
 }

@@ -8,7 +8,7 @@ import EditProfile from './EditProfile';
 import { UserData } from '@/types/userType';
 import { getMyCode, getMyPage } from '@/api/profile';
 import Modal from '../common/Modal';
-// import Image from 'next/image';
+import Image from 'next/image';
 
 export default function Profile({
   isPersonal = false,
@@ -27,7 +27,7 @@ export default function Profile({
         setUserData(res.data.data);
         console.log(userData?.name);
       })
-      .catch((err) => console.log('마이페이지 에러', err));
+      .catch((err) => console.log('마이데이터 에러', err));
   }, []);
 
   // 초대 코드 복사
