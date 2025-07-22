@@ -1,5 +1,5 @@
 'use client';
-import { getAllStores } from '@/api/admin';
+import { getAllStores, getStroesByCategory } from '@/api/admin';
 import { Store } from '@/types/admin';
 import { startTransition, useEffect, useState } from 'react';
 import StoreCard from './StoreCard';
@@ -10,6 +10,7 @@ export default function ManageStores() {
   const [stores, setStores] = useState<Store[]>([]);
   const [page, setPage] = useState(1);
   const [selectedStorePerPage, setSelectedStorePerPage] = useState(10);
+  const [selectedCategory, setSelectedCategory] = useState('전체');
 
   const fetchAllStores = async () => {
     try {
@@ -24,18 +25,58 @@ export default function ManageStores() {
     }
   };
 
+  const fetchStoresByCategory = async () => {
+    try {
+      const response = await getStroesByCategory(
+        selectedCategory,
+        page,
+        selectedStorePerPage,
+      );
+      if (response.code === '0000') {
+        setStores(response.data);
+      } else {
+        console.error('Stores By Category fetch error');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     startTransition(async () => {
-      await fetchAllStores();
+      if (selectedCategory === '전체') await fetchAllStores();
+      else {
+        console.log(selectedCategory);
+        await fetchStoresByCategory();
+      }
     });
-  }, [selectedStorePerPage, page]);
+  }, [selectedStorePerPage, page, selectedCategory]);
 
   return (
     <>
       <div className="hide-scrollbar flex flex-col gap-[15px] overflow-y-scroll rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
         <div className="flex justify-between">
           <h1 className="font-bold">갓플레이스 조회</h1>
-          {/* <div className="flex items-center gap-[10px] rounded-[10px] px-[10px] shadow-[var(--shadow-md)]"></div> */}
+
+          <label>
+            카테고리
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="ml-[10px]"
+            >
+              <option value={'전체'}>전체</option>
+              <option value={'한식'}>한식</option>
+              <option value={'중식'}>중식</option>
+              <option value={'일식'}>일식</option>
+              <option value={'양식'}>양식</option>
+              <option value={'미용업'}>미용</option>
+              <option value={'세탁업'}>세탁</option>
+              <option value={'숙박업'}>숙박</option>
+              <option value={'도서관'}>도서관</option>
+              <option value={'축제'}>축제</option>
+            </select>
+          </label>
 
           <label>
             페이지당 갓플 수

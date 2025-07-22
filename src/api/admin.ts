@@ -47,3 +47,16 @@ export const getAllStores = async (page = 1, size = 10) => {
     })
   ).json();
 };
+
+export const getStroesByCategory = async (
+  category: string,
+  page = 1,
+  size = 10,
+) => {
+  return await (
+    await fetch(
+      `${url}/api/admin-stores/search?category=${category}&page=${page}&size=${size}`,
+      { ...options },
+    )
+  ).json();
+};
