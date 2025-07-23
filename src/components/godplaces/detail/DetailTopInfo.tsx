@@ -26,7 +26,7 @@ export default function DetailTopInfo({
         </div>
       </div>
       <div className="text-[14px] md:text-[16px]">{address}</div>
-      <DetailButtonDiv contact={contact} url={url} />
+      <DetailButtonDiv contact={contact} url={url} address={address} />
     </div>
   );
 }
