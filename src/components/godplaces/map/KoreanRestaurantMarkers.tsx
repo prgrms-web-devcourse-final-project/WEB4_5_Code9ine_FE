@@ -1,12 +1,12 @@
 import { useGodplacesStore } from '@/stores/godplacesStore';
 import CustomMarker from './CustomMarker';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import { getGodplaceMarkersByCategory } from '@/lib/helper/getGodplaceMarkersByCategory';
 
 export default function KoreanRestaurantMarkers() {
-  const searchParams = useSearchParams();
-  const selectedType = searchParams.get('type');
-  const selectedId = searchParams.get('id');
+  // const searchParams = useSearchParams();
+  // const selectedType = searchParams.get('type');
+  // const selectedId = searchParams.get('id');
 
   const godplaces = useGodplacesStore((state) => state.godplaces);
 
@@ -14,7 +14,7 @@ export default function KoreanRestaurantMarkers() {
     godplaces,
     true,
     '한식',
-    selectedType === 'store' ? (selectedId ?? undefined) : undefined,
+    // selectedType === 'store' ? (selectedId ?? undefined) : undefined,
   );
   const koreanRestaurantMarkerOrigin = { x: 16, y: 0 };
 
