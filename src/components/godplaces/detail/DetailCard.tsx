@@ -34,12 +34,12 @@ export default function DetailCard({
       )}
       {type !== 'library' && type !== 'festival' && (
         <StoreDetails
-          firstMenu={props.firstmenu}
-          firstPrice={props.firstprice}
-          secondMenu={props.secondmenu}
-          secondPrice={props.secondprice}
-          thirdMenu={props.thirdmenu}
-          thirdPrice={props.thirdprice}
+          firstMenu={props.firstMenu}
+          firstPrice={props.firstPrice}
+          secondMenu={props.secondMenu}
+          secondPrice={props.secondPrice}
+          thirdMenu={props.thirdMenu}
+          thirdPrice={props.thirdPrice}
         />
       )}
     </div>
