@@ -2,7 +2,7 @@
 // import Calander from '@/components/accountbook/Calander';
 // import ListArea from '@/components/accountbook/ListArea';
 
-import { API_ADD, setData } from '@/api/api';
+import { API_ADD, setData } from '@/api/accountApi';
 import Page from '@/components/accountbook/Page';
 
 export default async function page() {

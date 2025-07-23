@@ -21,7 +21,7 @@ interface dummyState {
 }
 
 export const useAccountData = create<dummyState>((set) => ({
-  isLogin: true,
+  isLogin: false,
   setIsLogin: (data) => set({ isLogin: data }),
   category: null,
   setCategory: (data) => set({ category: data }),

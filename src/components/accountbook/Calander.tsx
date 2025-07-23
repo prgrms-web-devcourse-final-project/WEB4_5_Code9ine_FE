@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { CalendarList } from '@/types/payData';
 import { Value } from 'react-calendar/dist/shared/types.js';
-import { API_ADD, setTodayData } from '@/api/api';
+import { noExpense, setMonthData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 
 export default function Calander({
@@ -31,26 +31,19 @@ export default function Calander({
   };
 
   const handleNoExpense = async () => {
-    try {
-      const response = await fetch(API_ADD + `/api/budget/noexpenses`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (!response.ok) throw new Error('통신에 실패했습니다');
-
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
+    noExpense();
   };
 
   useEffect(() => {
     const today = new Date();
     const month = today.getMonth() + 1;
-    setTodayData(today, month)
-      .then((data) => setData(data));
+    async function monthData() {
+      const res = await setMonthData(today, month);
+      const data = await res.json();
+      console.log(data);
+      setData(data);
+    }
+    monthData();
     setDate(new Date());
   }, []);
   const addContent = ({ date, view }: { date: Date; view: string }) => {

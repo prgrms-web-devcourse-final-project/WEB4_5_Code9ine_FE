@@ -1,5 +1,5 @@
 'use client';
-import { setTodayData } from '@/api/api';
+import { setMonthData } from '@/api/accountApi';
 import { CalendarList } from '@/types/payData';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +13,13 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
     //   .then((res) => res.json())
     //   .then((data) => setIsData(data));
     const today = new Date();
-    const {data} = 
+    const month = today.getMonth() + 1;
+    async function calendarData() {
+      const res = await setMonthData(today, month);
+      const data = await res.json();
+      console.log(data);
+      setIsData(data);
+    }
     calendarData();
     setMonth(today.getMonth() + 1);
     setDay(today.getDate());

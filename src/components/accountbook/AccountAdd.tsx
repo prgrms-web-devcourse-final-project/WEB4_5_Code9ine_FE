@@ -9,7 +9,7 @@ import { IoRepeat } from 'react-icons/io5';
 import '../../css/CustomDatePicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
-import { API_ADD } from '@/api/api';
+import { patchAccount, postAccount } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 import toast from 'react-hot-toast';
 
@@ -66,55 +66,11 @@ export default function AccountAdd({
       return;
     }
     if (isAdd === '추가') {
-      try {
-        const response = await fetch(API_ADD + `/api/budget/detail`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: accountTag,
-            date: `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate()}`,
-            category: value,
-            price: Number(price),
-            content: content,
-            repeatCycle: 'NONE',
-          }),
-        });
-
-        if (!response.ok) throw new Error('통신에 실패했습니다');
-
-        const result = await response.json();
-        console.log(result);
-        toast.success('저장되었습니다');
-        onDataChange(false);
-        setInsert(false);
-      } catch (error) {
-        console.error(error);
-        toast.error('문제가 발생했습니다');
-      }
+      postAccount(accountTag, startDate, value, price, content);
+      onDataChange(false);
+      setInsert(false);
     } else if (isAdd === '수정') {
-      try {
-        const response = await fetch(API_ADD + `/api/budget/detail/${isId}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: accountTag,
-            date: `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate()}`,
-            category: value,
-            price: Number(price),
-            content: content,
-            repeatCycle: 'NONE',
-          }),
-        });
-
-        if (!response.ok) throw new Error('통신에 실패했습니다');
-
-        const result = await response.json();
-        console.log(result);
-        toast.success('수정되었습니다');
-      } catch (error) {
-        console.error(error);
-        toast.error('문제가 발생했습니다');
-      }
+      patchAccount(accountTag, startDate, value, price, content, isId!);
     }
   };
 
