@@ -11,8 +11,8 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Page() {
   const [selectedTab, setSelectedTab] = useState<
-    'MYSTORE' | 'CHALLENGE' | 'FREE'
-  >('MYSTORE');
+    'MY_STORE' | 'CHALLENGE' | 'FREE'
+  >('MY_STORE');
   const [posts, setPosts] = useState<PostRes[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -81,7 +81,10 @@ export default function Page() {
                 onChange={setSelectedTab}
               />
             </div>
-            <PostWriteForm category={selectedTab} />
+            <PostWriteForm
+              category={selectedTab}
+              onSuccess={(newPost) => setPosts((prev) => [newPost, ...prev])}
+            />
           </div>
           {posts.map((post) => (
             <div key={post.postId} className="mb-[15px]">

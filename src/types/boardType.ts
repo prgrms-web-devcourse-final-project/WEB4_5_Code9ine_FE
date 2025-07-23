@@ -21,7 +21,7 @@ export interface WritePostReq {
   content: string; // 내용
   category: string; // 게시글 종류
   imageUrls: string[]; // 이미지URL
-  challengeCategory?: string; // 챌린지 종류
+   challengeCategory?: string | null; // 챌린지 종류
 }
 
 export interface WritePostRes {
@@ -38,8 +38,8 @@ export interface PostListRes {
 export interface PostRes {
   postId: number;  // 게시글 번호
   memberId: number;  // 유저번호
-  category: 'MYSTORE' | 'CHALLENGE' | 'FREE'; // 게시글 카테고리
-  challengeCategory: 'NO_MONEY' | 'KIND_CONSUMER' | 'DETECTIVE' | 'MASTER' | 'COOK_KING'; // 챌린지 카테고리
+  category: 'MY_STORE' | 'CHALLENGE' | 'FREE'; // 게시글 카테고리
+  challengeCategory: 'NO_MONEY' | 'KIND_CONSUMER' | 'DETECTIVE' | 'MASTER' | 'COOK_KING' | null; // 챌린지 카테고리
   title: string; // 게시글 제목
   content: string; // 게시글 내용
   createdAt: string; // 게시글 작성일
