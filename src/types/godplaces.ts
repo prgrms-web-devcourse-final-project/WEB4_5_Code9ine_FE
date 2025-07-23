@@ -18,6 +18,7 @@ export interface GodplacesDetail {
   address: string;
   latitude: string;
   longitude: string;
+  type: string;
   category?: string;
   contact?: string;
   firstMenu?: string;
