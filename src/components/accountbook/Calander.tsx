@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { CalendarList } from '@/types/payData';
 import { Value } from 'react-calendar/dist/shared/types.js';
-import { API_ADD } from '@/api/api';
+import { API_ADD, setTodayData } from '@/api/api';
 import { useAccountData } from '@/stores/accountStore';
 
 export default function Calander({
@@ -49,11 +49,7 @@ export default function Calander({
   useEffect(() => {
     const today = new Date();
     const month = today.getMonth() + 1;
-    fetch(
-      API_ADD +
-        `/api/budget/calendar?yearmonth=${today.getFullYear()}-${month.toString().padStart(2, '0')}`,
-    )
-      .then((res) => res.json())
+    setTodayData(today, month)
       .then((data) => setData(data));
     setDate(new Date());
   }, []);

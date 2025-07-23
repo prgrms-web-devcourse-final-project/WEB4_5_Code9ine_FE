@@ -16,6 +16,8 @@ interface dummyState {
   setIsAccount: (data: string) => void;
   insert: boolean;
   setInsert: (data: boolean) => void;
+  isId: number | null;
+  setIsId: (data: number | null) => void;
 }
 
 export const useAccountData = create<dummyState>((set) => ({
@@ -33,4 +35,6 @@ export const useAccountData = create<dummyState>((set) => ({
   setIsAccount: (data) => set({ isAccount: data }),
   insert: false,
   setInsert: (data) => set({ insert: data }),
+  isId: null,
+  setIsId: (data) => set({ isId: data }),
 }));

@@ -5,7 +5,7 @@ import { useAccountData } from '@/stores/accountStore';
 import { IoPencil, IoTrash } from 'react-icons/io5';
 
 export default function CardMenu({ index }: { index: number }) {
-  const { setIsAccount, setInsert } = useAccountData();
+  const { setIsAccount, setInsert, setIsId } = useAccountData();
   const handleDelete = async () => {
     try {
       const response = await fetch(API_ADD + `/api/budget/detail/${index}`, {
@@ -24,6 +24,7 @@ export default function CardMenu({ index }: { index: number }) {
     setIsAccount('수정');
     setInsert(true);
     console.log('클릭됨');
+    setIsId(index);
   };
   return (
     <>

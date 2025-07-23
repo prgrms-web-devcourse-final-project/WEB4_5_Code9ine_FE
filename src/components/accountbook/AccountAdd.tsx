@@ -11,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
 import { API_ADD } from '@/api/api';
 import { useAccountData } from '@/stores/accountStore';
+import toast from 'react-hot-toast';
 
 export default function AccountAdd({
   onDataChange,
@@ -26,7 +27,7 @@ export default function AccountAdd({
   const [content, setContent] = useState<string | null>(null);
   const [isAdd, setIsAdd] = useState<string>('추가');
 
-  const { isAccount, setInsert } = useAccountData();
+  const { isAccount, setInsert, isId } = useAccountData();
 
   const handleCalculator = (value: string) => {
     setPrice(value);
@@ -61,6 +62,7 @@ export default function AccountAdd({
 
   const handlePost = async () => {
     if (price === '' || content === null || value === '') {
+      toast.error('내용을 기입해주세요');
       return;
     }
     if (isAdd === '추가') {
@@ -82,12 +84,16 @@ export default function AccountAdd({
 
         const result = await response.json();
         console.log(result);
+        toast.success('저장되었습니다');
+        onDataChange(false);
+        setInsert(false);
       } catch (error) {
         console.error(error);
+        toast.error('문제가 발생했습니다');
       }
     } else if (isAdd === '수정') {
       try {
-        const response = await fetch(API_ADD + `/api/budget/detail`, {
+        const response = await fetch(API_ADD + `/api/budget/detail/${isId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -104,8 +110,10 @@ export default function AccountAdd({
 
         const result = await response.json();
         console.log(result);
+        toast.success('수정되었습니다');
       } catch (error) {
         console.error(error);
+        toast.error('문제가 발생했습니다');
       }
     }
   };
