@@ -40,7 +40,14 @@ export default function CustomMarker({
       />
       <CustomOverlayMap position={position} yAnchor={2.36}>
         <div className="customoverlay">
-          <BookmarkButton className="cursor-pointer" hasWhiteBG={true} />
+          {id && (
+            <BookmarkButton
+              className="cursor-pointer"
+              hasWhiteBG={true}
+              type={type}
+              id={id}
+            />
+          )}
         </div>
       </CustomOverlayMap>
     </>

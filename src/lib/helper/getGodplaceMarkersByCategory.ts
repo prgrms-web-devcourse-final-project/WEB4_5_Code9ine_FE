@@ -6,18 +6,18 @@ export function getGodplaceMarkersByCategory(
   category: string,
   // selectedId?: string,
 ) {
-  const getIdByType = (godplace: GodplacesSearchList): string | undefined => {
-    switch (godplace.type) {
-      case 'store':
-        return godplace.storeId;
-      case 'library':
-        return godplace.libraryId;
-      case 'festival':
-        return godplace.festivalId;
-      default:
-        return undefined;
-    }
-  };
+  // const getIdByType = (godplace: GodplacesSearchList): string | undefined => {
+  //   switch (godplace.type) {
+  //     case 'store':
+  //       return godplace.storeId;
+  //     case 'library':
+  //       return godplace.libraryId;
+  //     case 'festival':
+  //       return godplace.festivalId;
+  //     default:
+  //       return undefined;
+  //   }
+  // };
 
   return (
     godplaces

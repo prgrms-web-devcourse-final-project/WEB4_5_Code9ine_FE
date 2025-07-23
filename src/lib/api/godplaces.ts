@@ -7,6 +7,15 @@ const options = {
   },
 };
 
+const patchOptions = {
+  method: 'PATCH',
+  headers: {
+    accept: 'application/json',
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+    'Content-Type': 'application/json',
+  },
+};
+
 export const getGodplaces = async (location: string, category: string) => {
   if (category === 'null') {
     return await (
@@ -75,23 +84,11 @@ export const getHotLocation = async () => {
   return await (await fetch(`${url}/api/searches/top`, { ...options })).json();
 };
 
-export const patchBookmark = async (
-  userId: number,
-  type: string,
-  id: number,
-) => {
-  let requestItem;
-  if (type === 'store') requestItem = { storeId: id };
-  else if (type === 'festival') requestItem = { festivalId: id };
-  else if (type === 'library') requestItem = { libraryId: id };
-
+export const patchBookmark = async (type: string, id: number) => {
   return await (
-    await fetch(`${url}/api/users/${userId}/places-bookmarks/toggle`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestItem),
+    await fetch(`${url}/api/users/places-bookmarks/toggle`, {
+      ...patchOptions,
+      body: JSON.stringify({ type: type, id: id }),
     })
   ).json();
 };

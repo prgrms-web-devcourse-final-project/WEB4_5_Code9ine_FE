@@ -16,6 +16,7 @@ export default function DetailCard({ ...props }: GodplacesDetail) {
         address={props.address}
         contact={props.contact}
         url={props.url}
+        id={props.storeId || props.libraryId || props.festivalId}
       />
       <hr className="w-full border-[var(--gray-color-1)]" />
       {props.type === 'library' && <LibraryDetails />}
