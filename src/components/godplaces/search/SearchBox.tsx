@@ -2,6 +2,7 @@
 import { useGodplacesStore } from '@/stores/godplacesStore';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, KeyboardEvent } from 'react';
+import toast from 'react-hot-toast';
 import { CiSearch } from 'react-icons/ci';
 
 export default function SearchBox({
@@ -46,9 +47,16 @@ export default function SearchBox({
     if (e.key === 'Enter') {
       // console.log(location);
       // console.log(category);
+      if (e.currentTarget.value.trim() === '') {
+        toast.error('지역을 입력해주세요');
+        return;
+      }
+
       const searchCategory =
         category.size === 0 ? null : Array.from(category).join(',');
-      router.push(`/godplaces/${location}?category=${searchCategory}`);
+      router.push(
+        `/godplaces/${e.currentTarget.value.trim()}?category=${searchCategory}`,
+      );
     }
     // console.log(e);
   };

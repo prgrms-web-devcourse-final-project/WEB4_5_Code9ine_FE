@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { IoCheckmark } from 'react-icons/io5';
 import BookmarkButton from '../common/BookmarkButton';
 import { useParams } from 'next/navigation';
+import { useGodplacesStore } from '@/stores/godplacesStore';
 
 export default function SearchListCard({
   category,
@@ -22,6 +23,15 @@ export default function SearchListCard({
 }) {
   const { region } = useParams();
   const label = getLabel(type, category);
+  const plans = useGodplacesStore((state) => state.plans);
+  const setPlans = useGodplacesStore((state) => state.setPlans);
+
+  const addPlans = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setPlans({ type: type, id: id, firstprice: Number(firstPrice) || 0 });
+  };
 
   return (
     <Link
@@ -32,10 +42,25 @@ export default function SearchListCard({
         <div className="text-[12px] text-[var(--main-color-3)] md:text-[14px]">
           {label}
         </div>
-        <div className="flex items-center gap-[6px] text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)]">
-          <div>장소선택</div>
-          <IoCheckmark className="text-[16px] md:text-[24px]" />
-        </div>
+        {plans.some((plan) => plan.id === id && plan.type === type) ? (
+          <button
+            type="button"
+            className="flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--main-color-3)]"
+            onClick={addPlans}
+          >
+            <div>장소선택</div>
+            <IoCheckmark className="text-[16px] md:text-[24px]" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)]"
+            onClick={addPlans}
+          >
+            <div>장소선택</div>
+            <IoCheckmark className="text-[16px] md:text-[24px]" />
+          </button>
+        )}
       </div>
       <div className="mt-[-3px] mb-[10px] flex items-center gap-[7px] md:mt-[-5px] md:mb-[10px]">
         <div className="text-[16px] md:text-[20px]">{name}</div>

@@ -1,27 +1,23 @@
 'use client';
-
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { iconMap } from '@/data/iconMap';
 import { PiFlowerFill } from 'react-icons/pi';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import MissionTabs from './MissionTabs';
 import Image, { StaticImageData } from 'next/image';
-import { getChallenge } from '@/api/profile';
 import { Challenge } from '@/types/userType';
-
+import { iconMap } from '@/data/iconMap';
 type MissionType = 'daily' | 'monthly' | 'community';
 
-interface MappedChallenge extends Challenge {
-  iconImage?: StaticImageData;
+interface MissionProps {
+  challengeList: Challenge[];
 }
 
-export default function MissionSwiperTabs() {
+export default function MissionSwiperTabs({ challengeList }: MissionProps) {
   const [selectedTab, setSelectedTab] = useState<MissionType>('daily');
   const [reset, setReset] = useState(0);
-  const [challenges, setChallenges] = useState<MappedChallenge[]>([]);
 
   const typeMap = {
     daily: '일일',
@@ -29,9 +25,18 @@ export default function MissionSwiperTabs() {
     community: '커뮤니티',
   } as const;
 
-  const missions = challenges.filter(
-    (item) => item.type === typeMap[selectedTab],
-  );
+  if (!challengeList) {
+    return <div>챌린지 Loading</div>;
+  }
+
+  const missions =
+    challengeList
+      ?.filter((item) => item.type === typeMap[selectedTab])
+      .map((item) => ({
+        ...item,
+        iconImage: iconMap[item.icon as keyof typeof iconMap],
+      })) ?? [];
+
   const showSwiper = missions.length > 2;
 
   const groups = [];
@@ -40,23 +45,23 @@ export default function MissionSwiperTabs() {
   }
 
   // 챌린지 데이터
-  useEffect(() => {
-    const fetchChallenge = async () => {
-      setReset(0);
-      try {
-        const res = await getChallenge();
-        const mapped = res.data.map((item) => ({
-          ...item,
-          iconImage: iconMap[item.icon as keyof typeof iconMap] ?? undefined,
-        }));
-        setChallenges(mapped);
-      } catch (err) {
-        console.error('챌린지 목록 가져올 때 에러 발생', err);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchChallenge = async () => {
+  //     setReset(0);
+  //     try {
+  //       const res = await getChallenge();
+  //       const mapped = res.data.map((item) => ({
+  //         ...item,
+  //         iconImage: iconMap[item.icon as keyof typeof iconMap] ?? undefined,
+  //       }));
+  //       setChallenges(mapped);
+  //     } catch (err) {
+  //       console.error('챌린지 목록 가져올 때 에러 발생', err);
+  //     }
+  //   };
 
-    fetchChallenge();
-  }, [selectedTab]);
+  //   fetchChallenge();
+  // }, [selectedTab]);
 
   const MissionCard = ({
     iconImage,
