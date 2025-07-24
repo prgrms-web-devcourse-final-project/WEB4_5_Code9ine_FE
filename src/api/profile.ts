@@ -5,8 +5,10 @@ import {
   ChallengeData,
   SetGoalData,
   BookmarkPostData,
+  changeInfoData,
 } from '@/types/userType';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const AUTHORIZATION = process.env.NEXT_PUBLIC_API_KEY;
 
 // 유저데이터 조회
 export async function getMyPage(): Promise<GetMyPageData> {
@@ -14,7 +16,7 @@ export async function getMyPage(): Promise<GetMyPageData> {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
+      Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {
@@ -33,7 +35,7 @@ export async function getMyCode(): Promise<myCodeCopy> {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
+      Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {
@@ -54,7 +56,7 @@ export async function getChallenge(): Promise<ChallengeData> {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
+        Authorization: `Bearer ${AUTHORIZATION}`,
       },
     },
   );
@@ -77,7 +79,7 @@ export async function setGoal(
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
+      Authorization: `Bearer ${AUTHORIZATION}`,
     },
     body: JSON.stringify({ goalStuff, goalAmount }),
   });
@@ -99,7 +101,7 @@ export async function getMyThreads(): Promise<BookmarkPostData> {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
+        Authorization: `Bearer ${AUTHORIZATION}`,
       },
     },
   );
@@ -116,7 +118,7 @@ export async function getBookmarkedThreads(): Promise<BookmarkPostData> {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
+      Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {
@@ -133,7 +135,7 @@ export async function getBookmarkedPlaces(): Promise<BookmarkData> {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      // Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwianRpIjoiNDZmN2Q2N2MtNjFhOS00YjEzLTljMDQtNzhjMjRlNmU4MGNlIiwicm9sZXMiOiJST0xFX1VTRVIiLCJleHAiOjE3NTMxNjY2ODh9.S2J4zV-5YoQ7dSZOjloXXvzLNYox3EgdrAh2MhoioYsrPrwo7N8aKGjFlLH0AJlI`,
+      Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {
@@ -169,23 +171,29 @@ export async function deleteProfile(): Promise<{
   return data;
 }
 
-// 프로필 이미지 변경
-export async function changeImage(): Promise<{
-  code: string;
-  message: string;
-  data: object;
-}> {
-  const res = await fetch(`${API_BASE_URL}/api/members/mypage/profile-image`, {
+// 프로필 정보 변경
+export async function changeInfo(
+  nickname: string,
+  profileImage: string,
+  phoneNumber: string,
+  newPassword: string,
+): Promise<changeInfoData> {
+  const res = await fetch(`${API_BASE_URL}/api/members/mypage/profile`, {
     method: 'PATCH',
     headers: {
-      accept: 'application/json',
-      // 필요 시 Authorization, Content-Type 등 추가
-      // 'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${AUTHORIZATION}`,
     },
+    body: JSON.stringify({
+      nickname,
+      profileImage,
+      phoneNumber,
+      newPassword,
+    }),
   });
 
   if (!res.ok) {
-    throw new Error(`프로필 이미지 변경 실패: ${res.status}`);
+    throw new Error(`프로필 정보 변경 실패: ${res.status}`);
   }
 
   const result = await res.json();
