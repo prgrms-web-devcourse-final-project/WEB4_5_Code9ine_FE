@@ -8,14 +8,6 @@ import Page from '@/components/accountbook/Page';
 export default async function page() {
   const receivedTotalData = await setData();
 
-  fetch(API_ADD + `/api/members/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: 'testuser1@example.com',
-      password: 'test',
-    }),
-  });
 
   console.log(receivedTotalData);
   return (
