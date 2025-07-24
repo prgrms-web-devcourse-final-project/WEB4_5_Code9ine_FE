@@ -6,21 +6,21 @@ import StoreCard from './StoreCard';
 import Button from './Button';
 import AddModifyModal from './AddModifyModal';
 
-const PAGES = [1, 2, 3, 4];
-
 export default function ManageStores() {
   const [stores, setStores] = useState<Store[]>([]);
   const [page, setPage] = useState(1);
   const [selectedStorePerPage, setSelectedStorePerPage] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [isShowModal, setIsShowModal] = useState(false);
+  const [totalData, setTotalData] = useState(0);
 
   const fetchAllStores = async () => {
     try {
       const response = await getAllStores(page, selectedStorePerPage);
       if (response.code === '0000') {
-        console.log(response);
-        setStores(response.data);
+        // console.log(response);
+        setTotalData(response.data.total);
+        setStores(response.data.stores);
       } else {
         console.error('Stores Fetch Error');
       }
@@ -28,6 +28,17 @@ export default function ManageStores() {
       console.error(e);
     }
   };
+
+  const pageSize = 10;
+  const totalPages = Math.ceil(totalData / selectedStorePerPage);
+  const currentBlock = Math.floor((page - 1) / pageSize);
+  const startPage = currentBlock * pageSize + 1;
+  const endPage = Math.min(startPage + pageSize - 1, totalPages);
+
+  const slicedPages = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, i) => startPage + i,
+  );
 
   const fetchStoresByCategory = async () => {
     try {
@@ -37,8 +48,8 @@ export default function ManageStores() {
         selectedStorePerPage,
       );
       if (response.code === '0000') {
-        console.log(response);
-        setStores(response.data);
+        setTotalData(response.data.total);
+        setStores(response.data.stores);
       } else {
         console.error('Stores By Category fetch error');
       }
@@ -123,18 +134,50 @@ export default function ManageStores() {
           )}
         </div>
 
-        <div className="flex justify-center gap-[10px]">
-          {PAGES &&
-            PAGES.map((item) => (
-              <button
-                key={item}
-                type="button"
-                className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
-                onClick={() => setPage(item)}
-              >
-                {item}
-              </button>
-            ))}
+        <div className="flex items-center justify-center gap-[10px]">
+          {page > 1 && (
+            <button className="cursor-pointer" onClick={() => setPage(1)}>
+              {'<<'}
+            </button>
+          )}
+
+          {startPage > 1 && (
+            <button
+              className="cursor-pointer"
+              onClick={() => setPage(startPage - 1)}
+            >
+              {'<'}
+            </button>
+          )}
+
+          {slicedPages.map((item) => (
+            <button
+              key={item}
+              type="button"
+              className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
+              onClick={() => setPage(item)}
+            >
+              {item}
+            </button>
+          ))}
+
+          {endPage < totalPages && (
+            <button
+              className="cursor-pointer"
+              onClick={() => setPage(endPage + 1)}
+            >
+              {'>'}
+            </button>
+          )}
+
+          {page < totalPages && (
+            <button
+              className="cursor-pointer"
+              onClick={() => setPage(totalPages)}
+            >
+              {'>>'}
+            </button>
+          )}
         </div>
       </div>
       {isShowModal && (
