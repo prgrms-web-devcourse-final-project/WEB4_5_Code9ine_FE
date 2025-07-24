@@ -9,8 +9,8 @@ type GodplacesStore = {
   reset: () => void;
   godplaces: GodplacesSearchList[] | undefined;
   setGodplaces: (data: GodplacesSearchList[]) => void;
-  bookmarked: { placeId: string }[];
-  setBookmarked: (data: { placeId: string }[]) => void;
+  bookmarked: { type: string, id: number }[];
+  setBookmarked: (data: { type: string, id: number }[]) => void;
   plans: Plans[];
   setPlans: (data: Plans) => void;
 };
@@ -31,7 +31,7 @@ export const useGodplacesStore = create<GodplacesStore>((set) => ({
   godplaces: undefined,
   setGodplaces: (data) => set({ godplaces: data }),
   bookmarked: [],
-  setBookmarked: (data: { placeId: string }[]) => set({ bookmarked: data }),
+  setBookmarked: (data: { type: string, id: number }[]) => set({ bookmarked: data }),
   plans: [],
   setPlans: (data) =>
     set((state) => {

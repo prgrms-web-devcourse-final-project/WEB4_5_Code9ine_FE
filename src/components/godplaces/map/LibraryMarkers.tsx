@@ -1,12 +1,12 @@
 import { useGodplacesStore } from '@/stores/godplacesStore';
 import CustomMarker from './CustomMarker';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import { getGodplaceMarkersByCategory } from '@/lib/helper/getGodplaceMarkersByCategory';
 
 export default function LibraryMarkers() {
-  const searchParams = useSearchParams();
-  const selectedType = searchParams.get('type');
-  const selectedId = searchParams.get('id');
+  // const searchParams = useSearchParams();
+  // const selectedType = searchParams.get('type');
+  // const selectedId = searchParams.get('id');
 
   const godplaces = useGodplacesStore((state) => state.godplaces);
 
@@ -14,7 +14,7 @@ export default function LibraryMarkers() {
     godplaces,
     false,
     'library',
-    selectedType === 'library' ? (selectedId ?? undefined) : undefined,
+    // selectedType === 'library' ? (selectedId ?? undefined) : undefined,
   );
   const libraryMarkerOrigin = { x: 16, y: 220 };
 
