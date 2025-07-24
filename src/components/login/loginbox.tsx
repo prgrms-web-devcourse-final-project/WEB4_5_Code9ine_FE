@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import Button from './SignupButton';
 import { login, LoginPayload } from '@/services/authService';
 import toast from 'react-hot-toast';
+import { useAccountData } from '@/stores/accountStore';
+import { getGoogleLoginRedirect } from '@/services/authService';
 
 export default function LoginBox() {
   const router = useRouter();
@@ -16,6 +18,8 @@ export default function LoginBox() {
 
   // const [serverError, setServerError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { setIsLogin } = useAccountData();
 
   const handleLogin = async () => {
     let valid = true;
@@ -42,7 +46,9 @@ export default function LoginBox() {
       const payload: LoginPayload = { email, password };
       const { data, message } = await login(payload);
 
-      localStorage.setItem('accessToken', data.accessToken);
+      // localStorage.setItem('accessToken', data.accessToken);
+      console.log(data.accessToken);
+      setIsLogin(true);
       toast.success(message);
 
       router.push('/');
@@ -63,6 +69,17 @@ export default function LoginBox() {
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${redirectUri}&response_type=code`;
 
     window.location.href = kakaoAuthUrl;
+  };
+
+  // 구글로그인
+  const handleGoogleLogin = () => {
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
+    const scope = 'email profile';
+
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
+
+    window.location.href = googleAuthUrl;
   };
 
   return (
@@ -133,9 +150,12 @@ export default function LoginBox() {
         >
           {loading ? '로그인 중...' : '로그인 하기'}
         </Button>
-        {/* <Button className="h-[35px] w-[195px] bg-[#FFFFFF] text-[16px] font-semibold md:w-[300px] md:text-[20px]">
+        <Button
+          onClick={getGoogleLoginRedirect}
+          className="h-[35px] w-[195px] bg-[#FFFFFF] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
+        >
           구글로 로그인 하기
-        </Button> */}
+        </Button>
         <Button
           onClick={handleKakaoLogin}
           className="h-[35px] w-[195px] bg-[#FEE500] text-[16px] font-semibold md:w-[300px] md:text-[20px]"

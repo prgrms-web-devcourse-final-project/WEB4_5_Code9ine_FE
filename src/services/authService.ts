@@ -1,4 +1,5 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 //회원가입
 export interface SignUpPayload {
@@ -61,6 +62,7 @@ export async function login(
 ): Promise<{ message: string; data: LoginResponse }> {
   const res = await fetch(`${API_BASE}/api/members/login`, {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
@@ -265,4 +267,28 @@ export async function logout(): Promise<{ message: string }> {
   }
 
   return { message: json.message };
+}
+
+// 구글로그인
+// export async function getGoogleLoginRedirect(): Promise<void> {
+//   try {
+//     const res = await fetch(`${API_BASE}/oauth2/authorization/google`, {
+//       method: 'GET',
+//       credentials: 'include',
+//     });
+
+//     // 리다이렉트 응답이 오면 URL로 이동
+//     if (res.redirected) {
+//       window.location.href = res.url;
+//     } else {
+//       const data = await res.json();
+//       console.error('리다이렉트되지 않음:', data);
+//     }
+//   } catch (error) {
+//     console.error('구글 로그인 리다이렉트 실패', error);
+//   }
+// }
+
+export function getGoogleLoginRedirect(): void {
+  window.location.href = `${API_BASE}/oauth2/authorization/google`;
 }

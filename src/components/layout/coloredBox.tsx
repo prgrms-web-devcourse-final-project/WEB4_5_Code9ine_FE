@@ -21,6 +21,9 @@ import NotificationBox from '../common/NotificationBox';
 import { getNotificationTitles } from '@/api/notification';
 import type { NotificationTitle } from '@/api/notification';
 import { useAccountData } from '@/stores/accountStore';
+import { logout } from '@/services/authService';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function ColoredBox() {
   const [login, setLogin] = useState<boolean>(false);
@@ -32,6 +35,7 @@ export default function ColoredBox() {
   const [showNotification, setShowNotification] = useState(false);
   const notificationRef = useRef<HTMLDivElement | null>(null);
   const [notifications, setNotifications] = useState<NotificationTitle[]>([]);
+  const router = useRouter();
 
   // 챌린지알람
   useEffect(() => {
@@ -59,9 +63,8 @@ export default function ColoredBox() {
     };
   }, [showNotification]);
 
-  const handleLogin = () => {
-    setLogin(!login);
-    setIsLogin(!login);
+  const goToLogin = () => {
+    router.push('/login');
   };
   const handleSideBarLogin = (sign: boolean) => {
     setLogin(sign);
@@ -89,6 +92,19 @@ export default function ColoredBox() {
   }, [menu, isLogin]); // isOpen 상태가 변경될 때만 이 effect를 실행
 
   if (!isClient) return null;
+
+  // 로그아웃
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success('로그아웃 되었습니다.');
+      setLogin(false);
+      setIsLogin(false);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : '로그아웃 실패';
+      toast.error(msg);
+    }
+  };
 
   return (
     <div className="relative">
@@ -177,7 +193,7 @@ export default function ColoredBox() {
 
               <Button
                 className={`pc-header-button text-[var(--header-text)]`}
-                onClick={handleLogin}
+                onClick={goToLogin}
               >
                 <BsPersonRaisedHand size={20} />
                 로그인/회원가입
@@ -223,7 +239,7 @@ export default function ColoredBox() {
 
               <Button
                 className="pc-header-button text-[var(--header-text)]"
-                onClick={handleLogin}
+                onClick={handleLogout}
               >
                 <IoMdPower size={20} />
                 로그아웃

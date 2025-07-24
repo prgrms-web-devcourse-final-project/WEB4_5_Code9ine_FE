@@ -7,17 +7,7 @@ interface ApiResponse<T> {
 }
 
 export interface AverageSavingResponse {
-  totalsaving: number;
-}
-
-export interface TopSaver {
-  name: string;
-}
-
-export interface TopChallenge {
-  level: number;
-  nickname: string;
-  name: string;
+  averageSaving: number;
 }
 
 //평균 지출액
@@ -36,31 +26,43 @@ export async function getAverageSaving(): Promise<AverageSavingResponse> {
 }
 
 //유저들이 많이 달성한 챌린지3
-export async function getTopSavers(): Promise<TopSaver[]> {
-  const res = await fetch(`${API_BASE}/api/users/top-savers`, {
+export interface TopChallenge {
+  description: string;
+}
+
+export async function getTopChallenges(): Promise<TopChallenge[]> {
+  const res = await fetch(`${API_BASE}/api/users/top-challenges`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
-  const json = (await res.json()) as ApiResponse<TopSaver[]>;
+  const json = (await res.json()) as ApiResponse<TopChallenge[]>;
 
   if (!res.ok) {
-    throw new Error(json.message || '상위 세이버 목록 조회에 실패했습니다.');
+    throw new Error(json.message || '챌린지 TOP3 조회에 실패했습니다.');
   }
 
   return json.data;
 }
 
 //티태왕 TOP3
-export async function getTopChallenges(): Promise<TopChallenge[]> {
-  const res = await fetch(`${API_BASE}/api/users/top-challenges`, {
+export interface TopSaver {
+  memberId: number;
+  nickname: string;
+  level: number;
+  profileImage: string | null;
+  name: string;
+}
+
+export async function getTopSavers(): Promise<TopSaver[]> {
+  const res = await fetch(`${API_BASE}/api/users/top-savers`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
 
-  const json = (await res.json()) as ApiResponse<TopChallenge[]>;
+  const json = (await res.json()) as ApiResponse<TopSaver[]>;
 
   if (!res.ok) {
-    throw new Error(json.message || '상위 챌린지 목록 조회에 실패했습니다.');
+    throw new Error(json.message || '티태왕 TOP3 조회에 실패했습니다.');
   }
 
   return json.data;
@@ -68,7 +70,7 @@ export async function getTopChallenges(): Promise<TopChallenge[]> {
 
 // 전체 저축액
 export interface AllSavingResponse {
-  allsaving: number;
+  allSaving: number;
 }
 
 export async function getAllSaving(): Promise<AllSavingResponse> {
