@@ -26,6 +26,8 @@ export default function SearchListBox({
     });
   }, [region, category]);
 
+  console.log(godplaces);
+
   return (
     <div className="flex flex-1 flex-col py-[13px] md:h-full md:py-[28px]">
       <div className="mb-[10px] pl-[10px] text-[16px] text-[var(--gray-color-2)] md:mb-[18px] md:pl-[12px] md:text-[20px]">
@@ -38,17 +40,15 @@ export default function SearchListBox({
           godplaces.map((d) => {
             const id = d[`${d.type}Id` as keyof typeof d];
 
-            if (typeof id !== 'string') return null;
-
             return (
               <SearchListCard
                 key={`${d.type}-${id}`}
                 category={d.category}
                 type={d.type}
                 name={d.name}
-                firstMenu={d.firstmenu}
-                firstPrice={d.firstprice}
-                id={id}
+                firstMenu={d.firstMenu}
+                firstPrice={d.firstPrice}
+                id={String(id)}
               />
             );
           })}
