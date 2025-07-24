@@ -11,37 +11,30 @@ import ChallengeSeleteBox from './ChallengeSeleteBox';
 import toast from 'react-hot-toast';
 
 interface PostWriteFormProps {
-  category: 'MYSTORE' | 'CHALLENGE' | 'FREE';
+  category: 'MY_STORE' | 'CHALLENGE' | 'FREE';
+  onSuccess?: () => void;
 }
 
-export default function PostWriteForm({ category }: PostWriteFormProps) {
-  console.log('카테고리 : ', category);
+export default function PostWriteForm({
+  category,
+  onSuccess,
+}: PostWriteFormProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
-  const [challengeOption, setChallengeOption] = useState('challenge1');
-  // const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [challengeOption, setChallengeOption] = useState<string | null>(null);
+
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [showPreview, setShowPreview] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [imagesPreview, setImagesPreview] = useState([
-    {
-      original: 'https://picsum.photos/id/1015/800/600',
-    },
-    {
-      original: 'https://picsum.photos/id/1016/800/600',
-    },
-    {
-      original: 'https://picsum.photos/id/1015/800/600',
-    },
-    {
-      original: 'https://picsum.photos/id/1016/800/600',
-    },
-  ]);
+  const [imagesPreview, setImagesPreview] = useState<{ original: string }[]>(
+    [],
+  );
 
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -56,15 +49,26 @@ export default function PostWriteForm({ category }: PostWriteFormProps) {
       return;
     }
 
+    if (category === 'CHALLENGE' && !challengeOption) {
+      toast.error('챌린지 종류를 선택해주세요!');
+      return;
+    }
+
     try {
       await boardApi.postBoardCreate({
         title,
         content,
         category,
-        imageUrls: [],
-        //challengeCategory: challengeOption,
+        imageUrls,
+        challengeCategory: challengeOption,
       });
       toast.success('게시글이 등록되었어요!');
+      onSuccess?.();
+      setTitle('');
+      setContent('');
+      setImageUrls([]);
+      setImagesPreview([]);
+      setChallengeOption(null);
     } catch (err) {
       console.error(err);
       toast.error('게시글 작성에 실패했어요');
@@ -76,6 +80,29 @@ export default function PostWriteForm({ category }: PostWriteFormProps) {
   };
 
   // 이미지 url 로직 → S3
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const presignedUrl = await boardApi.getPresignedUrl();
+      console.log('presignedUrl :', presignedUrl);
+
+      console.log('file :', file);
+      console.log('fileType :', file.type);
+      const imageUrl = await boardApi.uploadFileToPresignedUrl(
+        file,
+        presignedUrl,
+      );
+
+      setImagesPreview((prev) => [...prev, { original: imageUrl }]);
+
+      setImageUrls((prev) => [...prev, imageUrl]);
+    } catch (err) {
+      console.error(err);
+      toast.error('이미지 업로드 실패');
+    }
+  };
 
   useEffect(() => {
     if (showPreview) {
@@ -135,7 +162,7 @@ export default function PostWriteForm({ category }: PostWriteFormProps) {
             onChange={(e) => setContent(e.target.value)}
             className="hide-scrollbar absolute inset-0 z-0 h-full w-full resize-none rounded-[10px] border border-[var(--main-color-1)] bg-[var(--white-color)] p-4 pr-[80px] text-[18px] placeholder:text-[var(--gray-color-2)] focus:border-[var(--main-color-2)] focus:outline-none"
             placeholder={
-              category === 'MYSTORE'
+              category === 'MY_STORE'
                 ? '가게: \n메뉴: \n가격: \n위치: '
                 : '내용을 입력해 주세요.'
             }
@@ -212,7 +239,7 @@ export default function PostWriteForm({ category }: PostWriteFormProps) {
             type="file"
             accept="image/*"
             ref={inputRef}
-            //onChange={handleFileChange}
+            onChange={handleFileChange}
             className="hidden"
           />
           <Image
