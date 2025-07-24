@@ -1,7 +1,7 @@
 // 칭호 관련 타입
 export interface Title {
   challengeId: number;
-  title: string;
+  name: string;
   type: string;
   description: string;
   total: number;
@@ -70,10 +70,21 @@ export interface SetGoalData {
   };
 }
 
+// 목표 설정 데이터
+export interface changeInfoData {
+  code: string;
+  message: string;
+  data: {
+    nickname: string;
+    profileImage: string;
+    phoneNumber: string;
+    newPassword: string;
+  };
+}
 // 챌린지 데이터
 export interface Challenge {
   challengeId: number;
-  title: string;
+  name: string;
   type: '일일' | '월간' | '커뮤니티';
   description: string;
   total: number;
@@ -85,7 +96,7 @@ export interface Challenge {
 export interface ChallengeData {
   code: string;
   message: string;
-  data: Challenge[];
+  data: { challenges: Challenge[] };
 }
 
 // 북마크한 글, 내가 쓴 글

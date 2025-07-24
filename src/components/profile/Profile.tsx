@@ -72,7 +72,7 @@ export default function Profile({
               </span>{' '}
             </p>
             <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">
-              절약왕{/* {userData.equippedTitle.title} */}
+              {userData.equippedTitle.name}
             </p>
             <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
               다음 레벨까지

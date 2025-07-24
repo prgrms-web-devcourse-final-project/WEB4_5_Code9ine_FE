@@ -9,7 +9,8 @@ export default async function page() {
   let challenges: Challenge[] = [];
   try {
     const res = await getChallenge();
-    challenges = res.data;
+    challenges = res.data.challenges;
+    console.log(challenges);
   } catch (err) {
     console.log('챌린지 목록 조회 실패', err);
   }
