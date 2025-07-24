@@ -19,6 +19,7 @@ export default function ManageStores() {
     try {
       const response = await getAllStores(page, selectedStorePerPage);
       if (response.code === '0000') {
+        console.log(response);
         setStores(response.data);
       } else {
         console.error('Stores Fetch Error');
@@ -36,6 +37,7 @@ export default function ManageStores() {
         selectedStorePerPage,
       );
       if (response.code === '0000') {
+        console.log(response);
         setStores(response.data);
       } else {
         console.error('Stores By Category fetch error');

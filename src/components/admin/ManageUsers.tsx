@@ -11,19 +11,20 @@ import UserCard from './UserCard';
 import { User } from '@/types/admin';
 import { CiSearch } from 'react-icons/ci';
 
-const PAGES = [1, 2, 3, 4];
-
 export default function ManageUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
   const [selectedUserPerPage, setSelectedUserPerPage] = useState(10);
   const [username, setUsername] = useState('');
+  const [totalData, setTotalData] = useState(0);
 
   const fetchAllUsers = async () => {
     try {
       const response = await getAllUsers(page, selectedUserPerPage);
       if (response.code === '0000') {
-        setUsers(response.data);
+        // console.log(response);
+        setTotalData(response.data.total);
+        setUsers(response.data.users);
       } else {
         console.error('All Users Fetch Error');
       }
@@ -31,6 +32,9 @@ export default function ManageUsers() {
       console.error(e);
     }
   };
+
+  const totalPages = Math.ceil(totalData / selectedUserPerPage);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   useEffect(() => {
     startTransition(async () => {
@@ -115,17 +119,16 @@ export default function ManageUsers() {
         </div>
 
         <div className="flex justify-center gap-[10px]">
-          {PAGES &&
-            PAGES.map((item) => (
-              <button
-                key={item}
-                type="button"
-                className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
-                onClick={() => setPage(item)}
-              >
-                {item}
-              </button>
-            ))}
+          {pages.map((item) => (
+            <button
+              key={item}
+              type="button"
+              className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
+              onClick={() => setPage(item)}
+            >
+              {item}
+            </button>
+          ))}
         </div>
       </div>
     </>
