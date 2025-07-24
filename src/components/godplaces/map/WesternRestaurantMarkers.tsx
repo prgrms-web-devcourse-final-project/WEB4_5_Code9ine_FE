@@ -1,12 +1,12 @@
 import { useGodplacesStore } from '@/stores/godplacesStore';
 import CustomMarker from './CustomMarker';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import { getGodplaceMarkersByCategory } from '@/lib/helper/getGodplaceMarkersByCategory';
 
 export default function WesternRestaurantMarkers() {
-  const searchParams = useSearchParams();
-  const selectedType = searchParams.get('type');
-  const selectedId = searchParams.get('id');
+  // const searchParams = useSearchParams();
+  // const selectedType = searchParams.get('type');
+  // const selectedId = searchParams.get('id');
 
   const godplaces = useGodplacesStore((state) => state.godplaces);
 
@@ -14,7 +14,7 @@ export default function WesternRestaurantMarkers() {
     godplaces,
     true,
     '양식',
-    selectedType === 'store' ? (selectedId ?? undefined) : undefined,
+    // selectedType === 'store' ? (selectedId ?? undefined) : undefined,
   );
   const westernRestaurantMarkerOrigin = { x: 16, y: 165 };
 
