@@ -45,7 +45,7 @@ export default function TitleSwiper() {
                 height={25}
                 className="mr-[5px]"
               />
-              {mission.title}
+              {mission.name}
             </div>
           ))}
 
@@ -61,7 +61,7 @@ export default function TitleSwiper() {
                 height={25}
                 className="mr-[5px]"
               />
-              {mission.title}
+              {mission.name}
             </div>
           ))}
         </div>

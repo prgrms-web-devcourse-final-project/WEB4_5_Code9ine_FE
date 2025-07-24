@@ -31,7 +31,7 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
 
   const missions =
     challengeList
-      ?.filter((item) => item.type === typeMap[selectedTab])
+      .filter((item) => item.type === typeMap[selectedTab])
       .map((item) => ({
         ...item,
         iconImage: iconMap[item.icon as keyof typeof iconMap],
@@ -66,13 +66,13 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
   const MissionCard = ({
     iconImage,
     description,
-    title,
+    name,
     progress,
     total,
   }: {
     iconImage?: StaticImageData;
     description: string;
-    title: string;
+    name: string;
     progress: number;
     total: number;
   }) => (
@@ -90,7 +90,7 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
             className="mr-[5px]"
           />
         )}
-        {title}
+        {name}
       </p>
       <PiFlowerFill size={47} color="#FFFAC5" />
       <button className="mt-[5px] h-[30px] w-[60px] rounded-[10px] bg-[var(--main-color-1)]">
@@ -126,7 +126,7 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
                       key={item.challengeId}
                       iconImage={item.iconImage}
                       description={item.description}
-                      title={item.title}
+                      name={item.name}
                       progress={item.progress}
                       total={item.total}
                     />
@@ -142,7 +142,7 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
                 key={item.challengeId}
                 iconImage={item.iconImage}
                 description={item.description}
-                title={item.title}
+                name={item.name}
                 progress={item.progress}
                 total={item.total}
               />
