@@ -75,7 +75,7 @@ export default function ManageStores() {
 
   return (
     <>
-      <div className="hide-scrollbar flex flex-col gap-[15px] overflow-y-scroll rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
+      <div className="hide-scrollbar flex h-[415px] flex-col gap-[15px] overflow-y-scroll rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
         <div className="flex justify-between">
           <h1 className="font-bold">착한가게 조회</h1>
 

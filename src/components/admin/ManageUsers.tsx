@@ -83,7 +83,7 @@ export default function ManageUsers() {
 
   return (
     <>
-      <div className="flex flex-col gap-[15px] rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
+      <div className="hide-scrollbar flex h-[335px] flex-col gap-[15px] overflow-y-scroll rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
         <div className="flex justify-between">
           <h1 className="font-bold">유저 조회</h1>
           <div className="flex items-center gap-[10px] rounded-[10px] px-[10px] shadow-[var(--shadow-md)]">
