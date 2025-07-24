@@ -4,20 +4,22 @@ import { startTransition, useOptimistic } from 'react';
 import toast from 'react-hot-toast';
 import { BsStar, BsStarFill } from 'react-icons/bs';
 
-const PLACEID = '1';
-
 export default function BookmarkButton({
   className,
   hasWhiteBG = false,
+  type,
+  id,
 }: {
   className: string;
   hasWhiteBG?: boolean;
+  type: string;
+  id: string;
 }) {
   const bookmarked = useGodplacesStore((state) => state.bookmarked);
   const setBookmarked = useGodplacesStore((state) => state.setBookmarked);
   const [optimisticMyBookmarked, addOptimisticMyBookmarked] = useOptimistic<
-    { placeId: string }[],
-    { placeId: string }
+    { type: string; id: number }[],
+    { type: string; id: number }
   >(bookmarked, (bookmarks, value) => [...bookmarks, value]);
 
   // useEffect(() => {
@@ -36,17 +38,17 @@ export default function BookmarkButton({
     e.stopPropagation();
 
     startTransition(() => {
-      addOptimisticMyBookmarked({ placeId: PLACEID });
+      addOptimisticMyBookmarked({ type: type, id: Number(id) });
     });
 
     try {
-      const message = await patchBookmark(1, 'store', 1);
+      const message = await patchBookmark(type, Number(id));
 
       if (message.code === '0000') {
         toast.success('북마크 완료');
-        // console.log(message);
+        console.log(message);
         startTransition(() => {
-          setBookmarked([{ placeId: PLACEID }]);
+          setBookmarked([{ type: type, id: Number(id) }]);
         });
         // console.log(myBookmarked);
       } else {
@@ -62,7 +64,7 @@ export default function BookmarkButton({
       <>
         <button onClick={bookmarkHandler} type="button">
           {optimisticMyBookmarked.some(
-            (bookmark) => bookmark.placeId === PLACEID,
+            (bookmark) => bookmark.type === type && bookmark.id === Number(id),
           ) ? (
             <BsStarFill
               fill="var(--point-color-1)"
@@ -89,7 +91,7 @@ export default function BookmarkButton({
     <>
       <button onClick={bookmarkHandler} type="button">
         {optimisticMyBookmarked.some(
-          (bookmark) => bookmark.placeId === PLACEID,
+          (bookmark) => bookmark.type === type && bookmark.id === Number(id),
         ) ? (
           <BsStarFill className={className} />
         ) : (

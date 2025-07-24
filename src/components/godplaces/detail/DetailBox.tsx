@@ -27,7 +27,7 @@ export default function DetailBox({
     });
   }, [type, id]);
 
-  // console.log(details);
+  console.log(details);
 
   // const dummyData = {
   //   status: 'success',
@@ -62,7 +62,7 @@ export default function DetailBox({
         상세 정보
       </div>
       {!details && '로딩중'}
-      {details && <DetailCard type={type} {...details} />}
+      {details && <DetailCard {...details} />}
     </div>
   );
 }
