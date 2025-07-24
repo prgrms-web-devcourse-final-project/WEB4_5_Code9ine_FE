@@ -18,18 +18,18 @@ export default function Page() {
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const data = await boardApi.getPostsByCategory(selectedTab, 1, 1);
-        setPosts(data);
-        setPage(1);
-        setHasMore(data.length > 0);
-      } catch (err) {
-        console.error('게시글 초기 로딩 실패:', err);
-      }
-    };
+  const fetchPosts = async () => {
+    try {
+      const data = await boardApi.getPostsByCategory(selectedTab, 1, 1);
+      setPosts(data);
+      setPage(1);
+      setHasMore(data.length > 0);
+    } catch (err) {
+      console.error('게시글 초기 로딩 실패:', err);
+    }
+  };
 
+  useEffect(() => {
     fetchPosts();
   }, [selectedTab]);
 
@@ -81,10 +81,7 @@ export default function Page() {
                 onChange={setSelectedTab}
               />
             </div>
-            <PostWriteForm
-              category={selectedTab}
-              onSuccess={(newPost) => setPosts((prev) => [newPost, ...prev])}
-            />
+            <PostWriteForm category={selectedTab} onSuccess={fetchPosts} />
           </div>
           {posts.map((post) => (
             <div key={post.postId} className="mb-[15px]">

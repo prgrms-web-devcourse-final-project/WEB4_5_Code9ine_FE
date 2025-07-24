@@ -9,11 +9,10 @@ import 'swiper/css/navigation';
 import { FaTrash } from 'react-icons/fa';
 import ChallengeSeleteBox from './ChallengeSeleteBox';
 import toast from 'react-hot-toast';
-import { PostRes } from '@/types/boardType';
 
 interface PostWriteFormProps {
   category: 'MY_STORE' | 'CHALLENGE' | 'FREE';
-  onSuccess?: (newPost: PostRes) => void;
+  onSuccess?: () => void;
 }
 
 export default function PostWriteForm({
@@ -50,31 +49,26 @@ export default function PostWriteForm({
       return;
     }
 
-    try {
-      // console.log({
-      //   title,
-      //   content,
-      //   category,
-      //   imageUrls,
-      //   challengeCategory: challengeOption,
-      // });
+    if (category === 'CHALLENGE' && !challengeOption) {
+      toast.error('챌린지 종류를 선택해주세요!');
+      return;
+    }
 
-      const newPost = await boardApi.postBoardCreate({
+    try {
+      await boardApi.postBoardCreate({
         title,
         content,
         category,
         imageUrls,
         challengeCategory: challengeOption,
       });
-
       toast.success('게시글이 등록되었어요!');
-
-      onSuccess?.(newPost);
-
+      onSuccess?.();
       setTitle('');
       setContent('');
       setImageUrls([]);
       setImagesPreview([]);
+      setChallengeOption(null);
     } catch (err) {
       console.error(err);
       toast.error('게시글 작성에 실패했어요');
