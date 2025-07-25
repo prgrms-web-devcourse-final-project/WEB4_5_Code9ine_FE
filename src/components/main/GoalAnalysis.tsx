@@ -56,7 +56,7 @@ export default function GoalAnalysis({
 
       <Image
         src={itemIcon}
-        alt={itemName}
+        alt="목표상품"
         width={140}
         height={140}
         className="md:h-[113px] md:w-[113px]"

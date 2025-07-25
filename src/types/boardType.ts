@@ -38,7 +38,7 @@ export interface PostListRes {
 export interface PostRes {
   postId: number; // 게시글 번호
   memberId: number; // 유저번호
-  category: 'MYSTORE' | 'CHALLENGE' | 'FREE'; // 게시글 카테고리
+  category: 'MY_STORE' | 'CHALLENGE' | 'FREE'; // 게시글 카테고리
   challengeCategory:
     | 'NO_MONEY'
     | 'KIND_CONSUMER'
@@ -71,4 +71,27 @@ export interface CommentRes {
   writerLevel: number;
   createdAt: string;
   modifiedAt: string;
+}
+
+export interface MyInfo {
+  memberId: number;
+  userNickname: string;
+  userProfileImg: string
+  userTitle: string;
+  userLevel: number;
+}
+
+export interface UpdatePostReq {
+  postId: number;
+  title: string;
+  content: string;
+  category: 'MY_STORE' | 'CHALLENGE' | 'FREE';
+  imageUrls: string[];
+  challengeCategory: 
+    | 'NO_MONEY'
+    | 'KIND_CONSUMER'
+    | 'DETECTIVE'
+    | 'MASTER'
+    | 'COOK_KING'
+    | null;
 }

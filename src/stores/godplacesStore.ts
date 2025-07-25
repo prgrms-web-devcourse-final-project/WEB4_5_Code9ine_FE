@@ -1,4 +1,4 @@
-import { GodplacesSearchList, Plans } from '@/types/godplaces';
+import { GodplacesSearchList, MyBookmark, Plans } from '@/types/godplaces';
 import { create } from 'zustand';
 
 type GodplacesStore = {
@@ -9,8 +9,9 @@ type GodplacesStore = {
   reset: () => void;
   godplaces: GodplacesSearchList[] | undefined;
   setGodplaces: (data: GodplacesSearchList[]) => void;
-  bookmarked: { type: string, id: number }[];
-  setBookmarked: (data: { type: string, id: number }[]) => void;
+  bookmarked: MyBookmark[];
+  setBookmarked: (data: MyBookmark[]) => void;
+  toggleBookmarked: (data: MyBookmark) => void;
   plans: Plans[];
   setPlans: (data: Plans) => void;
 };
@@ -31,7 +32,22 @@ export const useGodplacesStore = create<GodplacesStore>((set) => ({
   godplaces: undefined,
   setGodplaces: (data) => set({ godplaces: data }),
   bookmarked: [],
-  setBookmarked: (data: { type: string, id: number }[]) => set({ bookmarked: data }),
+  setBookmarked: (data) => set({ bookmarked: data }),
+  toggleBookmarked: (data) =>
+    set((state) => {
+      const key = `${data.type}Id` as keyof MyBookmark;
+      const isBookmarked = state.bookmarked.some(
+        (b) => b.type === data.type && b[key] === data[key],
+      );
+
+      return {
+        bookmarked: isBookmarked
+          ? state.bookmarked.filter(
+              (b) => !(b.type === data.type && b[key] === data[key]),
+            )
+          : [...state.bookmarked, data],
+      };
+    }),
   plans: [],
   setPlans: (data) =>
     set((state) => {

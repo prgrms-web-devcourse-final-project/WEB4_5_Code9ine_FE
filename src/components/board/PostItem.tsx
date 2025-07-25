@@ -16,21 +16,15 @@ import { PostRes } from '../../types/boardType';
 import { boardApi } from '@/api/boardApi';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import defaultProfile from '../../assets/profile.png';
 
 interface PostItemProps {
   post: PostRes;
+  onDelete?: (postId: number) => void;
+  onEdit?: (postId: number) => void;
 }
 
-const images = [
-  '/profileTest.png',
-  '/profileTest.png',
-  '/profileTest.png',
-  '/profileTest.png',
-  '/profileTest.png',
-  '/profileTest.png',
-];
-
-export default function PostItem({ post }: PostItemProps) {
+export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [commentCount, setCommentCount] = useState(post.commentCount);
@@ -39,6 +33,9 @@ export default function PostItem({ post }: PostItemProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
   const [likeCount, setLikeCount] = useState(post.likeCount);
+
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
 
   useEffect(() => {
     const fetchMe = async () => {
@@ -89,11 +86,28 @@ export default function PostItem({ post }: PostItemProps) {
     try {
       await boardApi.deletePost(post.postId);
       toast.success('게시글이 삭제되었어요!');
+      onDelete?.(post.postId);
     } catch (err) {
       console.error(err);
       toast.error('게시글 삭제에 실패했어요');
     }
   };
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    };
+
+    emblaApi.on('select', onSelect);
+    onSelect();
+
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi]);
 
   return (
     <div className="relative flex flex-col items-start gap-3 rounded-[10px] bg-[var(--background)] p-6 text-[var(--text-color-white)] shadow md:flex-row md:gap-6">
@@ -102,12 +116,11 @@ export default function PostItem({ post }: PostItemProps) {
         className="flex min-w-[90px] flex-col flex-row items-center md:flex-col"
       >
         <Image
-          src="/profileTest.png"
-          //src=writerProfileImage
+          src={post.writerProfileImage || defaultProfile}
           alt="프로필"
           width={70}
           height={70}
-          className="h-[30px] w-[30px] rounded-full border-2 border-[var(--main-color-2)] md:h-[70px] md:w-[70px]"
+          className="h-[30px] w-[30px] rounded-full border-2 border-[var(--main-color-2)] object-cover md:h-[70px] md:w-[70px]"
         />
         <div className="flex flex-row items-baseline gap-1 whitespace-nowrap md:flex-col md:items-center">
           <div className="ml-[4px] text-center text-[18px] leading-none md:text-[20px]">
@@ -138,10 +151,6 @@ export default function PostItem({ post }: PostItemProps) {
               }
             />
           </button>
-          {/* <AiFillStar
-            size={22}
-            className="ml-[0px] cursor-pointer text-[#FFD600] md:ml-1"
-          /> */}
         </div>
       </div>
 
@@ -154,38 +163,46 @@ export default function PostItem({ post }: PostItemProps) {
             <div className="mt-1 text-[18px] text-[var(--text-color-white)]">
               {post.content}
               {post.category}
+              {post.challengeCategory}
             </div>
           </div>
         </div>
 
         <div className="relative mx-auto w-full max-w-[500px]">
-          <button
-            onClick={() => emblaApi && emblaApi.scrollPrev()}
-            className="absolute top-1/2 left-[-24px] z-10 -translate-y-1/2 md:left-[-32px]"
-            aria-label="이전"
-          >
-            <FaChevronLeft size={28} style={{ color: 'var(--main-color-2)' }} />
-          </button>
-          <button
-            onClick={() => emblaApi && emblaApi.scrollNext()}
-            className="absolute top-1/2 right-[-24px] z-10 -translate-y-1/2 md:right-[-32px]"
-            aria-label="다음"
-          >
-            <FaChevronRight
-              size={28}
-              style={{ color: 'var(--main-color-2)' }}
-            />
-          </button>
+          {canScrollPrev && (
+            <button
+              onClick={() => emblaApi && emblaApi.scrollPrev()}
+              className="absolute top-1/2 left-[-24px] z-10 -translate-y-1/2 md:left-[-32px]"
+              aria-label="이전"
+            >
+              <FaChevronLeft
+                size={28}
+                style={{ color: 'var(--main-color-2)' }}
+              />
+            </button>
+          )}
+          {canScrollNext && (
+            <button
+              onClick={() => emblaApi && emblaApi.scrollNext()}
+              className="absolute top-1/2 right-[-24px] z-10 -translate-y-1/2 md:right-[-32px]"
+              aria-label="다음"
+            >
+              <FaChevronRight
+                size={28}
+                style={{ color: 'var(--main-color-2)' }}
+              />
+            </button>
+          )}
+
           <div ref={emblaRef} className="overflow-hidden">
             <div className="flex gap-6 px-1">
-              {images.map((img, idx) => (
+              {post.imageUrls.map((img, idx) => (
                 <div
                   key={idx}
                   className="flex h-[200px] w-[150px] flex-shrink-0 items-center justify-center rounded-xl bg-gray-200"
                 >
                   <Image
                     src={img}
-                    // src = imageUrls
                     alt={`이미지${idx + 1}`}
                     width={130}
                     height={230}
@@ -215,14 +232,6 @@ export default function PostItem({ post }: PostItemProps) {
               {likeCount}
             </button>
 
-            {/* <button
-              type="button"
-              className="flex cursor-pointer items-center gap-1 text-[14px] ]text-[var(--point-color-1) md:text-[16px]"
-              aria-label="좋아요"
-            >
-              <FaHeart size={17} /> {post.likeCount}
-            </button> */}
-
             <button
               type="button"
               className="flex cursor-pointer items-center gap-1 text-[14px] text-[var(--main-color-2)] transition hover:text-[var(--main-color-1)] md:text-[16px]"
@@ -235,7 +244,10 @@ export default function PostItem({ post }: PostItemProps) {
 
           {isMine && (
             <div className="flex gap-2">
-              <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]">
+              <button
+                onClick={() => onEdit?.(post.postId)}
+                className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]"
+              >
                 수정
               </button>
               <button

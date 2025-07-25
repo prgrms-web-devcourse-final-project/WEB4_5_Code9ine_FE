@@ -12,7 +12,7 @@ export default function CustomMarker({
   position: { lat: number; lng: number };
   markerOrigin: { x: number; y: number };
   type: string;
-  id: string | undefined;
+  id: number | undefined;
 }) {
   const router = useRouter();
   const { region } = useParams();

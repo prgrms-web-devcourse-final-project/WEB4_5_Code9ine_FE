@@ -184,7 +184,6 @@ export async function deleteProfile(): Promise<{
 export async function changeInfo(
   nickname: string,
   profileImage: string,
-  phoneNumber: string,
   newPassword: string,
 ): Promise<changeInfoData> {
   const res = await fetch(`${API_BASE_URL}/api/members/mypage/profile`, {
@@ -197,7 +196,6 @@ export async function changeInfo(
     body: JSON.stringify({
       nickname,
       profileImage,
-      phoneNumber,
       newPassword,
     }),
   });
