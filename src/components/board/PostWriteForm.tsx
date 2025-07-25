@@ -9,17 +9,23 @@ import 'swiper/css/navigation';
 import { FaTrash } from 'react-icons/fa';
 import ChallengeSeleteBox from './ChallengeSeleteBox';
 import toast from 'react-hot-toast';
-import { MyInfo } from '@/types/boardType';
+import { MyInfo, UpdatePostReq } from '@/types/boardType';
 import defaultProfile from '../../assets/profile.png';
 
 interface PostWriteFormProps {
   category: 'MY_STORE' | 'CHALLENGE' | 'FREE';
   onSuccess?: () => void;
+  //onCancel?: () => void;
+  mode?: 'edit';
+  editData?: UpdatePostReq;
 }
 
 export default function PostWriteForm({
   category,
   onSuccess,
+  //onCancel,
+  mode,
+  editData,
 }: PostWriteFormProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -51,6 +57,21 @@ export default function PostWriteForm({
 
     fetchMe();
   }, []);
+
+  useEffect(() => {
+    if (mode === 'edit' && editData) {
+      setTitle(editData.title);
+      setContent(editData.content);
+      setImageUrls(editData.imageUrls || []);
+      setImagesPreview(
+        (editData.imageUrls || []).map((url) => ({
+          original: url,
+          uploaded: url,
+        })),
+      );
+      setChallengeOption(editData.challengeCategory);
+    }
+  }, [mode, editData]);
 
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -123,7 +144,10 @@ export default function PostWriteForm({
       newPreviews.push({ original: localPreview });
 
       try {
-        const imageUrl = await boardApi.uploadToCloudinary(file, folderPath);
+        const imageUrl = await boardApi.postUploadToCloudinary(
+          file,
+          folderPath,
+        );
         newUrls.push(imageUrl);
       } catch (err) {
         console.log(err);

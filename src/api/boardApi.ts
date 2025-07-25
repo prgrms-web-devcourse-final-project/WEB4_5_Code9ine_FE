@@ -98,7 +98,7 @@ export const boardApi = {
   },
 
   // cloudinary 파일 업로드
-  uploadToCloudinary: async (file: File, folderPath: string): Promise<string> => {
+  postUploadToCloudinary: async (file: File, folderPath: string): Promise<string> => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'HelloTiTae'); 
@@ -256,4 +256,28 @@ export const boardApi = {
     const result = await res.json();
     return result.data;
   },
+
+  // 게시글 수정
+  fetchUpdatePost: async (postId: number, data: WritePostReq) => {
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_API_BASE_URL + 
+        '/api/community/posts/' + postId,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!res.ok) {
+      throw new Error('게시글 수정 실패');
+    }
+
+    return await res.json();
+  },
+
+
 };

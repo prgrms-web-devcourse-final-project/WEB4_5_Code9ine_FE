@@ -21,9 +21,10 @@ import defaultProfile from '../../assets/profile.png';
 interface PostItemProps {
   post: PostRes;
   onDelete?: (postId: number) => void;
+  onEdit?: (postId: number) => void;
 }
 
-export default function PostItem({ post, onDelete }: PostItemProps) {
+export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [commentCount, setCommentCount] = useState(post.commentCount);
@@ -243,7 +244,10 @@ export default function PostItem({ post, onDelete }: PostItemProps) {
 
           {isMine && (
             <div className="flex gap-2">
-              <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]">
+              <button
+                onClick={() => onEdit?.(post.postId)}
+                className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]"
+              >
                 수정
               </button>
               <button

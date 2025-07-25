@@ -6,7 +6,7 @@ import PostItem from '../../../components/board/PostItem';
 import PostWriteForm from '../../../components/board/PostWriteForm';
 import TopButton from '../../../components/board/TopButton';
 import { boardApi } from '@/api/boardApi';
-import { PostRes } from '@/types/boardType';
+import { PostRes, UpdatePostReq } from '@/types/boardType';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Page() {
@@ -21,6 +21,8 @@ export default function Page() {
 
   const [singlePost, setSinglePost] = useState<PostRes | null>(null);
   const [refreshPopular, setRefreshPopular] = useState(0);
+
+  const [editingPostId, setEditingPostId] = useState<number | null>(null);
 
   const fetchPosts = async () => {
     try {
@@ -101,28 +103,58 @@ export default function Page() {
             <PostWriteForm category={selectedTab} onSuccess={fetchPosts} />
           </div>
           {singlePost ? (
-            <>
-              <PostItem
-                post={singlePost}
-                onDelete={() => {
-                  setSinglePost(null);
-                  fetchPosts();
-                  setRefreshPopular((prev) => prev + 1);
-                }}
-              />
-            </>
+            <div className="mb-[15px]">
+              {editingPostId === singlePost.postId ? (
+                <PostWriteForm
+                  mode="edit"
+                  category={singlePost.category}
+                  editData={singlePost as UpdatePostReq}
+                  onSuccess={() => {
+                    setSinglePost(null);
+                    setEditingPostId(null);
+                    fetchPosts();
+                    setRefreshPopular((prev) => prev + 1);
+                  }}
+                  onCancel={() => setEditingPostId(null)}
+                />
+              ) : (
+                <PostItem
+                  post={singlePost}
+                  onDelete={() => {
+                    setSinglePost(null);
+                    fetchPosts();
+                    setRefreshPopular((prev) => prev + 1);
+                  }}
+                  onEdit={() => setEditingPostId(singlePost.postId)}
+                />
+              )}
+            </div>
           ) : (
             <>
               {posts.map((post) => (
                 <div key={post.postId} className="mb-[15px]">
-                  <PostItem
-                    post={post}
-                    onDelete={(deletedId) =>
-                      setPosts((prev) =>
-                        prev.filter((p) => p.postId !== deletedId),
-                      )
-                    }
-                  />
+                  {editingPostId === post.postId ? (
+                    <PostWriteForm
+                      mode="edit"
+                      category={post.category}
+                      editData={post as UpdatePostReq}
+                      onSuccess={() => {
+                        setEditingPostId(null);
+                        fetchPosts();
+                      }}
+                      onCancel={() => setEditingPostId(null)}
+                    />
+                  ) : (
+                    <PostItem
+                      post={post}
+                      onDelete={(deletedId) =>
+                        setPosts((prev) =>
+                          prev.filter((p) => p.postId !== deletedId),
+                        )
+                      }
+                      onEdit={() => setEditingPostId(post.postId)}
+                    />
+                  )}
                 </div>
               ))}
               {hasMore && <div ref={observerRef} className="mt-4 min-h-10" />}
