@@ -1,4 +1,4 @@
-import { patchBookmark } from '../../../api/godplaces';
+import { patchBookmark } from '@/api/godplaces';
 import { useGodplacesStore } from '@/stores/godplacesStore';
 import { MyBookmark } from '@/types/godplaces';
 import { useEffect, useState } from 'react';

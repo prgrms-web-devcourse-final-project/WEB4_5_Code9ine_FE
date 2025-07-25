@@ -8,7 +8,7 @@ import {
   changeInfoData,
 } from '@/types/userType';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const AUTHORIZATION = process.env.NEXT_PUBLIC_API_KEY;
+// const AUTHORIZATION = process.env.NEXT_PUBLIC_API_KEY;
 
 // 유저데이터 조회
 export async function getMyPage(): Promise<GetMyPageData> {
@@ -34,9 +34,10 @@ export async function getMyPage(): Promise<GetMyPageData> {
 export async function getMyCode(): Promise<myCodeCopy> {
   const res = await fetch(`${API_BASE_URL}/api/members/invite-code`, {
     method: 'GET',
+    credentials: 'include',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${AUTHORIZATION}`,
+      // Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {
@@ -55,9 +56,10 @@ export async function getChallenge(): Promise<ChallengeData> {
     `${API_BASE_URL}/api/members/mypage/challenges/dashboard`,
     {
       method: 'GET',
+      credentials: 'include',
       headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${AUTHORIZATION}`,
+        // Authorization: `Bearer ${AUTHORIZATION}`,
       },
     },
   );
@@ -78,9 +80,10 @@ export async function setGoal(
 ): Promise<SetGoalData> {
   const res = await fetch(`${API_BASE_URL}/api/members/mypage/goal`, {
     method: 'PATCH',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${AUTHORIZATION}`,
+      // Authorization: `Bearer ${AUTHORIZATION}`,
     },
     body: JSON.stringify({ goalStuff, goalAmount }),
   });
@@ -100,9 +103,10 @@ export async function getMyThreads(): Promise<BookmarkPostData> {
     `${API_BASE_URL}/api/members/mypage/posts?page=0&size=10`,
     {
       method: 'GET',
+      credentials: 'include',
       headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${AUTHORIZATION}`,
+        // Authorization: `Bearer ${AUTHORIZATION}`,
       },
     },
   );
@@ -117,9 +121,11 @@ export async function getMyThreads(): Promise<BookmarkPostData> {
 export async function getBookmarkedThreads(): Promise<BookmarkPostData> {
   const res = await fetch(`${API_BASE_URL}/api/members/bookmarks/posts`, {
     method: 'GET',
+    credentials: 'include',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${AUTHORIZATION}`,
+
+      // Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {
@@ -134,9 +140,10 @@ export async function getBookmarkedThreads(): Promise<BookmarkPostData> {
 export async function getBookmarkedPlaces(): Promise<BookmarkData> {
   const res = await fetch(`${API_BASE_URL}/api/members/bookmarks/places`, {
     method: 'GET',
+    credentials: 'include',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${AUTHORIZATION}`,
+      // Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {
@@ -157,6 +164,7 @@ export async function deleteProfile(): Promise<{
 }> {
   const res = await fetch(`${API_BASE_URL}/api/members/withdraw`, {
     method: 'PATCH',
+    credentials: 'include',
     headers: {
       accept: 'application/json',
       //  Authorization: `Bearer ${accessToken}`,
@@ -176,19 +184,18 @@ export async function deleteProfile(): Promise<{
 export async function changeInfo(
   nickname: string,
   profileImage: string,
-  phoneNumber: string,
   newPassword: string,
 ): Promise<changeInfoData> {
   const res = await fetch(`${API_BASE_URL}/api/members/mypage/profile`, {
     method: 'PATCH',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${AUTHORIZATION}`,
+      // Authorization: `Bearer ${AUTHORIZATION}`,
     },
     body: JSON.stringify({
       nickname,
       profileImage,
-      phoneNumber,
       newPassword,
     }),
   });

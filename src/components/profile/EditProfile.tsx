@@ -7,8 +7,10 @@ import { checkNickname } from '@/services/authService';
 import toast from 'react-hot-toast';
 import { changeInfo, deleteProfile } from '@/api/profile';
 import Modal from '../common/Modal';
+import { useRouter } from 'next/navigation';
 
 export default function EditProfile({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
   const [nickname, setNickname] = useState('');
   const [nicknameError, setNicknameError] = useState('');
 
@@ -19,9 +21,6 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
   const [confirmPwdError, setConfirmPwdError] = useState('');
 
   const [showConfirm, setShowConfirm] = useState(false);
-
-  // 수정 완료 버튼
-  const [completInfo, setCompleteInfo] = useState(false);
 
   const validatePassword = (pwd: string): boolean =>
     /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$/.test(
@@ -125,12 +124,18 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
   };
 
   const submitHandler = async () => {
-    // console.log(nickname);
-    // console.log(password);
     try {
-      await changeInfo(nickname, '', '01012345678', password);
+      await changeInfo(nickname, '', password);
+      toast.success('수정 완료!');
+
+      if (password) {
+        router.push('/login');
+      } else {
+        onClose();
+      }
     } catch (err) {
       console.log('프로필 정보 수정 실패', err);
+      toast.error('수정 실패');
     }
   };
 
@@ -168,6 +173,12 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitUserData();
+                  }
+                }}
                 placeholder="2 ~ 6자 이하로 입력해주세요."
                 className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none dark:bg-[var(--white-color)]"
               />
@@ -190,6 +201,12 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitUserData();
+                  }
+                }}
                 placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요."
                 className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none dark:bg-[var(--white-color)]"
               />
@@ -209,6 +226,12 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                 type="password"
                 value={confirmPwd}
                 onChange={(e) => setConfirmPwd(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitUserData();
+                  }
+                }}
                 placeholder="비밀번호를 한번 더 입력해 주세요."
                 className="h-[35px] w-[300px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-white px-3 text-[12px] focus:border-[var(--main-color-2)] focus:outline-none dark:bg-[var(--white-color)]"
               />
@@ -223,6 +246,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
 
             <div className="mt-[30px] flex justify-between">
               <button
+                type="button"
                 onClick={() => setShowConfirm(true)}
                 className="ml-[10px] cursor-pointer text-[12px] text-[var(--gray-color-2)]"
               >
@@ -266,11 +290,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                 button={
                   <>
                     <button
-                      onClick={() => {
-                        submitHandler();
-                        toast.success('수정 완료!');
-                        onClose();
-                      }}
+                      onClick={submitHandler}
                       type="submit"
                       className="h-[35px] w-[80px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-3)] dark:text-[#2b2e34]"
                     >
