@@ -19,7 +19,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import NotificationBox from '../common/NotificationBox';
-import { getNotificationTitles } from '@/api/notification';
+import {
+  getNotificationTitles,
+  getLikeNotifications,
+  getCommentNotifications,
+} from '@/api/notification';
 import type { NotificationTitle } from '@/api/notification';
 import { useAccountData } from '@/stores/accountStore';
 import { logout } from '@/services/authService';
@@ -57,7 +61,21 @@ export default function ColoredBox() {
   // 챌린지알람
   useEffect(() => {
     getNotificationTitles()
-      .then((titles) => setNotifications(titles))
+      .then((titles) => setNotifications((prev) => [...prev, ...titles]))
+      .catch((err) => console.error(err));
+  }, []);
+
+  // 좋아요알람
+  useEffect(() => {
+    getLikeNotifications()
+      .then((titles) => setNotifications((prev) => [...prev, ...titles]))
+      .catch((err) => console.error(err));
+  }, []);
+
+  // 댓글알람
+  useEffect(() => {
+    getCommentNotifications()
+      .then((titles) => setNotifications((prev) => [...prev, ...titles]))
       .catch((err) => console.error(err));
   }, []);
 
