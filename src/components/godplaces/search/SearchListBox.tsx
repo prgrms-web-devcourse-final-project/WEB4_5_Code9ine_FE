@@ -1,6 +1,5 @@
 'use client';
-
-import { getBookmarks, getGodplaces } from '@/api/godplaces';
+import { getGodplaces } from '@/api/godplaces';
 import SearchListCard from './SearchListCard';
 import { startTransition, useEffect } from 'react';
 import { useGodplacesStore } from '@/stores/godplacesStore';
@@ -14,8 +13,6 @@ export default function SearchListBox({
 }) {
   const godplaces = useGodplacesStore((state) => state.godplaces);
   const setGodplaces = useGodplacesStore((state) => state.setGodplaces);
-  const bookmarked = useGodplacesStore((state) => state.bookmarked);
-  const setBookmarked = useGodplacesStore((state) => state.setBookmarked);
 
   useEffect(() => {
     startTransition(async () => {
@@ -23,19 +20,11 @@ export default function SearchListBox({
         const res = await getGodplaces(region, category);
         // console.log(res);
         setGodplaces(res.data);
-
-        const bookmarkRes = await getBookmarks();
-        if (bookmarkRes.code === '0000') {
-          setBookmarked(bookmarkRes.data);
-        }
       } catch (e) {
         console.error('god places fetch error', e);
       }
     });
   }, [region, category]);
-
-  console.log(godplaces);
-  console.log(bookmarked);
 
   return (
     <div className="flex flex-1 flex-col py-[13px] md:h-full md:py-[28px]">
