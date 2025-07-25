@@ -41,3 +41,10 @@ export interface Plans {
   type: string;
   firstprice: number;
 }
+
+export interface MyBookmark {
+  type: string;
+  storeId?: string;
+  libraryId?: string;
+  festivalId?: string;
+}
