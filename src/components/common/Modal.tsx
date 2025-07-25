@@ -1,5 +1,5 @@
 interface ModalProps {
-  title: string;
+  title: React.ReactNode;
   description?: string;
   buttons?: React.ReactNode;
   onClose?: () => void;
@@ -7,7 +7,7 @@ interface ModalProps {
 
 export default function Modal({ title, description, buttons }: ModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+    <div className="fixed inset-0 z-50 flex cursor-default items-center justify-center bg-black/70">
       <div className="w-[250px] rounded-[10px] bg-[var(--white-color)] p-[20px] shadow-[var(--shadow-md)]">
         <h1 className="text-center text-[20px] font-semibold whitespace-pre-line">
           {title}

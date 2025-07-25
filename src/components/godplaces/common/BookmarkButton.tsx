@@ -1,6 +1,7 @@
-import { patchBookmark } from '@/lib/api/godplaces';
+import { patchBookmark } from '../../../api/godplaces';
 import { useGodplacesStore } from '@/stores/godplacesStore';
-import { startTransition, useOptimistic } from 'react';
+import { MyBookmark } from '@/types/godplaces';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsStar, BsStarFill } from 'react-icons/bs';
 
@@ -13,59 +14,68 @@ export default function BookmarkButton({
   className: string;
   hasWhiteBG?: boolean;
   type: string;
-  id: string;
+  id: number;
 }) {
   const bookmarked = useGodplacesStore((state) => state.bookmarked);
-  const setBookmarked = useGodplacesStore((state) => state.setBookmarked);
-  const [optimisticMyBookmarked, addOptimisticMyBookmarked] = useOptimistic<
-    { type: string; id: number }[],
-    { type: string; id: number }
-  >(bookmarked, (bookmarks, value) => [...bookmarks, value]);
+  const toggleBookmarked = useGodplacesStore((state) => state.toggleBookmarked);
+  const [optimisticState, setOptimisticState] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   startTransition(async () => {
-  //     try {
-  //       const myBookmarks = await getBookmarks();
-  //       console.log(myBookmarks);
-  //     } catch (err) {
-  //       console.error('북마크 조회 실패 ', err);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    const isMatched = bookmarked.some(
+      (bookmark) =>
+        bookmark.type === type && Number(bookmark[getBookmarkKey(type)]) === id,
+    );
+    setOptimisticState(isMatched);
+  }, [bookmarked, type, id]);
 
   const bookmarkHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
-    startTransition(() => {
-      addOptimisticMyBookmarked({ type: type, id: Number(id) });
-    });
+    if (isLoading) return;
+
+    setIsLoading(true);
+    setOptimisticState((prev) => !prev);
 
     try {
       const message = await patchBookmark(type, Number(id));
 
+      // console.log(message);
       if (message.code === '0000') {
-        toast.success('북마크 완료');
-        console.log(message);
-        startTransition(() => {
-          setBookmarked([{ type: type, id: Number(id) }]);
+        if (message.data.activated === true) {
+          toast.success('북마크 등록 완료');
+        }
+
+        if (message.data.activated === false) {
+          toast.success('북마크 해제 완료');
+        }
+
+        toggleBookmarked({
+          type,
+          [getBookmarkKey(type)]: id,
         });
-        // console.log(myBookmarked);
       } else {
         toast.error('북마크 실패');
+        setOptimisticState((prev) => !prev);
       }
     } catch (err) {
       console.error('북마크 실패: ', err);
+      setOptimisticState((prev) => !prev);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const getBookmarkKey = (type: string): keyof MyBookmark => {
+    return `${type}Id` as keyof MyBookmark;
   };
 
   if (hasWhiteBG) {
     return (
       <>
         <button onClick={bookmarkHandler} type="button">
-          {optimisticMyBookmarked.some(
-            (bookmark) => bookmark.type === type && bookmark.id === Number(id),
-          ) ? (
+          {optimisticState ? (
             <BsStarFill
               fill="var(--point-color-1)"
               stroke="var(--point-color-1)"
@@ -90,9 +100,7 @@ export default function BookmarkButton({
   return (
     <>
       <button onClick={bookmarkHandler} type="button">
-        {optimisticMyBookmarked.some(
-          (bookmark) => bookmark.type === type && bookmark.id === Number(id),
-        ) ? (
+        {optimisticState ? (
           <BsStarFill className={className} />
         ) : (
           <BsStar className={className} />

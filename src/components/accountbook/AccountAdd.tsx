@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import Category from './Category';
 
 import Calculator from './Calculator';
@@ -9,7 +9,9 @@ import { IoRepeat } from 'react-icons/io5';
 import '../../css/CustomDatePicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
-import { API_ADD } from '@/lib/api/api';
+import { patchAccount, postAccount } from '@/api/accountApi';
+import { useAccountData } from '@/stores/accountStore';
+import toast from 'react-hot-toast';
 
 export default function AccountAdd({
   onDataChange,
@@ -23,6 +25,9 @@ export default function AccountAdd({
   const [value, setValue] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [content, setContent] = useState<string | null>(null);
+  const [isAdd, setIsAdd] = useState<string>('추가');
+
+  const { isAccount, setInsert, isId } = useAccountData();
 
   const handleCalculator = (value: string) => {
     setPrice(value);
@@ -52,38 +57,38 @@ export default function AccountAdd({
   const handleStatus = () => {
     const status = false;
     onDataChange(status);
+    setInsert(false);
   };
 
   const handlePost = async () => {
     if (price === '' || content === null || value === '') {
+      toast.error('내용을 기입해주세요');
       return;
     }
-    try {
-      const response = await fetch(API_ADD + `/api/budget/detail`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: accountTag,
-          date: `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate()}`,
-          category: value,
-          price: Number(price),
-          content: content,
-          repeatCycle: 'NONE',
-        }),
-      });
-
-      if (!response.ok) throw new Error('통신에 실패했습니다');
-
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.error(error);
+    if (isAdd === '추가') {
+      postAccount(accountTag, startDate, value, price, content);
+      onDataChange(false);
+      setInsert(false);
+    } else if (isAdd === '수정') {
+      patchAccount(accountTag, startDate, value, price, content, isId!);
     }
   };
+
+  useEffect(() => {
+    setIsAdd(isAccount);
+  }, [isAccount]);
   return (
     <>
       <div className="relative mx-[5px] flex w-[97.7vw] flex-col items-center rounded-[10px] bg-[var(--white-color)] py-[30px] md:h-[870px] md:w-full">
-        <span className="font-bold text-[var(--text-color)]">가계부 입력</span>
+        {isAdd === '추가' ? (
+          <span className="font-bold text-[var(--text-color)]">
+            가계부 입력
+          </span>
+        ) : (
+          <span className="font-bold text-[var(--text-color)]">
+            가계부 수정
+          </span>
+        )}
         <div className="mt-[30px] flex gap-[5px]">
           <button
             className={`h-[35px] w-[45px] cursor-pointer rounded-[5px] text-[#000000] active:bg-[var(--main-color-2)] ${accountTag === '지출' ? 'bg-[var(--main-color-2)]' : 'bg-[var(--main-color-1)]'}`}

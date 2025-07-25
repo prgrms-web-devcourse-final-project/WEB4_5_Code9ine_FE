@@ -15,6 +15,7 @@ import Note from '../../assets/icons/note.png';
 import Phone from '../../assets/icons/phone.png';
 import Health from '../../assets/icons/health.png';
 import Life from '../../assets/icons/life.png';
+import Money from '../../assets/icons/money1.png';
 
 export default function ListCard({
   value,
@@ -72,6 +73,12 @@ export default function ListCard({
             ) : null}
             {value.category === '기타' ? (
               <Image src={Guitar} alt="기타" height={30} width={30} />
+            ) : null}
+            {value.category === '용돈' ? (
+              <Image src={Money} alt="기타" height={30} width={30} />
+            ) : null}
+            {value.category === '월급' ? (
+              <Image src={Money} alt="기타" height={30} width={30} />
             ) : null}
           </div>
           <div>

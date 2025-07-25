@@ -15,7 +15,7 @@ export default function Page({ totalData }: { totalData: totalData }) {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isInsert, setIsInsert] = useState<boolean>(false);
 
-  const { setTotaldata } = useAccountData();
+  const { setTotaldata, insert } = useAccountData();
 
   const handleMenu = (handle: boolean) => {
     setIsInsert(handle);
@@ -24,6 +24,11 @@ export default function Page({ totalData }: { totalData: totalData }) {
     setTotaldata(totalData);
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    setIsInsert(insert);
+  }, [insert]);
+
   if (!isClient) {
     return null;
   }
