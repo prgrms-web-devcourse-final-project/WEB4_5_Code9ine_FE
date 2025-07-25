@@ -11,19 +11,20 @@ import UserCard from './UserCard';
 import { User } from '@/types/admin';
 import { CiSearch } from 'react-icons/ci';
 
-const PAGES = [1, 2, 3, 4];
-
 export default function ManageUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
   const [selectedUserPerPage, setSelectedUserPerPage] = useState(10);
   const [username, setUsername] = useState('');
+  const [totalData, setTotalData] = useState(0);
 
   const fetchAllUsers = async () => {
     try {
       const response = await getAllUsers(page, selectedUserPerPage);
       if (response.code === '0000') {
-        setUsers(response.data);
+        // console.log(response);
+        setTotalData(response.data.total);
+        setUsers(response.data.users);
       } else {
         console.error('All Users Fetch Error');
       }
@@ -31,6 +32,17 @@ export default function ManageUsers() {
       console.error(e);
     }
   };
+
+  const pageSize = 10;
+  const totalPages = Math.ceil(totalData / selectedUserPerPage);
+  const currentBlock = Math.floor((page - 1) / pageSize);
+  const startPage = currentBlock * pageSize + 1;
+  const endPage = Math.min(startPage + pageSize - 1, totalPages);
+
+  const slicedPages = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, i) => startPage + i,
+  );
 
   useEffect(() => {
     startTransition(async () => {
@@ -71,7 +83,7 @@ export default function ManageUsers() {
 
   return (
     <>
-      <div className="flex flex-col gap-[15px] rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
+      <div className="hide-scrollbar flex h-[335px] flex-col gap-[15px] overflow-y-scroll rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
         <div className="flex justify-between">
           <h1 className="font-bold">유저 조회</h1>
           <div className="flex items-center gap-[10px] rounded-[10px] px-[10px] shadow-[var(--shadow-md)]">
@@ -114,18 +126,50 @@ export default function ManageUsers() {
           )}
         </div>
 
-        <div className="flex justify-center gap-[10px]">
-          {PAGES &&
-            PAGES.map((item) => (
-              <button
-                key={item}
-                type="button"
-                className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
-                onClick={() => setPage(item)}
-              >
-                {item}
-              </button>
-            ))}
+        <div className="flex items-center justify-center gap-[10px]">
+          {page > 1 && (
+            <button className="cursor-pointer" onClick={() => setPage(1)}>
+              {'<<'}
+            </button>
+          )}
+
+          {startPage > 1 && (
+            <button
+              className="cursor-pointer"
+              onClick={() => setPage(startPage - 1)}
+            >
+              {'<'}
+            </button>
+          )}
+
+          {slicedPages.map((item) => (
+            <button
+              key={item}
+              type="button"
+              className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
+              onClick={() => setPage(item)}
+            >
+              {item}
+            </button>
+          ))}
+
+          {endPage < totalPages && (
+            <button
+              className="cursor-pointer"
+              onClick={() => setPage(endPage + 1)}
+            >
+              {'>'}
+            </button>
+          )}
+
+          {page < totalPages && (
+            <button
+              className="cursor-pointer"
+              onClick={() => setPage(totalPages)}
+            >
+              {'>>'}
+            </button>
+          )}
         </div>
       </div>
     </>

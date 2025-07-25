@@ -64,7 +64,11 @@ export default function SearchListCard({
       </div>
       <div className="mt-[-3px] mb-[10px] flex items-center gap-[7px] md:mt-[-5px] md:mb-[10px]">
         <div className="text-[16px] md:text-[20px]">{name}</div>
-        <BookmarkButton className="mt-[-2px] size-[12px] cursor-pointer text-[var(--point-color-1)] md:size-[18px]" />
+        <BookmarkButton
+          type={type}
+          id={id}
+          className="mt-[-2px] size-[12px] cursor-pointer text-[var(--point-color-1)] md:size-[18px]"
+        />
       </div>
       {type === 'store' && (
         <div className="flex gap-[6px] text-[12px] md:text-[14px]">
