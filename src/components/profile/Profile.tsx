@@ -9,6 +9,7 @@ import { UserData } from '@/types/userType';
 import { getMyCode, getMyPage } from '@/api/profile';
 import Modal from '../common/Modal';
 import Image from 'next/image';
+import { getProfileImg } from '@/lib/utils/getImageUrl';
 
 export default function Profile({
   isPersonal = false,
@@ -18,14 +19,21 @@ export default function Profile({
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [showCopyModal, setShowCopyModal] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   // 유저 데이터
   useEffect(() => {
     getMyPage()
       .then((res) => {
-        console.log('성공:', res);
-        setUserData(res.data.data);
-        console.log(userData?.name);
+        const user = res.data.data;
+        setUserData(user);
+        if (user?.profileImage) {
+          const url = getProfileImg(user.profileImage);
+          console.log('이미지 URL:', url);
+          setImageUrl(url);
+        } else {
+          console.log('이미지 없음');
+        }
       })
       .catch((err) => console.log('마이데이터 에러', err));
   }, []);
@@ -43,36 +51,35 @@ export default function Profile({
     }
   };
 
-  // if (!userData) return <div>loading</div>;
   return (
     <>
       <div className="my-[20px] flex w-full flex-col items-center justify-center">
         {userData ? (
           <>
-            {/* {userData.profileImage ? (
+            {userData.profileImage && imageUrl ? (
               <>
                 <div className="h-[120px] w-[120px] overflow-hidden rounded-full border-[2px] border-[var(--main-color-3)]">
                   <Image
-                    width={100}
-                    height={100}
-                    src={userData.profileImage}
+                    width={120}
+                    height={120}
+                    src={imageUrl}
                     alt="유저 프로필 이미지"
+                    priority
                     className="object-cover"
                   />
                 </div>
               </>
             ) : (
               <DefaultProfile />
-            )} */}
-            <DefaultProfile />
+            )}
             <p className="mt-[10px] text-[20px] font-semibold text-[var(--main-color-3)]">
-              {userData.name}{' '}
+              {userData.nickname}{' '}
               <span className="text-[16px] font-normal text-[var(--gray-color-2)]">
                 LV.{userData.level}
               </span>{' '}
             </p>
             <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">
-              절약왕{/* {userData.equippedTitle.title} */}
+              {/* {userData.equippedTitle} */}
             </p>
             <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
               다음 레벨까지

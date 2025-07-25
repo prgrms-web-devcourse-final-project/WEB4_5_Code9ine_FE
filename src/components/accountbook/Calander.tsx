@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { CalendarList } from '@/types/payData';
 import { Value } from 'react-calendar/dist/shared/types.js';
-import { API_ADD } from '@/lib/api/api';
+import { noExpense, setMonthData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 
 export default function Calander({
@@ -18,7 +18,7 @@ export default function Calander({
   const [data, setData] = useState<CalendarList>();
   const [date, setDate] = useState<Date | null>(null);
 
-  const { setDateData, setShowDayData } = useAccountData();
+  const { setDateData, setShowDayData, setIsAccount } = useAccountData();
 
   const onChange = (newDate: Value) => {
     if (newDate instanceof Date) {
@@ -31,30 +31,19 @@ export default function Calander({
   };
 
   const handleNoExpense = async () => {
-    try {
-      const response = await fetch(API_ADD + `/api/budget/noexpenses`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (!response.ok) throw new Error('통신에 실패했습니다');
-
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
+    noExpense();
   };
 
   useEffect(() => {
     const today = new Date();
     const month = today.getMonth() + 1;
-    fetch(
-      API_ADD +
-        `/api/budget/calendar?yearmonth=${today.getFullYear()}-${month.toString().padStart(2, '0')}`,
-    )
-      .then((res) => res.json())
-      .then((data) => setData(data));
+    async function monthData() {
+      const res = await setMonthData(today, month);
+      const data = await res.json();
+      console.log(data);
+      setData(data);
+    }
+    monthData();
     setDate(new Date());
   }, []);
   const addContent = ({ date, view }: { date: Date; view: string }) => {
@@ -100,6 +89,7 @@ export default function Calander({
   const handleStatus = () => {
     const status = true;
     onDataChange(status);
+    setIsAccount('추가');
   };
 
   return (

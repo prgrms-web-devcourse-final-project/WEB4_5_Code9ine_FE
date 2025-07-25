@@ -9,7 +9,7 @@ const challengeOptions = [
 ];
 
 interface ChallengeSeleteBoxProps {
-  selected: string;
+  selected: string | null;
   onChange: (value: string) => void;
 }
 
