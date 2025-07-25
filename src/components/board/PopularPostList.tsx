@@ -4,7 +4,7 @@ import { format, parseISO } from 'date-fns';
 import { boardApi } from '@/api/boardApi';
 import { PopularPostRes } from '../../types/boardType';
 import Link from 'next/link';
-//import defaultProfile from '../../assets/profile.png';
+import defaultProfile from '../../assets/profile.png';
 
 const categoryMap: Record<string, string> = {
   MY_STORE: '나만 아는 가게',
@@ -47,8 +47,7 @@ export default function PopularPostList({
             <div className="flex items-start">
               <Link href={`/profile/${post.memberId}`}>
                 <Image
-                  src="/profileTest.png"
-                  // src={post.writerProfileImage || defaultProfile}
+                  src={post.writerProfileImage || defaultProfile}
                   alt="프로필"
                   width={36}
                   height={36}

@@ -9,13 +9,13 @@ import 'swiper/css/navigation';
 import { FaTrash } from 'react-icons/fa';
 import ChallengeSeleteBox from './ChallengeSeleteBox';
 import toast from 'react-hot-toast';
-import { MyInfo, UpdatePostReq } from '@/types/boardType';
+import { MyInfo, UpdatePostReq, WritePostReq } from '@/types/boardType';
 import defaultProfile from '../../assets/profile.png';
 
 interface PostWriteFormProps {
   category: 'MY_STORE' | 'CHALLENGE' | 'FREE';
   onSuccess?: () => void;
-  //onCancel?: () => void;
+  onCancel?: () => void;
   mode?: 'edit';
   editData?: UpdatePostReq;
 }
@@ -23,7 +23,7 @@ interface PostWriteFormProps {
 export default function PostWriteForm({
   category,
   onSuccess,
-  //onCancel,
+  onCancel,
   mode,
   editData,
 }: PostWriteFormProps) {
@@ -91,21 +91,32 @@ export default function PostWriteForm({
       return;
     }
 
+    const body: WritePostReq = {
+      title,
+      content,
+      category,
+      imageUrls,
+      challengeCategory: challengeOption,
+    };
+
     try {
-      await boardApi.postBoardCreate({
-        title,
-        content,
-        category,
-        imageUrls,
-        challengeCategory: challengeOption,
-      });
-      toast.success('게시글이 등록되었어요!');
+      if (mode === 'edit' && editData?.postId) {
+        await boardApi.fetchUpdatePost(editData.postId, body);
+        toast.success('게시글이 수정되었어요!');
+      } else {
+        await boardApi.postBoardCreate(body);
+        toast.success('게시글이 등록되었어요!');
+      }
+
       onSuccess?.();
-      setTitle('');
-      setContent('');
-      setImageUrls([]);
-      setImagesPreview([]);
-      setChallengeOption(null);
+
+      if (mode !== 'edit') {
+        setTitle('');
+        setContent('');
+        setImageUrls([]);
+        setImagesPreview([]);
+        setChallengeOption(null);
+      }
     } catch (err) {
       console.error(err);
       toast.error('게시글 작성에 실패했어요');
@@ -308,12 +319,29 @@ export default function PostWriteForm({
             height={24}
             className="absolute top-[10px] right-[10px] z-10 cursor-pointer opacity-70 hover:opacity-100"
           />
-          <button
-            onClick={handleSubmit}
-            className="absolute right-[10px] bottom-[10px] z-10 h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]"
-          >
-            작성
-          </button>
+          {mode === 'edit' ? (
+            <div className="absolute right-[10px] bottom-[10px] z-10 flex gap-2">
+              <button
+                onClick={handleSubmit}
+                className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]"
+              >
+                수정
+              </button>
+              <button
+                onClick={onCancel}
+                className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]"
+              >
+                취소
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              className="absolute right-[10px] bottom-[10px] z-10 h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]"
+            >
+              작성
+            </button>
+          )}
         </div>
       </div>
     </div>

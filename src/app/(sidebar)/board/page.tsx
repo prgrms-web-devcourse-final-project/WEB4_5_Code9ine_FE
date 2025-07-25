@@ -100,7 +100,9 @@ export default function Page() {
                 }}
               />
             </div>
-            <PostWriteForm category={selectedTab} onSuccess={fetchPosts} />
+            {!singlePost && (
+              <PostWriteForm category={selectedTab} onSuccess={fetchPosts} />
+            )}
           </div>
           {singlePost ? (
             <div className="mb-[15px]">

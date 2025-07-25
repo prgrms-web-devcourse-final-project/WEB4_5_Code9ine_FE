@@ -11,8 +11,8 @@ export const boardApi = {
         method: 'GET',
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
       }
     );
 
@@ -34,8 +34,8 @@ export const boardApi = {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
         body: JSON.stringify(body),
       }
     );
@@ -65,8 +65,8 @@ export const boardApi = {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
       }
     );
     if (!res.ok) {
@@ -87,8 +87,8 @@ export const boardApi = {
         method: 'PATCH',
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
       }
     );
 
@@ -127,8 +127,8 @@ export const boardApi = {
     {
       headers: {
         Accept: 'application/json',
-        Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
       },
+      credentials: 'include',
     }
   );
 
@@ -148,8 +148,8 @@ export const boardApi = {
         method: 'GET',
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
       }
     );
 
@@ -170,8 +170,8 @@ export const boardApi = {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
         body: JSON.stringify({ content }),
       }
     );
@@ -191,8 +191,8 @@ export const boardApi = {
         method: 'PATCH',
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
       }
     );
 
@@ -210,8 +210,8 @@ export const boardApi = {
         method: 'PATCH',
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
-      },
+        },
+        credentials: 'include',
     }
   );
     if (!res.ok) {
@@ -228,8 +228,8 @@ export const boardApi = {
         method: 'PATCH',
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
       }
     );
     if (!res.ok) {
@@ -246,8 +246,8 @@ export const boardApi = {
         method: 'GET',
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
       }  
     );
     if (!res.ok) {
@@ -267,8 +267,8 @@ export const boardApi = {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
         },
+        credentials: 'include',
         body: JSON.stringify(data),
       }
     );
