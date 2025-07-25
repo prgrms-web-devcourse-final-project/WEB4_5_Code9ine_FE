@@ -14,9 +14,10 @@ const AUTHORIZATION = process.env.NEXT_PUBLIC_API_KEY;
 export async function getMyPage(): Promise<GetMyPageData> {
   const res = await fetch(`${API_BASE_URL}/api/members/mypage`, {
     method: 'GET',
+    credentials: 'include',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${AUTHORIZATION}`,
+      // Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {
