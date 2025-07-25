@@ -19,7 +19,7 @@ export default function SearchListCard({
   name: string;
   firstMenu?: string;
   firstPrice?: string;
-  id: string;
+  id: number;
 }) {
   const { region } = useParams();
   const label = getLabel(type, category);
