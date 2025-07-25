@@ -4,19 +4,20 @@
 
 import { API_ADD } from '@/api/accountApi';
 import Page from '@/components/accountbook/Page';
+import { cookies } from 'next/headers';
 
 export default async function page() {
-  const setData = await (
-    await fetch(`${API_ADD}/api/budget/totaldetails`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        accept: 'application/json',
-      },
-    })
-  ).json();
+  const accessToken = (await cookies())
+  console.log(accessToken);
+  const setData = await fetch(`${API_ADD}/api/budget/totaldetails`, {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+    },
+  });
 
-  const receivedTotalData = setData;
+  const receivedTotalData = await setData.json();
 
   console.log(receivedTotalData);
   return (
