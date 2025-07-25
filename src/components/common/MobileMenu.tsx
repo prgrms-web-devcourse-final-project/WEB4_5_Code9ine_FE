@@ -61,14 +61,15 @@ export default function MobileMenu({
                   커뮤니티
                 </Button>
               </Link>
-
-              <Button
-                className={`pc-header-button text-[var(--header-text)]`}
-                onClick={handleLogin}
-              >
-                <BsPersonRaisedHand size={20} />
-                로그인/회원가입
-              </Button>
+              <Link href={'/login'}>
+                <Button
+                  className={`pc-header-button text-[var(--header-text)]`}
+                  onClick={handleLogin}
+                >
+                  <BsPersonRaisedHand size={20} />
+                  로그인/회원가입
+                </Button>
+              </Link>
             </div>
           ) : (
             <div className="mt-[30px] flex flex-col gap-[10px]">

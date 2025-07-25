@@ -147,13 +147,15 @@ export default function ColoredBox() {
           className={`cursor-pointer items-center justify-center ${login ? `gap-[12px]` : ''} text-[var(--header-text)] md:flex md:self-end`}
           ref={sidebarRef}
         >
-          <button onClick={toggle} className="cursor-pointer p-2">
-            {isDark ? (
-              <IoSunnyOutline size={18} />
-            ) : (
-              <IoMoonOutline size={18} />
-            )}
-          </button>
+          <div className="absolute top-[18px] right-[15px] md:static md:top-[23px] md:flex">
+            <button onClick={toggle} className="cursor-pointer p-2">
+              {isDark ? (
+                <IoSunnyOutline size={18} />
+              ) : (
+                <IoMoonOutline size={18} />
+              )}
+            </button>
+          </div>
           <div className="absolute top-[18px] right-[20px] md:static md:top-[23px] md:flex">
             {login ? (
               <button
