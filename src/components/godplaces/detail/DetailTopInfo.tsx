@@ -1,6 +1,7 @@
 import DetailButtonDiv from './DetailButtonDiv';
 import BookmarkButton from '../common/BookmarkButton';
 import { getLabel } from '@/lib/helper/getLabel';
+import { useAuthStore } from '@/stores/authStore';
 
 export default function DetailTopInfo({
   type,
@@ -20,6 +21,7 @@ export default function DetailTopInfo({
   id: number | undefined;
 }) {
   const label = getLabel(type, category);
+  const isLogin = useAuthStore((state) => state.isLogin);
 
   console.log(type, id);
 
@@ -31,7 +33,7 @@ export default function DetailTopInfo({
         </div>
         <div className="flex items-center gap-[10px]">
           <div className="text-[18px] font-bold md:text-[24px]">{name}</div>
-          {id && (
+          {isLogin && id && (
             <BookmarkButton
               className="mt-[-1px] size-[16px] cursor-pointer text-[var(--point-color-1)] md:size-[20px]"
               type={type}
