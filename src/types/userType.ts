@@ -1,4 +1,14 @@
-// 칭호 관련 타입
+// 마이 칭호 관련 타입
+export interface MyTitle {
+  titleId: number;
+  name: string;
+  icon: string;
+  description: string;
+  achieved: boolean;
+  minCount: number;
+}
+
+// 모든 칭호 데시보드
 export interface Title {
   challengeId: number;
   name: string;
@@ -9,23 +19,12 @@ export interface Title {
   icon: string;
 }
 
-// 게시글
-// export interface Post {
-//   postId: number;
-//   title: string;
-// }
-
-// // 장소
-// export interface Place {
-//   placeId: number;
-//   name: string;
-// }
-
 // 유저 정보
 export interface UserData {
   memberId: number;
   email: string;
   name: string;
+  nickname: string;
   profileImage?: string;
   level: number;
   currentExp: number;
@@ -36,8 +35,8 @@ export interface UserData {
   remainPrice: number;
   bookmarkedPosts: Post[];
   bookmarkedPlaces: BookmarkData[];
-  equippedTitle: Title;
-  achievedTitles: Title[];
+  equippedTitle: MyTitle[];
+  achievedTitles: MyTitle[];
 }
 
 // 마이페이지 API 전체 응답
@@ -101,7 +100,7 @@ export interface ChallengeData {
 
 // 북마크한 글, 내가 쓴 글
 export interface Post {
-  postid: number;
+  postId: number;
   memberId: number;
   category: '챌린지' | '자유' | '나가게';
   challengeCategory: string | null;
