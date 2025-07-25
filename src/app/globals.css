@@ -117,7 +117,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #24282f;
     --background-full: #202020;
@@ -127,21 +127,46 @@
     --header-text: #f5f5f5;
     --header-text-active: #f5f5f5;
 
-    /* Main Color Palette */
+   
     --main-color-3: #6b76ff;
     --main-color-2: #a5aeff;
     --main-color-1: #c8e4fe;
 
-    /* Point Colors */
+
     --point-color-2: #ff4646;
     --point-color-1: #ff8585;
 
-    /* Text Color */
+
     --text-color: #f5f5f5;
 
-    /* Shadow Color */
+ 
     --shadow-color: oklab(from #f5f5f5 l a b / 25%);
   }
+} */
+
+html.dark {
+  --background: #24282f;
+  --background-full: #202020;
+  --white-color: #2e3746;
+  --header-color: #2e3746;
+  --header-button-active: #6b76ff;
+  --header-text: #f5f5f5;
+  --header-text-active: #f5f5f5;
+
+  /* Main Color Palette */
+  --main-color-3: #6b76ff;
+  --main-color-2: #a5aeff;
+  --main-color-1: #c8e4fe;
+
+  /* Point Colors */
+  --point-color-2: #ff4646;
+  --point-color-1: #ff8585;
+
+  /* Text Color */
+  --text-color: #f5f5f5;
+
+  /* Shadow Color */
+  --shadow-color: oklab(from #f5f5f5 l a b / 25%);
 }
 
 body {

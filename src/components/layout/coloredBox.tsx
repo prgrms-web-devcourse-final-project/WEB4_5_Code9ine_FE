@@ -8,6 +8,7 @@ import {
   IoMoonOutline,
   IoPersonCircleOutline,
   IoSearchSharp,
+  IoSunnyOutline,
 } from 'react-icons/io5';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { BsPersonRaisedHand } from 'react-icons/bs';
@@ -36,6 +37,22 @@ export default function ColoredBox() {
   const notificationRef = useRef<HTMLDivElement | null>(null);
   const [notifications, setNotifications] = useState<NotificationTitle[]>([]);
   const router = useRouter();
+  const [isDark, setIsDark] = useState(false);
+
+  // 다크모드
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    const dark = saved === 'dark';
+    setIsDark(dark);
+    document.documentElement.classList.toggle('dark', dark);
+  }, []);
+
+  const toggle = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+  };
 
   // 챌린지알람
   useEffect(() => {
@@ -114,9 +131,13 @@ export default function ColoredBox() {
           className={`cursor-pointer items-center justify-center ${login ? `gap-[12px]` : ''} text-[var(--header-text)] md:flex md:self-end`}
           ref={sidebarRef}
         >
-          <div className="hidden md:flex">
-            <IoMoonOutline size={18} />
-          </div>
+          <button onClick={toggle} className="cursor-pointer p-2">
+            {isDark ? (
+              <IoSunnyOutline size={18} />
+            ) : (
+              <IoMoonOutline size={18} />
+            )}
+          </button>
           <div className="absolute top-[18px] right-[20px] md:static md:top-[23px] md:flex">
             {login ? (
               <button
