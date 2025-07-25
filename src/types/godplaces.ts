@@ -8,9 +8,9 @@ export interface GodplacesSearchList {
   contact?: string;
   firstMenu?: string;
   firstPrice?: string;
-  libraryId?: string;
-  festivalId?: string;
-  storeId?: string;
+  libraryId?: number;
+  festivalId?: number;
+  storeId?: number;
 }
 
 export interface GodplacesDetail {
@@ -30,21 +30,21 @@ export interface GodplacesDetail {
   target?: string;
   startAt?: string;
   endAt?: string;
-  libraryId?: string;
-  festivalId?: string;
-  storeId?: string;
+  libraryId?: number;
+  festivalId?: number;
+  storeId?: number;
   url?: string;
 }
 
 export interface Plans {
-  id: string;
+  id: number;
   type: string;
   firstprice: number;
 }
 
 export interface MyBookmark {
   type: string;
-  storeId?: string;
-  libraryId?: string;
-  festivalId?: string;
+  storeId?: number;
+  libraryId?: number;
+  festivalId?: number;
 }

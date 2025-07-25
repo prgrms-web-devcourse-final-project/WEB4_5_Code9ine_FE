@@ -46,7 +46,7 @@ export default function SearchListBox({
         {godplaces && godplaces.length === 0 && '검색 결과가 없습니다'}
         {godplaces &&
           godplaces.map((d) => {
-            const id = d[`${d.type}Id` as keyof typeof d];
+            const id = Number(d[`${d.type}Id` as keyof typeof d]);
 
             return (
               <SearchListCard
@@ -56,7 +56,7 @@ export default function SearchListBox({
                 name={d.name}
                 firstMenu={d.firstMenu}
                 firstPrice={d.firstPrice}
-                id={String(id)}
+                id={id}
               />
             );
           })}

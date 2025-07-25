@@ -14,7 +14,7 @@ export default function BookmarkButton({
   className: string;
   hasWhiteBG?: boolean;
   type: string;
-  id: string;
+  id: number;
 }) {
   const bookmarked = useGodplacesStore((state) => state.bookmarked);
   const toggleBookmarked = useGodplacesStore((state) => state.toggleBookmarked);
@@ -22,11 +22,11 @@ export default function BookmarkButton({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const matched = bookmarked.some(
+    const isMatched = bookmarked.some(
       (bookmark) =>
-        bookmark.type === type && bookmark[getBookmarkKey(type)] === id,
+        bookmark.type === type && Number(bookmark[getBookmarkKey(type)]) === id,
     );
-    setOptimisticState(matched);
+    setOptimisticState(isMatched);
   }, [bookmarked, type, id]);
 
   const bookmarkHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
