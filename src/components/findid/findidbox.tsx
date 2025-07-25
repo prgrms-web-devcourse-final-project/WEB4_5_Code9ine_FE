@@ -31,11 +31,9 @@ export default function FindIdBox() {
     try {
       const formatted = phoneNumber.replace(/-/g, '');
 
-      // const res = await findEmail({ name, phoneNumber: formatted });
-      const res = {
-        emails: ['test@test.com', 'abcdef@test.com'],
-      }; //임시 데이터
-      setEmails(res.emails);
+      const res = await findEmail({ name, phoneNumber: formatted });
+
+      setEmails(res.data.emails);
       setError('');
       toast.success('이메일을 찾았습니다.');
     } catch (err) {

@@ -14,8 +14,9 @@ interface ApiResponse<T> {
 }
 
 export async function getNotificationTitles(): Promise<NotificationTitle[]> {
-  const res = await fetch(`${API_BASE}api/notifications/title`, {
+  const res = await fetch(`${API_BASE}/api/notifications/title`, {
     method: 'GET',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
   });
 
