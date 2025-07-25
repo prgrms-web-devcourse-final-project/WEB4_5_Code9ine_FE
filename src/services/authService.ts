@@ -291,3 +291,38 @@ export async function logout(): Promise<{ message: string }> {
 export function getGoogleLoginRedirect(): void {
   window.location.href = `${API_BASE}/oauth2/authorization/google`;
 }
+
+// 리프레시 토큰 기반 엑세스 토큰 재발급
+export interface TokenRefreshPayload {
+  refreshToken: string;
+}
+
+export interface TokenRefreshResponse {
+  accessToken: string;
+  refreshToken: string;
+  grantType: string;
+  expiresIn: number;
+  refreshExpiresIn: number;
+}
+
+export async function refreshToken(
+  payload: TokenRefreshPayload,
+): Promise<{ message: string; data: TokenRefreshResponse }> {
+  const res = await fetch(`${API_BASE}/api/members/token/refresh`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(payload),
+  });
+
+  const json = await res.json();
+
+  if (!res.ok || json.code !== '0000') {
+    throw new Error(json.message || '엑세스 토큰 재발급에 실패했습니다.');
+  }
+
+  return {
+    message: json.message,
+    data: json.data,
+  };
+}

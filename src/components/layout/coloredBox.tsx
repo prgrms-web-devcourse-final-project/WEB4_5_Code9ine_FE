@@ -157,7 +157,7 @@ export default function ColoredBox() {
           {showNotification && (
             <div
               ref={notificationRef}
-              className="absolute top-full right-0 z-50 mt-2"
+              className="absolute relative top-full right-0 z-50 mt-2"
             >
               <NotificationBox
                 onClose={() => setShowNotification(false)}

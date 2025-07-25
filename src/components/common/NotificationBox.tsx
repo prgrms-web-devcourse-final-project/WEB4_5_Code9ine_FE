@@ -40,7 +40,9 @@ export default function NotificationBox({
   // 알림 읽음 처리 함수 (재사용 가능)
   const handleMarkAsRead = async (notificationId: number) => {
     try {
+      console.log('읽음 처리 시도:', notificationId); // 확인 로그
       await markNotificationAsRead(notificationId);
+      console.log('읽음 처리 성공');
     } catch (err) {
       console.error('알림 읽음 처리 실패:', err);
     } finally {
@@ -59,7 +61,7 @@ export default function NotificationBox({
     <>
       <div
         ref={containerRef}
-        className="absolute top-[40px] right-[3px] z-50 w-[300px] cursor-default rounded-lg bg-white p-4 shadow-lg md:right-[-100px] dark:bg-[#1e1e1e]"
+        className="absolute top-[40px] right-[3px] z-50 w-[300px] cursor-default rounded-lg bg-white p-4 shadow-lg md:top-[-10px] md:right-[-100px] dark:bg-[#1e1e1e]"
       >
         {/* 헤더 */}
         <div className="mb-3 flex items-center justify-between">
@@ -104,9 +106,7 @@ export default function NotificationBox({
             <div className="flex w-full gap-2">
               {/* 확인 버튼 */}
               <button
-                onClick={() =>
-                  selected && handleMarkAsRead(selected.notificationId)
-                }
+                onClick={() => handleMarkAsRead(selected.notificationId)}
                 className="flex-1 cursor-pointer rounded-[5px] bg-[var(--point-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--point-color-2)]"
               >
                 확인
