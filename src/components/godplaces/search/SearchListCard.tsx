@@ -5,6 +5,7 @@ import { IoCheckmark } from 'react-icons/io5';
 import BookmarkButton from '../common/BookmarkButton';
 import { useParams } from 'next/navigation';
 import { useGodplacesStore } from '@/stores/godplacesStore';
+import { useAuthStore } from '@/stores/authStore';
 
 export default function SearchListCard({
   category,
@@ -25,6 +26,7 @@ export default function SearchListCard({
   const label = getLabel(type, category);
   const plans = useGodplacesStore((state) => state.plans);
   const setPlans = useGodplacesStore((state) => state.setPlans);
+  const isLogin = useAuthStore((state) => state.isLogin);
 
   const addPlans = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -64,11 +66,13 @@ export default function SearchListCard({
       </div>
       <div className="mt-[-3px] mb-[10px] flex items-center gap-[7px] md:mt-[-5px] md:mb-[10px]">
         <div className="text-[16px] md:text-[20px]">{name}</div>
-        <BookmarkButton
-          type={type}
-          id={id}
-          className="mt-[-2px] size-[12px] cursor-pointer text-[var(--point-color-1)] md:size-[18px]"
-        />
+        {isLogin && (
+          <BookmarkButton
+            type={type}
+            id={id}
+            className="mt-[-2px] size-[12px] cursor-pointer text-[var(--point-color-1)] md:size-[18px]"
+          />
+        )}
       </div>
       {type === 'store' && (
         <div className="flex gap-[6px] text-[12px] md:text-[14px]">
