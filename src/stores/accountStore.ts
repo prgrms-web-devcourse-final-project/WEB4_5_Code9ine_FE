@@ -10,12 +10,6 @@ interface dummyState {
   setShowDayData: (data: boolean) => void;
   totalData: totalData | null;
   setTotaldata: (data: totalData | null) => void;
-  isAccount: string;
-  setIsAccount: (data: string) => void;
-  insert: boolean;
-  setInsert: (data: boolean) => void;
-  isId: number | null;
-  setIsId: (data: number | null) => void;
 }
 
 export const useAccountData = create<dummyState>((set) => ({
