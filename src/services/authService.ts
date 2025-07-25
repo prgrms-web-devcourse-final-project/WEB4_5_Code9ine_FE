@@ -1,10 +1,15 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 //회원가입
 export interface SignUpPayload {
-  name: string;
   email: string;
   password: string;
+  passwordCheck: string;
+  name: string;
+  nickname: string;
+  phoneNumber: string;
+  inviteCode: string;
 }
 
 export interface SignUpResponse {
@@ -19,22 +24,24 @@ export interface ApiResponse<T> {
 
 export async function signUp(
   payload: SignUpPayload,
-): Promise<ApiResponse<SignUpResponse>> {
+): Promise<{ message: string; data: SignUpResponse }> {
   const res = await fetch(`${API_BASE}/api/members/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
 
-  const json = await res.json();
+  const json: ApiResponse<SignUpResponse> = await res.json();
 
-  if (!res.ok || json.code !== '2010') {
+  if (!res.ok || json.code !== '0001') {
     throw new Error(json.message || '회원가입에 실패했습니다.');
   }
 
-  return json; // { code, message, data: { userId } }
+  return {
+    message: json.message,
+    data: json.data,
+  };
 }
-
 /* 로그인 */
 
 export interface LoginPayload {
@@ -52,20 +59,24 @@ export interface LoginResponse {
 
 export async function login(
   payload: LoginPayload,
-): Promise<ApiResponse<LoginResponse>> {
+): Promise<{ message: string; data: LoginResponse }> {
   const res = await fetch(`${API_BASE}/api/members/login`, {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
 
   const json = await res.json();
 
-  if (!res.ok || json.code !== '2000') {
+  if (!res.ok || json.code !== '0000') {
     throw new Error(json.message || '로그인에 실패했습니다.');
   }
 
-  return json;
+  return {
+    message: json.message,
+    data: json.data.data,
+  };
 }
 
 //닉네임 중복
@@ -190,7 +201,7 @@ export interface ApiNestedResponse {
 
 export async function verifyEmailCode(
   payload: EmailVerifyPayload,
-): Promise<ApiResponse<ApiNestedResponse>> {
+): Promise<{ message: string; data: { message: string } }> {
   const res = await fetch(`${API_BASE}/api/members/email/verify`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -199,17 +210,20 @@ export async function verifyEmailCode(
 
   const json = await res.json();
 
-  if (!res.ok || json.code !== '0000' || json.data.code !== 2000) {
+  if (!res.ok || json.code !== '0000') {
     throw new Error(
       json.data?.message || json.message || '이메일 인증에 실패했습니다.',
     );
   }
 
-  return json;
+  return {
+    message: json.message,
+    data: json.data,
+  };
 }
 
 // 아이디찾기
-export interface FindEmailRequest {
+export interface FindEmailPayload {
   name: string;
   phoneNumber: string;
 }
@@ -219,8 +233,8 @@ export interface FindEmailResponse {
 }
 
 export async function findEmail(
-  payload: FindEmailRequest,
-): Promise<FindEmailResponse> {
+  payload: FindEmailPayload,
+): Promise<{ message: string; data: FindEmailResponse }> {
   const res = await fetch(`${API_BASE}/api/members/email/find`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -229,9 +243,52 @@ export async function findEmail(
 
   const json = await res.json();
 
-  if (!res.ok || json.code !== '2000') {
-    throw new Error(json.message || '이메일 찾기에 실패했습니다.');
+  if (!res.ok || json.code !== '0000') {
+    throw new Error(json.message || '아이디 찾기에 실패했습니다.');
   }
 
-  return json.data as FindEmailResponse;
+  return {
+    message: json.message,
+    data: json.data,
+  };
+}
+
+// 로그아웃
+export async function logout(): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/api/members/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  const json = await res.json();
+
+  if (!res.ok || json.code !== '0000') {
+    throw new Error(json.message || '로그아웃 실패');
+  }
+
+  return { message: json.message };
+}
+
+// 구글로그인
+// export async function getGoogleLoginRedirect(): Promise<void> {
+//   try {
+//     const res = await fetch(`${API_BASE}/oauth2/authorization/google`, {
+//       method: 'GET',
+//       credentials: 'include',
+//     });
+
+//     // 리다이렉트 응답이 오면 URL로 이동
+//     if (res.redirected) {
+//       window.location.href = res.url;
+//     } else {
+//       const data = await res.json();
+//       console.error('리다이렉트되지 않음:', data);
+//     }
+//   } catch (error) {
+//     console.error('구글 로그인 리다이렉트 실패', error);
+//   }
+// }
+
+export function getGoogleLoginRedirect(): void {
+  window.location.href = `${API_BASE}/oauth2/authorization/google`;
 }

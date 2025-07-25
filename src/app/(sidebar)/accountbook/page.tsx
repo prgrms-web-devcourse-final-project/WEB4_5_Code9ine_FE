@@ -2,12 +2,21 @@
 // import Calander from '@/components/accountbook/Calander';
 // import ListArea from '@/components/accountbook/ListArea';
 
-import { setData } from '@/api/accountApi';
+import { API_ADD } from '@/api/accountApi';
 import Page from '@/components/accountbook/Page';
 
 export default async function page() {
-  const receivedTotalData = await setData();
+  const setData = await (
+    await fetch(`${API_ADD}/api/budget/totaldetails`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        accept: 'application/json',
+      },
+    })
+  ).json();
 
+  const receivedTotalData = setData;
 
   console.log(receivedTotalData);
   return (

@@ -1,5 +1,4 @@
 'use client';
-import { API_ADD } from '@/api/accountApi';
 import ColoredBox from '@/components/layout/coloredBox';
 import AuthorizedMain from '@/components/main/AuthorizedMain';
 import UnAuthorizedMain from '@/components/main/UnAuthorizedMain';
@@ -12,15 +11,6 @@ export default function Page() {
   useEffect(() => {
     setLoginState(isLogin);
   }, [isLogin]);
-
-  fetch(API_ADD + `/api/members/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: 'testuser1@example.com',
-      password: 'test',
-    }),
-  });
 
   return (
     <>

@@ -1,5 +1,4 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
-const Access_Token = process.env.NEXT_PUBLIC_API_KEY;
 
 export interface NotificationTitle {
   notificationId: number;
@@ -17,10 +16,8 @@ interface ApiResponse<T> {
 export async function getNotificationTitles(): Promise<NotificationTitle[]> {
   const res = await fetch(`${API_BASE}/api/notifications/title`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${Access_Token}`,
-    },
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
   });
 
   const json = (await res.json()) as ApiResponse<NotificationTitle[]>;

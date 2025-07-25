@@ -31,7 +31,7 @@ export default function TodayStats() {
   return (
     <>
       {stats && (
-        <div className="flex flex-col content-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[15px] text-center shadow-[var(--shadow-md)]">
+        <div className="flex h-[90px] flex-col content-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[15px] text-center shadow-[var(--shadow-md)]">
           <div>
             <h1 className="font-bold">TODAY&apos;S STATS</h1>
           </div>
