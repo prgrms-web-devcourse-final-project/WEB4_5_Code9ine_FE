@@ -1,4 +1,4 @@
-import { patchBookmark } from '@/lib/api/godplaces';
+import { patchBookmark } from '../../../api/godplaces';
 import { useGodplacesStore } from '@/stores/godplacesStore';
 import { startTransition, useOptimistic } from 'react';
 import toast from 'react-hot-toast';

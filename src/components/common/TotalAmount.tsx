@@ -1,18 +1,26 @@
 'use client';
-import { API_ADD } from '@/lib/api/api';
+import { setMonthData } from '@/api/accountApi';
 import { CalendarList } from '@/types/payData';
 import { useEffect, useState } from 'react';
 
 export default function TotalAmount({ textSize }: { textSize?: string }) {
-  const [data, setData] = useState<CalendarList>();
-  const [month, setMonth] = useState<number>();
-  const [day, setDay] = useState<number>();
+  const [isData, setIsData] = useState<CalendarList>();
+  const [month, setMonth] = useState<number>(0);
+  const [day, setDay] = useState<number>(0);
 
   useEffect(() => {
-    fetch(API_ADD + 'api/budget/totaldetails')
-      .then((res) => res.json())
-      .then((data) => setData(data));
+    // fetch(API_ADD + '/api/budget/totaldetails')
+    //   .then((res) => res.json())
+    //   .then((data) => setIsData(data));
     const today = new Date();
+    const month = today.getMonth() + 1;
+    async function calendarData() {
+      const res = await setMonthData(today, month);
+      const data = await res.json();
+      console.log(data);
+      setIsData(data);
+    }
+    calendarData();
     setMonth(today.getMonth() + 1);
     setDay(today.getDate());
   }, []);
@@ -27,7 +35,7 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
         <span>{day}</span>
         <span>일까지의 총수입은 </span>
         <span className="text-[var(--main-color-3)]">
-          {data?.data.totalIncome.toLocaleString('ko-KR')}
+          {isData?.data.totalIncome.toLocaleString('ko-KR')}
         </span>
         <span>원이에요</span>
       </div>
@@ -37,7 +45,7 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
         <span>{day}</span>
         <span>일까지의 총지출은 </span>
         <span className="text-[var(--point-color-1)]">
-          {data?.data.totalExpense.toLocaleString('ko-KR')}
+          {isData?.data.totalExpense.toLocaleString('ko-KR')}
         </span>
         <span>원이에요</span>
       </div>

@@ -1,5 +1,5 @@
 'use client';
-import { getHotLocation } from '@/lib/api/godplaces';
+import { getHotLocation } from '@/api/godplaces';
 import { startTransition, useEffect, useState } from 'react';
 
 export default function HotLocation() {
