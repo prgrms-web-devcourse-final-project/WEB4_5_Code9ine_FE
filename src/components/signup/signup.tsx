@@ -45,6 +45,8 @@ export default function SignupBox() {
 
   const [isEmailVerified, setIsEmailVerified] = useState(false);
 
+  const [inviteCode, setInviteCode] = useState('');
+
   const validateEmail = (email: string): boolean =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -159,7 +161,15 @@ export default function SignupBox() {
     // TODO: payload 추후에 수정해야함 전화번호,추천코드 등등..
     try {
       setLoading(true);
-      const payload: SignUpPayload = { name: nickname, email, password };
+      const payload: SignUpPayload = {
+        email,
+        password,
+        passwordCheck: confirmPwd,
+        name: realName,
+        nickname,
+        phoneNumber,
+        inviteCode,
+      };
 
       const { message } = await signUp(payload);
 
@@ -339,7 +349,7 @@ export default function SignupBox() {
               </button>
             </div>
 
-            {/* 인증번호 입력 & 확인 버튼 (API 없이 토글만) */}
+            {/* 인증번호 입력 */}
             {isCodeSent && (
               <>
                 <div className="mt-2 flex w-full items-center gap-2">
@@ -431,26 +441,28 @@ export default function SignupBox() {
             </p>
             <input
               type="text"
+              value={inviteCode}
+              onChange={(e) => setInviteCode(e.target.value)}
               placeholder="추천인 코드를 입력해주세요"
               className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
             />
-            <div className="flex w-full items-center justify-between">
-              {/* TODO:추천인 api확인시 에러메시지 구현 */}
-              {/* <p
+            {/* <div className="flex w-full items-center justify-between">
+         
+              <p
             className={`min-h-[12px] text-[12px] ${confirmPwdError ? 'text-[var(--point-color-2)]' : 'invisible'}`}
           >
             {confirmPwdError || '\u00A0'}
-          </p> */}
+          </p>
               <button
                 type="button"
                 className="h-[35px] cursor-pointer rounded-[10px] text-[12px] font-medium text-[var(--text-color)] hover:underline"
                 onClick={() => {
-                  //TODO:추천인 확인로직 구현
+               
                 }}
               >
                 추천인 코드 확인
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* 이용약관 */}

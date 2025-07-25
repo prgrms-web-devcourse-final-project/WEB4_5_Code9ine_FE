@@ -1,15 +1,23 @@
 import profile1 from '../../assets/profile.png';
 import Image from 'next/image';
-export default function DefaultProfile() {
+
+interface DefaultProfileProps {
+  className?: string;
+}
+
+export default function DefaultProfile({ className }: DefaultProfileProps) {
+  const defaultSize = 'h-[120px] w-[120px]';
   return (
-    <>
-      <div className="h-[120px] w-[120px] overflow-hidden rounded-full border-[2px] border-[var(--main-color-3)]">
-        <Image
-          src={profile1}
-          alt="기본 프로필 이미지"
-          className="object-cover"
-        />
-      </div>
-    </>
+    <div
+      className={`overflow-hidden rounded-full border-[2px] border-[var(--main-color-3)] ${
+        className || defaultSize
+      }`}
+    >
+      <Image
+        src={profile1}
+        alt="기본 프로필 이미지"
+        className="h-full w-full object-cover"
+      />
+    </div>
   );
 }

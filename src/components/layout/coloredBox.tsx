@@ -8,6 +8,7 @@ import {
   IoMoonOutline,
   IoPersonCircleOutline,
   IoSearchSharp,
+  IoSunnyOutline,
 } from 'react-icons/io5';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { BsPersonRaisedHand } from 'react-icons/bs';
@@ -21,6 +22,9 @@ import NotificationBox from '../common/NotificationBox';
 import { getNotificationTitles } from '@/api/notification';
 import type { NotificationTitle } from '@/api/notification';
 import { useAccountData } from '@/stores/accountStore';
+import { logout } from '@/services/authService';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function ColoredBox() {
   const [login, setLogin] = useState<boolean>(false);
@@ -32,6 +36,23 @@ export default function ColoredBox() {
   const [showNotification, setShowNotification] = useState(false);
   const notificationRef = useRef<HTMLDivElement | null>(null);
   const [notifications, setNotifications] = useState<NotificationTitle[]>([]);
+  const router = useRouter();
+  const [isDark, setIsDark] = useState(false);
+
+  // 다크모드
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    const dark = saved === 'dark';
+    setIsDark(dark);
+    document.documentElement.classList.toggle('dark', dark);
+  }, []);
+
+  const toggle = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+  };
 
   // 챌린지알람
   useEffect(() => {
@@ -59,9 +80,8 @@ export default function ColoredBox() {
     };
   }, [showNotification]);
 
-  const handleLogin = () => {
-    setLogin(!login);
-    setIsLogin(!login);
+  const goToLogin = () => {
+    router.push('/login');
   };
   const handleSideBarLogin = (sign: boolean) => {
     setLogin(sign);
@@ -90,6 +110,19 @@ export default function ColoredBox() {
 
   if (!isClient) return null;
 
+  // 로그아웃
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success('로그아웃 되었습니다.');
+      setLogin(false);
+      setIsLogin(false);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : '로그아웃 실패';
+      toast.error(msg);
+    }
+  };
+
   return (
     <div className="relative">
       <div className="relative flex w-full items-center justify-center bg-[var(--header-color)] p-[10px] md:h-[870px] md:w-[200px] md:flex-col md:rounded-[10px]">
@@ -98,9 +131,13 @@ export default function ColoredBox() {
           className={`cursor-pointer items-center justify-center ${login ? `gap-[12px]` : ''} text-[var(--header-text)] md:flex md:self-end`}
           ref={sidebarRef}
         >
-          <div className="hidden md:flex">
-            <IoMoonOutline size={18} />
-          </div>
+          <button onClick={toggle} className="cursor-pointer p-2">
+            {isDark ? (
+              <IoSunnyOutline size={18} />
+            ) : (
+              <IoMoonOutline size={18} />
+            )}
+          </button>
           <div className="absolute top-[18px] right-[20px] md:static md:top-[23px] md:flex">
             {login ? (
               <button
@@ -177,7 +214,7 @@ export default function ColoredBox() {
 
               <Button
                 className={`pc-header-button text-[var(--header-text)]`}
-                onClick={handleLogin}
+                onClick={goToLogin}
               >
                 <BsPersonRaisedHand size={20} />
                 로그인/회원가입
@@ -223,7 +260,7 @@ export default function ColoredBox() {
 
               <Button
                 className="pc-header-button text-[var(--header-text)]"
-                onClick={handleLogin}
+                onClick={handleLogout}
               >
                 <IoMdPower size={20} />
                 로그아웃

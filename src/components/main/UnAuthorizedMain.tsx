@@ -20,9 +20,16 @@ import SpendingGraph from './SpendingGraph';
 import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { getAverageSaving } from '@/services/mainService';
-import { getTopSavers, TopSaver, getAllSaving } from '@/services/mainService';
+import {
+  getTopChallenges,
+  TopChallenge,
+  getAllSaving,
+  getTopSavers,
+  TopSaver,
+} from '@/services/mainService';
 
 import { useEffect, useState } from 'react';
+import DefaultProfile from '../profile/DefaultProfile';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -31,15 +38,16 @@ const fadeUp = {
 
 export default function UnAuthorizedMain() {
   const [totalSaving, setTotalSaving] = useState<number>(0);
-  const [topChallenges, setTopChallenges] = useState<TopSaver[]>([]);
+  const [topChallenges, setTopChallenges] = useState<TopChallenge[]>([]);
   const [allSaving, setAllSaving] = useState<number>(0);
+  const [topSavers, setTopSavers] = useState<TopSaver[]>([]);
 
   //평균 저축
   useEffect(() => {
     async function fetchStats() {
       try {
-        const { totalsaving } = await getAverageSaving();
-        setTotalSaving(totalsaving);
+        const { averageSaving } = await getAverageSaving();
+        setTotalSaving(averageSaving);
       } catch (e) {
         console.error('평균 저축액 로드 실패', e);
       }
@@ -49,7 +57,7 @@ export default function UnAuthorizedMain() {
 
   //유저들이 달성한 top3챌린지
   useEffect(() => {
-    getTopSavers()
+    getTopChallenges()
       .then((data) => setTopChallenges(data))
       .catch((e) => console.error('챌린지 TOP3 로드 실패', e));
   }, []);
@@ -58,14 +66,23 @@ export default function UnAuthorizedMain() {
   useEffect(() => {
     async function fetchAllSaving() {
       try {
-        const { allsaving } = await getAllSaving();
-        setAllSaving(allsaving);
+        const { allSaving } = await getAllSaving();
+        setAllSaving(allSaving);
       } catch (e) {
         console.error('전체 절약액 로드 실패', e);
       }
     }
     fetchAllSaving();
   }, []);
+
+  // 티태왕
+  useEffect(() => {
+    getTopSavers()
+      .then((data) => setTopSavers(data))
+      .catch((e) => console.error('티태왕 TOP3 조회 실패', e));
+  }, []);
+
+  console.log(topSavers);
 
   return (
     <>
@@ -104,6 +121,7 @@ export default function UnAuthorizedMain() {
         </motion.div>
 
         {/* 이번주 티태왕 TOP3 */}
+        {/* 이번주 티태왕 TOP3 */}
         <motion.div
           className="mt-8 flex flex-col items-center md:w-[910px]"
           variants={fadeUp}
@@ -113,35 +131,52 @@ export default function UnAuthorizedMain() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <p className="mb-15 md:text-[32px]">
-            이번주 티태왕
+            이번주 티태왕{' '}
             <span className="text-[var(--main-color-3)]">TOP3</span>
           </p>
 
           <div className="flex w-full items-end justify-evenly gap-[30px] overflow-x-auto px-2 md:justify-between md:px-0">
-            {[2, 1, 3].map((rank) => {
-              const lift = rank === 1 ? 'mb-8 md:mb-16' : '';
+            {[2, 1, 3].map((rankIndex) => {
+              const idx = rankIndex - 1;
+              const saver = topSavers[idx];
+              const lift = rankIndex === 1 ? 'mb-8 md:mb-16' : '';
+
               return (
                 <div
-                  key={rank}
+                  key={rankIndex}
                   className={`flex flex-col items-center ${lift}`}
                 >
-                  <div
-                    className={`relative h-[80px] w-[80px] rounded-full bg-gray-200 md:h-[180px] md:w-[180px]`}
-                  >
-                    <div
-                      className={`absolute top-1 left-1 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--main-color-3)] text-[12px] font-bold text-white md:h-10 md:w-10 md:text-[24px]`}
-                    >
-                      {rank}
+                  <div className="relative h-[80px] w-[80px] md:h-[180px] md:w-[180px]">
+                    {saver?.profileImage ? (
+                      <img
+                        src={saver.profileImage}
+                        alt={`${saver.nickname} 프로필 이미지`}
+                        className="h-full w-full rounded-full bg-gray-200 object-cover"
+                      />
+                    ) : (
+                      <DefaultProfile className="h-[80px] w-[80px] md:h-[180px] md:w-[180px]" />
+                    )}
+                    <div className="absolute top-1 left-1 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--main-color-3)] text-[12px] font-bold text-white md:h-10 md:w-10 md:text-[24px]">
+                      {rankIndex}
                     </div>
                   </div>
                   <p className="mt-1 text-[14px] text-[var(--text-color)] md:text-[18px]">
-                    사용자 {rank}
+                    {saver?.nickname || `사용자 ${rankIndex}`}
+                    {saver && (
+                      <span className="ml-1 text-[12px] text-[var(--text-color)] md:text-[16px]">
+                        Lv.{saver.level}
+                      </span>
+                    )}
+                  </p>
+                  <p className="text-[12px] text-[var(--text-color)] md:text-[16px]">
+                    {saver?.name}
                   </p>
                 </div>
               );
             })}
           </div>
         </motion.div>
+
         {/* 유저챌린지 */}
         <motion.div
           className="flex flex-col items-center gap-8 md:gap-13"
@@ -171,7 +206,7 @@ export default function UnAuthorizedMain() {
                 />
               </div>
               <p className="text-left text-[14px] md:text-[20px]">
-                {item.name}
+                {item.description}
               </p>
             </div>
           ))}
