@@ -3,27 +3,27 @@ import { NewStore } from '@/types/admin';
 const url = process.env.NEXT_PUBLIC_API_BASE_URL;
 const options = {
   method: 'GET',
+  credentials: 'include' as const,
   headers: {
     accept: 'application/json',
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ADMIN_KEY}`,
   },
 };
 
 const postOptions = {
   method: 'POST',
+  credentials: 'include' as const,
   headers: {
     accept: 'application/json',
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ADMIN_KEY}`,
   },
 };
 
 const patchOptions = {
   method: 'PATCH',
+  credentials: 'include' as const,
   headers: {
     accept: 'application/json',
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ADMIN_KEY}`,
   },
 };
 

@@ -25,7 +25,7 @@ import {
   getCommentNotifications,
 } from '@/api/notification';
 import type { NotificationTitle } from '@/api/notification';
-import { useAccountData } from '@/stores/accountStore';
+import { useAuthStore } from '@/stores/authStore';
 import { logout } from '@/services/authService';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -36,7 +36,7 @@ export default function ColoredBox() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const sidebarRef = useRef(null);
   const location = usePathname();
-  const { isLogin, setIsLogin } = useAccountData();
+  const { isLogin, setIsLogin } = useAuthStore();
   const [showNotification, setShowNotification] = useState(false);
   const notificationRef = useRef<HTMLDivElement | null>(null);
   const [notifications, setNotifications] = useState<NotificationTitle[]>([]);

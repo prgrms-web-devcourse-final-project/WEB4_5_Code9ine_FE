@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Button from './SignupButton';
 import { login, LoginPayload } from '@/services/authService';
 import toast from 'react-hot-toast';
-import { useAccountData } from '@/stores/accountStore';
+import { useAuthStore } from '@/stores/authStore';
 import { getGoogleLoginRedirect } from '@/services/authService';
 
 export default function LoginBox() {
@@ -19,7 +19,7 @@ export default function LoginBox() {
   // const [serverError, setServerError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { setIsLogin } = useAccountData();
+  const { setIsLogin } = useAuthStore();
 
   const handleLogin = async () => {
     let valid = true;
