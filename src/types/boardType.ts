@@ -72,3 +72,11 @@ export interface CommentRes {
   createdAt: string;
   modifiedAt: string;
 }
+
+export interface MyInfo {
+  memberId: number;
+  userNickname: string;
+  userProfileImg: string
+  userTitle: string;
+  userLevel: number;
+}

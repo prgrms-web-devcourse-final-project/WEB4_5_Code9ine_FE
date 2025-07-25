@@ -15,12 +15,16 @@ export default function Page() {
   >('MY_STORE');
   const [posts, setPosts] = useState<PostRes[]>([]);
   const [page, setPage] = useState(1);
+
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
+  const [singlePost, setSinglePost] = useState<PostRes | null>(null);
+  const [refreshPopular, setRefreshPopular] = useState(0);
+
   const fetchPosts = async () => {
     try {
-      const data = await boardApi.getPostsByCategory(selectedTab, 1, 1);
+      const data = await boardApi.getPostsByCategory(selectedTab, 1, 3);
       setPosts(data);
       setPage(1);
       setHasMore(data.length > 0);
@@ -36,7 +40,7 @@ export default function Page() {
   const loadMorePosts = async () => {
     try {
       const nextPage = page + 1;
-      const data = await boardApi.getPostsByCategory(selectedTab, nextPage, 1);
+      const data = await boardApi.getPostsByCategory(selectedTab, nextPage, 3);
       setPosts((prev) => [...prev, ...data]);
       setPage(nextPage);
       setHasMore(data.length > 0);
@@ -66,8 +70,18 @@ export default function Page() {
   return (
     <>
       <div className="flex w-full max-w-screen flex-col px-[15px] md:flex-row md:px-[0px]">
-        <div className="hide-scrollbar order-1 ml-0 flex max-h-[310px] flex-1 flex-col overflow-y-auto rounded-[10px] shadow md:order-2 md:ml-[15px] md:h-[869px] md:max-h-none md:w-[350px]">
-          <PopularPostList />
+        <div className="hide-scrollbar order-1 mt-[15px] ml-0 flex max-h-[310px] flex-1 flex-col overflow-y-auto rounded-[10px] shadow md:order-2 md:mt-0 md:ml-[15px] md:h-[869px] md:max-h-none md:w-[350px]">
+          <PopularPostList
+            onSelectPost={async (postId) => {
+              try {
+                const post = await boardApi.getPostById(postId);
+                setSinglePost(post);
+              } catch (err) {
+                console.error('인기글 단건 조회 실패:', err);
+              }
+            }}
+            refresh={refreshPopular}
+          />
         </div>
 
         <div
@@ -78,18 +92,43 @@ export default function Page() {
             <div className="mt-[15px] mb-[30px]">
               <CommunityTab
                 selectedTab={selectedTab}
-                onChange={setSelectedTab}
+                onChange={(tab) => {
+                  setSelectedTab(tab);
+                  setSinglePost(null);
+                }}
               />
             </div>
             <PostWriteForm category={selectedTab} onSuccess={fetchPosts} />
           </div>
-          {posts.map((post) => (
-            <div key={post.postId} className="mb-[15px]">
-              <PostItem post={post} />
-            </div>
-          ))}
-          {hasMore && <div ref={observerRef} className="mt-4 min-h-10" />}
-          <TopButton scrollTargetId="scrollTop-content" />
+          {singlePost ? (
+            <>
+              <PostItem
+                post={singlePost}
+                onDelete={() => {
+                  setSinglePost(null);
+                  fetchPosts();
+                  setRefreshPopular((prev) => prev + 1);
+                }}
+              />
+            </>
+          ) : (
+            <>
+              {posts.map((post) => (
+                <div key={post.postId} className="mb-[15px]">
+                  <PostItem
+                    post={post}
+                    onDelete={(deletedId) =>
+                      setPosts((prev) =>
+                        prev.filter((p) => p.postId !== deletedId),
+                      )
+                    }
+                  />
+                </div>
+              ))}
+              {hasMore && <div ref={observerRef} className="mt-4 min-h-10" />}
+            </>
+          )}
+          {!singlePost && <TopButton scrollTargetId="scrollTop-content" />}
         </div>
       </div>
     </>

@@ -4,8 +4,23 @@ import { format, parseISO } from 'date-fns';
 import { boardApi } from '@/api/boardApi';
 import { PopularPostRes } from '../../types/boardType';
 import Link from 'next/link';
+//import defaultProfile from '../../assets/profile.png';
 
-export default function PopularPostList() {
+const categoryMap: Record<string, string> = {
+  MY_STORE: '나만 아는 가게',
+  CHALLENGE: '챌린지',
+  FREE: '자유 게시판',
+};
+
+interface PopularPostListProps {
+  onSelectPost: (postId: number) => void;
+  refresh: number;
+}
+
+export default function PopularPostList({
+  onSelectPost,
+  refresh,
+}: PopularPostListProps) {
   const [posts, setPosts] = useState<PopularPostRes[]>([]);
 
   useEffect(() => {
@@ -18,7 +33,7 @@ export default function PopularPostList() {
       }
     };
     fetchData();
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="h-[869px] w-full rounded-[10px] bg-[var(--white-color)] text-[var(--text-color-white)] shadow">
@@ -33,6 +48,7 @@ export default function PopularPostList() {
               <Link href={`/profile/${post.memberId}`}>
                 <Image
                   src="/profileTest.png"
+                  // src={post.writerProfileImage || defaultProfile}
                   alt="프로필"
                   width={36}
                   height={36}
@@ -57,8 +73,7 @@ export default function PopularPostList() {
                       {format(parseISO(post.createdAt), 'yy.MM.dd')}
                     </span>
                     <span className="mt-[1px] text-[14px] text-[var(--main-color-3)]">
-                      자유게시판
-                      {/* {post.category} */}
+                      {categoryMap[post.category]}
                     </span>
                   </div>
                 </div>
@@ -66,7 +81,14 @@ export default function PopularPostList() {
             </div>
 
             <div className="mb-[2px] flex w-full">
-              <span className="text-[18px]">{post.title}</span>
+              <span
+                className="cursor-pointer text-[18px]"
+                onClick={() => {
+                  onSelectPost(post.postId);
+                }}
+              >
+                {post.title}
+              </span>
             </div>
           </div>
         ))}

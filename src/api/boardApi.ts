@@ -1,4 +1,4 @@
-import { ApiResponse, PopularPostRes, WritePostReq, PostRes, CommentRes } from '../types/boardType';
+import { ApiResponse, PopularPostRes, WritePostReq, PostRes, CommentRes, MyInfo } from '../types/boardType';
 
 export const boardApi = {
 
@@ -52,7 +52,7 @@ export const boardApi = {
   getPostsByCategory: async (
     category: 'MY_STORE' | 'CHALLENGE' | 'FREE',
     page = 1,
-    size = 1
+    size = 3
   ): Promise<PostRes[]> => {
     const res = await fetch(
       process.env.NEXT_PUBLIC_API_BASE_URL +
@@ -69,7 +69,6 @@ export const boardApi = {
         },
       }
     );
-    console.log('response:', res);
     if (!res.ok) {
       throw new Error('게시글 목록 요청 실패');
     } 
@@ -98,52 +97,30 @@ export const boardApi = {
     }
   },
 
-  // S3 URL 요청
-  getPresignedUrl: async (): Promise<string> => {
+  // cloudinary 파일 업로드
+  uploadToCloudinary: async (file: File, folderPath: string): Promise<string> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'HelloTiTae'); 
+    formData.append('folder', folderPath);
     const res = await fetch(
-      process.env.NEXT_PUBLIC_API_BASE_URL +
-        '/api/s3/presigned-url', 
+        'https://api.cloudinary.com/v1_1/dabzsbpbw/image/upload',
       {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
-        },
+        method: 'POST',
+        body: formData,
       }
     );
-
+  
     if (!res.ok) {
-      throw new Error('Presigned URL 요청 실패');
+      throw new Error('Cloudinary 업로드 실패');
     }
 
-    const { presignedUrl } = await res.json();
-    return presignedUrl;
+    const data = await res.json();
+    return data.secure_url;
   },
 
-  // S3 파일 업로드
-  uploadFileToPresignedUrl: async (file: File, presignedUrl: string): Promise<string> => {
-    console.log("presignedUrl API :"+presignedUrl);
-    const res = await fetch(
-        presignedUrl, 
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'image/jpeg',
-        },
-        body: file,
-      }
-    );
-
-    if (!res.ok) {
-        const errorText = await res.text();
-        console.error('S3 업로드 실패 상세:', errorText);
-        throw new Error('S3 업로드 실패: ' + errorText);
-    } 
-    return presignedUrl.split('?')[0];
-  },
-
-
-  getMyInfo: async (): Promise<{ memberId: number }> => {
+  // 커뮤니티 로그인 유저 정보 조회
+  getMyInfo: async (): Promise<MyInfo> => {
     const res = await fetch(
       process.env.NEXT_PUBLIC_API_BASE_URL + 
         '/api/community/me',
@@ -237,8 +214,6 @@ export const boardApi = {
       },
     }
   );
-    const result = await res.json();
-    console.log('좋아요res', result);
     if (!res.ok) {
       throw new Error('좋아요 실패');
     } 
@@ -257,12 +232,28 @@ export const boardApi = {
         },
       }
     );
-    const result = await res.json();
-    console.log('북마크res', result);
     if (!res.ok) {
       throw new Error('북마크 실패');
     } 
   },
 
-
+  // 게시글 단건 조회
+  getPostById: async (postId: number) => {
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_API_BASE_URL + 
+        '/api/community/posts/' + postId,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY, 
+        },
+      }  
+    );
+    if (!res.ok) {
+      throw new Error('게시글 조회 실패');
+    }
+    const result = await res.json();
+    return result.data;
+  },
 };

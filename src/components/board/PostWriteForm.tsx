@@ -9,6 +9,8 @@ import 'swiper/css/navigation';
 import { FaTrash } from 'react-icons/fa';
 import ChallengeSeleteBox from './ChallengeSeleteBox';
 import toast from 'react-hot-toast';
+import { MyInfo } from '@/types/boardType';
+import defaultProfile from '../../assets/profile.png';
 
 interface PostWriteFormProps {
   category: 'MY_STORE' | 'CHALLENGE' | 'FREE';
@@ -32,9 +34,23 @@ export default function PostWriteForm({
   const [showPreview, setShowPreview] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [imagesPreview, setImagesPreview] = useState<{ original: string }[]>(
-    [],
-  );
+  const [imagesPreview, setImagesPreview] = useState<
+    { original: string; uploaded?: string }[]
+  >([]);
+  const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
+
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const me = await boardApi.getMyInfo();
+        setMyInfo(me);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchMe();
+  }, []);
 
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -79,29 +95,44 @@ export default function PostWriteForm({
     inputRef.current?.click();
   };
 
-  // 이미지 url 로직 → S3
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-    try {
-      const presignedUrl = await boardApi.getPresignedUrl();
-      console.log('presignedUrl :', presignedUrl);
-
-      console.log('file :', file);
-      console.log('fileType :', file.type);
-      const imageUrl = await boardApi.uploadFileToPresignedUrl(
-        file,
-        presignedUrl,
-      );
-
-      setImagesPreview((prev) => [...prev, { original: imageUrl }]);
-
-      setImageUrls((prev) => [...prev, imageUrl]);
-    } catch (err) {
-      console.error(err);
-      toast.error('이미지 업로드 실패');
+    const totalImages = imageUrls.length + files.length;
+    if (totalImages > 5) {
+      toast.error('이미지는 최대 5장까지 업로드할 수 있어요');
+      return;
     }
+
+    const today = new Date();
+    const yyyyMMdd = today.toISOString().slice(0, 10).replace(/-/g, '');
+    const folderPath = 'uploads/board/' + yyyyMMdd;
+
+    const newPreviews: { original: string; uploaded?: string }[] = [];
+    const newUrls: string[] = [];
+
+    for (const file of Array.from(files)) {
+      const reader = new FileReader();
+      const localPreview = await new Promise<string>((resolve, reject) => {
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      newPreviews.push({ original: localPreview });
+
+      try {
+        const imageUrl = await boardApi.uploadToCloudinary(file, folderPath);
+        newUrls.push(imageUrl);
+      } catch (err) {
+        console.log(err);
+        toast.error('이미지 업로드에 실패했어요');
+      }
+    }
+
+    setImagesPreview((prev) => [...prev, ...newPreviews]);
+    setImageUrls((prev) => [...prev, ...newUrls]);
   };
 
   useEffect(() => {
@@ -120,19 +151,19 @@ export default function PostWriteForm({
     <div className="flex w-full max-w-[724px] flex-col items-start gap-4 rounded-[10px] bg-[var(--background)] p-4 text-[20px] text-[var(--text-color-white)] shadow md:flex-row">
       <div className="flex min-w-[80px] flex-row items-center justify-center md:w-[120px] md:flex-col">
         <Image
-          src="/profileTest.png"
+          src={myInfo?.userProfileImg || defaultProfile}
           alt="프로필"
           width={70}
           height={70}
-          className="h-[30px] w-[30px] rounded-full border-2 border-[var(--main-color-2)] md:h-[70px] md:w-[70px]"
+          className="h-[30px] w-[30px] rounded-full border-2 border-[var(--main-color-2)] object-cover md:h-[70px] md:w-[70px]"
         />
 
         <div className="flex flex-row items-baseline gap-1 whitespace-nowrap md:flex-col md:items-center">
           <div className="ml-[8px] text-center text-[20px] leading-none">
-            스펀지밥
+            {myInfo?.userNickname || ''}
           </div>
           <div className="text-center text-[14px] leading-none text-[var(--text-color-2)] md:text-[16px]">
-            노노커피 마스터
+            {myInfo?.userTitle || ''}
           </div>
         </div>
       </div>
@@ -168,14 +199,6 @@ export default function PostWriteForm({
             }
           />
 
-          {/* <Image
-            src={boardUploadIcon}
-            alt="미리보기"
-            width={24}
-            height={24}
-            className="absolute top-[10px] right-[50px] z-10 cursor-pointer opacity-70 hover:opacity-100"
-            onClick={() => setShowPreview(true)}
-          /> */}
           <button
             onClick={() => setShowPreview(true)}
             className="absolute top-[10px] right-[50px] z-10 cursor-pointer text-[14px] hover:text-[var(--point-color-2)]"
@@ -214,14 +237,24 @@ export default function PostWriteForm({
                           />
                           <button
                             onClick={() => {
-                              const newImages = [...imagesPreview];
-                              newImages.splice(index, 1);
-                              setImagesPreview(newImages);
-                              if (newImages.length === 0) {
-                                setShowPreview(false);
-                              } else if (currentIndex >= newImages.length) {
-                                setCurrentIndex(newImages.length - 1);
-                              }
+                              setImagesPreview((prev) => {
+                                const newPreviews = [...prev];
+                                newPreviews.splice(index, 1);
+
+                                if (newPreviews.length === 0) {
+                                  setShowPreview(false);
+                                } else if (currentIndex >= newPreviews.length) {
+                                  setCurrentIndex(newPreviews.length - 1);
+                                }
+
+                                return newPreviews;
+                              });
+
+                              setImageUrls((prev) => {
+                                const newUrls = [...prev];
+                                newUrls.splice(index, 1);
+                                return newUrls;
+                              });
                             }}
                             className="absolute top-2 right-2 text-[var(--point-color-1)] hover:text-[var(--point-color-2)]"
                           >
@@ -241,6 +274,7 @@ export default function PostWriteForm({
             ref={inputRef}
             onChange={handleFileChange}
             className="hidden"
+            multiple
           />
           <Image
             onClick={handleImageClick}

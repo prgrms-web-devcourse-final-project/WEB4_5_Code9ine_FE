@@ -5,6 +5,7 @@ import { boardApi } from '../../api/boardApi';
 import { CommentRes } from '../../types/boardType';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import defaultProfile from '../../assets/profile.png';
 
 interface CommentListProps {
   postId: number;
@@ -94,11 +95,11 @@ export default function CommentList({
         >
           <Link href={`/profile/${c.memberId}`}>
             <Image
-              src={'/profileTest.png'}
+              src={c.writerProfileImage || defaultProfile}
               alt={'댓글 작성자 프로필'}
               width={32}
               height={32}
-              className="h-8 w-8 rounded-full"
+              className="h-8 w-8 rounded-full border border-[var(--main-color-2)] object-cover"
             />
           </Link>
           <div className="min-w-0 flex-1">
