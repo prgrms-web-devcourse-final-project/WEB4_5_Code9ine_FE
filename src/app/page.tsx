@@ -13,15 +13,6 @@ export default function Page() {
     setLoginState(isLogin);
   }, [isLogin]);
 
-  fetch(API_ADD + `/api/members/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: 'testuser1@example.com',
-      password: 'test',
-    }),
-  });
-
   return (
     <>
       <ColoredBox />

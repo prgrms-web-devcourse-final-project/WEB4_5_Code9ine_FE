@@ -77,7 +77,7 @@ export default function ListCard({
             {value.category === '용돈' ? (
               <Image src={Money} alt="기타" height={30} width={30} />
             ) : null}
-            {value.category === '월급' ? (
+            {value.category === '급여' ? (
               <Image src={Money} alt="기타" height={30} width={30} />
             ) : null}
           </div>
