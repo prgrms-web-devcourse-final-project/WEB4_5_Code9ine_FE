@@ -117,14 +117,12 @@ export default function ColoredBox() {
       disableBodyScroll(targetElement!);
     }
 
-    // cleanup 함수: 컴포넌트가 unmount 되거나 isOpen 상태가 바뀌기 직전에 실행
     return () => {
       if (targetElement) {
-        // 스크롤 잠금 해제
         enableBodyScroll(targetElement);
       }
     };
-  }, [menu, isLogin]); // isOpen 상태가 변경될 때만 이 effect를 실행
+  }, [menu, isLogin]);
 
   if (!isClient) return null;
 
