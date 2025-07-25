@@ -10,7 +10,7 @@ import {
 } from 'react-icons/fa';
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommentList from './CommentList';
 import { PostRes } from '../../types/boardType';
 import { boardApi } from '@/api/boardApi';
@@ -33,6 +33,55 @@ const images = [
 export default function PostItem({ post }: PostItemProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [commentsOpen, setCommentsOpen] = useState(false);
+  const [commentCount, setCommentCount] = useState(post.commentCount);
+  const [myMemberId, setMyMemberId] = useState<number | null>(null);
+
+  const [isLiked, setIsLiked] = useState(post.isLiked);
+  const [isBookmarked, setIsBookmarked] = useState(post.isBookmarked);
+  const [likeCount, setLikeCount] = useState(post.likeCount);
+
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const me = await boardApi.getMyInfo();
+        setMyMemberId(me.memberId);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchMe();
+  }, []);
+
+  const isMine = myMemberId === post.memberId;
+
+  const handleToggleLike = async () => {
+    setIsLiked((prev) => !prev);
+    setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+
+    try {
+      await boardApi.toggleLike(post.postId);
+    } catch (err) {
+      console.error(err);
+      toast.error('좋아요에 실패했어요');
+
+      setIsLiked((prev) => !prev);
+      setLikeCount((prev) => (isLiked ? prev + 1 : prev - 1));
+    }
+  };
+
+  const handleToggleBookmark = async () => {
+    setIsBookmarked((prev) => !prev);
+
+    try {
+      await boardApi.toggleBookmark(post.postId);
+    } catch (err) {
+      console.error(err);
+      toast.error('북마크에 실패했어요');
+
+      setIsBookmarked((prev) => !prev);
+    }
+  };
 
   const handleDelete = async () => {
     if (!confirm('정말 삭제하시겠습니까?')) return;
@@ -75,10 +124,24 @@ export default function PostItem({ post }: PostItemProps) {
           <span className="text-[12px] text-[var(--text-color-2)] md:text-[16px]">
             {format(parseISO(post.createdAt), 'yy.MM.dd')}
           </span>
-          <AiFillStar
+
+          <button
+            onClick={handleToggleBookmark}
+            className="ml-[0px] text-[14px]"
+          >
+            <AiFillStar
+              size={22}
+              className={
+                'ml-[0px] cursor-pointer transition-colors ' +
+                (isBookmarked ? 'text-[#FFD600]' : 'text-gray-400') +
+                ' md:ml-1'
+              }
+            />
+          </button>
+          {/* <AiFillStar
             size={22}
             className="ml-[0px] cursor-pointer text-[#FFD600] md:ml-1"
-          />
+          /> */}
         </div>
       </div>
 
@@ -137,35 +200,63 @@ export default function PostItem({ post }: PostItemProps) {
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
+              onClick={handleToggleLike}
               type="button"
               className="flex cursor-pointer items-center gap-1 text-[14px] text-[var(--point-color-1)] md:text-[16px]"
               aria-label="좋아요"
             >
-              <FaHeart size={17} /> {post.likeCount}
+              <FaHeart
+                size={17}
+                className={
+                  'transition-colors ' +
+                  (isLiked ? 'text-[var(--point-color-2)]' : 'text-gray-400')
+                }
+              />
+              {likeCount}
             </button>
+
+            {/* <button
+              type="button"
+              className="flex cursor-pointer items-center gap-1 text-[14px] ]text-[var(--point-color-1) md:text-[16px]"
+              aria-label="좋아요"
+            >
+              <FaHeart size={17} /> {post.likeCount}
+            </button> */}
+
             <button
               type="button"
               className="flex cursor-pointer items-center gap-1 text-[14px] text-[var(--main-color-2)] transition hover:text-[var(--main-color-1)] md:text-[16px]"
               aria-label="댓글"
               onClick={() => setCommentsOpen((open) => !open)}
             >
-              <FaRegCommentDots size={16} /> {post.commentCount}
+              <FaRegCommentDots size={16} /> {commentCount}
             </button>
           </div>
 
-          <div className="flex gap-2">
-            <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]">
-              수정
-            </button>
-            <button
-              onClick={handleDelete}
-              className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]"
-            >
-              삭제
-            </button>
-          </div>
+          {isMine && (
+            <div className="flex gap-2">
+              <button className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]">
+                수정
+              </button>
+              <button
+                onClick={handleDelete}
+                className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]"
+              >
+                삭제
+              </button>
+            </div>
+          )}
         </div>
-        {commentsOpen && <CommentList postId={post.postId} />}
+        {commentsOpen && (
+          <CommentList
+            postId={post.postId}
+            myMemberId={myMemberId}
+            onAddComment={() => setCommentCount((prev) => prev + 1)}
+            onDeleteComment={() =>
+              setCommentCount((prev) => Math.max(prev - 1, 0))
+            }
+          />
+        )}
       </div>
     </div>
   );

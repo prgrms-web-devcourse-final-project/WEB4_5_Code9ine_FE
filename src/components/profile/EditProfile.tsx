@@ -5,7 +5,7 @@ import Button from './Button';
 import DefaultProfile from './DefaultProfile';
 import { checkNickname } from '@/services/authService';
 import toast from 'react-hot-toast';
-import { deleteProfile } from '@/api/profile';
+import { changeInfo, deleteProfile } from '@/api/profile';
 import Modal from '../common/Modal';
 
 export default function EditProfile({ onClose }: { onClose: () => void }) {
@@ -20,32 +20,71 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
 
   const [showConfirm, setShowConfirm] = useState(false);
 
+  // 수정 완료 버튼
+  const [completInfo, setCompleteInfo] = useState(false);
+
   const validatePassword = (pwd: string): boolean =>
     /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$/.test(
       pwd,
     );
 
   useEffect(() => {
-    if (nickname.trim().length < 2) {
-      setNicknameError('');
+    let isCancelled = false;
+
+    if (nickname.trim().length < 2 || nickname.trim().length > 6) {
+      setNicknameError('2~6자 닉네임을 입력하세요.');
       return;
     }
 
     const handler = setTimeout(async () => {
       try {
         const { available } = await checkNickname({ nickname });
-        setNicknameError(
-          available
-            ? '사용 가능한 닉네임입니다.'
-            : '이미 사용 중인 닉네임입니다.',
-        );
-      } catch {
-        setNicknameError('닉네임 중복 확인 실패');
-      }
-    }, 500);
 
-    return () => clearTimeout(handler);
+        if (!isCancelled) {
+          setNicknameError(
+            available
+              ? '사용 가능한 닉네임입니다.'
+              : '이미 사용 중인 닉네임입니다.',
+          );
+        }
+      } catch {
+        if (!isCancelled) {
+          setNicknameError('닉네임 중복 확인 실패');
+        }
+      }
+    }, 300);
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(handler);
+    };
   }, [nickname]);
+
+  useEffect(() => {
+    if (!password) {
+      setPasswordError('');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setPasswordError('8~16자, 대문자와 특수문자를 포함해야 합니다.');
+    } else {
+      setPasswordError('사용 가능한 비밀번호입니다.');
+    }
+  }, [password]);
+
+  useEffect(() => {
+    if (!confirmPwd || !password) {
+      setConfirmPwdError('');
+      return;
+    }
+
+    if (password !== confirmPwd) {
+      setConfirmPwdError('비밀번호가 일치하지 않습니다.');
+    } else {
+      setConfirmPwdError('비밀번호가 일치합니다.');
+    }
+  }, [password, confirmPwd]);
 
   const submitUserData = async () => {
     let valid = true;
@@ -83,6 +122,16 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
     // } catch {
     //   toast.error('수정 중 오류가 발생했습니다. 다시 시도해주세요.');
     // }
+  };
+
+  const submitHandler = async () => {
+    // console.log(nickname);
+    // console.log(password);
+    try {
+      await changeInfo(nickname, '', '01012345678', password);
+    } catch (err) {
+      console.log('프로필 정보 수정 실패', err);
+    }
   };
 
   return (
@@ -218,6 +267,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                   <>
                     <button
                       onClick={() => {
+                        submitHandler();
                         toast.success('수정 완료!');
                         onClose();
                       }}

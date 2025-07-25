@@ -1,5 +1,6 @@
 'use client';
-import { getBookmarks, getGodplaces } from '@/lib/api/godplaces';
+
+import { getBookmarks, getGodplaces } from '@/api/godplaces';
 import SearchListCard from './SearchListCard';
 import { startTransition, useEffect } from 'react';
 import { useGodplacesStore } from '@/stores/godplacesStore';

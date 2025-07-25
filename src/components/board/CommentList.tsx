@@ -6,7 +6,19 @@ import { CommentRes } from '../../types/boardType';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
-export default function CommentList({ postId }: { postId: number }) {
+interface CommentListProps {
+  postId: number;
+  myMemberId: number | null;
+  onAddComment?: () => void;
+  onDeleteComment?: () => void;
+}
+
+export default function CommentList({
+  postId,
+  myMemberId,
+  onAddComment,
+  onDeleteComment,
+}: CommentListProps) {
   const [input, setInput] = useState('');
   const [comments, setComments] = useState<CommentRes[]>([]);
   // const [loading, setLoading] = useState(true);
@@ -37,6 +49,7 @@ export default function CommentList({ postId }: { postId: number }) {
       await boardApi.postCommentCreate(postId, input);
       toast.success('댓글이 등록되었어요!');
       setInput('');
+      onAddComment?.();
       const data = await boardApi.getCommentlist(postId);
       setComments(data);
     } catch (err) {
@@ -49,6 +62,7 @@ export default function CommentList({ postId }: { postId: number }) {
     try {
       await boardApi.deleteComment(commentId);
       setComments((prev) => prev.filter((c) => c.commentId !== commentId));
+      onDeleteComment?.();
       toast.success('댓글이 삭제되었어요!');
     } catch (err) {
       console.error(err);
@@ -108,12 +122,14 @@ export default function CommentList({ postId }: { postId: number }) {
                 {c.content}
               </span>
 
-              <button
-                onClick={() => handleDelete(c.commentId)}
-                className="h-[28px] w-[48px] shrink-0 rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:w-[58px] md:text-[16px]"
-              >
-                삭제
-              </button>
+              {myMemberId === c.memberId && (
+                <button
+                  onClick={() => handleDelete(c.commentId)}
+                  className="h-[28px] w-[48px] shrink-0 rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:w-[58px] md:text-[16px]"
+                >
+                  삭제
+                </button>
+              )}
             </div>
           </div>
         </div>

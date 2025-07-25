@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.52.1",
     "@tanstack/react-query": "^5.83.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "date-fns": "^4.1.0",

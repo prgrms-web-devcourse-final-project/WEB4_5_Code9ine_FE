@@ -143,7 +143,7 @@ export default function MyThreads() {
   };
   const convertPostToPostRes = (post: Post): PostRes => ({
     ...post,
-    postId: post.postid,
+    postId: post.postId,
     category: categoryEng(post.category),
     challengeCategory: isValidChallengeCategory(post.challengeCategory)
       ? post.challengeCategory
@@ -162,11 +162,11 @@ export default function MyThreads() {
       >
         {selectedTab === 'thread' &&
           myThreads?.data.map((post) => (
-            <PostItem key={post.postid} post={convertPostToPostRes(post)} />
+            <PostItem key={post.postId} post={convertPostToPostRes(post)} />
           ))}
         {selectedTab === 'saved' &&
           savedThreads?.data.map((post) => (
-            <PostItem key={post.postid} post={convertPostToPostRes(post)} />
+            <PostItem key={post.postId} post={convertPostToPostRes(post)} />
           ))}
         {selectedTab === 'place' &&
           bookmarkedPlaces.map((place) => (

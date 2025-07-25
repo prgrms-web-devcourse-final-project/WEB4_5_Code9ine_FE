@@ -2,7 +2,7 @@
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import DetailCard from './DetailCard';
 import { useRouter } from 'next/navigation';
-import { getGodplaceDetails } from '@/lib/api/godplaces';
+import { getGodplaceDetails } from '@/api/godplaces';
 import { startTransition, useEffect, useState } from 'react';
 import { GodplacesDetail } from '@/types/godplaces';
 interface DetailBoxProps {
