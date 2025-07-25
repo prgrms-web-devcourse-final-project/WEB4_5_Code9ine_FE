@@ -7,11 +7,11 @@ import SkeletonBox from '../../components/common/AnalysisSkeleton';
 import { useEffect, useState } from 'react';
 import { getBudgetAnalysis } from '@/services/mainService';
 import type { BudgetAnalyzeResponse } from '@/services/mainService';
-import { useAccountData } from '@/stores/accountStore';
+import { useAuthStore } from '@/stores/authStore';
 
 export default function Analysis() {
   const [data, setData] = useState<BudgetAnalyzeResponse | null>(null);
-  const { isLogin } = useAccountData();
+  const { isLogin } = useAuthStore();
 
   useEffect(() => {
     if (!isLogin) return; // 로그인 안 된 상태면 실행하지 않음
