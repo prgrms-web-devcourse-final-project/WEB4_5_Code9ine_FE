@@ -3,15 +3,22 @@ const options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
   },
 };
 
-const patchOptions = {
-  method: 'PATCH',
+const optionsWithCredentials = {
+  method: 'GET',
+  credentials: 'include' as const,
   headers: {
     accept: 'application/json',
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+  },
+};
+
+const patchOptionsWithCredentials = {
+  method: 'PATCH',
+  credentials: 'include' as const,
+  headers: {
+    accept: 'application/json',
     'Content-Type': 'application/json',
   },
 };
@@ -87,7 +94,7 @@ export const getHotLocation = async () => {
 export const patchBookmark = async (type: string, id: number) => {
   return await (
     await fetch(`${url}/api/users/places-bookmarks/toggle`, {
-      ...patchOptions,
+      ...patchOptionsWithCredentials,
       body: JSON.stringify({ type: type, id: id }),
     })
   ).json();
@@ -96,7 +103,7 @@ export const patchBookmark = async (type: string, id: number) => {
 export const getBookmarks = async () => {
   return await (
     await fetch(`${url}/api/members/bookmarks/places`, {
-      ...options,
+      ...optionsWithCredentials,
     })
   ).json();
 };

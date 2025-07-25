@@ -14,7 +14,7 @@ import FestivalMarkers from './FestivalMarkers';
 import { useSearchParams } from 'next/navigation';
 import { startTransition, useEffect, useState } from 'react';
 import { GodplacesDetail } from '@/types/godplaces';
-import { getGodplaceDetails } from '@/api/godplaces';
+import { getGodplaceDetails } from '../../../api/godplaces';
 import CustomMarker from './CustomMarker';
 
 const dummyCenter = { lat: 37.5452442, lng: 127.0473267 };

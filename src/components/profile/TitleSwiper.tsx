@@ -4,9 +4,9 @@ import Image, { StaticImageData } from 'next/image';
 import { useEffect, useState } from 'react';
 import { getMyPage } from '@/api/profile';
 import { iconMap } from '@/data/iconMap';
-import { Title } from '@/types/userType';
+import { MyTitle } from '@/types/userType';
 
-interface MappedTitle extends Title {
+interface MappedTitle extends MyTitle {
   iconImage?: StaticImageData;
 }
 
@@ -39,7 +39,7 @@ export default function TitleSwiper() {
               className="mx-[30px] flex text-[16px] md:text-[20px] dark:text-[#2b2e34]"
             >
               <Image
-                src={mission.icon}
+                src={mission.iconImage!}
                 alt="미션 아이콘"
                 width={25}
                 height={25}
@@ -55,7 +55,7 @@ export default function TitleSwiper() {
               className="mx-[30px] flex text-[16px] md:text-[20px] dark:text-[#2b2e34]"
             >
               <Image
-                src={mission.icon}
+                src={mission.iconImage!}
                 alt="미션 아이콘"
                 width={25}
                 height={25}
