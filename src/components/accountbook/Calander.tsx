@@ -40,7 +40,6 @@ export default function Calander({
     async function monthData() {
       const res = await setMonthData(today, month);
       const data = await res.json();
-      console.log(data);
       setData(data);
     }
     monthData();

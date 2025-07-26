@@ -20,6 +20,7 @@ export default function Page({ totalData }: { totalData: totalData }) {
   const handleMenu = (handle: boolean) => {
     setIsInsert(handle);
   };
+
   useEffect(() => {
     setTotaldata(totalData);
     setIsClient(true);

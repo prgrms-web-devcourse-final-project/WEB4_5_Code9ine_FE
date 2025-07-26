@@ -1,7 +1,7 @@
 import { totalData } from '@/types/payData';
 import { create } from 'zustand';
 
-interface dummyState {
+interface accountState {
   category: string | null;
   setCategory: (data: string | null) => void;
   dateData: Date | null;
@@ -10,9 +10,15 @@ interface dummyState {
   setShowDayData: (data: boolean) => void;
   totalData: totalData | null;
   setTotaldata: (data: totalData | null) => void;
+  isAccount: string;
+  setIsAccount: (data: string) => void;
+  insert: boolean;
+  setInsert: (data: boolean) => void;
+  isId: number | null;
+  setIsId: (data: number | null) => void;
 }
 
-export const useAccountData = create<dummyState>((set) => ({
+export const useAccountData = create<accountState>((set) => ({
   category: null,
   setCategory: (data) => set({ category: data }),
   dateData: new Date(),

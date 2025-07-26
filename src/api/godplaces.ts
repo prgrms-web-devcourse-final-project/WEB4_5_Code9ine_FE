@@ -1,4 +1,4 @@
-const url = process.env.NEXT_PUBLIC_API_BASE_URL;
+const url = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 const options = {
   method: 'GET',
   headers: {

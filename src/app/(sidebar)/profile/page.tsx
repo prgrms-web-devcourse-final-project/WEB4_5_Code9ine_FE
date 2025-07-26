@@ -4,11 +4,31 @@ import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
 import { getChallenge } from '@/api/profile';
 import { Challenge } from '@/types/userType';
+import { cookies } from 'next/headers';
 
 export default async function page() {
+  const accessToken = (await cookies()).get('accessToken')?.value;
+  console.log(accessToken);
   let challenges: Challenge[] = [];
   try {
-    const res = await getChallenge();
+    const res = await getChallenge(accessToken!);
+    // const res = await fetch(
+    //   `${process.env.NEXT_PUBLIC_API_BASE_URL2}/api/members/mypage/challenges/dashboard`,
+    //   {
+    //     method: 'GET',
+    //     // credentials: 'include',
+    //     headers: {
+    //       accept: 'application/json',
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //   },
+    // );
+    // if (!res.ok) {
+    //   console.error('fetch 실패:', res.status);
+    //   throw new Error(`error!: ${res.status}`);
+    // }
+
+    // const data = await res.json();
     challenges = res.data.challenges;
     console.log(challenges);
   } catch (err) {
