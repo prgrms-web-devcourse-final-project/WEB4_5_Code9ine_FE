@@ -1,5 +1,4 @@
 'use client';
-import { API_ADD } from '@/api/accountApi';
 import ColoredBox from '@/components/layout/coloredBox';
 import AuthorizedMain from '@/components/main/AuthorizedMain';
 import UnAuthorizedMain from '@/components/main/UnAuthorizedMain';

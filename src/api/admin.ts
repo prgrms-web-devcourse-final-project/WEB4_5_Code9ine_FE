@@ -1,6 +1,6 @@
 import { NewStore } from '@/types/admin';
 
-const url = process.env.NEXT_PUBLIC_API_BASE_URL;
+const url = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 const options = {
   method: 'GET',
   credentials: 'include' as const,
