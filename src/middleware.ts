@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('accessToken')?.value;
-  console.log('쿠키값은', token);
   // 미로그인 보호 경로
   const protectedPaths = ['/accountbook', '/board', '/profile'];
   if (

@@ -1,4 +1,5 @@
 import { totalData } from '@/types/payData';
+import { UserData } from '@/types/userType';
 import { create } from 'zustand';
 
 interface accountState {
@@ -16,6 +17,10 @@ interface accountState {
   setInsert: (data: boolean) => void;
   isId: number | null;
   setIsId: (data: number | null) => void;
+  calcString: string | null;
+  setCalcString: (data: string | null) => void;
+  userData: UserData | null;
+  setUserData: (data: UserData | null) => void;
 }
 
 export const useAccountData = create<accountState>((set) => ({
@@ -33,4 +38,8 @@ export const useAccountData = create<accountState>((set) => ({
   setInsert: (data) => set({ insert: data }),
   isId: null,
   setIsId: (data) => set({ isId: data }),
+  calcString: null,
+  setCalcString: (data) => set({ calcString: data }),
+  userData: null,
+  setUserData: (data) => set({ userData: data }),
 }));
