@@ -185,6 +185,7 @@ export async function changeInfo(
   nickname: string,
   profileImage: string,
   newPassword: string,
+  newPasswordCheck: string,
 ): Promise<changeInfoData> {
   const res = await fetch(`${API_BASE_URL}/api/members/mypage/profile`, {
     method: 'PATCH',
@@ -197,6 +198,7 @@ export async function changeInfo(
       nickname,
       profileImage,
       newPassword,
+      newPasswordCheck,
     }),
   });
 

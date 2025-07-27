@@ -1,9 +1,10 @@
 'use client';
 import SetGoal from './SetGoal';
 import PostItem from '../board/PostItem';
+import PostWriteForm from '../board/PostWriteForm';
 import ThreadsTab from './ThreadsTab';
 import DetailBox from '../godplaces/detail/DetailBox';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
   getMyThreads,
@@ -23,6 +24,9 @@ export default function MyThreads() {
   const [selectedTab, setSelectedTab] = useState<'thread' | 'saved' | 'place'>(
     'thread',
   );
+
+  const [editingPostId, setEditingPostId] = useState<number | null>(null);
+  const queryClient = useQueryClient();
 
   // const [myThreads, setMyThreads] = useState<Post[]>([]);
   // const [savedThreads, setSavedThreads] = useState<Post[]>([]);
@@ -160,10 +164,43 @@ export default function MyThreads() {
             : 'flex flex-col'
         }`}
       >
-        {selectedTab === 'thread' &&
+        {/* {selectedTab === 'thread' &&
           myThreads?.data.map((post) => (
             <PostItem key={post.postId} post={convertPostToPostRes(post)} />
-          ))}
+          ))} */}
+        {selectedTab === 'thread' &&
+          myThreads?.data.map((post) => {
+            const postRes = convertPostToPostRes(post);
+            return (
+              <div key={post.postId} className="mb-[15px]">
+                {editingPostId === post.postId ? (
+                  <PostWriteForm
+                    mode="edit"
+                    category={postRes.category}
+                    editData={postRes}
+                    onSuccess={() => {
+                      setEditingPostId(null);
+                      queryClient.invalidateQueries({
+                        queryKey: ['myThreads'],
+                      });
+                    }}
+                    onCancel={() => setEditingPostId(null)}
+                  />
+                ) : (
+                  <PostItem
+                    post={postRes}
+                    onEdit={() => setEditingPostId(post.postId)}
+                    onDelete={() => {
+                      queryClient.invalidateQueries({
+                        queryKey: ['myThreads'],
+                      });
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+
         {selectedTab === 'saved' &&
           savedThreads?.data.map((post) => (
             <PostItem key={post.postId} post={convertPostToPostRes(post)} />
