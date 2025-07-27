@@ -11,7 +11,6 @@ const TYPE = 'beforeSearch';
 
 export default function Search() {
   const isLogin = useAuthStore((state) => state.isLogin);
-  const bookmarked = useGodplacesStore((state) => state.bookmarked);
   const setBookmarked = useGodplacesStore((state) => state.setBookmarked);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function Search() {
     });
   }, []);
 
-  console.log(bookmarked);
+  // console.log(bookmarked);
 
   return (
     <div className="mt-[260px] flex min-w-[360px] flex-col items-center">
