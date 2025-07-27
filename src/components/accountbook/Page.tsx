@@ -10,12 +10,20 @@ import Image from 'next/image';
 import AIBot from '../../assets/TiTae.svg';
 import { useAccountData } from '@/stores/accountStore';
 import { totalData } from '@/types/payData';
+import DefaultProfile from '../profile/DefaultProfile';
+import { UserData } from '@/types/userType';
 
-export default function Page({ totalData }: { totalData: totalData }) {
+export default function Page({
+  totalData,
+  userData,
+}: {
+  totalData: totalData;
+  userData: UserData;
+}) {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isInsert, setIsInsert] = useState<boolean>(false);
 
-  const { setTotaldata, insert } = useAccountData();
+  const { setTotaldata, insert, setUserData } = useAccountData();
 
   const handleMenu = (handle: boolean) => {
     setIsInsert(handle);
@@ -23,6 +31,7 @@ export default function Page({ totalData }: { totalData: totalData }) {
 
   useEffect(() => {
     setTotaldata(totalData);
+    setUserData(userData);
     setIsClient(true);
   }, []);
 
@@ -44,7 +53,7 @@ export default function Page({ totalData }: { totalData: totalData }) {
         <div className="relative md:flex md:flex-col">
           <div className="mx-[15px] mt-[9px] mb-[16px] flex text-[20px] md:mx-[13px]">
             <TotalAmount />
-            <div className="absolute right-[30px] md:ml-[290px] md:size-[80px] md:rounded-full md:border-1 md:border-[var(--main-color-3)]"></div>
+            <DefaultProfile className="absolute right-[30px] hidden md:flex md:ml-[290px] md:size-[80px] md:rounded-full md:border-1 md:border-[var(--main-color-3)]" />
           </div>
           <Calander onDataChange={handleMenu} />
         </div>

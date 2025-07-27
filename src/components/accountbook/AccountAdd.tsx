@@ -12,6 +12,7 @@ import { ko } from 'date-fns/locale';
 import { patchAccount, postAccount } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 import toast from 'react-hot-toast';
+import { SlCalculator } from 'react-icons/sl';
 
 export default function AccountAdd({
   onDataChange,
@@ -26,12 +27,10 @@ export default function AccountAdd({
   const [price, setPrice] = useState<string>('');
   const [content, setContent] = useState<string | null>(null);
   const [isAdd, setIsAdd] = useState<string>('추가');
+  const [isCalculator, setIsCalculator] = useState<boolean>(false);
 
-  const { isAccount, setInsert, isId } = useAccountData();
-
-  const handleCalculator = (value: string) => {
-    setPrice(value);
-  };
+  const { isAccount, setInsert, isId, calcString, setCalcString } =
+    useAccountData();
 
   const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const priceValue = e.target.value.replace(/[^0-9]/g, '');
@@ -75,8 +74,13 @@ export default function AccountAdd({
   };
 
   useEffect(() => {
+    setCalcString('');
+  }, []);
+
+  useEffect(() => {
     setIsAdd(isAccount);
-  }, [isAccount]);
+    if (calcString !== null && calcString?.length > 0) setPrice(calcString);
+  }, [isAccount, calcString]);
   return (
     <>
       <div className="relative mx-[5px] flex w-[97.7vw] flex-col items-center rounded-[10px] bg-[var(--white-color)] py-[30px] md:h-[870px] md:w-full">
@@ -161,15 +165,36 @@ export default function AccountAdd({
               <IoRepeat />
             </button>
           </label>
-          <label className="flex gap-[10px] border-b-1 border-[var(--main-color-3)]">
-            <span className="w-[55px]">금액</span>
-            <input
-              type="text"
-              className="items-center justify-center text-center focus:outline-none"
-              onFocus={() => isToolStatus('금액')}
-              onChange={handlePrice}
-              value={price!}
-            />
+          <label className="flex gap-[8px] border-b-1 border-[var(--main-color-3)]">
+            <span>금액</span>
+            {!isCalculator ? (
+              <input
+                type="text"
+                className="items-center justify-center text-center focus:outline-none"
+                onFocus={() => isToolStatus('금액')}
+                onChange={handlePrice}
+                value={price!}
+              />
+            ) : (
+              <input
+                type="text"
+                className="items-center justify-center text-center focus:outline-none"
+                readOnly
+                value={calcString ?? ''}
+                onChange={handlePrice}
+                onFocus={() => isToolStatus('금액')}
+              />
+            )}
+            {toolStatus === '금액' ? (
+              <button
+                className="cursor-pointer rounded-[5px] bg-[var(--gray-color-1)] px-[5px]"
+                onClick={() => setIsCalculator(!isCalculator)}
+              >
+                <SlCalculator />
+              </button>
+            ) : (
+              <div className="w-[26px]"></div>
+            )}
             <span className="ml-[3px]">원</span>
           </label>
           <label className="flex gap-[10px] border-b-1 border-[var(--main-color-3)]">
@@ -195,9 +220,7 @@ export default function AccountAdd({
         {toolStatus === '카테고리' ? (
           <Category accountTag={accountTag} handleTag={handleCategory} />
         ) : null}
-        {toolStatus === '금액' ? (
-          <Calculator calcValue={handleCalculator} />
-        ) : null}
+        {isCalculator && toolStatus === '금액' ? <Calculator /> : null}
         <div className="absolute bottom-[25px] flex gap-[25px] md:bottom-[60px] md:left-[70px] md:gap-[10px]">
           <button
             className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]"
