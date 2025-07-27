@@ -36,7 +36,7 @@ export default function SpendingAnalysis({
     id: index,
     name: item.category,
     value: item.totalAmount,
-    percent: Math.round((item.totalAmount / total) * 100),
+    percent: total === 0 ? 0 : Math.round((item.totalAmount / total) * 100),
   }));
 
   return (

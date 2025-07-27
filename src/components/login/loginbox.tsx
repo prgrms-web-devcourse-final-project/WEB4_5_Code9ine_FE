@@ -140,9 +140,15 @@ export default function LoginBox() {
       </div>
 
       {/* 버튼 그룹 */}
-      <div className="mt-4 mb-[15px] flex flex-col gap-[20px] self-center md:gap-[30px]">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleLogin();
+        }}
+        className="mt-4 mb-[15px] flex flex-col gap-[20px] self-center md:gap-[30px]"
+      >
         <Button
-          onClick={handleLogin}
+          type="submit"
           disabled={loading}
           className={`h-[35px] w-[195px] rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-2)] md:w-[300px] md:text-[20px] ${
             loading ? 'cursor-not-allowed opacity-50' : ''
@@ -150,19 +156,23 @@ export default function LoginBox() {
         >
           {loading ? '로그인 중...' : '로그인 하기'}
         </Button>
+
         <Button
+          type="button"
           onClick={getGoogleLoginRedirect}
           className="h-[35px] w-[195px] bg-[#FFFFFF] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
         >
           구글로 로그인 하기
         </Button>
+
         <Button
+          type="button"
           onClick={handleKakaoLogin}
           className="h-[35px] w-[195px] bg-[#FEE500] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
         >
           카카오톡으로 로그인 하기
         </Button>
-      </div>
+      </form>
 
       {/* 회원가입 링크 */}
       <div className="flex flex-col">
