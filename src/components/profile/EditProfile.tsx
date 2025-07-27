@@ -125,7 +125,7 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
 
   const submitHandler = async () => {
     try {
-      await changeInfo(nickname, '', password);
+      await changeInfo(nickname, '', password, password);
       toast.success('수정 완료!');
 
       if (password) {

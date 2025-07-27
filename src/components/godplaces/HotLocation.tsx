@@ -1,9 +1,10 @@
 'use client';
 import { getHotLocation } from '@/api/godplaces';
-import { startTransition, useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 
 export default function HotLocation() {
   const [hotLocations, setHotLocations] = useState<{ region: string }[]>();
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     startTransition(async () => {
@@ -32,21 +33,26 @@ export default function HotLocation() {
           오늘의 <span className="text-[var(--point-color-1)]">인기</span>{' '}
           검색어
         </div>
-        <div className="h-[23px] overflow-hidden text-[16px] md:h-[30px] md:text-[20px]">
-          <div className="animate-up-down-slider md:animate-up-down-slider-md flex flex-col">
-            {paddedHotLocations.map((d, idx) => (
-              <div
-                key={idx}
-                className="m-auto flex h-[23px] gap-[15px] md:h-[30px]"
-              >
-                <div className="w-[20px] text-center">
-                  {(idx % paddedHotLocations.length) + 1}
+        {isPending && (
+          <div className="animate-pulse-fast h-[23px] overflow-hidden rounded-full bg-[var(--skeleton-bg)] text-[16px] md:h-[30px] md:text-[20px]"></div>
+        )}
+        {!isPending && (
+          <div className="h-[23px] overflow-hidden text-[16px] md:h-[30px] md:text-[20px]">
+            <div className="animate-up-down-slider md:animate-up-down-slider-md flex flex-col">
+              {paddedHotLocations.map((d, idx) => (
+                <div
+                  key={idx}
+                  className="m-auto flex h-[23px] gap-[15px] md:h-[30px]"
+                >
+                  <div className="w-[20px] text-center">
+                    {(idx % paddedHotLocations.length) + 1}
+                  </div>
+                  <div>{d.region}</div>
                 </div>
-                <div>{d.region}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

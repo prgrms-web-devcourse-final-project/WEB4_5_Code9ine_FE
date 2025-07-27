@@ -27,6 +27,7 @@ export default function Profile({
       .then((res) => {
         const user = res.data.data;
         setUserData(user);
+        console.log(user.equippedTitle);
         if (user?.profileImage) {
           const url = getProfileImg(user.profileImage);
           console.log('이미지 URL:', url);
@@ -43,7 +44,6 @@ export default function Profile({
     try {
       const res = await getMyCode();
       const invitedCode = res.data.inviteCode;
-      // console.log(invitedCode);
       await navigator.clipboard.writeText(invitedCode);
       setShowCopyModal(true);
     } catch (err) {
@@ -79,7 +79,7 @@ export default function Profile({
               </span>{' '}
             </p>
             <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">
-              {/* {userData.equippedTitle} */}
+              {/* {userData.equippedTitle.} */}
             </p>
             <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
               다음 레벨까지
