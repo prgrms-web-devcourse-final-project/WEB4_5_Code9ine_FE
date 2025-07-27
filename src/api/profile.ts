@@ -98,9 +98,12 @@ export async function setGoal(
 }
 
 // 내가 쓴 글
-export async function getMyThreads(): Promise<BookmarkPostData> {
+export async function getMyThreads(
+  page: number,
+  size: number,
+): Promise<BookmarkPostData> {
   const res = await fetch(
-    `${API_BASE_URL}/api/members/mypage/posts?page=0&size=10`,
+    `${API_BASE_URL}/api/members/mypage/posts?page=${page}&size=${size}`,
     {
       method: 'GET',
       credentials: 'include',
@@ -185,6 +188,7 @@ export async function changeInfo(
   nickname: string,
   profileImage: string,
   newPassword: string,
+  newPasswordCheck: string,
 ): Promise<changeInfoData> {
   const res = await fetch(`${API_BASE_URL}/api/members/mypage/profile`, {
     method: 'PATCH',
@@ -197,6 +201,7 @@ export async function changeInfo(
       nickname,
       profileImage,
       newPassword,
+      newPasswordCheck,
     }),
   });
 

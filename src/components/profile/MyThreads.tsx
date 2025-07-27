@@ -1,10 +1,15 @@
 'use client';
 import SetGoal from './SetGoal';
 import PostItem from '../board/PostItem';
+import PostWriteForm from '../board/PostWriteForm';
 import ThreadsTab from './ThreadsTab';
 import DetailBox from '../godplaces/detail/DetailBox';
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import {
+  useQuery,
+  useQueryClient,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   getMyThreads,
   getBookmarkedThreads,
@@ -12,29 +17,87 @@ import {
 } from '@/api/profile';
 import { BookmarkPostData, Post } from '@/types/userType';
 import { PostRes } from '../../types/boardType';
-
-// type SimpleProps = {
-//   id: string;
-//   name: string;
-//   type: 'store' | 'festival' | 'library';
-// };
+import TopButton from '../board/TopButton';
 
 export default function MyThreads() {
   const [selectedTab, setSelectedTab] = useState<'thread' | 'saved' | 'place'>(
     'thread',
   );
 
-  // const [myThreads, setMyThreads] = useState<Post[]>([]);
-  // const [savedThreads, setSavedThreads] = useState<Post[]>([]);
-  // const [bookmarkedPlaces, setBookmarkedPlaces] = useState<SimpleProps[]>([]);
+  const [editingPostId, setEditingPostId] = useState<number | null>(null);
+  const queryClient = useQueryClient();
 
   // 내가 쓴 글, 내가 찜한 글, 내가 찜한 갓플
-  const { data: myThreads, isLoading: isLoadingMyThreads } =
-    useQuery<BookmarkPostData>({
-      queryKey: ['myThreads'],
-      queryFn: getMyThreads,
-      enabled: selectedTab === 'thread',
-    });
+  const {
+    data: myThreads,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading: isLoadingMyThreads,
+  } = useInfiniteQuery({
+    queryKey: ['myThreads'],
+    queryFn: ({ pageParam }: { pageParam: number }) =>
+      getMyThreads(pageParam, 10),
+    getNextPageParam: (lastPage, pages) => {
+      // const isLastPage = lastPage.data.length < 10;
+      // return isLastPage ? undefined : pages.length;
+      if (
+        !lastPage?.data ||
+        lastPage.data.length === 0 ||
+        lastPage.data.length < 10
+      ) {
+        return undefined;
+      }
+      return pages.length;
+    },
+    initialPageParam: 0,
+    enabled: selectedTab === 'thread',
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (
+        target.isIntersecting &&
+        hasNextPage &&
+        !isFetchingNextPage &&
+        selectedTab === 'thread'
+      ) {
+        fetchNextPage();
+      }
+    },
+    [hasNextPage, fetchNextPage, isFetchingNextPage, selectedTab],
+  );
+
+  useEffect(() => {
+    const currentObserverRef = observerRef.current;
+    if (!currentObserverRef || selectedTab !== 'thread') {
+      return;
+    }
+
+    if (!hasNextPage) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    observer.observe(currentObserverRef);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasNextPage, handleObserver, selectedTab, fetchNextPage]);
 
   const { data: savedThreads, isLoading: isLoadingSaved } =
     useQuery<BookmarkPostData>({
@@ -69,62 +132,16 @@ export default function MyThreads() {
       }),
   });
 
-  // useEffect(() => {
-  //   if (selectedTab === 'thread') {
-  //     getMyThreads()
-  //       .then((res) => {
-  //         console.log('내가 쓴 글 가져오기 성공!', res);
-  //         setMyThreads(res.data);
-  //       })
-  //       .catch((err) => console.log('내가 쓴 글 가져오기 실패', err));
-  //   }
-
-  //   if (selectedTab === 'saved') {
-  //     getBookmarkedThreads()
-  //       .then((res) => {
-  //         console.log('내가 찜한 글 가져오기 성공', res);
-  //         setSavedThreads(res.data);
-  //       })
-  //       .catch((err) => console.log('내가 찜한 글 가져오기 실패', err));
-  //   }
-
-  //   if (selectedTab === 'place') {
-  //     getBookmarkedPlaces().then((res) => {
-  //       console.log('성공', res);
-  //       const finalId = res.data.map((item) => {
-  //         let id = '';
-  //         switch (item.type) {
-  //           case 'store':
-  //             id = item.storeId;
-  //             break;
-  //           case 'festival':
-  //             id = item.festivalId;
-  //             break;
-  //           case 'library':
-  //             id = item.libraryId;
-  //             break;
-  //         }
-  //         return {
-  //           type: item.type,
-  //           id,
-  //           name: item.name,
-  //         };
-  //       });
-  //       setBookmarkedPlaces(finalId);
-  //     });
-  //   }
-  // }, [selectedTab]);
-
   const categoryEng = (
     korCategory: string,
-  ): 'CHALLENGE' | 'FREE' | 'MYSTORE' => {
+  ): 'CHALLENGE' | 'FREE' | 'MY_STORE' => {
     switch (korCategory) {
       case '챌린지':
         return 'CHALLENGE';
       case '자유':
         return 'FREE';
       case '나가게':
-        return 'MYSTORE';
+        return 'MY_STORE';
       default:
         return 'FREE';
     }
@@ -149,21 +166,77 @@ export default function MyThreads() {
       ? post.challengeCategory
       : 'NO_MONEY',
   });
+
+  // 중복 제거를 위한 함수
+  const getUniqueThreads = () => {
+    if (!myThreads?.pages) return [];
+
+    const allThreads: Post[] = [];
+    const seenIds = new Set<number>();
+
+    myThreads.pages.forEach((page) => {
+      page.data.forEach((post) => {
+        if (!seenIds.has(post.postId)) {
+          seenIds.add(post.postId);
+          allThreads.push(post);
+        }
+      });
+    });
+
+    return allThreads;
+  };
+
+  const uniqueThreads = getUniqueThreads();
   return (
     <>
       <SetGoal />
       <ThreadsTab selectedTab={selectedTab} onChange={setSelectedTab} />
       <div
-        className={`mt-[40px] w-full gap-[20px] p-[20px] ${
+        id="myThreads-scroll-to-top"
+        className={`hide-scrollbar mt-[40px] w-full gap-[20px] p-[20px] ${
           selectedTab === 'place'
             ? 'grid grid-cols-1 md:grid-cols-2'
             : 'flex flex-col'
         }`}
+        style={{ maxHeight: '80vh', overflowY: 'auto' }}
       >
         {selectedTab === 'thread' &&
-          myThreads?.data.map((post) => (
-            <PostItem key={post.postId} post={convertPostToPostRes(post)} />
-          ))}
+          uniqueThreads.map((post) => {
+            const postRes = convertPostToPostRes(post);
+            return (
+              <div key={post.postId} className="">
+                {editingPostId === post.postId ? (
+                  <PostWriteForm
+                    mode="edit"
+                    category={postRes.category}
+                    editData={postRes}
+                    onSuccess={() => {
+                      setEditingPostId(null);
+                      queryClient.invalidateQueries({
+                        queryKey: ['myThreads'],
+                      });
+                    }}
+                    onCancel={() => setEditingPostId(null)}
+                  />
+                ) : (
+                  <PostItem
+                    post={postRes}
+                    onEdit={() => setEditingPostId(post.postId)}
+                    onDelete={() => {
+                      queryClient.invalidateQueries({
+                        queryKey: ['myThreads'],
+                      });
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+
+        {selectedTab === 'thread' && hasNextPage && (
+          <div ref={observerRef} className="min-h-[1px]" />
+        )}
+
         {selectedTab === 'saved' &&
           savedThreads?.data.map((post) => (
             <PostItem key={post.postId} post={convertPostToPostRes(post)} />
@@ -182,6 +255,8 @@ export default function MyThreads() {
             </div>
           ))}
       </div>
+
+      <TopButton scrollTargetId="myThreads-scroll-to-top" />
     </>
   );
 }
