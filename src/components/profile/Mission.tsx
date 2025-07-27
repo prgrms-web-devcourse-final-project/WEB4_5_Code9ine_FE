@@ -75,31 +75,57 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
     name: string;
     progress: number;
     total: number;
-  }) => (
-    <div className="flex flex-col items-center justify-center rounded-[10px] p-[10px]">
-      <p className="mt-[10px] text-center text-[16px] whitespace-pre-line">
-        {description}
-      </p>
-      <p className="flex items-center text-[18px] font-semibold">
-        {iconImage && (
-          <Image
-            src={iconImage}
-            alt="미션 아이콘"
-            width={25}
-            height={25}
-            className="mr-[5px]"
-          />
-        )}
-        {name}
-      </p>
-      <PiFlowerFill size={47} color="#FFFAC5" />
-      <button className="mt-[5px] h-[30px] w-[60px] rounded-[10px] bg-[var(--main-color-1)]">
-        <p className="text-center text-[16px] font-semibold dark:text-[#2b2e34]">
-          {progress} / {total}
+  }) => {
+    const achievementRate = total > 0 ? progress / total : 0;
+    let flowerColor = '#FFFAC5';
+    let statusText = `${progress} / ${total}`;
+    const isCompleted = achievementRate >= 1;
+
+    if (achievementRate >= 1) {
+      flowerColor = '#FF8585';
+      statusText = '🎉 달성 🎉';
+    } else if (achievementRate >= 0.75) {
+      flowerColor = '#FFAA00';
+    } else if (achievementRate >= 0.5) {
+      flowerColor = '#FFE100';
+    } else if (achievementRate >= 0.25) {
+      flowerColor = '#FDF090';
+    }
+
+    const buttonClass = `mt-[5px] h-[30px] w-[100px] rounded-[10px] ${
+      isCompleted ? 'bg-[var(--main-color-3)]' : 'bg-[var(--main-color-1)]'
+    }`;
+
+    return (
+      <div className="flex flex-col items-center justify-center rounded-[10px] p-[10px]">
+        <p className="mt-[10px] text-center text-[16px] whitespace-pre-line">
+          {description}
         </p>
-      </button>
-    </div>
-  );
+        <p className="flex items-center text-[18px] font-semibold">
+          {iconImage && (
+            <Image
+              src={iconImage}
+              alt="미션 아이콘"
+              width={25}
+              height={25}
+              className="mr-[5px]"
+            />
+          )}
+          {name}
+        </p>
+        <PiFlowerFill
+          size={47}
+          color={flowerColor}
+          className={isCompleted ? 'flower-spin' : ''}
+        />
+        <button className={buttonClass}>
+          <p className="text-center text-[16px] font-semibold dark:text-[#2b2e34]">
+            {statusText}
+          </p>
+        </button>
+      </div>
+    );
+  };
 
   return (
     <>

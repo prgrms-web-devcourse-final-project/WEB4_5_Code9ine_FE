@@ -204,7 +204,7 @@ export default function MyThreads() {
           uniqueThreads.map((post) => {
             const postRes = convertPostToPostRes(post);
             return (
-              <div key={post.postId} className="mb-[15px]">
+              <div key={post.postId} className="">
                 {editingPostId === post.postId ? (
                   <PostWriteForm
                     mode="edit"
