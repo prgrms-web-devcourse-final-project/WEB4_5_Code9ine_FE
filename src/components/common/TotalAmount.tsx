@@ -1,5 +1,5 @@
 'use client';
-import { API_ADD, setMonthData } from '@/api/accountApi';
+import { setMonthData } from '@/api/accountApi';
 import { CalendarList } from '@/types/payData';
 import { useEffect, useState } from 'react';
 
@@ -9,27 +9,11 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
   const [day, setDay] = useState<number>(0);
 
   useEffect(() => {
-    // fetch(API_ADD + '/api/budget/totaldetails')
-    //   .then((res) => res.json())
-    //   .then((data) => setIsData(data));
     const today = new Date();
     const month = today.getMonth() + 1;
     async function calendarData() {
-      // const res = await setMonthData(today, month);
-      const data = await (
-        await fetch(
-          `${API_ADD}/api/budget/calendar?yearmonth=${today.getFullYear()}-${month.toString().padStart(2, '0')}`,
-          {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-              accept: 'application/json',
-              // Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`
-            },
-          },
-        )
-      ).json();
-      console.log(data);
+      const res = await setMonthData(today, month);
+      const data = await res.json();
       setIsData(data);
     }
     calendarData();

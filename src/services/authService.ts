@@ -59,7 +59,7 @@ export interface LoginResponse {
 export async function login(
   payload: LoginPayload,
 ): Promise<{ message: string; data: LoginResponse }> {
-  const res = await fetch(`${API_BASE}/api/members/login`, {
+  const res = await fetch(`/api/members/login`, {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
