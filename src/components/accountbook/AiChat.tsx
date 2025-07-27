@@ -80,6 +80,9 @@ export default function AiChat() {
               <div className="flex w-full gap-[10px]">
                 <TiTaeProfile />
                 <TitaeTalkBalloon message={welcomeMessage} />
+                <TitaeTalkBalloon
+                  message={'※ AI챗봇은 하루 3회 이용 가능합니다'}
+                />
               </div>
               {message?.map((v, i) =>
                 !v.user ? (
