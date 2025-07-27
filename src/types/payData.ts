@@ -56,3 +56,14 @@ export interface totalData {
     details: PayList[];
   };
 }
+
+export interface Chatting {
+  user: boolean;
+  message: string;
+}
+
+export interface Response {
+  savingFeedback: string;
+  spendingTips: string;
+  spendingPattern: string;
+}

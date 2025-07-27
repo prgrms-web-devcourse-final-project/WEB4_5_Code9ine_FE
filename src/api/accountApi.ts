@@ -148,3 +148,18 @@ export const noExpense = async () => {
     console.error(error);
   }
 };
+
+export const setChatResponseData = async () => {
+  return await (
+    await fetch(
+      `${API_ADD}/api/geminichatbot/analyze`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          accept: 'application/json',
+        },
+      },
+    )
+  ).json();
+};
