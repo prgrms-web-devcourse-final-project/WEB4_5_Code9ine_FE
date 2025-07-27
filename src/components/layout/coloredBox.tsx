@@ -288,9 +288,12 @@ export default function ColoredBox() {
           </button> */}
         </div>
         <div className="mt-auto hidden flex-col items-center gap-2 md:flex">
-          <p className="cursor-pointer self-end text-[14px] text-[var(--header-text)]">
+          <a
+            href="mailto:titaeAdmin@titae.com?subject=[티태 문의하기]&body=안녕하세요. 티태입니다.%0A문의 내용을 아래에 작성해주세요.%0A----------------------------%0A%0A%0A%0A%0A%0A%0A메일 발송 시 답변까지 1~2일의 시간이 소요될 수 있습니다.%0A빠르게 도와드릴 수 있도록 최선을 다하겠습니다."
+            className="cursor-pointer self-end text-[14px] text-[var(--header-text)]"
+          >
             1:1 문의하기
-          </p>
+          </a>
           <div className="flex items-end justify-center gap-1 pb-[10px] text-[var(--main-color-2)]">
             <IoLogoGithub size={22} />
             <p className="text-[10px]">© Code9ine All Right Reserved</p>

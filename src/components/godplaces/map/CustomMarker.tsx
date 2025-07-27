@@ -2,6 +2,7 @@ import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
 import markers from '../../../assets/icons/markers.png';
 import BookmarkButton from '../common/BookmarkButton';
 import { useParams, useRouter } from 'next/navigation';
+import { useAuthStore } from '@/stores/authStore';
 
 export default function CustomMarker({
   position,
@@ -18,6 +19,7 @@ export default function CustomMarker({
   const { region } = useParams();
   const markerSize = { width: 30, height: 40 };
   const spriteImageSize = { width: 63, height: 480 };
+  const isLogin = useAuthStore((state) => state.isLogin);
 
   const viewSelectedDetails = () => {
     if (type && id)
@@ -40,7 +42,7 @@ export default function CustomMarker({
       />
       <CustomOverlayMap position={position} yAnchor={2.36}>
         <div className="customoverlay">
-          {id && (
+          {isLogin && id && (
             <BookmarkButton
               className="cursor-pointer"
               hasWhiteBG={true}

@@ -2,20 +2,22 @@
 // import Calander from '@/components/accountbook/Calander';
 // import ListArea from '@/components/accountbook/ListArea';
 
-import { setData } from '@/api/accountApi';
+import { API_ADD } from '@/api/accountApi';
 import Page from '@/components/accountbook/Page';
+import { cookies } from 'next/headers';
 
 export default async function page() {
-  const receivedTotalData = await setData();
+  const accessToken = (await cookies())
+  console.log(accessToken);
+  const setData = await fetch(`${API_ADD}/api/budget/totaldetails`, {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+    },
+  });
 
-  // fetch(API_ADD + `/api/members/login`, {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({
-  //     email: 'testuser1@example.com',
-  //     password: 'test',
-  //   }),
-  // });
+  const receivedTotalData = await setData.json();
 
   console.log(receivedTotalData);
   return (
