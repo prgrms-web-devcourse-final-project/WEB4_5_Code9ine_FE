@@ -93,7 +93,7 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
     }
 
     const buttonClass = `mt-[5px] h-[30px] w-[100px] rounded-[10px] ${
-      isCompleted ? 'bg-[var(--main-color-3)]' : 'bg-[var(--main-color-1)]'
+      isCompleted ? 'bg-[var(--main-color-2)]' : 'bg-[var(--main-color-1)]'
     }`;
 
     return (

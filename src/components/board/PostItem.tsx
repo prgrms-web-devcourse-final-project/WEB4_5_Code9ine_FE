@@ -162,8 +162,6 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
             </div>
             <div className="mt-1 text-[18px] text-[var(--text-color-white)]">
               {post.content}
-              {post.category}
-              {post.challengeCategory}
             </div>
           </div>
         </div>
@@ -263,6 +261,7 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
           <CommentList
             postId={post.postId}
             myMemberId={myMemberId}
+            skeletonCount={commentCount}
             onAddComment={() => setCommentCount((prev) => prev + 1)}
             onDeleteComment={() =>
               setCommentCount((prev) => Math.max(prev - 1, 0))
