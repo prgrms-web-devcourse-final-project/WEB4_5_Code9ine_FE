@@ -9,11 +9,13 @@ import Modal from './Modal';
 interface NotificationBoxProps {
   onClose: () => void;
   notifications: NotificationTitle[];
+  onRefresh: () => void;
 }
 
 export default function NotificationBox({
   onClose,
   notifications,
+  onRefresh,
 }: NotificationBoxProps) {
   const [selected, setSelected] = useState<NotificationTitle | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,6 +43,7 @@ export default function NotificationBox({
   const handleMarkAsRead = async (notificationId: number) => {
     try {
       await markNotificationAsRead(notificationId);
+      onRefresh();
     } catch (err) {
       console.error('알림 읽음 처리 실패:', err);
     } finally {
@@ -101,24 +104,29 @@ export default function NotificationBox({
       </div>
 
       {/* TITLE 타입일 때 모달 표시 */}
-      {selected?.type === 'TITLE' && (
+      {selected && (
         <Modal
-          title={<span className="text-[var(--text-color)]">칭호 획득</span>}
+          title={<span className="text-[var(--text-color)]">알림</span>}
           description={selected.message}
           buttons={
             <div className="flex w-full gap-2">
+              {/* 확인 버튼 (모든 타입에 대해 표시) */}
               <button
                 onClick={() => handleMarkAsRead(selected.notificationId)}
                 className="flex-1 cursor-pointer rounded-[5px] bg-[var(--point-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--point-color-2)]"
               >
                 확인
               </button>
-              <button
-                onClick={() => selected && handleEquip(selected.notificationId)}
-                className="flex-1 cursor-pointer rounded-[5px] bg-[var(--main-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--main-color-3)]"
-              >
-                즉시 장착
-              </button>
+
+              {/* 즉시 장착 버튼은 TITLE일 때만 표시 */}
+              {selected.type === 'TITLE' && (
+                <button
+                  onClick={() => handleEquip(selected.notificationId)}
+                  className="flex-1 cursor-pointer rounded-[5px] bg-[var(--main-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--main-color-3)]"
+                >
+                  즉시 장착
+                </button>
+              )}
             </div>
           }
           onClose={() => setSelected(null)}

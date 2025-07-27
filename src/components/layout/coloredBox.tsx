@@ -58,6 +58,18 @@ export default function ColoredBox() {
     localStorage.setItem('theme', next ? 'dark' : 'light');
   };
 
+  const fetchNotifications = () => {
+    Promise.all([
+      getNotificationTitles(),
+      getLikeNotifications(),
+      getCommentNotifications(),
+    ])
+      .then(([titles, likes, comments]) => {
+        setNotifications([...titles, ...likes, ...comments]);
+      })
+      .catch((err) => console.error(err));
+  };
+
   useEffect(() => {
     if (!isLogin) return;
 
@@ -162,6 +174,7 @@ export default function ColoredBox() {
               <NotificationBox
                 onClose={() => setShowNotification(false)}
                 notifications={notifications}
+                onRefresh={fetchNotifications}
               />
             </div>
           )}
