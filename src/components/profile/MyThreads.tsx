@@ -187,6 +187,13 @@ export default function MyThreads() {
   };
 
   const uniqueThreads = getUniqueThreads();
+
+  // 빈 상태 체크 함수들
+  const isThreadsEmpty = !isLoadingMyThreads && uniqueThreads.length === 0;
+  const isSavedEmpty =
+    !isLoadingSaved && (!savedThreads?.data || savedThreads.data.length === 0);
+  const isPlacesEmpty = !isLoadingBookmarked && bookmarkedPlaces.length === 0;
+
   return (
     <>
       <SetGoal />
@@ -200,60 +207,136 @@ export default function MyThreads() {
         }`}
         style={{ maxHeight: '80vh', overflowY: 'auto' }}
       >
-        {selectedTab === 'thread' &&
-          uniqueThreads.map((post) => {
-            const postRes = convertPostToPostRes(post);
-            return (
-              <div key={post.postId} className="">
-                {editingPostId === post.postId ? (
-                  <PostWriteForm
-                    mode="edit"
-                    category={postRes.category}
-                    editData={postRes}
-                    onSuccess={() => {
-                      setEditingPostId(null);
-                      queryClient.invalidateQueries({
-                        queryKey: ['myThreads'],
-                      });
+        {/* 내가 쓴 글 탭 */}
+        {selectedTab === 'thread' && (
+          <>
+            {isThreadsEmpty ? (
+              <div className="col-span-full flex min-h-[50vh] items-center justify-center">
+                <div className="flex flex-col items-center space-y-12 text-center">
+                  <div className="text-[40px] font-bold text-[var(--text-color)] md:text-[50px]">
+                    teong
+                  </div>
+                  <div
+                    className="animate-bounce text-[100px] leading-none font-black text-[var(--text-color)] md:text-[140px]"
+                    style={{
+                      fontFamily:
+                        'Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif',
                     }}
-                    onCancel={() => setEditingPostId(null)}
-                  />
-                ) : (
-                  <PostItem
-                    post={postRes}
-                    onEdit={() => setEditingPostId(post.postId)}
-                    onDelete={() => {
-                      queryClient.invalidateQueries({
-                        queryKey: ['myThreads'],
-                      });
-                    }}
-                  />
-                )}
+                  >
+                    텅
+                  </div>
+                  <div className="text-[40px] font-bold text-[var(--main-color-3)] md:text-[50px]">
+                    emptily
+                  </div>
+                </div>
               </div>
-            );
-          })}
-
-        {selectedTab === 'thread' && hasNextPage && (
-          <div ref={observerRef} className="min-h-[1px]" />
+            ) : (
+              uniqueThreads.map((post) => {
+                const postRes = convertPostToPostRes(post);
+                return (
+                  <div key={post.postId} className="">
+                    {editingPostId === post.postId ? (
+                      <PostWriteForm
+                        mode="edit"
+                        category={postRes.category}
+                        editData={postRes}
+                        onSuccess={() => {
+                          setEditingPostId(null);
+                          queryClient.invalidateQueries({
+                            queryKey: ['myThreads'],
+                          });
+                        }}
+                        onCancel={() => setEditingPostId(null)}
+                      />
+                    ) : (
+                      <PostItem
+                        post={postRes}
+                        onEdit={() => setEditingPostId(post.postId)}
+                        onDelete={() => {
+                          queryClient.invalidateQueries({
+                            queryKey: ['myThreads'],
+                          });
+                        }}
+                      />
+                    )}
+                  </div>
+                );
+              })
+            )}
+            {hasNextPage && <div ref={observerRef} className="min-h-[1px]" />}
+          </>
         )}
 
-        {selectedTab === 'saved' &&
-          savedThreads?.data.map((post) => (
-            <PostItem key={post.postId} post={convertPostToPostRes(post)} />
-          ))}
-        {selectedTab === 'place' &&
-          bookmarkedPlaces.map((place) => (
-            <div
-              key={place.id}
-              className="rounded-[10px] shadow dark:shadow-md"
-            >
-              <DetailBox
-                type={place.type}
-                id={place.id}
-                showBackButton={false}
-              />
-            </div>
-          ))}
+        {/* 찜한 글 탭 */}
+        {selectedTab === 'saved' && (
+          <>
+            {isSavedEmpty ? (
+              <div className="col-span-full flex min-h-[50vh] items-center justify-center">
+                <div className="flex flex-col items-center space-y-12 text-center">
+                  <div className="text-[40px] font-bold text-[var(--text-color)] md:text-[50px]">
+                    teong
+                  </div>
+                  <div
+                    className="animate-bounce text-[100px] leading-none font-black text-[var(--text-color)] md:text-[140px]"
+                    style={{
+                      fontFamily:
+                        'Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif',
+                    }}
+                  >
+                    텅
+                  </div>
+                  <div className="text-[40px] font-bold text-[var(--main-color-3)] md:text-[50px]">
+                    emptily
+                  </div>
+                </div>
+              </div>
+            ) : (
+              savedThreads?.data.map((post) => (
+                <PostItem key={post.postId} post={convertPostToPostRes(post)} />
+              ))
+            )}
+          </>
+        )}
+
+        {/* 찜한 갓플 탭 */}
+        {selectedTab === 'place' && (
+          <>
+            {isPlacesEmpty ? (
+              <div className="col-span-full flex min-h-[50vh] items-center justify-center">
+                <div className="flex flex-col items-center space-y-12 text-center">
+                  <div className="text-[40px] font-bold text-[var(--text-color)] md:text-[50px]">
+                    teong
+                  </div>
+                  <div
+                    className="animate-bounce text-[100px] leading-none font-black text-[var(--text-color)] md:text-[140px]"
+                    style={{
+                      fontFamily:
+                        'Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif',
+                    }}
+                  >
+                    텅
+                  </div>
+                  <div className="text-[40px] font-bold text-[var(--main-color-3)] md:text-[50px]">
+                    emptily
+                  </div>
+                </div>
+              </div>
+            ) : (
+              bookmarkedPlaces.map((place) => (
+                <div
+                  key={place.id}
+                  className="rounded-[10px] shadow dark:shadow-md"
+                >
+                  <DetailBox
+                    type={place.type}
+                    id={place.id}
+                    showBackButton={false}
+                  />
+                </div>
+              ))
+            )}
+          </>
+        )}
       </div>
 
       <TopButton scrollTargetId="myThreads-scroll-to-top" />

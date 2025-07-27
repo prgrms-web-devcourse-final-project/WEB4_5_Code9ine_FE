@@ -6,7 +6,15 @@ import { useState } from 'react';
 import { setGoal } from '@/api/profile';
 import toast from 'react-hot-toast';
 
-export default function SetGoalModal({ onClose }: { onClose: () => void }) {
+interface SetGoalModalProps {
+  onClose: () => void;
+  onGoalSet: () => void;
+}
+
+export default function SetGoalModal({
+  onClose,
+  onGoalSet,
+}: SetGoalModalProps) {
   const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
 
   // 목표 선택
@@ -24,7 +32,7 @@ export default function SetGoalModal({ onClose }: { onClose: () => void }) {
     try {
       await setGoal(selected.name, selected.price);
       toast.success('목표가 설정되었습니다.');
-      onClose();
+      onGoalSet();
     } catch (err) {
       console.log('목표 저장 에러', err);
     }
@@ -64,17 +72,6 @@ export default function SetGoalModal({ onClose }: { onClose: () => void }) {
             </button>
           ))}
         </div>
-
-        {/* <p className="mt-[20px] text-center">
-          내 예상 지출 금액을 작성하면 <br /> 목표까지 얼마나 남았는지
-          알려드릴게요!
-        </p>
-
-        <input
-          type="text"
-          placeholder="숫자만 입력해주세요. 예시)1000000"
-          className="mt-[10px] mb-[10px] w-full rounded-[8px] border border-[var(--main-color-1)] px-3 py-2 text-[16px] focus:border-[var(--main-color-2)] focus:outline-none"
-        /> */}
 
         <div className="absolute right-0 bottom-[25px] left-0 flex justify-center">
           <Button
