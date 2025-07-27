@@ -83,3 +83,31 @@ export async function markNotificationAsRead(
     throw new Error(json.message || '알림 읽음 처리에 실패했습니다.');
   }
 }
+
+// 칭호 즉시장착
+
+export interface EquippedTitleResponse {
+  equippedTitle: string;
+  achievedTitles: string[]; // 혹은 객체 배열이라면 { title: string }[] 등의 구조로 수정
+}
+
+export async function equipTitle(
+  challengeId: number,
+): Promise<EquippedTitleResponse> {
+  const res = await fetch(
+    `${API_BASE}/api/members/titles/${challengeId}/equip`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
+
+  const json = (await res.json()) as ApiResponse<EquippedTitleResponse>;
+
+  if (!res.ok || json.code !== '2000') {
+    throw new Error(json.message || '칭호 즉시 장착에 실패했습니다.');
+  }
+
+  return json.data;
+}

@@ -14,7 +14,7 @@ export default function Analysis() {
   const { isLogin } = useAuthStore();
 
   useEffect(() => {
-    if (!isLogin) return; // 로그인 안 된 상태면 실행하지 않음
+    if (!isLogin) return;
 
     async function fetchData() {
       try {
