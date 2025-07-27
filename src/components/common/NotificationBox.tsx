@@ -77,7 +77,7 @@ export default function NotificationBox({
         </div>
 
         {/* 알림 리스트 */}
-        <div className="max-h-[300px] overflow-y-auto">
+        <div className="hide-scrollbar max-h-[300px] overflow-y-auto">
           {notifications.length === 0 ? (
             <p className="text-sm text-[var(--gray-color-2)]">
               새로운 알림이 없습니다.

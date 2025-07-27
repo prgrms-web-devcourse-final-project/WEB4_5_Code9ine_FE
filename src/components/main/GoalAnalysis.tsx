@@ -15,6 +15,17 @@ export default function GoalAnalysis({
   goal,
   totalsavedAmount,
 }: GoalAnalysisProps) {
+  if (!goal || !goal.itemName || !goal.itemPrice) {
+    return (
+      <div className="flex h-[300px] flex-col items-center justify-center gap-4 text-center text-[16px] text-[var(--text-color)]">
+        <p>아직 절약 목표가 설정되지 않았어요.</p>
+        <p className="font-semibold text-[var(--main-color-3)]">
+          마이페이지에서 목표를 설정해보세요!
+        </p>
+      </div>
+    );
+  }
+
   const { itemName, itemPrice } = goal;
 
   const percent = Math.min(

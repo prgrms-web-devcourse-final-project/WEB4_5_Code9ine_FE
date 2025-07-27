@@ -44,10 +44,10 @@ export default function LoginBox() {
     setLoading(true);
     try {
       const payload: LoginPayload = { email, password };
-      const { data, message } = await login(payload);
+      const { message } = await login(payload);
 
       // localStorage.setItem('accessToken', data.accessToken);
-      console.log(data.accessToken);
+      // console.log(data.accessToken);
       setIsLogin(true);
       toast.success(message);
 
