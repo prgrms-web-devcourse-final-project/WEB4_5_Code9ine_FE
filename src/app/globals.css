@@ -2,7 +2,8 @@
 
 @font-face {
   font-family: 'SUITE-Regular';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2')
+    format('woff2');
   font-weight: 400;
   font-style: normal;
 }
@@ -59,7 +60,6 @@
   --animate-pulse-fast: pulse 0.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
   @keyframes up-down-slider {
-
     0%,
     19% {
       transform: translateY(0);
@@ -91,7 +91,6 @@
   }
 
   @keyframes up-down-slider-md {
-
     0%,
     19% {
       transform: translateY(0);
@@ -123,7 +122,6 @@
   }
 
   @keyframes wiggle {
-
     0%,
     100% {
       transform: rotate(-3deg);
@@ -269,4 +267,17 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
+}
+
+@keyframes flower-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.flower-spin {
+  animation: flower-spin 3s linear infinite;
 }

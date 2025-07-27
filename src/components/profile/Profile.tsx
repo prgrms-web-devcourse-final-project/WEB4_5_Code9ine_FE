@@ -9,7 +9,7 @@ import { UserData } from '@/types/userType';
 import { getMyCode, getMyPage } from '@/api/profile';
 import Modal from '../common/Modal';
 import Image from 'next/image';
-import { getProfileImg } from '@/lib/utils/getImageUrl';
+// import { getProfileImg } from '@/lib/utils/getImageUrl';
 
 export default function Profile({
   isPersonal = false,
@@ -27,8 +27,10 @@ export default function Profile({
       .then((res) => {
         const user = res.data.data;
         setUserData(user);
+        console.log(user.equippedTitle);
         if (user?.profileImage) {
-          const url = getProfileImg(user.profileImage);
+          // const url = getProfileImg(user.profileImage);
+          const url = user.profileImage;
           console.log('이미지 URL:', url);
           setImageUrl(url);
         } else {
@@ -43,7 +45,6 @@ export default function Profile({
     try {
       const res = await getMyCode();
       const invitedCode = res.data.inviteCode;
-      // console.log(invitedCode);
       await navigator.clipboard.writeText(invitedCode);
       setShowCopyModal(true);
     } catch (err) {
@@ -79,7 +80,7 @@ export default function Profile({
               </span>{' '}
             </p>
             <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">
-              {/* {userData.equippedTitle} */}
+              {/* {userData.equippedTitle.} */}
             </p>
             <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
               다음 레벨까지
@@ -126,7 +127,13 @@ export default function Profile({
           </div>
         )}
         {isEditProfile && (
-          <EditProfile onClose={() => setIsEditProfile(false)}></EditProfile>
+          <EditProfile
+            onClose={() => setIsEditProfile(false)}
+            currentUser={{
+              nickname: userData?.nickname || '',
+              profileImageUrl: imageUrl || '',
+            }}
+          ></EditProfile>
         )}
 
         {showCopyModal && (
