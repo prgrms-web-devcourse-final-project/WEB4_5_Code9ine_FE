@@ -1,26 +1,67 @@
 'use client';
 import { MdCancel, MdEdit } from 'react-icons/md';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Button from './Button';
 import DefaultProfile from './DefaultProfile';
 import { checkNickname } from '@/services/authService';
 import toast from 'react-hot-toast';
 import { changeInfo, deleteProfile } from '@/api/profile';
+import { boardApi } from '@/api/boardApi';
 import Modal from '../common/Modal';
 import { useRouter } from 'next/navigation';
 
-export default function EditProfile({ onClose }: { onClose: () => void }) {
+export default function EditProfile({
+  onClose,
+  currentUser,
+}: {
+  onClose: () => void;
+  currentUser?: { nickname: string; profileImageUrl: string };
+}) {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [nickname, setNickname] = useState('');
   const [nicknameError, setNicknameError] = useState('');
-
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
   const [confirmPwd, setConfirmPwd] = useState('');
   const [confirmPwdError, setConfirmPwdError] = useState('');
-
   const [showConfirm, setShowConfirm] = useState(false);
+  const [profileImageUrl, setProfileImageUrl] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    // 프로필 이미지는 하나만 선택
+    if (files.length > 1) {
+      toast.error('프로필 이미지는 1장만 선택할 수 있어요');
+      return;
+    }
+
+    const file = files[0];
+    const today = new Date();
+    const yyyyMMdd = today.toISOString().slice(0, 10).replace(/-/g, '');
+    const folderPath = 'uploads/profile/' + yyyyMMdd;
+
+    try {
+      toast.loading('이미지 업로드 중...');
+      const imageUrl = await boardApi.postUploadToCloudinary(file, folderPath);
+      setProfileImageUrl(imageUrl);
+      toast.dismiss();
+      toast.success('이미지 업로드 완료!');
+    } catch (err) {
+      console.log(err);
+      toast.dismiss();
+      toast.error('이미지 업로드에 실패했어요');
+    }
+  };
+
+  // 파일 선택 버튼 클릭 핸들러
+  const handleEditButtonClick = () => {
+    fileInputRef.current?.click();
+  };
 
   const validatePassword = (pwd: string): boolean =>
     /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,16}$/.test(
@@ -32,6 +73,11 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
 
     if (nickname.trim().length < 2 || nickname.trim().length > 6) {
       setNicknameError('2~6자 닉네임을 입력하세요.');
+      return;
+    }
+
+    if (currentUser && nickname === currentUser.nickname) {
+      setNicknameError('');
       return;
     }
 
@@ -85,6 +131,14 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
     }
   }, [password, confirmPwd]);
 
+  useEffect(() => {
+    if (currentUser) {
+      setNickname(currentUser.nickname || '');
+      setProfileImageUrl(currentUser.profileImageUrl || '');
+    }
+    setIsLoading(false);
+  }, [currentUser]);
+
   const submitUserData = async () => {
     let valid = true;
 
@@ -113,19 +167,11 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
     }
 
     if (!valid) return;
-
-    // try {
-    //   await updateProfile({ nickname, password });
-    //   toast.success('프로필이 수정되었습니다.');
-    //   onClose();
-    // } catch {
-    //   toast.error('수정 중 오류가 발생했습니다. 다시 시도해주세요.');
-    // }
   };
 
   const submitHandler = async () => {
     try {
-      await changeInfo(nickname, '', password, password);
+      await changeInfo(nickname, profileImageUrl, password, password);
       toast.success('수정 완료!');
 
       if (password) {
@@ -152,8 +198,20 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
           </h1>
           <div className="flex items-center justify-center">
             <div className="relative">
-              <DefaultProfile />
-              <button className="absolute right-0 bottom-0 flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[var(--main-color-1)] hover:bg-[var(--main-color-3)]">
+              <DefaultProfile profileImageUrl={profileImageUrl} />
+              {/* 숨겨진 파일 입력 */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              {/* 편집 버튼 */}
+              <button
+                onClick={handleEditButtonClick}
+                className="absolute right-0 bottom-0 flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-[var(--main-color-1)] hover:bg-[var(--main-color-3)]"
+              >
                 <MdEdit className="flex items-center justify-center text-[30px] text-[var(--white-color)]" />
               </button>
             </div>
@@ -188,9 +246,6 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                 >
                   {nicknameError || '\u00A0'}
                 </p>
-                {/* <button className="mr-[3px] cursor-pointer text-[12px] text-[var(--gray-color-2)]">
-                중복 확인
-              </button> */}
               </div>
             </div>
             <div className="mt-[15px] flex w-[300px] flex-col items-start gap-1 self-center">
@@ -260,7 +315,6 @@ export default function EditProfile({ onClose }: { onClose: () => void }) {
                   buttons={
                     <>
                       <button
-                        // 회원 탈퇴
                         onClick={async () => {
                           try {
                             await deleteProfile();

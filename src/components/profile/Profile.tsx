@@ -9,7 +9,7 @@ import { UserData } from '@/types/userType';
 import { getMyCode, getMyPage } from '@/api/profile';
 import Modal from '../common/Modal';
 import Image from 'next/image';
-import { getProfileImg } from '@/lib/utils/getImageUrl';
+// import { getProfileImg } from '@/lib/utils/getImageUrl';
 
 export default function Profile({
   isPersonal = false,
@@ -29,7 +29,8 @@ export default function Profile({
         setUserData(user);
         console.log(user.equippedTitle);
         if (user?.profileImage) {
-          const url = getProfileImg(user.profileImage);
+          // const url = getProfileImg(user.profileImage);
+          const url = user.profileImage;
           console.log('이미지 URL:', url);
           setImageUrl(url);
         } else {
@@ -126,7 +127,13 @@ export default function Profile({
           </div>
         )}
         {isEditProfile && (
-          <EditProfile onClose={() => setIsEditProfile(false)}></EditProfile>
+          <EditProfile
+            onClose={() => setIsEditProfile(false)}
+            currentUser={{
+              nickname: userData?.nickname || '',
+              profileImageUrl: imageUrl || '',
+            }}
+          ></EditProfile>
         )}
 
         {showCopyModal && (
