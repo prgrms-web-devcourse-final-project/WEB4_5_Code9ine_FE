@@ -1,7 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-// import Category from './Category';
-
 import Calculator from './Calculator';
 import Category from './Category';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -106,7 +104,6 @@ export default function AccountAdd({
       );
       setRewriteDate(newDate);
     }
-
   }, []);
 
   useEffect(() => {
@@ -298,7 +295,9 @@ export default function AccountAdd({
               className="items-center justify-center text-center focus:outline-none"
               onFocus={() => isToolStatus('내용')}
               onChange={handleContent}
-              defaultValue={isAdd === '추가' ? '' : rewriteData?.content}
+              defaultValue={
+                isAdd === '추가' ? '' : (rewriteData?.content ?? '')
+              }
             />
           </label>
         </div>

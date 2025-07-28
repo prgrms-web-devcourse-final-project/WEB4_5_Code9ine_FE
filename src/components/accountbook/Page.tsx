@@ -30,7 +30,7 @@ export default function Page() {
   };
 
   useEffect(() => {
-    const isLogin = localStorage.getItem('auth-storage');
+    const isLogin = sessionStorage.getItem('auth-storage');
 
     const parsedIsLogin = JSON.parse(isLogin!);
 
