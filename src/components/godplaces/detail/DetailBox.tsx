@@ -9,6 +9,7 @@ interface DetailBoxProps {
   type: string;
   id: string;
   showBackButton?: boolean;
+  forceBookmarked?: boolean; // 추가
 }
 // const TYPE = '축제';
 
@@ -16,6 +17,7 @@ export default function DetailBox({
   type,
   id,
   showBackButton = true,
+  forceBookmarked = false, // 추가
 }: DetailBoxProps) {
   const router = useRouter();
   const [details, setDetails] = useState<GodplacesDetail>();
@@ -62,7 +64,7 @@ export default function DetailBox({
         상세 정보
       </div>
       {!details && '로딩중'}
-      {details && <DetailCard {...details} />}
+      {details && <DetailCard {...details} forceBookmarked={forceBookmarked} />}
     </div>
   );
 }

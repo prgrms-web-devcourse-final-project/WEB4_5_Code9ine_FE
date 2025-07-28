@@ -14,21 +14,98 @@ import {
   getMyThreads,
   getBookmarkedThreads,
   getBookmarkedPlaces,
+  getUserProfile,
+  getMyPage,
 } from '@/api/profile';
+import type { UserData } from '@/types/userType';
 import { BookmarkPostData, Post } from '@/types/userType';
 import { PostRes } from '../../types/boardType';
 import TopButton from '../board/TopButton';
 import Empty from './Empty';
+import PostItemSkeleton from '../board/PostItemSkeleton';
+interface ThreadsProps {
+  profileData?: {
+    nickname?: string;
+    myPosts?: Post[];
+    bookmarkedPosts?: Post[];
+    bookmarkedPlaces?: {
+      type: string;
+      storeId?: string;
+      festivalId?: string;
+      libraryId?: string;
+      name: string;
+    }[];
+    [key: string]: unknown;
+  }; // 서버에서 받아온 프로필 데이터
+  memberId?: string; // 유저 ID
+}
 
-export default function MyThreads() {
+export default function Threads({ profileData, memberId }: ThreadsProps) {
   const [selectedTab, setSelectedTab] = useState<'thread' | 'saved' | 'place'>(
     'thread',
   );
-
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
+  const [userData, setUserData] = useState<
+    ThreadsProps['profileData'] | UserData | null
+  >(profileData || null);
+  const [userDataLoading, setUserDataLoading] = useState(!profileData);
+  const [userDataError, setUserDataError] = useState<string | null>(null);
+  const [myData, setMyData] = useState<UserData | null>(null);
   const queryClient = useQueryClient();
 
-  // 내가 쓴 글, 내가 찜한 글, 내가 찜한 갓플
+  // 내 정보 가져오기 (memberId와 비교하기 위해)
+  useEffect(() => {
+    const fetchMyData = async () => {
+      try {
+        const res = await getMyPage();
+        setMyData(res.data.data);
+      } catch (err) {
+        console.log('내 정보 조회 실패', err);
+      }
+    };
+    fetchMyData();
+  }, []);
+
+  // 내 프로필인지 판단
+  const isMyProfile = Boolean(
+    !memberId || (myData && String(myData.memberId) === String(memberId)),
+  );
+
+  // profileData가 있으면 바로 사용
+  useEffect(() => {
+    if (profileData && !isMyProfile) {
+      setUserData(profileData);
+      setUserDataLoading(false);
+    }
+  }, [profileData, isMyProfile, myData]); // myData 의존성 추가
+
+  // 다른 유저 데이터 가져오기 (fallback, profileData가 없을 때만)
+  const fetchUserData = async () => {
+    if (!memberId || isMyProfile || profileData) return;
+
+    try {
+      setUserDataLoading(true);
+      setUserDataError(null);
+
+      console.log('Fetching user profile for memberId:', memberId);
+      const res = await getUserProfile(memberId);
+      console.log('User profile response:', res);
+
+      const user = res.data?.data || res.data || res;
+      setUserData(user);
+    } catch (err) {
+      console.error('프로필 데이터 에러:', err);
+      setUserDataError('프로필을 불러올 수 없습니다.');
+    } finally {
+      setUserDataLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, [memberId, isMyProfile, profileData, myData]);
+
+  // 내가 쓴 글 (내 프로필일 때만)
   const {
     data: myThreads,
     fetchNextPage,
@@ -40,8 +117,6 @@ export default function MyThreads() {
     queryFn: ({ pageParam }: { pageParam: number }) =>
       getMyThreads(pageParam, 10),
     getNextPageParam: (lastPage, pages) => {
-      // const isLastPage = lastPage.data.length < 10;
-      // return isLastPage ? undefined : pages.length;
       if (
         !lastPage?.data ||
         lastPage.data.length === 0 ||
@@ -52,7 +127,7 @@ export default function MyThreads() {
       return pages.length;
     },
     initialPageParam: 0,
-    enabled: selectedTab === 'thread',
+    enabled: Boolean(selectedTab === 'thread' && isMyProfile),
     // staleTime: 5 * 60 * 1000,
     // gcTime: 10 * 60 * 1000,
   });
@@ -66,17 +141,18 @@ export default function MyThreads() {
         target.isIntersecting &&
         hasNextPage &&
         !isFetchingNextPage &&
-        selectedTab === 'thread'
+        selectedTab === 'thread' &&
+        isMyProfile
       ) {
         fetchNextPage();
       }
     },
-    [hasNextPage, fetchNextPage, isFetchingNextPage, selectedTab],
+    [hasNextPage, fetchNextPage, isFetchingNextPage, selectedTab, isMyProfile],
   );
 
   useEffect(() => {
     const currentObserverRef = observerRef.current;
-    if (!currentObserverRef || selectedTab !== 'thread') {
+    if (!currentObserverRef || selectedTab !== 'thread' || !isMyProfile) {
       return;
     }
 
@@ -98,40 +174,85 @@ export default function MyThreads() {
     return () => {
       observer.disconnect();
     };
-  }, [hasNextPage, handleObserver, selectedTab, fetchNextPage]);
+  }, [hasNextPage, handleObserver, selectedTab, fetchNextPage, isMyProfile]);
 
+  // 찜한 글 (내 프로필일 때만)
   const { data: savedThreads, isLoading: isLoadingSaved } =
     useQuery<BookmarkPostData>({
       queryKey: ['saveThreads'],
       queryFn: getBookmarkedThreads,
-      enabled: selectedTab === 'saved',
+      enabled: Boolean(selectedTab === 'saved' && isMyProfile),
     });
 
-  const { data: bookmarkedPlaces = [], isLoadingBookmarked } = useQuery({
-    queryKey: ['bookmarkedPlaces'],
-    queryFn: getBookmarkedPlaces,
-    enabled: selectedTab === 'place',
-    select: (res) =>
-      res.data.map((item) => {
-        let id = '';
-        switch (item.type) {
-          case 'store':
-            id = item.storeId;
-            break;
-          case 'festival':
-            id = item.festivalId;
-            break;
-          case 'library':
-            id = item.libraryId;
-            break;
-        }
-        return {
-          type: item.type,
-          id,
-          name: item.name,
-        };
-      }),
-  });
+  // 찜한 갓플 (내 프로필일 때만)
+  const { data: bookmarkedPlaces = [], isLoading: isLoadingBookmarked } =
+    useQuery({
+      queryKey: ['bookmarkedPlaces'],
+      queryFn: getBookmarkedPlaces,
+      enabled: Boolean(selectedTab === 'place' && isMyProfile),
+      select: (res) =>
+        res.data.map((item) => {
+          let id = '';
+          switch (item.type) {
+            case 'store':
+              id = item.storeId;
+              break;
+            case 'festival':
+              id = item.festivalId;
+              break;
+            case 'library':
+              id = item.libraryId;
+              break;
+          }
+          return {
+            type: item.type,
+            id,
+            name: item.name,
+          };
+        }),
+    });
+
+  // 표시할 데이터 추출
+  const getDisplayData = () => {
+    if (isMyProfile) {
+      return {
+        threads: getUniqueThreads(),
+        savedThreads: savedThreads?.data || [],
+        bookmarkedPlaces,
+      };
+    }
+
+    // profileData 또는 userData 사용
+    const data = profileData || userData;
+    if (!data) return { threads: [], savedThreads: [], bookmarkedPlaces: [] };
+
+    // 갓플 데이터 매핑
+    const mappedPlaces = (data.bookmarkedPlaces || []).map((item: any) => {
+      let id = '';
+      switch (item.type) {
+        case 'store':
+          id = item.storeId;
+          break;
+        case 'festival':
+          id = item.festivalId;
+          break;
+        case 'library':
+          id = item.libraryId;
+          break;
+      }
+      return {
+        type: item.type,
+        id,
+        name: item.name,
+      };
+    });
+
+    return {
+      threads: data.myPosts || [],
+      savedThreads: data.bookmarkedPosts || [],
+      bookmarkedPlaces: mappedPlaces,
+    };
+  };
 
   const categoryEng = (
     korCategory: string,
@@ -159,16 +280,34 @@ export default function MyThreads() {
       value === 'COOK_KING'
     );
   };
-  const convertPostToPostRes = (post: Post): PostRes => ({
-    ...post,
-    postId: post.postId,
-    category: categoryEng(post.category),
-    challengeCategory: isValidChallengeCategory(post.challengeCategory)
-      ? post.challengeCategory
-      : 'NO_MONEY',
-  });
 
-  // 중복 제거를 위한 함수
+  const convertPostToPostRes = (
+    post: Post | BookmarkPostData['data'][number],
+  ): PostRes => {
+    if (isMyProfile) {
+      // 내 프로필: Post 타입에서 PostRes로 변환
+      return {
+        ...post,
+        postId: post.postId,
+        category: categoryEng(post.category),
+        challengeCategory: isValidChallengeCategory(post.challengeCategory)
+          ? post.challengeCategory
+          : 'NO_MONEY',
+      };
+    } else {
+      // 다른 유저 프로필: API 응답 데이터 변환
+      return {
+        ...post,
+        postId: post.postId, // bookmarkedPosts는 postid로 옴
+        category: categoryEng(post.category),
+        challengeCategory: isValidChallengeCategory(post.challengeCategory)
+          ? post.challengeCategory
+          : 'NO_MONEY',
+      };
+    }
+  };
+
+  // 중복 제거를 위한 함수 (내 프로필에서만 사용)
   const getUniqueThreads = () => {
     if (!myThreads?.pages) return [];
 
@@ -187,26 +326,62 @@ export default function MyThreads() {
     return allThreads;
   };
 
-  const uniqueThreads = getUniqueThreads();
+  const displayData = getDisplayData();
+
+  // 로딩 상태 체크
+  const isLoading = isMyProfile
+    ? selectedTab === 'thread'
+      ? isLoadingMyThreads
+      : selectedTab === 'saved'
+        ? isLoadingSaved
+        : isLoadingBookmarked
+    : userDataLoading;
 
   // 빈 상태 체크 함수들
-  const isThreadsEmpty = !isLoadingMyThreads && uniqueThreads.length === 0;
-  const isSavedEmpty =
-    !isLoadingSaved && (!savedThreads?.data || savedThreads.data.length === 0);
-  const isPlacesEmpty = !isLoadingBookmarked && bookmarkedPlaces.length === 0;
+  const isThreadsEmpty = !isLoading && displayData.threads.length === 0;
+  const isSavedEmpty = !isLoading && displayData.savedThreads.length === 0;
+  const isPlacesEmpty = !isLoading && displayData.bookmarkedPlaces.length === 0;
 
-  // useEffect(() => {
-  //   if (myThreads?.pages) {
-  //     const allThreads = myThreads.pages.flatMap((page) => page.data);
-  //     console.log('내가 쓴 글 리스트:', allThreads);
-  //   }
-  // }, [myThreads]);
+  // 에러 상태 (다른 유저 프로필일 때)
+  if (!isMyProfile && userDataError) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <p className="text-red-500">{userDataError}</p>
+      </div>
+    );
+  }
+
+  // 로딩 상태 (다른 유저 프로필일 때)
+  if (!isMyProfile && userDataLoading) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <p className="text-[var(--text-color)]">프로필을 불러오는 중...</p>
+      </div>
+    );
+  }
+
+  const scrollTargetId = isMyProfile
+    ? 'myThreads-scroll-to-top'
+    : 'userThreads-scroll-to-top';
+
   return (
     <>
-      <SetGoal />
-      <ThreadsTab selectedTab={selectedTab} onChange={setSelectedTab} />
+      <SetGoal
+        profileData={profileData ?? undefined}
+        memberId={memberId}
+        isMyProfile={isMyProfile}
+        userName={userData?.nickname}
+      />
+
+      <ThreadsTab
+        selectedTab={selectedTab}
+        onChange={setSelectedTab}
+        isMyProfile={isMyProfile}
+        userName={userData?.nickname}
+      />
+
       <div
-        id="myThreads-scroll-to-top"
+        id={scrollTargetId}
         className={`hide-scrollbar mt-[40px] w-full gap-[20px] p-[20px] ${
           selectedTab === 'place'
             ? 'grid grid-cols-1 md:grid-cols-2'
@@ -214,17 +389,23 @@ export default function MyThreads() {
         }`}
         style={{ maxHeight: '80vh', overflowY: 'auto' }}
       >
-        {/* 내가 쓴 글 탭 */}
+        {/* 작성한 글 탭 */}
         {selectedTab === 'thread' && (
           <>
-            {isThreadsEmpty ? (
+            {isLoading ? (
+              <>
+                {[...Array(3)].map((_, idx) => (
+                  <PostItemSkeleton key={`skeleton-thread-${idx}`} />
+                ))}
+              </>
+            ) : isThreadsEmpty ? (
               <Empty />
             ) : (
-              uniqueThreads.map((post) => {
+              displayData.threads.map((post) => {
                 const postRes = convertPostToPostRes(post);
                 return (
-                  <div key={post.postId} className="">
-                    {editingPostId === post.postId ? (
+                  <div key={post.postId}>
+                    {isMyProfile && editingPostId === post.postId ? (
                       <PostWriteForm
                         mode="edit"
                         category={postRes.category}
@@ -240,29 +421,45 @@ export default function MyThreads() {
                     ) : (
                       <PostItem
                         post={postRes}
-                        onEdit={() => setEditingPostId(post.postId)}
-                        onDelete={() => {
-                          queryClient.invalidateQueries({
-                            queryKey: ['myThreads'],
-                          });
-                        }}
+                        onEdit={
+                          isMyProfile
+                            ? () => setEditingPostId(post.postId)
+                            : undefined
+                        }
+                        onDelete={
+                          isMyProfile
+                            ? () => {
+                                queryClient.invalidateQueries({
+                                  queryKey: ['myThreads'],
+                                });
+                              }
+                            : undefined
+                        }
                       />
                     )}
                   </div>
                 );
               })
             )}
-            {hasNextPage && <div ref={observerRef} className="min-h-[1px]" />}
+            {isMyProfile && hasNextPage && (
+              <div ref={observerRef} className="min-h-[1px]" />
+            )}
           </>
         )}
 
         {/* 찜한 글 탭 */}
         {selectedTab === 'saved' && (
           <>
-            {isSavedEmpty ? (
+            {isLoading ? (
+              <>
+                {[...Array(3)].map((_, idx) => (
+                  <PostItemSkeleton key={`skeleton-saved-${idx}`} />
+                ))}
+              </>
+            ) : isSavedEmpty ? (
               <Empty />
             ) : (
-              savedThreads?.data.map((post) => (
+              displayData.savedThreads.map((post) => (
                 <PostItem key={post.postId} post={convertPostToPostRes(post)} />
               ))
             )}
@@ -275,7 +472,7 @@ export default function MyThreads() {
             {isPlacesEmpty ? (
               <Empty />
             ) : (
-              bookmarkedPlaces.map((place) => (
+              displayData.bookmarkedPlaces.map((place) => (
                 <div
                   key={place.id}
                   className="rounded-[10px] shadow dark:shadow-md"
@@ -284,6 +481,7 @@ export default function MyThreads() {
                     type={place.type}
                     id={place.id}
                     showBackButton={false}
+                    forceBookmarked={true}
                   />
                 </div>
               ))
@@ -292,7 +490,7 @@ export default function MyThreads() {
         )}
       </div>
 
-      <TopButton scrollTargetId="myThreads-scroll-to-top" />
+      <TopButton scrollTargetId={scrollTargetId} />
     </>
   );
 }
