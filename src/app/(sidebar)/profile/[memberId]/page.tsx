@@ -6,7 +6,7 @@ import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
 import Threads from '@/components/profile/MyThreads';
 import { getUserChallenge, getUserProfile, getMyPage } from '@/api/profile';
-import { Challenge, UserData } from '@/types/userType';
+import { Challenge, UserData, Post } from '@/types/userType';
 
 export default function ProfilePage() {
   const params = useParams();
@@ -89,8 +89,25 @@ export default function ProfilePage() {
         <div className="w-full max-w-[calc(100vw-32px)] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
             <Threads
-              profileData={profileData ?? undefined}
-              memberId={memberId}
+              profileData={
+                {
+                  nickname: profileData?.nickname,
+                  myPosts: profileData?.myPosts,
+                  bookmarkedPosts: profileData?.bookmarkedPosts,
+                  bookmarkedPlaces: profileData?.bookmarkedPlaces,
+                } as {
+                  nickname?: string;
+                  myPosts?: Post[];
+                  bookmarkedPosts?: Post[];
+                  bookmarkedPlaces?: {
+                    type: string;
+                    storeId?: string;
+                    festivalId?: string;
+                    libraryId?: string;
+                    name: string;
+                  }[];
+                }
+              }
             />
           </div>
         </div>
