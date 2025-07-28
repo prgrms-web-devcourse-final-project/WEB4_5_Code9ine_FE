@@ -21,6 +21,7 @@ export default function LoginBox() {
   const [loading, setLoading] = useState(false);
 
   const { setIsLogin } = useAuthStore();
+  const { setIsAdmin } = useAuthStore();
 
   const handleLogin = async () => {
     let valid = true;
@@ -45,14 +46,20 @@ export default function LoginBox() {
     setLoading(true);
     try {
       const payload: LoginPayload = { email, password };
-      const { message } = await login(payload);
+      const { message, data } = await login(payload);
 
       // localStorage.setItem('accessToken', data.accessToken);
       // console.log(data.accessToken);
       setIsLogin(true);
+
       toast.success(message);
 
-      router.push('/');
+      if (data.role === 'ROLE_ADMIN') {
+        setIsAdmin(true);
+        router.push('/admin');
+      } else {
+        router.push('/');
+      }
     } catch (err: unknown) {
       const msg =
         err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.';
