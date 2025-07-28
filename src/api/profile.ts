@@ -92,6 +92,30 @@ export async function getChallenge(): Promise<ChallengeData> {
   return data;
 }
 
+// 챌린지 조회 (유저 마다)
+export async function getUserChallenge(
+  memberId: string,
+): Promise<ChallengeData> {
+  const res = await fetch(
+    `${API_BASE_URL}/api/member/${memberId}/challenges/dashboard`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        accept: 'application/json',
+      },
+    },
+  );
+  if (!res.ok) {
+    console.error('fetch 실패:', res.status);
+    throw new Error(`error!: ${res.status}`);
+  }
+
+  const data = await res.json();
+
+  return data;
+}
+
 // 목표 설정
 export async function setGoal(
   goalStuff: string,

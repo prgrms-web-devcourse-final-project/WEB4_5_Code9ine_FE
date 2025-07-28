@@ -5,7 +5,7 @@ import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
 import Threads from '@/components/profile/MyThreads';
-import { getChallenge, getUserProfile, getMyPage } from '@/api/profile';
+import { getUserChallenge, getUserProfile, getMyPage } from '@/api/profile';
 import { Challenge, UserData } from '@/types/userType';
 
 export default function ProfilePage() {
@@ -28,7 +28,7 @@ export default function ProfilePage() {
         setLoading(true);
 
         // 챌린지 데이터 가져오기
-        const challengeRes = await getChallenge();
+        const challengeRes = await getUserChallenge(memberId);
         setChallenges(challengeRes.data.challenges);
 
         // 내 정보 가져오기 (memberId와 비교하기 위해)

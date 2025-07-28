@@ -10,13 +10,10 @@ import { Challenge, UserData } from '@/types/userType';
 export default function MyProfilePage() {
   const [myData, setMyData] = useState<UserData | null>(null);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-
         // 내 프로필 데이터 가져오기
         const myDataRes = await getMyPage();
         setMyData(myDataRes.data.data);
@@ -27,24 +24,23 @@ export default function MyProfilePage() {
       } catch (err) {
         console.error('데이터 조회 실패:', err);
       } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  // 로딩 상태
-  if (loading) {
-    return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-[var(--main-color-3)]"></div>
-          <p className="text-[var(--text-color)]">프로필을 불러오는 중...</p>
-        </div>
-      </div>
-    );
-  }
+  // // 로딩 상태
+  // if (loading) {
+  //   return (
+  //     <div className="flex min-h-[50vh] items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-[var(--main-color-3)]"></div>
+  //         <p className="text-[var(--text-color)]">프로필을 불러오는 중...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>

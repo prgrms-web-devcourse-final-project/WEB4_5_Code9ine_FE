@@ -8,6 +8,7 @@ import { UserData } from '@/types/userType';
 import { getMyCode, getMyPage, getUserProfile } from '@/api/profile';
 import Modal from '../common/Modal';
 import Image from 'next/image';
+import ProfileSkeleton from './ProfileSkeletion';
 
 interface ProfileProps {
   profileData?: UserData; // 서버에서 받아온 프로필 데이터
@@ -113,13 +114,7 @@ export default function Profile({
 
   // 로딩 상태
   if (loading) {
-    return (
-      <div
-        className={`${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} mb-[20px] flex w-full flex-col items-center justify-center`}
-      >
-        <p className="text-[var(--gray-color-2)]">프로필을 불러오는 중...</p>
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   // 에러 상태

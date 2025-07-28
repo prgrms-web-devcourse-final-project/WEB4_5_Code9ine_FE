@@ -79,14 +79,11 @@ export default function SetGoal({
   // 로딩 상태
   if (loading) {
     return (
-      <div className="relative mt-[20px] flex h-[40px] w-full items-center justify-center bg-[var(--main-color-1)]">
-        <h1 className="ml-[10px] text-[16px] md:text-[20px] dark:text-[#2b2e34]">
-          목표를 불러오는 중...
-        </h1>
+      <div className="relative mt-[20px] flex h-[40px] w-full animate-pulse items-center justify-center bg-[var(--background)]">
+        <div className="h-[20px] w-[70%] rounded bg-[var(--skeleton-bg)]" />
       </div>
     );
   }
-
   // 메시지 결정
   const getMessage = () => {
     if (goalName && remainAmount) {

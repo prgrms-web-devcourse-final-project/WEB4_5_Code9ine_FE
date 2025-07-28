@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { getMyPage, getUserProfile } from '@/api/profile';
 import { iconMap } from '@/data/iconMap';
 import { MyTitle } from '@/types/userType';
+import TitleSwiperSkeleton from './TitleSwiperSkeleton';
 
 interface MappedTitle extends MyTitle {
   iconImage?: StaticImageData;
@@ -102,11 +103,7 @@ export default function TitleSwiper({
   if (loading) {
     return (
       <div className={styles.container}>
-        <div className="flex h-[60px] items-center justify-center">
-          <p className="text-[14px] text-[var(--gray-color-2)]">
-            칭호를 불러오는 중...
-          </p>
-        </div>
+        <TitleSwiperSkeleton />
       </div>
     );
   }

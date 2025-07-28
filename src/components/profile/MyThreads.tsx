@@ -22,6 +22,7 @@ import { BookmarkPostData, Post } from '@/types/userType';
 import { PostRes } from '../../types/boardType';
 import TopButton from '../board/TopButton';
 import Empty from './Empty';
+import PostItemSkeleton from '../board/PostItemSkeleton';
 interface ThreadsProps {
   profileData?: {
     nickname?: string;
@@ -391,14 +392,19 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
         {/* 작성한 글 탭 */}
         {selectedTab === 'thread' && (
           <>
-            {isThreadsEmpty ? (
+            {isLoading ? (
+              <>
+                {[...Array(3)].map((_, idx) => (
+                  <PostItemSkeleton key={`skeleton-thread-${idx}`} />
+                ))}
+              </>
+            ) : isThreadsEmpty ? (
               <Empty />
             ) : (
               displayData.threads.map((post) => {
                 const postRes = convertPostToPostRes(post);
                 return (
-                  <div key={post.postId} className="">
-                    {/* 편집 모드 (내 프로필에서만) */}
+                  <div key={post.postId}>
                     {isMyProfile && editingPostId === post.postId ? (
                       <PostWriteForm
                         mode="edit"
@@ -435,7 +441,6 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
                 );
               })
             )}
-            {/* 무한 스크롤 옵저버 (내 프로필에서만) */}
             {isMyProfile && hasNextPage && (
               <div ref={observerRef} className="min-h-[1px]" />
             )}
@@ -445,7 +450,13 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
         {/* 찜한 글 탭 */}
         {selectedTab === 'saved' && (
           <>
-            {isSavedEmpty ? (
+            {isLoading ? (
+              <>
+                {[...Array(3)].map((_, idx) => (
+                  <PostItemSkeleton key={`skeleton-saved-${idx}`} />
+                ))}
+              </>
+            ) : isSavedEmpty ? (
               <Empty />
             ) : (
               displayData.savedThreads.map((post) => (
