@@ -4,7 +4,14 @@ import FestivalDetails from './FestivalDetails';
 import LibraryDetails from './LibraryDetails';
 import StoreDetails from './StoreDetails';
 
-export default function DetailCard({ ...props }: GodplacesDetail) {
+interface DetailCardProps extends GodplacesDetail {
+  forceBookmarked?: boolean; // 추가
+}
+
+export default function DetailCard({
+  forceBookmarked = false,
+  ...props
+}: DetailCardProps) {
   return (
     <div className="hide-scrollbar flex min-h-[180px] flex-col gap-[16px] overflow-y-scroll px-[18px] md:h-auto md:gap-[20px] md:px-[25px]">
       <DetailTopInfo
@@ -15,6 +22,7 @@ export default function DetailCard({ ...props }: GodplacesDetail) {
         contact={props.contact}
         url={props.url}
         id={props.storeId || props.libraryId || props.festivalId}
+        forceBookmarked={forceBookmarked} // 전달
       />
       <hr className="w-full border-[var(--gray-color-1)]" />
       {props.type === 'library' && <LibraryDetails />}

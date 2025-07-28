@@ -11,7 +11,6 @@ export default function MissionTabs({
 }: MissionTabsProps) {
   const tabs: { key: TabType; label: string }[] = [
     { key: 'daily', label: '일일 미션' },
-    // { key: 'weekly', label: '주간 미션' },
     { key: 'monthly', label: '월간 미션' },
     { key: 'community', label: '커뮤니티 미션' },
   ];

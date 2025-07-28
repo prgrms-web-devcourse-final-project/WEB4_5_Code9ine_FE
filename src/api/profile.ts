@@ -131,7 +131,6 @@ export async function getMyThreads(
       credentials: 'include',
       headers: {
         accept: 'application/json',
-        // Authorization: `Bearer ${AUTHORIZATION}`,
       },
     },
   );
@@ -142,6 +141,7 @@ export async function getMyThreads(
   const data = await res.json();
   return data;
 }
+
 // 내가 찜한 글
 export async function getBookmarkedThreads(): Promise<BookmarkPostData> {
   const res = await fetch(`${API_BASE_URL}/api/members/bookmarks/posts`, {
@@ -149,8 +149,6 @@ export async function getBookmarkedThreads(): Promise<BookmarkPostData> {
     credentials: 'include',
     headers: {
       accept: 'application/json',
-
-      // Authorization: `Bearer ${AUTHORIZATION}`,
     },
   });
   if (!res.ok) {

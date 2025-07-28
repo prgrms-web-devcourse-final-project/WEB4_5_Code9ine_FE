@@ -1,19 +1,37 @@
 type TabType = 'thread' | 'saved' | 'place';
 
-interface MissionTabsProps {
+interface ThreadsTabProps {
   selectedTab: TabType;
   onChange: (tab: TabType) => void;
+  isMyProfile?: boolean;
+  userName?: string;
 }
 
 export default function ThreadsTab({
   selectedTab,
   onChange,
-}: MissionTabsProps) {
-  const tabs: { key: TabType; label: string }[] = [
-    { key: 'thread', label: '내가 쓴 글' },
-    { key: 'saved', label: '내가 찜한 글' },
-    { key: 'place', label: '내가 찜한 갓플' },
-  ];
+  isMyProfile = true,
+  userName,
+}: ThreadsTabProps) {
+  // 탭 정보 생성 (동적으로 라벨 결정)
+  const getTabs = (): { key: TabType; label: string }[] => {
+    if (isMyProfile) {
+      return [
+        { key: 'thread', label: '내가 쓴 글' },
+        { key: 'saved', label: '내가 찜한 글' },
+        { key: 'place', label: '내가 찜한 갓플' },
+      ];
+    } else {
+      const displayName = userName || '사용자';
+      return [
+        { key: 'thread', label: `${displayName}가 쓴 글` },
+        { key: 'saved', label: `${displayName}가 찜한 글` },
+        { key: 'place', label: `${displayName}가 찜한 갓플` },
+      ];
+    }
+  };
+
+  const tabs = getTabs();
 
   return (
     <div className="border-b-2px relative mx-auto mt-[40px] flex w-fit justify-center border-[var(--main-color-1)]">

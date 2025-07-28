@@ -76,12 +76,13 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
 
     try {
       await boardApi.toggleBookmark(post.postId);
-      if(previousState === true) {
-        toast.success('북마크가 해제되었어요!')
-        queryClient.invalidateQueries({queryKey:['saveThreads']})
+      if (previousState === true) {
+        toast.success('북마크가 해제되었어요!');
       } else {
-        toast.success('북마크에 추가되었어요!')
+        toast.success('북마크에 추가되었어요!');
       }
+      queryClient.invalidateQueries({ queryKey: ['saveThreads'] });
+      queryClient.invalidateQueries({ queryKey: ['myThreads'] });
     } catch (err) {
       console.error(err);
       toast.error('북마크에 실패했어요.');
