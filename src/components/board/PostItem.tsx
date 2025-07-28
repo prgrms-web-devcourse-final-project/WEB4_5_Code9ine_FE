@@ -17,6 +17,7 @@ import { boardApi } from '@/api/boardApi';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import defaultProfile from '../../assets/profile.png';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface PostItemProps {
   post: PostRes;
@@ -36,6 +37,8 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
 
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const fetchMe = async () => {
@@ -68,13 +71,20 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
   };
 
   const handleToggleBookmark = async () => {
+    const previousState = isBookmarked;
     setIsBookmarked((prev) => !prev);
 
     try {
       await boardApi.toggleBookmark(post.postId);
+      if(previousState === true) {
+        toast.success('북마크가 해제되었어요!')
+        queryClient.invalidateQueries({queryKey:['saveThreads']})
+      } else {
+        toast.success('북마크에 추가되었어요!')
+      }
     } catch (err) {
       console.error(err);
-      toast.error('북마크에 실패했어요');
+      toast.error('북마크에 실패했어요.');
 
       setIsBookmarked((prev) => !prev);
     }

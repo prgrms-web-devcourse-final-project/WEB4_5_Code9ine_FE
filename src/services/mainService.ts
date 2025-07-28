@@ -1,3 +1,5 @@
+import { Challenge, ChallengeData } from '@/types/userType';
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 
 interface ApiResponse<T> {
@@ -131,4 +133,26 @@ export async function getBudgetAnalysis(): Promise<BudgetAnalyzeResponse> {
   }
 
   return json.data;
+}
+
+export async function getChallenge(): Promise<Challenge[]> {
+  const res = await fetch(
+    `${API_BASE}/api/members/mypage/challenges/dashboard`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    },
+  );
+
+  const json: ChallengeData = await res.json();
+
+  if (!res.ok || json.code !== '0000') {
+    throw new Error(json.message || '챌린지 목록 조회에 실패했습니다.');
+  }
+
+  return json.data.challenges;
 }

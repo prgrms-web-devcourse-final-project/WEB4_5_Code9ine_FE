@@ -8,6 +8,7 @@ interface CategorySummary {
 
 interface SpendingAnalysisProps {
   categorySummary: CategorySummary[];
+  nickname: string;
 }
 
 const COLORS = [
@@ -25,6 +26,7 @@ const COLORS = [
 
 export default function SpendingAnalysis({
   categorySummary,
+  nickname,
 }: SpendingAnalysisProps) {
   const total = categorySummary.reduce(
     (sum, item) => sum + item.totalAmount,
@@ -36,7 +38,7 @@ export default function SpendingAnalysis({
     id: index,
     name: item.category,
     value: item.totalAmount,
-    percent: Math.round((item.totalAmount / total) * 100),
+    percent: total === 0 ? 0 : Math.round((item.totalAmount / total) * 100),
   }));
 
   return (
@@ -47,7 +49,7 @@ export default function SpendingAnalysis({
             <span className="text-[var(--main-color-3)]">이번 달 지출,</span>{' '}
             어디에 가장 많이 쓰셨을까요?
           </div>
-          <div>OO님의 지출 패턴이에요.</div>
+          <div>{nickname || 'OO'}님의 지출 패턴이에요.</div>
         </div>
         <div className="mb-[10px] h-[270px] md:mb-[-35px] md:h-[270px]">
           <PieChartClient data={dataWithId} colors={COLORS} />

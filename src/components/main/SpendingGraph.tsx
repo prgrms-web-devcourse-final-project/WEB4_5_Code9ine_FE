@@ -75,8 +75,6 @@ const SpendingGraph: React.FC<SpendingGraphProps> = ({
           </BarChart>
         </ResponsiveContainer>
       </div>
-
-      {/* 범례(legend)를 커스텀으로 쓰고 싶으면 아래 부분 지워도 됩니다 */}
     </div>
   );
 };

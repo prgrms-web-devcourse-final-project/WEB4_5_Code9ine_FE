@@ -82,8 +82,6 @@ export default function UnAuthorizedMain() {
       .catch((e) => console.error('티태왕 TOP3 조회 실패', e));
   }, []);
 
-  console.log(topSavers);
-
   return (
     <>
       <div className="hide-scrollbar mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
@@ -120,7 +118,6 @@ export default function UnAuthorizedMain() {
           <SpendingGraph userAmount={2480000} titaeAmount={totalSaving} />
         </motion.div>
 
-        {/* 이번주 티태왕 TOP3 */}
         {/* 이번주 티태왕 TOP3 */}
         <motion.div
           className="mt-8 flex flex-col items-center md:w-[910px]"

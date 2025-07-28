@@ -58,26 +58,31 @@ export default function ColoredBox() {
     localStorage.setItem('theme', next ? 'dark' : 'light');
   };
 
-  // 챌린지알람
-  useEffect(() => {
-    getNotificationTitles()
-      .then((titles) => setNotifications((prev) => [...prev, ...titles]))
+  const fetchNotifications = () => {
+    Promise.all([
+      getNotificationTitles(),
+      getLikeNotifications(),
+      getCommentNotifications(),
+    ])
+      .then(([titles, likes, comments]) => {
+        setNotifications([...titles, ...likes, ...comments]);
+      })
       .catch((err) => console.error(err));
-  }, []);
+  };
 
-  // 좋아요알람
   useEffect(() => {
-    getLikeNotifications()
-      .then((titles) => setNotifications((prev) => [...prev, ...titles]))
-      .catch((err) => console.error(err));
-  }, []);
+    if (!isLogin) return;
 
-  // 댓글알람
-  useEffect(() => {
-    getCommentNotifications()
-      .then((titles) => setNotifications((prev) => [...prev, ...titles]))
+    Promise.all([
+      getNotificationTitles(),
+      getLikeNotifications(),
+      getCommentNotifications(),
+    ])
+      .then(([titles, likes, comments]) => {
+        setNotifications([...titles, ...likes, ...comments]);
+      })
       .catch((err) => console.error(err));
-  }, []);
+  }, [isLogin]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -133,6 +138,7 @@ export default function ColoredBox() {
       toast.success('로그아웃 되었습니다.');
       setLogin(false);
       setIsLogin(false);
+      router.push('/');
     } catch (err) {
       const msg = err instanceof Error ? err.message : '로그아웃 실패';
       toast.error(msg);
@@ -142,39 +148,37 @@ export default function ColoredBox() {
   return (
     <div className="relative">
       <div className="relative flex w-full items-center justify-center bg-[var(--header-color)] p-[10px] md:h-[870px] md:w-[200px] md:flex-col md:rounded-[10px]">
-        {/* 다크 모드 버튼: 오른쪽 위 */}
+        {/* 다크 모드 버튼 */}
         <div
-          className={`cursor-pointer items-center justify-center ${login ? `gap-[12px]` : ''} text-[var(--header-text)] md:flex md:self-end`}
+          className={`absolute top-[10px] right-[10px] flex items-center text-[var(--header-text)] md:static md:mt-[10px] md:flex md:self-end`}
           ref={sidebarRef}
         >
-          <button onClick={toggle} className="cursor-pointer p-2">
+          {login && (
+            <button onClick={() => setShowNotification(!showNotification)}>
+              <IoMdNotificationsOutline size={20} />
+            </button>
+          )}
+          <button onClick={toggle} className="p-2">
             {isDark ? (
               <IoSunnyOutline size={18} />
             ) : (
               <IoMoonOutline size={18} />
             )}
           </button>
-          <div className="absolute top-[18px] right-[20px] md:static md:top-[23px] md:flex">
-            {login ? (
-              <button
-                onClick={() => setShowNotification(!showNotification)}
-                className="cursor-pointer"
-              >
-                <IoMdNotificationsOutline size={20} />
-              </button>
-            ) : null}
 
-            {showNotification && (
-              <div ref={notificationRef} className="absolute right-0 z-50">
-                <NotificationBox
-                  onClose={() => setShowNotification(false)}
-                  notifications={notifications}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* <div className="absolute top-[12px] right-[12px] size-[5px] rounded-full bg-red-400"></div> */}
+          {/* 알림 박스 */}
+          {showNotification && (
+            <div
+              ref={notificationRef}
+              className="absolute relative top-full right-0 z-50 mt-2"
+            >
+              <NotificationBox
+                onClose={() => setShowNotification(false)}
+                notifications={notifications}
+                onRefresh={fetchNotifications}
+              />
+            </div>
+          )}
         </div>
         <button
           className="absolute left-[20px] cursor-pointer md:hidden"
@@ -201,14 +205,14 @@ export default function ColoredBox() {
 
           {!login ? (
             <div className="hidden gap-[10px] md:flex md:flex-col">
-              <Link href={'/accountbook'}>
+              {/* <Link href={'/accountbook'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
                 >
                   <LuNotebook size={20} />
                   가계부
                 </Button>
-              </Link>
+              </Link> */}
 
               <Link href={'/godplaces'}>
                 <Button
@@ -219,14 +223,14 @@ export default function ColoredBox() {
                 </Button>
               </Link>
 
-              <Link href={'/board'}>
+              {/* <Link href={'/board'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
                 >
                   <HiOutlineUserGroup size={20} />
                   커뮤니티
                 </Button>
-              </Link>
+              </Link> */}
 
               <Button
                 className={`pc-header-button text-[var(--header-text)]`}

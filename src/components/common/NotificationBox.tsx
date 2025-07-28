@@ -3,17 +3,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import type { NotificationTitle } from '@/api/notification';
-import { markNotificationAsRead } from '@/api/notification';
+import { equipTitle, markNotificationAsRead } from '@/api/notification';
 import Modal from './Modal';
 
 interface NotificationBoxProps {
   onClose: () => void;
   notifications: NotificationTitle[];
+  onRefresh: () => void;
 }
 
 export default function NotificationBox({
   onClose,
   notifications,
+  onRefresh,
 }: NotificationBoxProps) {
   const [selected, setSelected] = useState<NotificationTitle | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,17 +32,18 @@ export default function NotificationBox({
       }
     }
     if (selected) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('click', handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, [selected]);
 
-  // 알림 읽음 처리 함수 (재사용 가능)
+  // 알림 읽음 처리 함수
   const handleMarkAsRead = async (notificationId: number) => {
     try {
       await markNotificationAsRead(notificationId);
+      onRefresh();
     } catch (err) {
       console.error('알림 읽음 처리 실패:', err);
     } finally {
@@ -48,18 +51,23 @@ export default function NotificationBox({
     }
   };
 
-  // 즉시 장착 처리 함수 (예시)
-  const handleEquip = (notificationId: number) => {
-    // TODO: 장착 로직 구현
-    console.log('장착:', notificationId);
-    setSelected(null);
+  const handleEquip = async (challengeId: number) => {
+    try {
+      const result = await equipTitle(challengeId);
+      console.log('장착 완료:', result.equippedTitle);
+    } catch (err) {
+      console.error('즉시 장착 실패:', err);
+    } finally {
+      setSelected(null);
+    }
   };
 
   return (
     <>
+      {/* 알림 드롭다운 컨테이너 */}
       <div
         ref={containerRef}
-        className="absolute top-[40px] right-[3px] z-50 w-[300px] cursor-default rounded-lg bg-white p-4 shadow-lg md:right-[-100px] dark:bg-[#1e1e1e]"
+        className="absolute top-[40px] right-[3px] z-50 w-[300px] cursor-default rounded-lg bg-[var(--white-color)] p-4 shadow-lg md:top-[-10px] md:right-[-100px]"
       >
         {/* 헤더 */}
         <div className="mb-3 flex items-center justify-between">
@@ -72,7 +80,7 @@ export default function NotificationBox({
         </div>
 
         {/* 알림 리스트 */}
-        <div className="max-h-[300px] overflow-y-auto">
+        <div className="hide-scrollbar max-h-[300px] overflow-y-auto">
           {notifications.length === 0 ? (
             <p className="text-sm text-[var(--gray-color-2)]">
               새로운 알림이 없습니다.
@@ -86,7 +94,7 @@ export default function NotificationBox({
                     setSelected(item);
                   }
                 }}
-                className="mb-2 cursor-pointer rounded-md bg-gray-100 px-3 py-2 text-sm hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+                className="mb-2 cursor-pointer rounded-md bg-[var(--main-color-2)] px-3 py-2 text-sm transition-colors hover:bg-[var(--main-color-3)]"
               >
                 <p className="text-[var(--text-color)]">{item.message}</p>
               </div>
@@ -95,29 +103,30 @@ export default function NotificationBox({
         </div>
       </div>
 
-      {/* TITLE 타입일 때만 모달 표시 */}
-      {selected?.type === 'TITLE' && (
+      {/* TITLE 타입일 때 모달 표시 */}
+      {selected && (
         <Modal
-          title={<span className="text-[var(--text-color)]">칭호 획득</span>}
+          title={<span className="text-[var(--text-color)]">알림</span>}
           description={selected.message}
           buttons={
             <div className="flex w-full gap-2">
-              {/* 확인 버튼 */}
+              {/* 확인 버튼 (모든 타입에 대해 표시) */}
               <button
-                onClick={() =>
-                  selected && handleMarkAsRead(selected.notificationId)
-                }
+                onClick={() => handleMarkAsRead(selected.notificationId)}
                 className="flex-1 cursor-pointer rounded-[5px] bg-[var(--point-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--point-color-2)]"
               >
                 확인
               </button>
-              {/* 즉시 장착 버튼 */}
-              <button
-                onClick={() => selected && handleEquip(selected.notificationId)}
-                className="flex-1 cursor-pointer rounded-[5px] bg-[var(--main-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--main-color-3)]"
-              >
-                즉시 장착
-              </button>
+
+              {/* 즉시 장착 버튼은 TITLE일 때만 표시 */}
+              {selected.type === 'TITLE' && (
+                <button
+                  onClick={() => handleEquip(selected.notificationId)}
+                  className="flex-1 cursor-pointer rounded-[5px] bg-[var(--main-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--main-color-3)]"
+                >
+                  즉시 장착
+                </button>
+              )}
             </div>
           }
           onClose={() => setSelected(null)}

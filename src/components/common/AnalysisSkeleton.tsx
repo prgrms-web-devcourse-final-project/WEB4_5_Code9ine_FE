@@ -1,7 +1,7 @@
 export default function SkeletonBox({ height }: { height: string }) {
   return (
     <div
-      className={`w-full animate-pulse rounded-[10px] bg-gray-300 shadow-md dark:bg-gray-700 ${height}`}
+      className={`animate-pulse-fast w-full rounded-[10px] bg-[var(--skeleton-bg)] shadow-md ${height}`}
     ></div>
   );
 }

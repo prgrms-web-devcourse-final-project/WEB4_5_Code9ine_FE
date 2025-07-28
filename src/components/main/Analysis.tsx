@@ -9,12 +9,12 @@ import { getBudgetAnalysis } from '@/services/mainService';
 import type { BudgetAnalyzeResponse } from '@/services/mainService';
 import { useAuthStore } from '@/stores/authStore';
 
-export default function Analysis() {
+export default function Analysis({ nickname }: { nickname: string }) {
   const [data, setData] = useState<BudgetAnalyzeResponse | null>(null);
   const { isLogin } = useAuthStore();
 
   useEffect(() => {
-    if (!isLogin) return; // 로그인 안 된 상태면 실행하지 않음
+    if (!isLogin) return;
 
     async function fetchData() {
       try {
@@ -27,7 +27,7 @@ export default function Analysis() {
 
     fetchData();
   }, [isLogin]);
-  console.log(data);
+
   if (!data) {
     return (
       <div className="flex flex-col gap-[15px]">
@@ -53,11 +53,17 @@ export default function Analysis() {
           />
         </div>
         <div className="h-[400px] content-center justify-items-center rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[350px] md:w-[368px]">
-          <HalfYearAnalysis monthlyExpenses={data.monthlyExpenses} />
+          <HalfYearAnalysis
+            monthlyExpenses={data.monthlyExpenses}
+            nickname={nickname}
+          />
         </div>
       </div>
       <div className="h-[880px] content-center justify-items-center rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:h-[390px] md:w-[756px]">
-        <SpendingAnalysis categorySummary={data.categorySummary} />
+        <SpendingAnalysis
+          categorySummary={data.categorySummary}
+          nickname={nickname}
+        />
       </div>
     </div>
   );
