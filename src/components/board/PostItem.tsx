@@ -76,18 +76,51 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
 
     try {
       await boardApi.toggleBookmark(post.postId);
+
+      // 캐시 업데이트
+      queryClient.setQueryData(
+        ['myThreads'],
+        (oldData: { pages?: { data: PostRes[] }[] } | undefined) => {
+          if (!oldData?.pages) return oldData;
+
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+              data: page.data.map((item) =>
+                item.postId === post.postId
+                  ? { ...item, isBookmarked: !previousState }
+                  : item,
+              ),
+            })),
+          };
+        },
+      );
+
+      // 찜한 글 목록 업데이트
       if (previousState === true) {
-        toast.success('북마크가 해제되었어요!');
+        // 북마크 해제 시 찜한 글 목록에서 제거
+        toast.success('북마크가 해제되었습니다');
+        queryClient.setQueryData(
+          ['saveThreads'],
+          (oldData: { data?: PostRes[] } | undefined) => {
+            if (!oldData?.data) return oldData;
+            return {
+              ...oldData,
+              data: oldData.data.filter(
+                (item: PostRes) => item.postId !== post.postId,
+              ),
+            };
+          },
+        );
       } else {
-        toast.success('북마크에 추가되었어요!');
+        toast.success('북마크에 추가되었습니다');
+        queryClient.invalidateQueries({ queryKey: ['saveThreads'] });
       }
-      queryClient.invalidateQueries({ queryKey: ['saveThreads'] });
-      queryClient.invalidateQueries({ queryKey: ['myThreads'] });
     } catch (err) {
       console.error(err);
-      toast.error('북마크에 실패했어요.');
-
-      setIsBookmarked((prev) => !prev);
+      toast.error('북마크에 실패했어요');
+      setIsBookmarked(previousState);
     }
   };
 

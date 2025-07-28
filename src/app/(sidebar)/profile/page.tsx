@@ -1,28 +1,49 @@
+'use client';
+import { useEffect, useState } from 'react';
+import Threads from '@/components/profile/MyThreads';
 import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
-import Threads from '@/components/profile/MyThreads';
 import { getChallenge, getMyPage } from '@/api/profile';
-import { Challenge } from '@/types/userType';
-import { cookies } from 'next/headers';
+import { Challenge, UserData } from '@/types/userType';
 
-export default async function page() {
-  const accessToken = (await cookies()).get('accessToken')?.value;
-  let myData = null;
-  let challenges: Challenge[] = [];
+export default function MyProfilePage() {
+  const [myData, setMyData] = useState<UserData | null>(null);
+  const [challenges, setChallenges] = useState<Challenge[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    // 내 프로필 데이터 가져오기
-    const myDataRes = await getMyPage();
-    myData = myDataRes.data.data;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
-    // 챌린지 데이터 가져오기
-    const challengeRes = await getChallenge(accessToken!);
-    challenges = challengeRes.data.challenges;
-    console.log('My data:', myData);
-    console.log('Challenges:', challenges);
-  } catch (err) {
-    console.log('데이터 조회 실패', err);
+        // 내 프로필 데이터 가져오기
+        const myDataRes = await getMyPage();
+        setMyData(myDataRes.data.data);
+
+        // 챌린지 데이터 가져오기
+        const challengeRes = await getChallenge();
+        setChallenges(challengeRes.data.challenges);
+      } catch (err) {
+        console.error('데이터 조회 실패:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // 로딩 상태
+  if (loading) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-[var(--main-color-3)]"></div>
+          <p className="text-[var(--text-color)]">프로필을 불러오는 중...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -40,7 +61,7 @@ export default async function page() {
 
         <div className="w-full max-w-[calc(100vw-32px)] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
-            <Threads profileData={myData} />
+            <Threads profileData={myData ?? undefined} />
           </div>
         </div>
       </div>

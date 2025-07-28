@@ -38,12 +38,6 @@ export default function EditProfile({
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    // // 프로필 이미지는 하나만 선택
-    // if (files.length > 1) {
-    //   toast.error('프로필 이미지는 1장만 선택할 수 있어요');
-    //   return;
-    // }
-
     const file = files[0];
     const today = new Date();
     const yyyyMMdd = today.toISOString().slice(0, 10).replace(/-/g, '');

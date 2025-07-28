@@ -31,7 +31,7 @@ export default function SetGoal({
     !profileData && !isMyProfile,
   );
 
-  // 내 프로필 데이터 (내 프로필일 때만)
+  // 내 프로필 데이터
   const {
     data: myData,
     isLoading: myLoading,
@@ -42,7 +42,7 @@ export default function SetGoal({
     enabled: Boolean(isMyProfile),
   });
 
-  // profileData가 있으면 바로 사용
+  // profileData
   useEffect(() => {
     if (profileData && !isMyProfile) {
       setOtherUserData(profileData);
@@ -50,7 +50,7 @@ export default function SetGoal({
     }
   }, [profileData, isMyProfile]);
 
-  // 다른 유저 데이터 가져오기 (fallback, profileData가 없을 때만)
+  // 다른 유저 데이터 가져오기
   useEffect(() => {
     const fetchOtherUserData = async () => {
       if (!memberId || isMyProfile || profileData) return;
@@ -119,7 +119,7 @@ export default function SetGoal({
         return '아직 목표가 없어요. 목표를 설정해보아요!';
       } else {
         const displayName = userName || '사용자';
-        return `${displayName}는 아직 목표가 없어요.`;
+        return `${displayName}님은 아직 목표가 없어요.`;
       }
     }
   };

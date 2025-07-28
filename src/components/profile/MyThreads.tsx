@@ -102,7 +102,7 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
 
   useEffect(() => {
     fetchUserData();
-  }, [memberId, isMyProfile, profileData, myData]); // myData 의존성 추가
+  }, [memberId, isMyProfile, profileData, myData]);
 
   // 내가 쓴 글 (내 프로필일 때만)
   const {
@@ -365,9 +365,8 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
 
   return (
     <>
-      {/* SetGoal은 모든 프로필에서 표시 (편집은 내 프로필에서만) */}
       <SetGoal
-        profileData={profileData}
+        profileData={profileData ?? undefined}
         memberId={memberId}
         isMyProfile={isMyProfile}
         userName={userData?.nickname}

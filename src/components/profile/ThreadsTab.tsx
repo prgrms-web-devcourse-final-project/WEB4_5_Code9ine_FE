@@ -13,7 +13,6 @@ export default function ThreadsTab({
   isMyProfile = true,
   userName,
 }: ThreadsTabProps) {
-  // 탭 정보 생성 (동적으로 라벨 결정)
   const getTabs = (): { key: TabType; label: string }[] => {
     if (isMyProfile) {
       return [
@@ -24,9 +23,9 @@ export default function ThreadsTab({
     } else {
       const displayName = userName || '사용자';
       return [
-        { key: 'thread', label: `${displayName}가 쓴 글` },
-        { key: 'saved', label: `${displayName}가 찜한 글` },
-        { key: 'place', label: `${displayName}가 찜한 갓플` },
+        { key: 'thread', label: `${displayName}님이 쓴 글` },
+        { key: 'saved', label: `${displayName}님이 찜한 글` },
+        { key: 'place', label: `${displayName}님이 찜한 갓플` },
       ];
     }
   };

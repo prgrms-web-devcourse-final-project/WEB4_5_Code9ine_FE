@@ -17,7 +17,7 @@ interface MissionProps {
 
 export default function MissionSwiperTabs({ challengeList }: MissionProps) {
   const [selectedTab, setSelectedTab] = useState<MissionType>('daily');
-  const [reset, setReset] = useState(0);
+  // const [reset, setReset] = useState(0);
 
   const typeMap = {
     daily: '일일',
@@ -142,7 +142,7 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
             navigation
             spaceBetween={5}
             initialSlide={0}
-            onSlideChange={(swiper) => setReset(swiper.activeIndex)}
+            onSlideChange={() => {}}
           >
             {groups.map((group, index) => (
               <SwiperSlide key={index}>

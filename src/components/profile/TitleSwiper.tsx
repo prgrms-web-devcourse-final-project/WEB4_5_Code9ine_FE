@@ -11,8 +11,8 @@ interface MappedTitle extends MyTitle {
 }
 
 interface TitleSwiperProps {
-  profileData?: { achievedTitles?: MyTitle[] }; // 서버에서 받아온 프로필 데이터
-  memberId?: string; // 유저 ID
+  profileData?: { achievedTitles?: MyTitle[] };
+  memberId?: string;
 }
 
 export default function TitleSwiper({
@@ -21,13 +21,12 @@ export default function TitleSwiper({
 }: TitleSwiperProps) {
   const [achievedChallenge, setAchievedChallenge] = useState<MappedTitle[]>([]);
   const [loading, setLoading] = useState(!profileData);
-  const [error, setError] = useState<string | null>(null);
   interface MyDataType {
-    memberId: string | number;
+    memberId: number;
   }
   const [myData, setMyData] = useState<MyDataType | null>(null);
 
-  // 내 정보 가져오기 (memberId와 비교하기 위해)
+  // 내 정보 가져오기
   useEffect(() => {
     const fetchMyData = async () => {
       try {
@@ -47,7 +46,6 @@ export default function TitleSwiper({
 
   useEffect(() => {
     const fetchTitles = async () => {
-      // profileData가 있으면 그것을 사용, 없으면 API 호출
       if (profileData) {
         try {
           const achievedTitles = profileData.achievedTitles || [];
@@ -59,14 +57,11 @@ export default function TitleSwiper({
           setLoading(false);
         } catch (err) {
           console.log('프로필 데이터 처리 에러', err);
-          setError('칭호를 불러올 수 없습니다.');
           setLoading(false);
         }
       } else {
-        // fallback: API 호출
         try {
           setLoading(true);
-          setError(null);
 
           let res;
           if (isMyProfile) {
@@ -86,7 +81,6 @@ export default function TitleSwiper({
           setAchievedChallenge(mapped);
         } catch (err) {
           console.log('획득한 칭호 에러', err);
-          setError('칭호를 불러올 수 없습니다.');
         } finally {
           setLoading(false);
         }
@@ -98,9 +92,9 @@ export default function TitleSwiper({
 
   // 칭호 개수에 따른 애니메이션 속도 계산
   const getAnimationDuration = () => {
-    if (achievedChallenge.length === 0) return '90s'; // 빈 메시지용 - 느리게
-    if (achievedChallenge.length <= 3) return '15s'; // 적은 칭호
-    if (achievedChallenge.length <= 6) return '25s'; // 보통 칭호
+    if (achievedChallenge.length === 0) return '90s';
+    if (achievedChallenge.length <= 3) return '15s';
+    if (achievedChallenge.length <= 6) return '25s';
     return '35s'; // 많은 칭호
   };
 
@@ -112,17 +106,6 @@ export default function TitleSwiper({
           <p className="text-[14px] text-[var(--gray-color-2)]">
             칭호를 불러오는 중...
           </p>
-        </div>
-      </div>
-    );
-  }
-
-  // 에러 상태
-  if (error) {
-    return (
-      <div className={styles.container}>
-        <div className="flex h-[60px] items-center justify-center">
-          <p className="text-[14px] text-red-500">{error}</p>
         </div>
       </div>
     );
