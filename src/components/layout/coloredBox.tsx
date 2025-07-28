@@ -37,6 +37,7 @@ export default function ColoredBox() {
   const sidebarRef = useRef(null);
   const location = usePathname();
   const { isLogin, setIsLogin } = useAuthStore();
+  const { isAdmin, setIsAdmin } = useAuthStore();
   const [showNotification, setShowNotification] = useState(false);
   const notificationRef = useRef<HTMLDivElement | null>(null);
   const [notifications, setNotifications] = useState<NotificationTitle[]>([]);
@@ -138,6 +139,7 @@ export default function ColoredBox() {
       toast.success('로그아웃 되었습니다.');
       setLogin(false);
       setIsLogin(false);
+      setIsAdmin(false);
       router.push('/');
     } catch (err) {
       const msg = err instanceof Error ? err.message : '로그아웃 실패';
@@ -153,12 +155,16 @@ export default function ColoredBox() {
           className={`absolute top-[10px] right-[10px] flex items-center text-[var(--header-text)] md:static md:mt-[10px] md:flex md:self-end`}
           ref={sidebarRef}
         >
-          {login && (
-            <button onClick={() => setShowNotification(!showNotification)}>
+          {/* 알림 (일반 로그인 유저)  */}
+          {login && !isAdmin && (
+            <button
+              onClick={() => setShowNotification(!showNotification)}
+              className="cursor-pointer"
+            >
               <IoMdNotificationsOutline size={20} />
             </button>
           )}
-          <button onClick={toggle} className="p-2">
+          <button onClick={toggle} className="cursor-pointer p-2">
             {isDark ? (
               <IoSunnyOutline size={18} />
             ) : (
@@ -196,24 +202,17 @@ export default function ColoredBox() {
         </button>
         {/* 로고 및 네비게이션: 가운데 정렬 */}
         <div className="flex items-center justify-center md:mt-6 md:flex-col md:gap-3 md:space-x-0">
-          <Link href={'/'}>
+          {/* 로고 클릭 (관리자 -> /admin, 비로그인 또는 일반 로그인 유저 -> /) */}
+          <Link href={isAdmin ? '/admin' : '/'}>
             <div className="mt-[5px] mb-[6px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px] md:mb-[20px] md:h-[29px] md:w-[87px]">
               <Image src={logo} alt="티태 로고" />
               <span className="text-[#ffffff]">티태</span>
             </div>
           </Link>
 
-          {!login ? (
+          {/* 사이드바 (비로그인) */}
+          {!isLogin && (
             <div className="hidden gap-[10px] md:flex md:flex-col">
-              {/* <Link href={'/accountbook'}>
-                <Button
-                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
-                >
-                  <LuNotebook size={20} />
-                  가계부
-                </Button>
-              </Link> */}
-
               <Link href={'/godplaces'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/godplaces' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/godplaces' ? 'text-[var(--header-text-active)]' : ''}`}
@@ -223,15 +222,6 @@ export default function ColoredBox() {
                 </Button>
               </Link>
 
-              {/* <Link href={'/board'}>
-                <Button
-                  className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
-                >
-                  <HiOutlineUserGroup size={20} />
-                  커뮤니티
-                </Button>
-              </Link> */}
-
               <Button
                 className={`pc-header-button text-[var(--header-text)]`}
                 onClick={goToLogin}
@@ -240,7 +230,10 @@ export default function ColoredBox() {
                 로그인/회원가입
               </Button>
             </div>
-          ) : (
+          )}
+
+          {/* 사이드바 (일반 로그인 유저) */}
+          {isLogin && !isAdmin && (
             <div className="hidden gap-[10px] md:flex md:flex-col">
               <Link href={'/accountbook'}>
                 <Button
@@ -287,17 +280,52 @@ export default function ColoredBox() {
               </Button>
             </div>
           )}
+
+          {/* 사이드바 (관리자) */}
+          {isLogin && isAdmin && (
+            <div className="hidden gap-[10px] md:flex md:flex-col">
+              <Link href={'/godplaces'}>
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/godplaces' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/godplaces' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
+                  <IoSearchSharp size={20} />
+                  갓플찾기
+                </Button>
+              </Link>
+
+              <Link href={'/board'}>
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
+                >
+                  <HiOutlineUserGroup size={20} />
+                  커뮤니티
+                </Button>
+              </Link>
+
+              <Button
+                className="pc-header-button text-[var(--header-text)]"
+                onClick={handleLogout}
+              >
+                <IoMdPower size={20} />
+                로그아웃
+              </Button>
+            </div>
+          )}
+
           {/* <button className="cursor-pointer text-[var(--white-color)] md:hidden border-1">
             <IoMdNotificationsOutline size={16} />
           </button> */}
         </div>
         <div className="mt-auto hidden flex-col items-center gap-2 md:flex">
-          <a
-            href="mailto:titaeAdmin@titae.com?subject=[티태 문의하기]&body=안녕하세요. 티태입니다.%0A문의 내용을 아래에 작성해주세요.%0A----------------------------%0A%0A%0A%0A%0A%0A%0A메일 발송 시 답변까지 1~2일의 시간이 소요될 수 있습니다.%0A빠르게 도와드릴 수 있도록 최선을 다하겠습니다."
-            className="cursor-pointer self-end text-[14px] text-[var(--header-text)]"
-          >
-            1:1 문의하기
-          </a>
+          {/* 1:1 문의 (비로그인, 일반 로그인 유저) */}
+          {!isAdmin && (
+            <a
+              href="mailto:titaeAdmin@titae.com?subject=[티태 문의하기]&body=안녕하세요. 티태입니다.%0A문의 내용을 아래에 작성해주세요.%0A----------------------------%0A%0A%0A%0A%0A%0A%0A메일 발송 시 답변까지 1~2일의 시간이 소요될 수 있습니다.%0A빠르게 도와드릴 수 있도록 최선을 다하겠습니다."
+              className="cursor-pointer self-end text-[14px] text-[var(--header-text)]"
+            >
+              1:1 문의하기
+            </a>
+          )}
           <div className="flex items-end justify-center gap-1 pb-[10px] text-[var(--main-color-2)]">
             <IoLogoGithub size={22} />
             <p className="text-[10px]">© Code9ine All Right Reserved</p>
