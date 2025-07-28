@@ -88,25 +88,24 @@ export async function markNotificationAsRead(
 
 export interface EquippedTitleResponse {
   equippedTitle: string;
-  achievedTitles: string[]; // 혹은 객체 배열이라면 { title: string }[] 등의 구조로 수정
+  achievedTitles: string[];
 }
 
-export async function equipTitle(
-  challengeId: number,
-): Promise<EquippedTitleResponse> {
-  const res = await fetch(
-    `${API_BASE}/api/members/titles/${challengeId}/equip`,
-    {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+export async function equipTitle(aTId: number): Promise<EquippedTitleResponse> {
+  const res = await fetch(`${API_BASE}/api/members/titles/equip`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-  );
+    body: JSON.stringify({ aTId }),
+  });
 
   const json = (await res.json()) as ApiResponse<EquippedTitleResponse>;
 
   if (!res.ok || json.code !== '2000') {
-    throw new Error(json.message || '칭호 즉시 장착에 실패했습니다.');
+    throw new Error(json.message || '칭호 장착에 실패했습니다.');
   }
 
   return json.data;

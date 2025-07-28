@@ -204,14 +204,14 @@ export default function ColoredBox() {
 
           {!login ? (
             <div className="hidden gap-[10px] md:flex md:flex-col">
-              <Link href={'/accountbook'}>
+              {/* <Link href={'/accountbook'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
                 >
                   <LuNotebook size={20} />
                   가계부
                 </Button>
-              </Link>
+              </Link> */}
 
               <Link href={'/godplaces'}>
                 <Button
@@ -222,14 +222,14 @@ export default function ColoredBox() {
                 </Button>
               </Link>
 
-              <Link href={'/board'}>
+              {/* <Link href={'/board'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
                 >
                   <HiOutlineUserGroup size={20} />
                   커뮤니티
                 </Button>
-              </Link>
+              </Link> */}
 
               <Button
                 className={`pc-header-button text-[var(--header-text)]`}

@@ -51,7 +51,9 @@ export async function getMyCode(): Promise<myCodeCopy> {
 }
 
 // 챌린지 전체 조회
-export async function getChallenge(accessToken: string): Promise<ChallengeData> {
+export async function getChallenge(
+  accessToken?: string,
+): Promise<ChallengeData> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL2}/api/members/mypage/challenges/dashboard`,
     {
