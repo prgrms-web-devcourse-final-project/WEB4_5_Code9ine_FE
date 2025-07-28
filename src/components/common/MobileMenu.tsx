@@ -11,20 +11,35 @@ import { HiOutlineUserGroup } from 'react-icons/hi';
 import { BsPersonRaisedHand } from 'react-icons/bs';
 import { IoMdPower } from 'react-icons/io';
 import { usePathname } from 'next/navigation';
+import { logout } from '@/services/authService';
+import toast from 'react-hot-toast';
+import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from 'next/navigation';
 
 export default function MobileMenu({
   login,
-  loginSet,
+
   closeSideBar,
 }: {
   login: boolean;
   loginSet: (arg0: boolean) => void;
   closeSideBar: (arg0: boolean) => void;
 }) {
+  const { setIsLogin } = useAuthStore();
   const location = usePathname();
-  const handleLogin = () => {
-    loginSet(!login);
-    closeSideBar(false);
+  const router = useRouter();
+
+  // 로그아웃
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success('로그아웃 되었습니다.');
+      setIsLogin(false);
+      router.push('/');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : '로그아웃 실패';
+      toast.error(msg);
+    }
   };
   return (
     <>
@@ -32,7 +47,7 @@ export default function MobileMenu({
         <div className="flex min-h-[94vh] w-[200px] flex-col items-center bg-[var(--header-color)]">
           {!login ? (
             <div className="mt-[30px] flex flex-col gap-[10px]">
-              <Link href={'/accountbook'}>
+              {/* <Link href={'/accountbook'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
@@ -40,7 +55,7 @@ export default function MobileMenu({
                   <LuNotebook size={20} />
                   가계부
                 </Button>
-              </Link>
+              </Link> */}
 
               <Link href={'/godplaces'}>
                 <Button
@@ -52,7 +67,7 @@ export default function MobileMenu({
                 </Button>
               </Link>
 
-              <Link href={'/board'}>
+              {/* <Link href={'/board'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
                   onClick={() => closeSideBar(false)}
@@ -60,11 +75,10 @@ export default function MobileMenu({
                   <HiOutlineUserGroup size={20} />
                   커뮤니티
                 </Button>
-              </Link>
+              </Link> */}
               <Link href={'/login'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)]`}
-                  onClick={handleLogin}
                 >
                   <BsPersonRaisedHand size={20} />
                   로그인/회원가입
@@ -115,7 +129,7 @@ export default function MobileMenu({
 
               <Button
                 className={`pc-header-button text-[var(--header-text)]`}
-                onClick={handleLogin}
+                onClick={handleLogout}
               >
                 <IoMdPower size={20} />
                 로그아웃

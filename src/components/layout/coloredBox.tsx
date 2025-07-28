@@ -138,6 +138,7 @@ export default function ColoredBox() {
       toast.success('로그아웃 되었습니다.');
       setLogin(false);
       setIsLogin(false);
+      router.push('/');
     } catch (err) {
       const msg = err instanceof Error ? err.message : '로그아웃 실패';
       toast.error(msg);

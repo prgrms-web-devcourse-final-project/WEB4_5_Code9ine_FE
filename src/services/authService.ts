@@ -292,6 +292,9 @@ export function getGoogleLoginRedirect(): void {
   window.location.href = `${API_BASE}/oauth2/authorization/google`;
 }
 
+// export function getGoogleLoginRedirect(): void {
+//   window.location.href = `https://titae.cedartodo.uk/oauth2/authorization/google`;
+// }
 // 리프레시 토큰 기반 엑세스 토큰 재발급
 export interface TokenRefreshPayload {
   refreshToken: string;
