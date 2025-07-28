@@ -4,18 +4,18 @@ import TalkBalloon from './TalkBalloon';
 import TiTaeProfile from './TiTaeProfile';
 import TitaeTalkBalloon from './TiTaeTalkBalloon';
 import { useAccountData } from '@/stores/accountStore';
-import { UserData } from '@/types/userType';
+import { GetMyPageData } from '@/types/userType';
 import { Chatting, Response } from '@/types/payData';
 import { setChatResponseData } from '@/api/accountApi';
 
 export default function AiChat() {
   const [showIcon, setShowIcon] = useState<boolean>(true);
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<GetMyPageData | null>(null);
   const [message, setMessage] = useState<Chatting[]>([]);
   const [chatResponse, setChatResponse] = useState<Response | null>(null);
   const newMsg = useRef<HTMLDivElement>(null);
   const { userData } = useAccountData();
-  const nickname = user?.nickname;
+  const nickname = user?.data.data.nickname;
   const welcomeMessage = `안녕하세요 ${nickname}님! 무엇을 도와드릴까요?`;
   const handleFetch = async () => {
     setShowIcon(false);
@@ -80,9 +80,9 @@ export default function AiChat() {
               <div className="flex w-full gap-[10px]">
                 <TiTaeProfile />
                 <TitaeTalkBalloon message={welcomeMessage} />
-                <TitaeTalkBalloon
+                {/* <TitaeTalkBalloon
                   message={'※ AI챗봇은 하루 3회 이용 가능합니다'}
-                />
+                /> */}
               </div>
               {message?.map((v, i) =>
                 !v.user ? (
@@ -107,7 +107,7 @@ export default function AiChat() {
               className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
               onClick={handleFetch}
             >
-              자산 관리에 대해 무엇이든 물어보세요!
+              자산 관리에 대해 티태에게 물어보세요!
             </button>
           ) : (
             <div className="flex flex-col gap-[10px]">

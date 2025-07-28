@@ -1,33 +1,76 @@
 'use client';
 import { PayList, totalData } from '@/types/payData';
 import ListCard from './ListCard';
-import { useEffect, useState } from 'react';
-import { setDayData } from '@/api/accountApi';
+import { useEffect, useRef, useState } from 'react';
+import { setData, setDayData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 type GroupedByDate = Record<string, PayList[]>;
 
 export default function ListArea() {
-  const [totalData2, setTotalData] = useState<totalData | null>(null);
   const [day, setDay] = useState<totalData>();
-  const { dateData, showDayData, totalData } = useAccountData();
+  const { dateData, showDayData, totalData, setShowDayData } = useAccountData();
+  const viewRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef(null);
 
-  const dateGroup = (totalData2?.data.details ?? []).reduce(
-    (acc: GroupedByDate, curr: PayList) => {
-      const date = curr.date;
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(curr);
-      return acc;
-    },
-    {},
-  );
+  const fetchData = async ({ pageParam = 1 }: { pageParam?: number }) => {
+    const fetchedData = await setData(pageParam);
+    return fetchedData;
+  };
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ['totalData'],
+      queryFn: fetchData,
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) => {
+        return lastPage.nextCursor ?? undefined;
+      },
+    });
+
+  const allDetails = data?.pages.flatMap((page) => page.data.details) ?? [];
+
+  const dateGroup = allDetails.reduce((acc: GroupedByDate, curr: PayList) => {
+    const date = curr.date;
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(curr);
+    return acc;
+  }, {});
+
+  // 스크롤 옵저버
+  useEffect(() => {
+    if (!viewRef.current || !listRef.current) return;
+
+    const options = {
+      root: listRef.current,
+      rootMargin: '0px',
+      threshold: 0,
+    };
+
+    const fetchCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage?.();
+          // observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(fetchCallback, options);
+
+    if (viewRef.current) {
+      observer.observe(viewRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   useEffect(() => {
-    if (totalData !== undefined && totalData !== null) {
-      setTotalData(totalData);
-    }
     async function todayData() {
       const data = await setDayData(dateData);
       setDay(data);
@@ -37,23 +80,36 @@ export default function ListArea() {
 
   return (
     <>
-      <span className="mt-[30px] ml-[24px] text-[24px] font-semibold">
-        내역
-      </span>
+      <div className="mt-[30px] ml-[24px] flex items-center gap-[250px]">
+        <span className="text-[24px] font-semibold">내역</span>
+        {showDayData ? (
+          <button
+            className="cursor-pointer"
+            onClick={() => setShowDayData(false)}
+          >
+            x
+          </button>
+        ) : null}
+      </div>
       {!showDayData ? (
-        <div className="hide-scrollbar w-320px mx-[17px] mt-[20px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
+        <div
+          className="hide-scrollbar w-320px mx-[17px] mt-[20px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll"
+          ref={listRef}
+        >
           {Object.keys(dateGroup).map((date) => (
             <div key={date}>
               <div className="mb-[15px] min-w-[315px] border-b-1 text-[var(--main-color-3)] dark:text-[var(--text-color)]">
                 <p>{date}</p>
               </div>
               <div className="mb-[25px]">
-                {dateGroup[date].map((item, index) => (
+                {dateGroup[date].map((item: PayList, index: number) => (
                   <ListCard value={item} index={item.id} key={index} />
                 ))}
               </div>
             </div>
           ))}
+          <div ref={viewRef} className="h-[1px]"></div>
+          {isFetchingNextPage && <p>Loading...</p>}
         </div>
       ) : (
         <div className="hide-scrollbar w-320px mx-[17px] mt-[20px] mb-[25px] flex flex-col gap-[15px] md:overflow-scroll">
@@ -68,7 +124,7 @@ export default function ListArea() {
               </p>
             </div>
             <div className="mb-[25px]">
-              {day?.data.details.map((item, index) => (
+              {day?.data.details.map((item: PayList, index: number) => (
                 <ListCard value={item} index={item.id} key={index} />
               ))}
             </div>

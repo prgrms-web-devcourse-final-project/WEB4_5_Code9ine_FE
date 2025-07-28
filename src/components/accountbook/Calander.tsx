@@ -71,7 +71,7 @@ export default function Calander({
                   +{item.income.toLocaleString('ko-KR')}
                 </p>
                 <p
-                  className="justify-end text-end text-[8px] md:text-[14px]"
+                  className="justify-end text-end text-[8px] text-[var(--text-color)] md:text-[14px]"
                   key={index + 3}
                 >
                   {item.difference.toLocaleString('ko-KR')}

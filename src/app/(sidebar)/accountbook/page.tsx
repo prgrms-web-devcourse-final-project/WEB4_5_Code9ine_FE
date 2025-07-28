@@ -3,47 +3,11 @@
 // import ListArea from '@/components/accountbook/ListArea';
 
 import Page from '@/components/accountbook/Page';
-import { cookies } from 'next/headers';
 
 export default async function page() {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get('accessToken')?.value;
-
-  const setData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL2}/api/budget/totaldetails`,
-    {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
-  );
-
-  const receivedTotalData = await setData.json();
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL2}/api/members/mypage`,
-    {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
-  );
-  if (!res.ok) {
-    console.error('fetch 실패:', res.status);
-    throw new Error(`error!: ${res.status}`);
-  }
-
-  const data = await res.json();
-
   return (
     <div className="h-[702px] min-w-[350px] md:h-[870px] md:w-[1121px]">
-      <Page totalData={receivedTotalData} userData={data.data.data} />
+      <Page />
     </div>
   );
 }

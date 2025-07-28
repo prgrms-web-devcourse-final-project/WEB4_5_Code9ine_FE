@@ -115,7 +115,7 @@ export default function ListCard({
           </div>
         ) : null}
         <div className="absolute top-[80px] right-[13px] hidden md:group-hover:flex">
-          <CardMenu index={index} />
+          <CardMenu index={index} value={value} />
         </div>
       </div>
     </>

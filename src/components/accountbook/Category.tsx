@@ -14,7 +14,6 @@ export default function Category({
   const handleCategory = (value: string) => {
     setSelectedCategory(value);
     setCategory(selectedCategory);
-    console.log(selectedCategory);
     handleTag(value);
   };
   const paidCategoryTag = [
