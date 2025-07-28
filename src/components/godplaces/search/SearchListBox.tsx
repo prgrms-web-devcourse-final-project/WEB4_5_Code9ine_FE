@@ -3,6 +3,7 @@ import { getGodplaces } from '@/api/godplaces';
 import SearchListCard from './SearchListCard';
 import { startTransition, useEffect } from 'react';
 import { useGodplacesStore } from '@/stores/godplacesStore';
+import SearchListCardSkeleton from './SearchListCardSkeleton';
 
 export default function SearchListBox({
   region,
@@ -32,7 +33,10 @@ export default function SearchListBox({
         검색 결과
       </div>
       <div className="hide-scrollbar flex h-[35dvh] flex-col items-center gap-[8px] overflow-y-auto px-[10px] pt-[4px] md:h-[782px] md:gap-[13px] md:px-[0px]">
-        {!godplaces && '로딩중'}
+        {!godplaces &&
+          Array.from({ length: 7 }, (_, idx) => (
+            <SearchListCardSkeleton key={idx} />
+          ))}
         {godplaces && godplaces.length === 0 && '검색 결과가 없습니다'}
         {godplaces &&
           godplaces.map((d) => {
