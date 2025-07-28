@@ -18,7 +18,7 @@ import {
   getMyPage,
 } from '@/api/profile';
 import type { UserData } from '@/types/userType';
-import { BookmarkPostData, Post } from '@/types/userType';
+import { BookmarkPostData, Post, BookmarkItem } from '@/types/userType';
 import { PostRes } from '../../types/boardType';
 import TopButton from '../board/TopButton';
 import Empty from './Empty';
@@ -227,25 +227,28 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
     if (!data) return { threads: [], savedThreads: [], bookmarkedPlaces: [] };
 
     // 갓플 데이터 매핑
-    const mappedPlaces = (data.bookmarkedPlaces || []).map((item: any) => {
-      let id = '';
-      switch (item.type) {
-        case 'store':
-          id = item.storeId;
-          break;
-        case 'festival':
-          id = item.festivalId;
-          break;
-        case 'library':
-          id = item.libraryId;
-          break;
-      }
-      return {
-        type: item.type,
-        id,
-        name: item.name,
-      };
-    });
+    const mappedPlaces = ((data.bookmarkedPlaces ?? []) as BookmarkItem[]).map(
+      (item) => {
+        let id = '';
+        switch (item.type) {
+          case 'store':
+            id = item.storeId;
+            break;
+          case 'festival':
+            id = item.festivalId;
+            break;
+          case 'library':
+            id = item.libraryId;
+            break;
+        }
+
+        return {
+          type: item.type,
+          id,
+          name: item.name,
+        };
+      },
+    );
 
     return {
       threads: data.myPosts || [],
@@ -367,7 +370,16 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
   return (
     <>
       <SetGoal
-        profileData={profileData ?? undefined}
+        profileData={{
+          goalStuff:
+            typeof userData?.goalStuff === 'string'
+              ? userData.goalStuff
+              : undefined,
+          remainPrice:
+            typeof userData?.remainPrice === 'number'
+              ? userData.remainPrice
+              : undefined,
+        }}
         memberId={memberId}
         isMyProfile={isMyProfile}
         userName={userData?.nickname}
