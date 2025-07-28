@@ -31,7 +31,7 @@ export default function EditProfile({
   const [confirmPwdError, setConfirmPwdError] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const queryClient = useQueryClient();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,7 +134,7 @@ export default function EditProfile({
       setNickname(currentUser.nickname || '');
       setProfileImageUrl(currentUser.profileImageUrl || '');
     }
-    setIsLoading(false);
+    // setIsLoading(false);
   }, [currentUser]);
 
   const submitUserData = async () => {
