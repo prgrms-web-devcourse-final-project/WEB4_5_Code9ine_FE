@@ -1,7 +1,7 @@
 'use client';
 import { getAllStores, getStroesByCategory } from '@/api/admin';
 import { Store } from '@/types/admin';
-import { startTransition, useEffect, useState } from 'react';
+import { ChangeEvent, startTransition, useEffect, useState } from 'react';
 import StoreCard from './StoreCard';
 import Button from './Button';
 import AddModifyModal from './AddModifyModal';
@@ -73,6 +73,11 @@ export default function ManageStores() {
     setIsShowModal(true);
   };
 
+  const selectedStoreHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStorePerPage(Number(e.target.value));
+    setPage(1);
+  };
+
   return (
     <>
       <div className="hide-scrollbar flex h-[415px] flex-col gap-[15px] overflow-y-scroll rounded-[10px] bg-[var(--white-color)] px-[20px] py-[15px] shadow-[var(--shadow-md)]">
@@ -105,7 +110,7 @@ export default function ManageStores() {
             페이지당 착한가게 수
             <select
               value={selectedStorePerPage}
-              onChange={(e) => setSelectedStorePerPage(Number(e.target.value))}
+              onChange={selectedStoreHandler}
               className="ml-[10px]"
             >
               <option value={10}>10개</option>
