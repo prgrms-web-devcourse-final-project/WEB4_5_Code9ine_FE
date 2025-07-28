@@ -73,15 +73,15 @@ export default function LoginBox() {
   };
 
   // 구글로그인
-  const handleGoogleLogin = () => {
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-    const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
-    const scope = 'email profile';
+  // const handleGoogleLogin = () => {
+  //   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  //   const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
+  //   const scope = 'email profile';
 
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
+  //   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
 
-    window.location.href = googleAuthUrl;
-  };
+  //   window.location.href = googleAuthUrl;
+  // };
 
   return (
     <div className="flex h-auto w-[270px] flex-col gap-4 overflow-y-auto rounded-[20px] bg-[var(--background)] p-8 md:h-auto md:w-[500px] md:overflow-hidden">
