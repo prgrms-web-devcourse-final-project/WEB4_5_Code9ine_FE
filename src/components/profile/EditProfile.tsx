@@ -13,8 +13,10 @@ import { useRouter } from 'next/navigation';
 export default function EditProfile({
   onClose,
   currentUser,
+  onSuccess,
 }: {
   onClose: () => void;
+  onSuccess?: () => void;
   currentUser?: { nickname: string; profileImageUrl: string };
 }) {
   const router = useRouter();
@@ -174,6 +176,9 @@ export default function EditProfile({
       await changeInfo(nickname, profileImageUrl, password, password);
       toast.success('수정 완료!');
 
+      if (onSuccess) onSuccess();
+      else onClose();
+
       if (password) {
         router.push('/login');
       } else {
@@ -220,7 +225,7 @@ export default function EditProfile({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              submitUserData();
+              submitHandler();
             }}
           >
             <div className="mt-[20px] flex w-[300px] flex-col items-start gap-1 self-center">

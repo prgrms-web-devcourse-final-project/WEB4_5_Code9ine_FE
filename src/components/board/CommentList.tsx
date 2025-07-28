@@ -10,6 +10,7 @@ import defaultProfile from '../../assets/profile.png';
 interface CommentListProps {
   postId: number;
   myMemberId: number | null;
+  skeletonCount: number;
   onAddComment?: () => void;
   onDeleteComment?: () => void;
 }
@@ -17,12 +18,13 @@ interface CommentListProps {
 export default function CommentList({
   postId,
   myMemberId,
+  skeletonCount,
   onAddComment,
   onDeleteComment,
 }: CommentListProps) {
   const [input, setInput] = useState('');
   const [comments, setComments] = useState<CommentRes[]>([]);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -32,7 +34,7 @@ export default function CommentList({
       } catch (err) {
         console.error('댓글 불러오기 실패:', err);
       } finally {
-        //setLoading(false);
+        setLoading(false);
       }
     };
 
@@ -88,53 +90,72 @@ export default function CommentList({
         </button>
       </form>
 
-      {comments.map((c) => (
-        <div
-          key={c.commentId}
-          className="flex items-start gap-3 border-t border-[var(--main-color-2)] py-4"
-        >
-          <Link href={`/profile/${c.memberId}`}>
-            <Image
-              src={c.writerProfileImage || defaultProfile}
-              alt={'댓글 작성자 프로필'}
-              width={32}
-              height={32}
-              className="h-8 w-8 rounded-full border border-[var(--main-color-2)] object-cover"
-            />
-          </Link>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-              <Link href={`/profile/${c.memberId}`}>
-                <b className="text-[16px]">{c.writerNickname}</b>
-              </Link>
-              {c.writerTitle && (
-                <Link href={`/profile/${c.memberId}`}>
-                  <span className="text-xs text-gray-400">{c.writerTitle}</span>
-                </Link>
-              )}
-
-              <span className="ml-1 text-xs text-gray-400">
-                {format(parseISO(c.createdAt), 'yy.MM.dd')}
-              </span>
+      {loading ? (
+        <>
+          {Array.from({ length: skeletonCount }).map((_, idx) => (
+            <div
+              key={idx}
+              className="animate-pulse-fast flex items-start gap-3 border-t border-[var(--main-color-2)] py-4"
+            >
+              <div className="h-8 w-8 rounded-full bg-[var(--skeleton-bg)]" />
+              <div className="flex-1 space-y-2">
+                <div className="h-[14px] w-[100px] rounded bg-[var(--skeleton-bg)]" />
+                <div className="h-[12px] w-[80%] rounded bg-[var(--skeleton-bg)]" />
+              </div>
             </div>
+          ))}
+        </>
+      ) : (
+        comments.map((c) => (
+          <div
+            key={c.commentId}
+            className="flex items-start gap-3 border-t border-[var(--main-color-2)] py-4"
+          >
+            <Link href={`/profile/${c.memberId}`}>
+              <Image
+                src={c.writerProfileImage || defaultProfile}
+                alt={'댓글 작성자 프로필'}
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-full border border-[var(--main-color-2)] object-cover"
+              />
+            </Link>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <Link href={`/profile/${c.memberId}`}>
+                  <b className="text-[16px]">{c.writerNickname}</b>
+                </Link>
+                {c.writerTitle && (
+                  <Link href={`/profile/${c.memberId}`}>
+                    <span className="text-xs text-gray-400">
+                      {c.writerTitle}
+                    </span>
+                  </Link>
+                )}
 
-            <div className="flex items-center justify-between">
-              <span className="mt-1 block text-[16px] break-all">
-                {c.content}
-              </span>
+                <span className="ml-1 text-xs text-gray-400">
+                  {format(parseISO(c.createdAt), 'yy.MM.dd')}
+                </span>
+              </div>
 
-              {myMemberId === c.memberId && (
-                <button
-                  onClick={() => handleDelete(c.commentId)}
-                  className="h-[28px] w-[48px] shrink-0 rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:w-[58px] md:text-[16px]"
-                >
-                  삭제
-                </button>
-              )}
+              <div className="flex items-center justify-between">
+                <span className="mt-1 block text-[16px] break-all">
+                  {c.content}
+                </span>
+
+                {myMemberId === c.memberId && (
+                  <button
+                    onClick={() => handleDelete(c.commentId)}
+                    className="h-[28px] w-[48px] shrink-0 rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:w-[58px] md:text-[16px]"
+                  >
+                    삭제
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }

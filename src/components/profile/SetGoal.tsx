@@ -1,26 +1,30 @@
 'use client';
 import { MdEdit } from 'react-icons/md';
 import SetGoalModal from './SetGoalModal';
-import { useEffect, useState } from 'react';
-// import { GetMyPageData } from '@/types/userType';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { getMyPage } from '@/api/profile';
-// import { getSetGoal } from '@/api/getSetGoal';
 
 export default function SetGoal() {
   const [isSetmodal, setIsSetModal] = useState(false);
-  const [goalName, setGoalName] = useState<string | null>(null);
-  const [remainAmount, setRemainAmount] = useState<number | null>(null);
 
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['MyPageGoal'],
+    queryFn: getMyPage,
+  });
+
+  const goalName = data?.data.data.goalStuff;
+  const remainAmount = data?.data.data.remainPrice;
   // 유저 데이터
-  useEffect(() => {
-    getMyPage()
-      .then((res) => {
-        console.log('성공:', res);
-        setGoalName(res.data.data.goalStuff);
-        setRemainAmount(res.data.data.remainPrice);
-      })
-      .catch((err) => console.log('마이페이지 에러', err));
-  }, []);
+  // useEffect(() => {
+  //   getMyPage()
+  //     .then((res) => {
+  //       console.log('성공:', res);
+  //       setGoalName(res.data.data.goalStuff);
+  //       setRemainAmount(res.data.data.remainPrice);
+  //     })
+  //     .catch((err) => console.log('마이페이지 에러', err));
+  // }, []);
 
   return (
     <>
@@ -45,7 +49,15 @@ export default function SetGoal() {
         </button>
 
         {isSetmodal && (
-          <SetGoalModal onClose={() => setIsSetModal(false)}></SetGoalModal>
+          <SetGoalModal
+            onClose={() => {
+              setIsSetModal(false);
+            }}
+            onGoalSet={() => {
+              refetch();
+              setIsSetModal(false);
+            }}
+          ></SetGoalModal>
         )}
       </div>
     </>

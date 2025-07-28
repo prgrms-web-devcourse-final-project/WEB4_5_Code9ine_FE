@@ -6,34 +6,40 @@ import Button from './Button';
 import { useState, useEffect } from 'react';
 import EditProfile from './EditProfile';
 import { UserData } from '@/types/userType';
-import { getMyCode } from '@/api/profile'; // ✅ getMyPage 제거
+import { getMyCode, getMyPage } from '@/api/profile';
 import Modal from '../common/Modal';
 import Image from 'next/image';
 // import { getProfileImg } from '@/lib/utils/getImageUrl';
 
 export default function Profile({
   isPersonal = false,
-  userData,
 }: {
   isPersonal?: boolean;
-  userData: UserData | null;
 }) {
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [showCopyModal, setShowCopyModal] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  // 유저 이미지 URL 설정
-  useEffect(() => {
-    if (userData?.profileImage) {
-      // const url = getProfileImg(user.profileImage);
-      const url = userData.profileImage;
-      console.log('이미지 URL:', url);
-      setImageUrl(url);
-    } else {
-      console.log('이미지 없음');
+  // 유저 데이터
+  const fetchUserData = async () => {
+    try {
+      const res = await getMyPage();
+      const user = res.data.data;
+      setUserData(user);
+      if (user?.profileImage) {
+        setImageUrl(user.profileImage);
+      } else {
+        setImageUrl(null);
+      }
+    } catch (err) {
+      console.log('마이데이터 에러', err);
     }
-  }, [userData]);
+  };
 
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   // 초대 코드 복사
   const handleCopy = async () => {
     try {
@@ -48,7 +54,9 @@ export default function Profile({
 
   return (
     <>
-      <div className="my-[20px] flex w-full flex-col items-center justify-center">
+      <div
+        className={`${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} mb-[20px] flex w-full flex-col items-center justify-center`}
+      >
         {userData ? (
           <>
             {userData.profileImage && imageUrl ? (
@@ -60,7 +68,7 @@ export default function Profile({
                     src={imageUrl}
                     alt="유저 프로필 이미지"
                     priority
-                    className="object-cover"
+                    className="h-full w-full object-cover"
                   />
                 </div>
               </>
@@ -73,9 +81,18 @@ export default function Profile({
                 LV.{userData.level}
               </span>{' '}
             </p>
-            <p className="mt-[5px] mb-[7px] text-[16px] font-semibold">
-              {/* {userData.equippedTitle.} */}
+            <p
+              className={`mt-[5px] mb-[7px] text-[16px] ${
+                userData.equippedTitle && userData.equippedTitle.length > 0
+                  ? 'font-semibold text-[var(--text-color)]'
+                  : 'text-[var(--gray-color-2)]'
+              }`}
+            >
+              {userData.equippedTitle && userData.equippedTitle.length > 0
+                ? userData.equippedTitle[0].name
+                : '칭호를 획득해 보세요!'}
             </p>
+
             <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
               다음 레벨까지
             </span>
@@ -126,6 +143,10 @@ export default function Profile({
             currentUser={{
               nickname: userData?.nickname || '',
               profileImageUrl: imageUrl || '',
+            }}
+            onSuccess={() => {
+              fetchUserData();
+              setIsEditProfile(false);
             }}
           ></EditProfile>
         )}
