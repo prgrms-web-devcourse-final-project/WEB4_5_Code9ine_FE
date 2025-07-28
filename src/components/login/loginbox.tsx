@@ -6,6 +6,7 @@ import { login, LoginPayload } from '@/services/authService';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@/stores/authStore';
 import { getGoogleLoginRedirect } from '@/services/authService';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function LoginBox() {
   const router = useRouter();
@@ -44,10 +45,10 @@ export default function LoginBox() {
     setLoading(true);
     try {
       const payload: LoginPayload = { email, password };
-      const { data, message } = await login(payload);
+      const { message } = await login(payload);
 
       // localStorage.setItem('accessToken', data.accessToken);
-      console.log(data.accessToken);
+      // console.log(data.accessToken);
       setIsLogin(true);
       toast.success(message);
 
@@ -72,15 +73,15 @@ export default function LoginBox() {
   };
 
   // 구글로그인
-  const handleGoogleLogin = () => {
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-    const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
-    const scope = 'email profile';
+  // const handleGoogleLogin = () => {
+  //   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  //   const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
+  //   const scope = 'email profile';
 
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
+  //   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
 
-    window.location.href = googleAuthUrl;
-  };
+  //   window.location.href = googleAuthUrl;
+  // };
 
   return (
     <div className="flex h-auto w-[270px] flex-col gap-4 overflow-y-auto rounded-[20px] bg-[var(--background)] p-8 md:h-auto md:w-[500px] md:overflow-hidden">
@@ -140,9 +141,15 @@ export default function LoginBox() {
       </div>
 
       {/* 버튼 그룹 */}
-      <div className="mt-4 mb-[15px] flex flex-col gap-[20px] self-center md:gap-[30px]">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleLogin();
+        }}
+        className="mt-4 mb-[15px] flex flex-col gap-[20px] self-center md:gap-[30px]"
+      >
         <Button
-          onClick={handleLogin}
+          type="submit"
           disabled={loading}
           className={`h-[35px] w-[195px] rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-2)] md:w-[300px] md:text-[20px] ${
             loading ? 'cursor-not-allowed opacity-50' : ''
@@ -150,19 +157,24 @@ export default function LoginBox() {
         >
           {loading ? '로그인 중...' : '로그인 하기'}
         </Button>
+
         <Button
+          type="button"
           onClick={getGoogleLoginRedirect}
-          className="h-[35px] w-[195px] bg-[#FFFFFF] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
+          className="relative flex h-[35px] w-[195px] items-center justify-center bg-[#FFFFFF] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
         >
+          <FcGoogle size={20} className="absolute left-4" />
           구글로 로그인 하기
         </Button>
+
         <Button
+          type="button"
           onClick={handleKakaoLogin}
           className="h-[35px] w-[195px] bg-[#FEE500] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
         >
           카카오톡으로 로그인 하기
         </Button>
-      </div>
+      </form>
 
       {/* 회원가입 링크 */}
       <div className="flex flex-col">

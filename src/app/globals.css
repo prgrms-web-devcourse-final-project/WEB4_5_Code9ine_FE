@@ -39,6 +39,10 @@
 
   /* Skeleton Background Color */
   --skeleton-bg: #e9e9e9;
+
+  --login-gradient-color-1: var(--main-color-3);
+  --login-gradient-color-2: var(--main-color-2);
+  --login-gradient-color-3: var(--main-color-1);
 }
 
 @theme {
@@ -192,6 +196,10 @@ html.dark {
 
   /* Skeleton Background Color */
   --skeleton-bg: #404753;
+
+  --login-gradient-color-1: #2e3746;
+  --login-gradient-color-2: #404753;
+  --login-gradient-color-3: #3e4b80;
 }
 
 body {

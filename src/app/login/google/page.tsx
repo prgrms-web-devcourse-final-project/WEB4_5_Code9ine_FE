@@ -1,52 +1,34 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import GoogleLoginBox from '@/components/login/GoogleLoginBox';
+import logo from '@/assets/Logo.svg';
+import Link from 'next/link';
+import Image from 'next/image';
 
-export default function GoogleCallback() {
-  const router = useRouter();
+export default function Login() {
+  const gradient = `
+    radial-gradient(
+      circle,
+      var(--login-gradient-color-1) 0%,
+      var(--login-gradient-color-2) 32%,
+      var(--login-gradient-color-3) 70%,
+      var(--login-gradient-color-3) 100%
+    )
+  `;
 
-  useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get('code');
-    if (!code) {
-      toast.error('인가 코드가 없습니다.');
-      router.push('/login');
-      return;
-    }
+  return (
+    <div
+      className="mx-auto flex h-screen w-full flex-col items-center justify-center rounded-[20px] md:h-[880px] md:w-[1366px]"
+      style={{ background: gradient }}
+    >
+      <Link href={'/'}>
+        <div className="mb-[20px] flex h-[29px] w-[87px] cursor-pointer items-center justify-center gap-[13px]">
+          <Image src={logo} alt="티태 로고" />
+          <span className="text-[18px] font-semibold text-[#ffffff]">티태</span>
+        </div>
+      </Link>
 
-    const googleLogin = async () => {
-      try {
-        console.log('구글 인가 코드:', code);
-
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/members/login/google`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code }),
-          },
-        );
-
-        const json = await res.json();
-
-        if (json.code !== '0000') throw new Error(json.message);
-
-        const { accessToken, refreshToken, nickname } = json.data;
-
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        toast.success(`${nickname}님 환영합니다!`);
-        router.push('/');
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : '구글 로그인 실패';
-        toast.error(msg);
-        router.push('/login');
-      }
-    };
-
-    googleLogin();
-  }, [router]);
-
-  return <p className="mt-10 text-center text-lg">구글 로그인 처리 중...</p>;
+      <GoogleLoginBox />
+    </div>
+  );
 }
