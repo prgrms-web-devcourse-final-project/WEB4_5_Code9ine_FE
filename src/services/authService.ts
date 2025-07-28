@@ -333,39 +333,43 @@ export async function refreshToken(
 
 // 소셜 추가 로그인
 // 소셜 로그인 사용자 추가 정보 등록
-export interface SocialExtraPayload {
+export interface SocialSignupPayload {
+  email: string;
+  name: string;
   nickname: string;
   phoneNumber: string;
+  profileImage: string;
 }
 
-export interface SocialExtraResponse {
-  code: string;
-  message: string;
-  data: null;
+export interface TokenResponse {
+  accessToken: string;
+  refreshToken: string;
+  grantType: string;
+  expiresIn: number;
+  refreshExpiresIn: number;
 }
 
 export async function completeSocialSignup(
-  payload: SocialExtraPayload,
-): Promise<{ message: string }> {
-  const res = await fetch(`${API_BASE}/api/members/social/extra`, {
+  payload: SocialSignupPayload,
+): Promise<{ message: string; data: TokenResponse }> {
+  const res = await fetch(`${API_BASE}/api/members/oauth-signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    credentials: 'include', // 쿠키 기반 accessToken이 있을 경우 필요
+    credentials: 'include',
     body: JSON.stringify(payload),
   });
 
-  const json: ApiResponse<null> = await res.json();
+  const json: ApiResponse<TokenResponse> = await res.json();
 
-  if (!res.ok || json.code !== '2000') {
-    throw new Error(
-      json.message || '소셜 로그인 추가 정보 등록에 실패했습니다.',
-    );
+  if (!res.ok) {
+    throw new Error(json.message || '소셜 로그인 회원가입에 실패했습니다.');
   }
 
   return {
     message: json.message,
+    data: json.data,
   };
 }

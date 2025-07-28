@@ -64,13 +64,13 @@ export default function LoginBox() {
   };
 
   //카카오로그인
-  const handleKakaoLogin = () => {
-    const kakaoClientId = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-    const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${redirectUri}&response_type=code`;
+  // const handleKakaoLogin = () => {
+  //   const kakaoClientId = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+  //   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+  //   const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${redirectUri}&response_type=code`;
 
-    window.location.href = kakaoAuthUrl;
-  };
+  //   window.location.href = kakaoAuthUrl;
+  // };
 
   // 구글로그인
   // const handleGoogleLogin = () => {
@@ -97,50 +97,6 @@ export default function LoginBox() {
           {serverError}
         </p>
       )} */}
-
-      {/* 이메일 입력 */}
-      <div className="flex w-[200px] flex-col items-start gap-1 self-center md:w-[300px]">
-        <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
-          이메일
-        </p>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="아이디를 입력하세요"
-          className="h-[35px] w-[200px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 focus:border-[var(--main-color-2)] focus:outline-none md:w-[300px]"
-        />
-        <p
-          className={`min-h-[12px] text-[12px] ${
-            emailError ? 'text-[var(--point-color-2)]' : 'invisible'
-          }`}
-        >
-          {emailError || '\u00A0'}
-        </p>
-      </div>
-
-      {/* 비밀번호 입력 */}
-      <div className="flex w-[200px] flex-col items-start gap-1 self-center md:w-[300px]">
-        <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
-          비밀번호
-        </p>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="비밀번호를 입력하세요"
-          className="h-[35px] w-[200px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 focus:border-[var(--main-color-2)] focus:outline-none md:w-[300px]"
-        />
-        <p
-          className={`min-h-[12px] text-[12px] ${
-            passwordError ? 'text-[var(--point-color-2)]' : 'invisible'
-          }`}
-        >
-          {passwordError || '\u00A0'}
-        </p>
-      </div>
-
-      {/* 버튼 그룹 */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -148,6 +104,50 @@ export default function LoginBox() {
         }}
         className="mt-4 mb-[15px] flex flex-col gap-[20px] self-center md:gap-[30px]"
       >
+        {/* 이메일 입력 */}
+        <div className="flex w-[200px] flex-col items-start gap-1 self-center md:w-[300px]">
+          <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
+            이메일
+          </p>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="아이디를 입력하세요"
+            className="h-[35px] w-[200px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 focus:border-[var(--main-color-2)] focus:outline-none md:w-[300px]"
+          />
+          <p
+            className={`min-h-[12px] text-[12px] ${
+              emailError ? 'text-[var(--point-color-2)]' : 'invisible'
+            }`}
+          >
+            {emailError || '\u00A0'}
+          </p>
+        </div>
+
+        {/* 비밀번호 입력 */}
+        <div className="flex w-[200px] flex-col items-start gap-1 self-center md:w-[300px]">
+          <p className="text-[16px] font-semibold text-[var(--main-color-3)] md:text-[20px]">
+            비밀번호
+          </p>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호를 입력하세요"
+            className="h-[35px] w-[200px] rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 focus:border-[var(--main-color-2)] focus:outline-none md:w-[300px]"
+          />
+          <p
+            className={`min-h-[12px] text-[12px] ${
+              passwordError ? 'text-[var(--point-color-2)]' : 'invisible'
+            }`}
+          >
+            {passwordError || '\u00A0'}
+          </p>
+        </div>
+
+        {/* 버튼 그룹 */}
+
         <Button
           type="submit"
           disabled={loading}
@@ -167,13 +167,13 @@ export default function LoginBox() {
           구글로 로그인 하기
         </Button>
 
-        <Button
+        {/* <Button
           type="button"
           onClick={handleKakaoLogin}
           className="h-[35px] w-[195px] bg-[#FEE500] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
         >
           카카오톡으로 로그인 하기
-        </Button>
+        </Button> */}
       </form>
 
       {/* 회원가입 링크 */}
