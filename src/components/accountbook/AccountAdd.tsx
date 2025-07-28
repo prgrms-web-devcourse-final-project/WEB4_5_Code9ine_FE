@@ -77,23 +77,14 @@ export default function AccountAdd({
       onDataChange(false);
       setInsert(false);
       const totalData = await setData(0);
-      console.log(totalData);
       setTotaldata(totalData);
     } else if (isAdd === '수정') {
       patchAccount(accountTag, startDate, value, price, content, isId!);
     }
   };
 
-  console.log(
-    '저장된 데이터:',
-    rewriteData?.category,
-    '세팅된 데이터: ',
-    value,
-  );
-
   useEffect(() => {
     if (isAdd === '수정') {
-      console.log('초기 렌더링 데이터: ', rewriteData?.category);
       setValue(rewriteData!.category);
       setPrice(rewriteData!.price.toLocaleString('ko-KR'));
       setContent(rewriteData!.content);
@@ -116,7 +107,6 @@ export default function AccountAdd({
       setRewriteDate(newDate);
     }
 
-    console.log(price, content, accountTag, value);
   }, []);
 
   useEffect(() => {

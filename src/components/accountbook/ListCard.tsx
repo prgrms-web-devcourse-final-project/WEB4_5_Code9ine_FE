@@ -16,6 +16,7 @@ import Phone from '../../assets/icons/phone.png';
 import Health from '../../assets/icons/health.png';
 import Life from '../../assets/icons/life.png';
 import Money from '../../assets/icons/money1.png';
+import { useAccountData } from '@/stores/accountStore';
 
 export default function ListCard({
   value,
@@ -27,9 +28,12 @@ export default function ListCard({
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [price, setPrice] = useState<string>('0원');
 
+  const { mobileMenuOpen } = useAccountData();
+
   useEffect(() => {
     setPrice(value.price.toLocaleString('ko-KR'));
-  }, [value.price]);
+    setOpenMenu(mobileMenuOpen);
+  }, [value.price, mobileMenuOpen]);
   return (
     <>
       <div className="group relative mx-[3px] mb-[15px] flex min-h-[95px] items-center justify-center gap-[10px] rounded-[10px] bg-[var(--white-color)] px-[10px] py-[22px] shadow-md hover:z-50 md:w-[310px]">
@@ -111,7 +115,7 @@ export default function ListCard({
         ></div>
         {openMenu ? (
           <div className="absolute top-[10px] right-[10px] shadow">
-            <MobileCardMenu index={index} />
+            <MobileCardMenu index={index} value={value} />
           </div>
         ) : null}
         <div className="absolute top-[80px] right-[13px] hidden md:group-hover:flex">

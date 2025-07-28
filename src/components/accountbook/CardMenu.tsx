@@ -15,7 +15,6 @@ export default function CardMenu({ index, value }: { index: number, value:PayLis
   const handleChange = () => {
     setIsAccount('수정');
     setInsert(true);
-    console.log('클릭됨');
     setIsId(index);
     setRewriteData(value)
   };

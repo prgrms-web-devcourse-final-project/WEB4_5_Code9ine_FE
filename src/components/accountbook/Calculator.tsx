@@ -34,7 +34,6 @@ export default function Calculator() {
       }
       const value = Function(`return ${calculated.join('').toString()}`)();
       setCalcString(Number(value).toLocaleString('ko-KR'));
-      console.log(value);
     }
   };
 

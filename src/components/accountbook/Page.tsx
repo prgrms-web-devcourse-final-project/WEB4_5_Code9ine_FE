@@ -14,10 +14,12 @@ import { setData } from '@/api/accountApi';
 import { getMyPage } from '@/api/profile';
 import { useRouter } from 'next/navigation';
 import { GetMyPageData } from '@/types/userType';
+import MobileTitae from './mobileTitae';
 
 export default function Page() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isInsert, setIsInsert] = useState<boolean>(false);
+  const [isTitae, setIsTitae] = useState<boolean>(false);
   const [user, setUser] = useState<GetMyPageData | null>(null);
   const router = useRouter();
 
@@ -35,8 +37,6 @@ export default function Page() {
     if (parsedIsLogin === null || !parsedIsLogin.state.isLogin)
       router.push('/login');
 
-    console.log(parsedIsLogin);
-
     if (parsedIsLogin !== null) {
       const handleData = async () => {
         const totalData = await setData(0);
@@ -46,9 +46,6 @@ export default function Page() {
         setTotaldata(totalData);
         setUserData(userData);
         setUser(userData);
-
-        console.log('토탈데이터', totalData);
-        console.log('마이데이터', userData);
       };
       handleData();
     }
@@ -67,9 +64,10 @@ export default function Page() {
     <>
       <div className="relative md:flex md:gap-[15px]">
         <div
-          className={`absolute flex h-[92vh] md:hidden ${isInsert ? 'absolute z-50' : ''}`}
+          className={`absolute flex h-[92vh] md:hidden ${isInsert ? 'absolute z-50' : ''} ${isTitae ? 'absolute z-50' : ''}`}
         >
           {isInsert ? <AccountAdd onDataChange={handleMenu} /> : null}
+          {isTitae ? <MobileTitae /> : null}
         </div>
         <div className="relative md:flex md:flex-col">
           <div className="mx-[15px] mt-[9px] mb-[16px] flex text-[20px] md:mx-[13px]">
@@ -94,9 +92,12 @@ export default function Page() {
             <ListArea />
           </div>
         </div>
-        <div className="fixed right-[20px] bottom-[20px] z-70 flex size-[60px] items-center justify-center overflow-hidden rounded-full border-[var(--main-color-2)] bg-[var(--white-color)] shadow-md md:hidden">
+        <button
+          className={`fixed right-[20px] bottom-[20px] z-70 flex size-[60px] items-center justify-center overflow-hidden rounded-full border-[var(--main-color-2)] bg-[var(--white-color)] shadow-md md:hidden ${isInsert ? 'hidden' : ''} cursor-pointer`}
+          onClick={() => setIsTitae(true)}
+        >
           <Image src={AIBot} height={55} alt="titae" />
-        </div>
+        </button>
       </div>
     </>
   );

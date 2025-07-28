@@ -21,17 +21,10 @@ export default function AiChat() {
     setShowIcon(false);
     if (chatResponse === null) {
       const res = await setChatResponseData();
-      console.log(res);
       setChatResponse(res);
     }
   };
   const handleClick = async (value: string, id: string) => {
-    // if (chatResponse === null) {
-    //   const res = await setChatResponseData();
-    //   console.log(res);
-    //   setChatResponse(res);
-    // }
-    console.log(message);
     if (id === 'savingFeedback') {
       setMessage([
         ...message,
