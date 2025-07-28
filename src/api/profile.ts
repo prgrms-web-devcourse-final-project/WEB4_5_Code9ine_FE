@@ -97,7 +97,7 @@ export async function getUserChallenge(
   memberId: string,
 ): Promise<ChallengeData> {
   const res = await fetch(
-    `${API_BASE_URL}/api/member/${memberId}/challenges/dashboard`,
+    `${API_BASE_URL}/api/members/${memberId}/challenges/dashboard`,
     {
       method: 'GET',
       credentials: 'include',

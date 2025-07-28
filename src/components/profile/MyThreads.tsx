@@ -24,20 +24,22 @@ import TopButton from '../board/TopButton';
 import Empty from './Empty';
 import PostItemSkeleton from '../board/PostItemSkeleton';
 interface ThreadsProps {
-  profileData?: {
-    nickname?: string;
-    myPosts?: Post[];
-    bookmarkedPosts?: Post[];
-    bookmarkedPlaces?: {
-      type: string;
-      storeId?: string;
-      festivalId?: string;
-      libraryId?: string;
-      name: string;
-    }[];
-    [key: string]: unknown;
-  }; // 서버에서 받아온 프로필 데이터
-  memberId?: string; // 유저 ID
+  profileData?:
+    | {
+        [key: string]: unknown;
+        nickname?: string;
+        myPosts?: Post[];
+        bookmarkedPosts?: Post[];
+        bookmarkedPlaces?: {
+          type: string;
+          storeId?: string;
+          festivalId?: string;
+          libraryId?: string;
+          name: string;
+        }[];
+      }
+    | undefined;
+  memberId?: string;
 }
 
 export default function Threads({ profileData, memberId }: ThreadsProps) {
