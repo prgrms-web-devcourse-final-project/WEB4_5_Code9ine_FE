@@ -19,7 +19,7 @@ export default function HalfYearAnalysis({
       <div className="text-center text-[16px]">
         <div>지출 패턴 분석 완료!</div>
         <div>
-          {nickname || '사용자'}님의{' '}
+          {nickname || 'OO'}님의{' '}
           <span className="text-[var(--main-color-3)]">지난 6개월</span>, 이렇게
           썼어요.
         </div>
