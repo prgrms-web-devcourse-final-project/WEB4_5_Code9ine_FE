@@ -470,10 +470,10 @@ export default function SignupBox() {
             <div className="flex h-[100px] self-center overflow-auto rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] p-2 md:w-[300px]">
               <p className="text-[12px] leading-relaxed">
                 제 1 조 (목적) 본 약관은 (주)티태(이하 “회사”라 합니다)이
-                운영하는 웹사이트 ‘티태’ (www.urbanlaunderette.com) (이하
-                “웹사이트”라 합니다)에서 제공하는 온라인 서비스(이하 “서비스”라
-                한다)를 이용함에 있어 사이버몰과 이용자의 권리, 의무 및
-                책임사항을 규정함을 목적으로 합니다.
+                운영하는 웹사이트 ‘티태’ (www.titae.com) (이하 “웹사이트”라
+                합니다)에서 제공하는 온라인 서비스(이하 “서비스”라 한다)를
+                이용함에 있어 사이버몰과 이용자의 권리, 의무 및 책임사항을
+                규정함을 목적으로 합니다.
               </p>
             </div>
             <div className="flex items-center self-center md:w-[300px]">
