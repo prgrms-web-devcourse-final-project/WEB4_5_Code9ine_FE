@@ -82,8 +82,6 @@ export default function UnAuthorizedMain() {
       .catch((e) => console.error('티태왕 TOP3 조회 실패', e));
   }, []);
 
-  console.log(topSavers);
-
   return (
     <>
       <div className="hide-scrollbar mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
