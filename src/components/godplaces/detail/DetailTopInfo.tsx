@@ -23,7 +23,7 @@ export default function DetailTopInfo({
   const label = getLabel(type, category);
   const isLogin = useAuthStore((state) => state.isLogin);
 
-  console.log(type, id);
+  // console.log(type, id);
 
   return (
     <div className="flex flex-col gap-[11px] md:gap-[15px]">

@@ -51,7 +51,7 @@ export interface GetMyPageData {
 }
 
 // 내 초대 코드 복사
-export interface myCodeCopy {
+export interface MyCodeCopy {
   code: string;
   message: string;
   data: {
@@ -70,7 +70,7 @@ export interface SetGoalData {
 }
 
 // 목표 설정 데이터
-export interface changeInfoData {
+export interface ChangeInfoData {
   code: string;
   message: string;
   data: {
@@ -174,4 +174,15 @@ export interface BookmarkData {
   code: string;
   message: string;
   data: BookmarkItem[];
+}
+
+// 다른 유저 페이지 API 전체 응답
+export interface GetUserData {
+  code: string;
+  message: string;
+  data: {
+    code: number;
+    message: string;
+    data: UserData;
+  };
 }

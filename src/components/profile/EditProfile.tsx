@@ -272,7 +272,7 @@ export default function EditProfile({
               />
               <div className="flex w-full justify-between">
                 <p
-                  className={`ml-[3px] text-[12px] ${passwordError === '사용 가능한 비밀번호입니다.' ? 'text-[var(--main-color-3)]' : 'text-[var(--point-color-2)]'}`}
+                  className={`ml-[3px] text-[12px] ${passwordError === '사용 가능한 비밀번호입니다.' ? 'text-green-500' : 'text-[var(--point-color-2)]'}`}
                 >
                   {passwordError || '\u00A0'}
                 </p>
@@ -297,7 +297,7 @@ export default function EditProfile({
               />
               <div className="flex w-full justify-between">
                 <p
-                  className={`ml-[3px] text-[12px] ${confirmPwdError === '비밀번호가 일치합니다.' ? 'text-[var(--main-color-3)]' : 'text-[var(--point-color-2)]'}`}
+                  className={`ml-[3px] text-[12px] ${confirmPwdError === '비밀번호가 일치합니다.' ? 'text-green-500' : 'text-[var(--point-color-2)]'}`}
                 >
                   {confirmPwdError || '\u00A0'}
                 </p>
@@ -326,6 +326,7 @@ export default function EditProfile({
                             toast.success('탈퇴 완료. 다음에 또 만나요..');
                             setShowConfirm(false);
                             onClose();
+                            router.push('/');
                           } catch {
                             toast.error('탈퇴 실패. 다시 시도해주세요.');
                           }
