@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { getGodplaceDetails } from '@/api/godplaces';
 import { startTransition, useEffect, useState } from 'react';
 import { GodplacesDetail } from '@/types/godplaces';
+import DetailCardSkeleton from './DetailCardSkeleton';
 interface DetailBoxProps {
   type: string;
   id: string;
@@ -63,7 +64,7 @@ export default function DetailBox({
       <div className="mb-[11px] pl-[9px] text-[16px] text-[var(--gray-color-2)] md:mb-[23px] md:pl-[12px] md:text-[20px]">
         상세 정보
       </div>
-      {!details && '로딩중'}
+      {!details && <DetailCardSkeleton />}
       {details && <DetailCard {...details} forceBookmarked={forceBookmarked} />}
     </div>
   );
