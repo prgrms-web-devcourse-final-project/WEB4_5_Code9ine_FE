@@ -12,7 +12,7 @@ interface ProfileData {
 
 interface SetGoalProps {
   profileData?: ProfileData; // 서버에서 받아온 프로필 데이터
-  memberId?: string; // 다른 유저의 ID (없으면 내 프로필)
+  memberId?: string; // 다른 유저의 ID
   isMyProfile?: boolean; // 내 프로필 여부
   userName?: string; // 다른 유저의 이름
 }
