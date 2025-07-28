@@ -85,6 +85,10 @@ export default function ManageUsers() {
   };
 
   // console.log(username);
+  const selectedUserHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserPerPage(Number(e.target.value));
+    setPage(1);
+  };
 
   return (
     <>
@@ -107,7 +111,7 @@ export default function ManageUsers() {
             페이지당 유저 수
             <select
               value={selectedUserPerPage}
-              onChange={(e) => setSelectedUserPerPage(Number(e.target.value))}
+              onChange={selectedUserHandler}
               className="ml-[10px]"
             >
               <option value={10}>10명</option>
