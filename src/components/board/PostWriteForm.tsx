@@ -93,6 +93,16 @@ export default function PostWriteForm({
       return;
     }
 
+    if (imageUrls.length === 0) {
+      toast.error(
+        <div>
+          챌린지는 이미지 1장 이상을 첨부해야 <br />
+          작성할 수 있어요
+        </div>,
+      );
+      return;
+    }
+
     const body: WritePostReq = {
       title,
       content,
