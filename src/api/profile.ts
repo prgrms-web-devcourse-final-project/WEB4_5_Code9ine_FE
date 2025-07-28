@@ -1,11 +1,12 @@
 import {
   BookmarkData,
   GetMyPageData,
-  myCodeCopy,
+  MyCodeCopy,
   ChallengeData,
   SetGoalData,
   BookmarkPostData,
-  changeInfoData,
+  ChangeInfoData,
+  GetUserData,
 } from '@/types/userType';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 // const AUTHORIZATION = process.env.NEXT_PUBLIC_API_KEY;
@@ -30,8 +31,27 @@ export async function getMyPage(): Promise<GetMyPageData> {
   return data;
 }
 
+// 다른 유저 프로필 조회
+export async function getUserProfile(memberId: string): Promise<GetUserData> {
+  const res = await fetch(`${API_BASE_URL}/api/members/profile/${memberId}`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      accept: 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    console.error('유저 프로필 조회 실패:', res.status);
+    throw new Error(`error!: ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data;
+}
+
 // 내 초대 코드
-export async function getMyCode(): Promise<myCodeCopy> {
+export async function getMyCode(): Promise<MyCodeCopy> {
   const res = await fetch(`${API_BASE_URL}/api/members/invite-code`, {
     method: 'GET',
     credentials: 'include',
@@ -51,7 +71,9 @@ export async function getMyCode(): Promise<myCodeCopy> {
 }
 
 // 챌린지 전체 조회
-export async function getChallenge(accessToken: string): Promise<ChallengeData> {
+export async function getChallenge(
+  accessToken: string,
+): Promise<ChallengeData> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL2}/api/members/mypage/challenges/dashboard`,
     {
@@ -189,7 +211,7 @@ export async function changeInfo(
   profileImage: string,
   newPassword: string,
   newPasswordCheck: string,
-): Promise<changeInfoData> {
+): Promise<ChangeInfoData> {
   const res = await fetch(`${API_BASE_URL}/api/members/mypage/profile`, {
     method: 'PATCH',
     credentials: 'include',

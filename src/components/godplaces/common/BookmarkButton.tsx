@@ -4,6 +4,7 @@ import { MyBookmark } from '@/types/godplaces';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsStar, BsStarFill } from 'react-icons/bs';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function BookmarkButton({
   className,
@@ -20,6 +21,7 @@ export default function BookmarkButton({
   const toggleBookmarked = useGodplacesStore((state) => state.toggleBookmarked);
   const [optimisticState, setOptimisticState] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const isMatched = bookmarked.some(
@@ -49,6 +51,10 @@ export default function BookmarkButton({
 
         if (message.data.activated === false) {
           toast.success('북마크 해제 완료');
+
+          if (['store', 'festival', 'library'].includes(type)) {
+            queryClient.invalidateQueries({ queryKey: ['bookmarkedPlaces'] });
+          }
         }
 
         toggleBookmarked({

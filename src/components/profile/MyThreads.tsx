@@ -18,6 +18,7 @@ import {
 import { BookmarkPostData, Post } from '@/types/userType';
 import { PostRes } from '../../types/boardType';
 import TopButton from '../board/TopButton';
+import Empty from './Empty';
 
 export default function MyThreads() {
   const [selectedTab, setSelectedTab] = useState<'thread' | 'saved' | 'place'>(
@@ -52,8 +53,8 @@ export default function MyThreads() {
     },
     initialPageParam: 0,
     enabled: selectedTab === 'thread',
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
+    // staleTime: 5 * 60 * 1000,
+    // gcTime: 10 * 60 * 1000,
   });
 
   const observerRef = useRef<HTMLDivElement>(null);
@@ -194,6 +195,12 @@ export default function MyThreads() {
     !isLoadingSaved && (!savedThreads?.data || savedThreads.data.length === 0);
   const isPlacesEmpty = !isLoadingBookmarked && bookmarkedPlaces.length === 0;
 
+  // useEffect(() => {
+  //   if (myThreads?.pages) {
+  //     const allThreads = myThreads.pages.flatMap((page) => page.data);
+  //     console.log('내가 쓴 글 리스트:', allThreads);
+  //   }
+  // }, [myThreads]);
   return (
     <>
       <SetGoal />
@@ -211,25 +218,7 @@ export default function MyThreads() {
         {selectedTab === 'thread' && (
           <>
             {isThreadsEmpty ? (
-              <div className="col-span-full flex min-h-[50vh] items-center justify-center">
-                <div className="flex flex-col items-center space-y-12 text-center">
-                  <div className="text-[40px] font-bold text-[var(--text-color)] md:text-[50px]">
-                    teong
-                  </div>
-                  <div
-                    className="animate-bounce text-[100px] leading-none font-black text-[var(--text-color)] md:text-[140px]"
-                    style={{
-                      fontFamily:
-                        'Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif',
-                    }}
-                  >
-                    텅
-                  </div>
-                  <div className="text-[40px] font-bold text-[var(--main-color-3)] md:text-[50px]">
-                    emptily
-                  </div>
-                </div>
-              </div>
+              <Empty />
             ) : (
               uniqueThreads.map((post) => {
                 const postRes = convertPostToPostRes(post);
@@ -271,25 +260,7 @@ export default function MyThreads() {
         {selectedTab === 'saved' && (
           <>
             {isSavedEmpty ? (
-              <div className="col-span-full flex min-h-[50vh] items-center justify-center">
-                <div className="flex flex-col items-center space-y-12 text-center">
-                  <div className="text-[40px] font-bold text-[var(--text-color)] md:text-[50px]">
-                    teong
-                  </div>
-                  <div
-                    className="animate-bounce text-[100px] leading-none font-black text-[var(--text-color)] md:text-[140px]"
-                    style={{
-                      fontFamily:
-                        'Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif',
-                    }}
-                  >
-                    텅
-                  </div>
-                  <div className="text-[40px] font-bold text-[var(--main-color-3)] md:text-[50px]">
-                    emptily
-                  </div>
-                </div>
-              </div>
+              <Empty />
             ) : (
               savedThreads?.data.map((post) => (
                 <PostItem key={post.postId} post={convertPostToPostRes(post)} />
@@ -302,25 +273,7 @@ export default function MyThreads() {
         {selectedTab === 'place' && (
           <>
             {isPlacesEmpty ? (
-              <div className="col-span-full flex min-h-[50vh] items-center justify-center">
-                <div className="flex flex-col items-center space-y-12 text-center">
-                  <div className="text-[40px] font-bold text-[var(--text-color)] md:text-[50px]">
-                    teong
-                  </div>
-                  <div
-                    className="animate-bounce text-[100px] leading-none font-black text-[var(--text-color)] md:text-[140px]"
-                    style={{
-                      fontFamily:
-                        'Noto Sans KR, Apple SD Gothic Neo, Malgun Gothic, sans-serif',
-                    }}
-                  >
-                    텅
-                  </div>
-                  <div className="text-[40px] font-bold text-[var(--main-color-3)] md:text-[50px]">
-                    emptily
-                  </div>
-                </div>
-              </div>
+              <Empty />
             ) : (
               bookmarkedPlaces.map((place) => (
                 <div
