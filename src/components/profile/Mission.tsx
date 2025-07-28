@@ -9,6 +9,8 @@ import MissionTabs from './MissionTabs';
 import Image, { StaticImageData } from 'next/image';
 import { Challenge } from '@/types/userType';
 import { iconMap } from '@/data/iconMap';
+import MissionSkeleton from './MissionSkeleton';
+
 type MissionType = 'daily' | 'monthly' | 'community';
 
 interface MissionProps {
@@ -17,16 +19,25 @@ interface MissionProps {
 
 export default function MissionSwiperTabs({ challengeList }: MissionProps) {
   const [selectedTab, setSelectedTab] = useState<MissionType>('daily');
-  const [reset, setReset] = useState(0);
-
   const typeMap = {
     daily: '일일',
     monthly: '월간',
     community: '커뮤니티',
   } as const;
 
-  if (!challengeList) {
-    return <div>챌린지 Loading</div>;
+  if (!challengeList || challengeList.length === 0) {
+    return (
+      <div className="w-full px-[10px]">
+        <h1 className="flex items-center justify-center p-[20px] text-[20px] font-semibold">
+          챌린지
+        </h1>
+        <div className="flex flex-col gap-[10px]">
+          {[...Array(2)].map((_, index) => (
+            <MissionSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   const missions =
@@ -43,25 +54,6 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
   for (let i = 0; i < missions.length; i += 2) {
     groups.push(missions.slice(i, i + 2));
   }
-
-  // 챌린지 데이터
-  // useEffect(() => {
-  //   const fetchChallenge = async () => {
-  //     setReset(0);
-  //     try {
-  //       const res = await getChallenge();
-  //       const mapped = res.data.map((item) => ({
-  //         ...item,
-  //         iconImage: iconMap[item.icon as keyof typeof iconMap] ?? undefined,
-  //       }));
-  //       setChallenges(mapped);
-  //     } catch (err) {
-  //       console.error('챌린지 목록 가져올 때 에러 발생', err);
-  //     }
-  //   };
-
-  //   fetchChallenge();
-  // }, [selectedTab]);
 
   const MissionCard = ({
     iconImage,
@@ -142,7 +134,7 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
             navigation
             spaceBetween={5}
             initialSlide={0}
-            onSlideChange={(swiper) => setReset(swiper.activeIndex)}
+            onSlideChange={() => {}}
           >
             {groups.map((group, index) => (
               <SwiperSlide key={index}>

@@ -1,12 +1,13 @@
 'use client';
 
 import { format, parseISO } from 'date-fns';
-import { AiFillStar } from 'react-icons/ai';
+import { BsStar, BsStarFill } from 'react-icons/bs';
 import {
   FaHeart,
   FaRegCommentDots,
   FaChevronLeft,
   FaChevronRight,
+  FaRegHeart,
 } from 'react-icons/fa';
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
@@ -24,6 +25,14 @@ interface PostItemProps {
   onDelete?: (postId: number) => void;
   onEdit?: (postId: number) => void;
 }
+
+const challengeCategoryMap: Record<string, string> = {
+  NO_MONEY: '제로 마스터',
+  KIND_CONSUMER: '착한 소비러',
+  DETECTIVE: '숨.맛.탐',
+  MASTER: '노노카페',
+  COOK_KING: '냉털 요리왕',
+};
 
 export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
@@ -61,6 +70,7 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
 
     try {
       await boardApi.toggleLike(post.postId);
+      toast.success('좋아요에 성공했어요');
     } catch (err) {
       console.error(err);
       toast.error('좋아요에 실패했어요');
@@ -76,17 +86,51 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
 
     try {
       await boardApi.toggleBookmark(post.postId);
-      if(previousState === true) {
-        toast.success('북마크가 해제되었어요!')
-        queryClient.invalidateQueries({queryKey:['saveThreads']})
+
+      // 캐시 업데이트
+      queryClient.setQueryData(
+        ['myThreads'],
+        (oldData: { pages?: { data: PostRes[] }[] } | undefined) => {
+          if (!oldData?.pages) return oldData;
+
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+              data: page.data.map((item) =>
+                item.postId === post.postId
+                  ? { ...item, isBookmarked: !previousState }
+                  : item,
+              ),
+            })),
+          };
+        },
+      );
+
+      // 찜한 글 목록 업데이트
+      if (previousState === true) {
+        // 북마크 해제 시 찜한 글 목록에서 제거
+        toast.success('북마크가 해제되었어요');
+        queryClient.setQueryData(
+          ['saveThreads'],
+          (oldData: { data?: PostRes[] } | undefined) => {
+            if (!oldData?.data) return oldData;
+            return {
+              ...oldData,
+              data: oldData.data.filter(
+                (item: PostRes) => item.postId !== post.postId,
+              ),
+            };
+          },
+        );
       } else {
-        toast.success('북마크에 추가되었어요!')
+        toast.success('북마크에 추가되었어요!');
+        queryClient.invalidateQueries({ queryKey: ['saveThreads'] });
       }
     } catch (err) {
       console.error(err);
-      toast.error('북마크에 실패했어요.');
-
-      setIsBookmarked((prev) => !prev);
+      toast.error('북마크에 실패했어요');
+      setIsBookmarked(previousState);
     }
   };
 
@@ -133,7 +177,7 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
           className="h-[30px] w-[30px] rounded-full border-2 border-[var(--main-color-2)] object-cover md:h-[70px] md:w-[70px]"
         />
         <div className="flex flex-row items-baseline gap-1 whitespace-nowrap md:flex-col md:items-center">
-          <div className="ml-[4px] text-center text-[18px] leading-none md:text-[20px]">
+          <div className="ml-[4px] text-center text-[18px] leading-none md:mt-[10px] md:text-[20px]">
             {post.writerNickname}
           </div>
           <div className="text-center text-[12px] leading-none text-[var(--text-color-2)] md:text-[16px]">
@@ -152,14 +196,20 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
             onClick={handleToggleBookmark}
             className="ml-[0px] text-[14px]"
           >
-            <AiFillStar
-              size={22}
-              className={
-                'ml-[0px] cursor-pointer transition-colors ' +
-                (isBookmarked ? 'text-[#FFD600]' : 'text-gray-400') +
-                ' md:ml-1'
-              }
-            />
+            {isBookmarked ? (
+              <BsStarFill
+                strokeWidth={0.5}
+                size={18}
+                className="ml-[0px] translate-y-[-1px] cursor-pointer text-[#FFD600] transition-colors hover:text-[#FFE680] md:ml-1"
+              />
+            ) : (
+              <BsStar
+                stroke="currentColor"
+                strokeWidth={0.5}
+                size={18}
+                className="ml-[0px] translate-y-[-1px] cursor-pointer text-[#FFD600] transition-colors hover:text-[#FFE680] md:ml-1"
+              />
+            )}
           </button>
         </div>
       </div>
@@ -167,9 +217,17 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
       <div className="flex w-full flex-col gap-[10px]">
         <div className="flex items-start justify-between">
           <div>
-            <div className="text-[20px] font-bold md:text-[24px]">
-              {post.title}
+            <div className="flex items-center gap-2">
+              <div className="text-[20px] font-bold md:text-[24px]">
+                {post.title}
+              </div>
+              {post.category === 'CHALLENGE' && post.challengeCategory && (
+                <span className="text-[14px] text-[var(--main-color-2)] md:text-[16px]">
+                  {challengeCategoryMap[post.challengeCategory]}
+                </span>
+              )}
             </div>
+
             <div className="mt-1 text-[18px] text-[var(--text-color-white)]">
               {post.content}
             </div>
@@ -227,16 +285,15 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
             <button
               onClick={handleToggleLike}
               type="button"
-              className="flex cursor-pointer items-center gap-1 text-[14px] text-[var(--point-color-1)] md:text-[16px]"
+              className="flex cursor-pointer items-center gap-1 text-[14px] text-[var(--point-color-2)] transition-colors hover:text-[var(--point-color-1)] md:text-[16px]"
               aria-label="좋아요"
             >
-              <FaHeart
-                size={17}
-                className={
-                  'transition-colors ' +
-                  (isLiked ? 'text-[var(--point-color-2)]' : 'text-gray-400')
-                }
-              />
+              {isLiked ? (
+                <FaHeart size={17} className="transition-colors" />
+              ) : (
+                <FaRegHeart size={17} className="transition-colors" />
+              )}
+
               {likeCount}
             </button>
 

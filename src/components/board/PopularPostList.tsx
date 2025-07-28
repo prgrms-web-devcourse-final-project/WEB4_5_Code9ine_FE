@@ -99,7 +99,7 @@ export default function PopularPostList({
                   </div>
                 </div>
 
-                <div className="mb-[2px] flex w-full">
+                <div className="-mt-[4px] mb-[2px] flex w-full">
                   <span
                     className="cursor-pointer text-[18px]"
                     onClick={() => {

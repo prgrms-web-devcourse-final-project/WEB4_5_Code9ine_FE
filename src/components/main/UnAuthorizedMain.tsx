@@ -258,7 +258,7 @@ export default function UnAuthorizedMain() {
               src={challenge}
               alt="챌린지"
               fill
-              sizes="(max-width: 768px) 300px, 1033px" // 모바일에서는 300px, 그 이상에서는 1033px 사용
+              sizes="(max-width: 768px) 300px, 1033px"
               className="object-contain"
             />
           </div>
@@ -298,12 +298,14 @@ export default function UnAuthorizedMain() {
           {/* 오른쪽 블록 */}
           <div className="flex flex-col items-center">
             <p className="md:text-[20px]">
-              0월 0일까지의 총 수입 금액은{' '}
-              <span className="text-[var(--main-color-3)]">XXX</span>원이에요
+              7월 31일까지의 총 수입 금액은{' '}
+              <span className="text-[var(--main-color-3)]">2,000,000</span>
+              원이에요
             </p>
             <p className="mb-[55px] md:text-[20px]">
-              0월 0일까지의 총 지출 금액은{' '}
-              <span className="text-[var(--point-color-1)]">XXX</span>원이에요
+              7월 31일까지의 총 지출 금액은{' '}
+              <span className="text-[var(--point-color-1)]">1,500,000</span>
+              원이에요
             </p>
             <Image src={waffle} alt="가계부예시" width={316} height={96} />
             <Image src={gimbap} alt="가계부예시" width={316} height={96} />
@@ -430,29 +432,29 @@ export default function UnAuthorizedMain() {
                 src={girl}
                 alt="여자"
                 width={86}
-                height={46}
-                className="h-[96px] w-[66px]"
+                height={56}
+                className="h-[106px] w-[66px]"
               />
               <Image
                 src={boy}
                 alt="남자"
                 width={86}
-                height={46}
-                className="h-[96px] w-[66px]"
+                height={56}
+                className="h-[106px] w-[66px]"
               />
               <Image
                 src={girl}
                 alt="여자"
                 width={86}
-                height={46}
-                className="h-[96px] w-[66px]"
+                height={56}
+                className="h-[106px] w-[66px]"
               />
               <Image
                 src={boy}
                 alt="남자"
                 width={86}
-                height={46}
-                className="h-[96px] w-[66px]"
+                height={56}
+                className="h-[106px] w-[66px]"
               />
             </div>
           </div>

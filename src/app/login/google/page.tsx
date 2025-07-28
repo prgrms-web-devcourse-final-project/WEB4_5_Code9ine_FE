@@ -4,6 +4,7 @@ import GoogleLoginBox from '@/components/login/GoogleLoginBox';
 import logo from '@/assets/Logo.svg';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Suspense } from 'react';
 
 export default function Login() {
   const gradient = `
@@ -27,8 +28,9 @@ export default function Login() {
           <span className="text-[18px] font-semibold text-[#ffffff]">티태</span>
         </div>
       </Link>
-
-      <GoogleLoginBox />
+      <Suspense fallback={<p>로딩 중...</p>}>
+        <GoogleLoginBox />
+      </Suspense>
     </div>
   );
 }

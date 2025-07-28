@@ -9,6 +9,7 @@ import { changeInfo, deleteProfile } from '@/api/profile';
 import { boardApi } from '@/api/boardApi';
 import Modal from '../common/Modal';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function EditProfile({
   onClose,
@@ -30,17 +31,12 @@ export default function EditProfile({
   const [confirmPwdError, setConfirmPwdError] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-
-    // 프로필 이미지는 하나만 선택
-    if (files.length > 1) {
-      toast.error('프로필 이미지는 1장만 선택할 수 있어요');
-      return;
-    }
 
     const file = files[0];
     const today = new Date();
@@ -138,7 +134,7 @@ export default function EditProfile({
       setNickname(currentUser.nickname || '');
       setProfileImageUrl(currentUser.profileImageUrl || '');
     }
-    setIsLoading(false);
+    // setIsLoading(false);
   }, [currentUser]);
 
   const submitUserData = async () => {
@@ -175,6 +171,7 @@ export default function EditProfile({
     try {
       await changeInfo(nickname, profileImageUrl, password, password);
       toast.success('수정 완료!');
+      queryClient.invalidateQueries({ queryKey: ['myThreads'] });
 
       if (onSuccess) onSuccess();
       else onClose();

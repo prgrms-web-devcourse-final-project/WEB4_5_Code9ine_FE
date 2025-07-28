@@ -11,11 +11,13 @@ export default function BookmarkButton({
   hasWhiteBG = false,
   type,
   id,
+  forceBookmarked = false,
 }: {
   className: string;
   hasWhiteBG?: boolean;
   type: string;
   id: number;
+  forceBookmarked?: boolean;
 }) {
   const bookmarked = useGodplacesStore((state) => state.bookmarked);
   const toggleBookmarked = useGodplacesStore((state) => state.toggleBookmarked);
@@ -24,12 +26,18 @@ export default function BookmarkButton({
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    // forceBookmarked가 true면 무조건 북마크 상태로 표시
+    if (forceBookmarked) {
+      setOptimisticState(true);
+      return;
+    }
+
     const isMatched = bookmarked.some(
       (bookmark) =>
         bookmark.type === type && Number(bookmark[getBookmarkKey(type)]) === id,
     );
     setOptimisticState(isMatched);
-  }, [bookmarked, type, id]);
+  }, [bookmarked, type, id, forceBookmarked]);
 
   const bookmarkHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

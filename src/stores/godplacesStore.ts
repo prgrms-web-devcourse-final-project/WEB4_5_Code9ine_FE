@@ -14,6 +14,7 @@ type GodplacesStore = {
   toggleBookmarked: (data: MyBookmark) => void;
   plans: Plans[];
   setPlans: (data: Plans) => void;
+  resetPlans: () => void;
 };
 
 export const useGodplacesStore = create<GodplacesStore>((set) => ({
@@ -67,4 +68,5 @@ export const useGodplacesStore = create<GodplacesStore>((set) => ({
         };
       }
     }),
+  resetPlans: () => set({ plans: [] }),
 }));

@@ -1,3 +1,4 @@
+import Empty from '../profile/Empty';
 import BarChartClient from './BarChartClient';
 
 interface MonthlyExpense {
@@ -14,6 +15,19 @@ export default function HalfYearAnalysis({
   monthlyExpenses,
   nickname,
 }: HalfYearAnalysisProps) {
+  const allAmountsZero = monthlyExpenses.every((item) => item.amount === 0);
+
+  if (allAmountsZero) {
+    return (
+      <div className="flex h-auto flex-col items-center justify-center text-center text-[16px] text-[var(--text-color)]">
+        <div>
+          <p className="mt-4">최근 6개월간 소비하신 내역이 없어요!</p>
+          <Empty />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="text-center text-[16px]">
