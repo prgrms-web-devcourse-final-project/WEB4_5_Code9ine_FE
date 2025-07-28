@@ -1,4 +1,5 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE2 = process.env.NEXT_PUBLIC_API_BASE_URL2;
 
 //회원가입
 export interface SignUpPayload {
@@ -289,7 +290,7 @@ export async function logout(): Promise<{ message: string }> {
 // }
 
 export function getGoogleLoginRedirect(): void {
-  window.location.href = `${API_BASE}/oauth2/authorization/google`;
+  window.location.href = `${API_BASE2}/oauth2/authorization/google`;
 }
 
 // export function getGoogleLoginRedirect(): void {
@@ -327,5 +328,44 @@ export async function refreshToken(
   return {
     message: json.message,
     data: json.data,
+  };
+}
+
+// 소셜 추가 로그인
+// 소셜 로그인 사용자 추가 정보 등록
+export interface SocialExtraPayload {
+  nickname: string;
+  phoneNumber: string;
+}
+
+export interface SocialExtraResponse {
+  code: string;
+  message: string;
+  data: null;
+}
+
+export async function completeSocialSignup(
+  payload: SocialExtraPayload,
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/api/members/social/extra`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    credentials: 'include', // 쿠키 기반 accessToken이 있을 경우 필요
+    body: JSON.stringify(payload),
+  });
+
+  const json: ApiResponse<null> = await res.json();
+
+  if (!res.ok || json.code !== '2000') {
+    throw new Error(
+      json.message || '소셜 로그인 추가 정보 등록에 실패했습니다.',
+    );
+  }
+
+  return {
+    message: json.message,
   };
 }
