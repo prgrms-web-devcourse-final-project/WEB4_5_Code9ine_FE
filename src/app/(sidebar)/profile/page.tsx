@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Threads from '@/components/profile/MyThreads';
+// import Threads from '@/components/profile/MyThreads';
 import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
@@ -30,18 +30,6 @@ export default function MyProfilePage() {
     fetchData();
   }, []);
 
-  // // 로딩 상태
-  // if (loading) {
-  //   return (
-  //     <div className="flex min-h-[50vh] items-center justify-center">
-  //       <div className="text-center">
-  //         <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-[var(--main-color-3)]"></div>
-  //         <p className="text-[var(--text-color)]">프로필을 불러오는 중...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
       <div className="mt-[15px] flex flex-col items-center justify-center gap-[15px] overflow-x-hidden select-none md:mt-0 md:flex-row md:items-start">
@@ -57,7 +45,7 @@ export default function MyProfilePage() {
 
         <div className="w-full max-w-[calc(100vw-32px)] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
-            <Threads profileData={myData ?? undefined} />
+            {/* <Threads profileData={myData ?? undefined} /> */}
           </div>
         </div>
       </div>
