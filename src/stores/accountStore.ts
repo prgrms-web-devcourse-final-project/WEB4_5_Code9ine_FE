@@ -25,6 +25,8 @@ interface accountState {
   setRewriteData: (data: PayList | null) => void;
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (data: boolean) => void;
+  mobileAiOpen: boolean;
+  setMobileAiOpen: (data: boolean) => void;
 }
 
 export const useAccountData = create<accountState>((set) => ({
@@ -50,4 +52,6 @@ export const useAccountData = create<accountState>((set) => ({
   setRewriteData: (data) => set({ rewriteData: data }),
   mobileMenuOpen: false,
   setMobileMenuOpen: (data) => set({ mobileMenuOpen: data }),
+  mobileAiOpen: false,
+  setMobileAiOpen: (data) => set({ mobileAiOpen: data }),
 }));

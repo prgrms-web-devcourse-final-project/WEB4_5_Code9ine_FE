@@ -63,7 +63,10 @@ export interface Chatting {
 }
 
 export interface Response {
-  savingFeedback: string;
-  spendingTips: string;
-  spendingPattern: string;
+  savingTips: string;
+  aboveAverageSpending: string;
+  overIncomeSpending: string;
+  highestSpendingCategory: string;
+  savableCategories: string;
+  moneySavingAreas: string;
 }

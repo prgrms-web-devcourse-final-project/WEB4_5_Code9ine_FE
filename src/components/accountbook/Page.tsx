@@ -23,10 +23,16 @@ export default function Page() {
   const [user, setUser] = useState<GetMyPageData | null>(null);
   const router = useRouter();
 
-  const { setTotaldata, insert, setUserData } = useAccountData();
+  const { setTotaldata, insert, setUserData, mobileAiOpen, setMobileAiOpen } =
+    useAccountData();
 
   const handleMenu = (handle: boolean) => {
     setIsInsert(handle);
+  };
+
+  const handleAiButton = () => {
+    setIsTitae(true);
+    setMobileAiOpen(true);
   };
 
   useEffect(() => {
@@ -55,7 +61,8 @@ export default function Page() {
 
   useEffect(() => {
     setIsInsert(insert);
-  }, [insert]);
+    setIsTitae(mobileAiOpen);
+  }, [insert, mobileAiOpen]);
 
   if (!isClient) {
     return null;
@@ -64,7 +71,7 @@ export default function Page() {
     <>
       <div className="relative md:flex md:gap-[15px]">
         <div
-          className={`absolute flex h-[92vh] md:hidden ${isInsert ? 'absolute z-50' : ''} ${isTitae ? 'absolute z-50' : ''}`}
+          className={`absolute flex h-[92vh] md:hidden ${isInsert ? 'absolute z-50' : ''} ${isTitae ? 'absolute z-55' : ''}`}
         >
           {isInsert ? <AccountAdd onDataChange={handleMenu} /> : null}
           {isTitae ? <MobileTitae /> : null}
@@ -93,8 +100,8 @@ export default function Page() {
           </div>
         </div>
         <button
-          className={`fixed right-[20px] bottom-[20px] z-70 flex size-[60px] items-center justify-center overflow-hidden rounded-full border-[var(--main-color-2)] bg-[var(--white-color)] shadow-md md:hidden ${isInsert ? 'hidden' : ''} cursor-pointer`}
-          onClick={() => setIsTitae(true)}
+          className={`fixed right-[20px] bottom-[20px] z-70 flex size-[60px] items-center justify-center overflow-hidden rounded-full border-[var(--main-color-2)] bg-[var(--white-color)] shadow-md md:hidden ${isInsert ? 'hidden' : ''} ${isTitae ? 'hidden' : ''} cursor-pointer`}
+          onClick={handleAiButton}
         >
           <Image src={AIBot} height={55} alt="titae" />
         </button>
