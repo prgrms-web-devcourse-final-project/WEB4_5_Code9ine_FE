@@ -79,7 +79,7 @@ export default function ManageUsers() {
     }
   };
 
-  console.log(username);
+  // console.log(username);
 
   return (
     <>
