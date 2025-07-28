@@ -6,13 +6,34 @@ export default function Calculator() {
   const [calculated, setCalculated] = useState<string[]>([]);
   const { calcString, setCalcString } = useAccountData();
   const handleCalculator = (input: string) => {
-    if (input !== '=') {
+    if (input === '+' || input === '-' || input === '/' || input === '*') {
+      if (calculated.length === 0) {
+        return;
+      } else if (
+        calculated[calculated.length - 1] === '+' ||
+        calculated[calculated.length - 1] === '-' ||
+        calculated[calculated.length - 1] === '*' ||
+        calculated[calculated.length - 1] === '/'
+      ) {
+        return;
+      } else {
+        calculated.push(input);
+      }
+    } else if (input !== '=') {
       calculated.push(input);
       setCalcString(calculated.join(''));
     } else if (input === '=') {
+      if (
+        calculated[calculated.length - 1] === '+' ||
+        calculated[calculated.length - 1] === '-' ||
+        calculated[calculated.length - 1] === '-' ||
+        calculated[calculated.length - 1] === '*' ||
+        calculated[calculated.length - 1] === '/'
+      ) {
+        return;
+      }
       const value = Function(`return ${calculated.join('').toString()}`)();
       setCalcString(Number(value).toLocaleString('ko-KR'));
-      console.log(value);
     }
   };
 
@@ -37,7 +58,7 @@ export default function Calculator() {
       <div className="max-size-[300px] mt-[32px] flex rounded-[10px] bg-[var(--background)] shadow-md">
         <div className="grid grid-cols-3">
           <button
-            className="h-[60px] w-[75px] cursor-pointer text-[20px] active:bg-[var(--main-color-2)] text-[var(--point-color-2)]"
+            className="h-[60px] w-[75px] cursor-pointer text-[20px] text-[var(--point-color-2)] active:bg-[var(--main-color-2)]"
             onClick={handleReset}
           >
             C

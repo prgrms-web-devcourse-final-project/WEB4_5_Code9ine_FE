@@ -1,19 +1,22 @@
 'use client';
 
-import { deleteAccount } from '@/api/accountApi';
+import { deleteAccount, setData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
+import { PayList } from '@/types/payData';
 import { IoPencil, IoTrash } from 'react-icons/io5';
 
-export default function CardMenu({ index }: { index: number }) {
-  const { setIsAccount, setInsert, setIsId } = useAccountData();
+export default function CardMenu({ index, value }: { index: number, value:PayList }) {
+  const { setIsAccount, setInsert, setIsId, setTotaldata, setRewriteData } = useAccountData();
   const handleDelete = async () => {
     deleteAccount(index);
+    const totalData = await setData(0);
+    setTotaldata(totalData);
   };
   const handleChange = () => {
     setIsAccount('수정');
     setInsert(true);
-    console.log('클릭됨');
     setIsId(index);
+    setRewriteData(value)
   };
   return (
     <>

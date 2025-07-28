@@ -11,16 +11,13 @@ const API = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 export const boardApi = {
   // 인기글 리스트
   getPopularPosts: async (): Promise<PopularPostRes[]> => {
-    const res = await fetch(
-      API + '/api/community/posts/top',
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-        credentials: 'include',
+    const res = await fetch(API + '/api/community/posts/top', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
       },
-    );
+      credentials: 'include',
+    });
 
     if (!res.ok) {
       throw new Error('인기글 요청 실패');
@@ -32,18 +29,15 @@ export const boardApi = {
 
   // 게시글 작성
   postBoardCreate: async (body: WritePostReq): Promise<PostRes> => {
-    const res = await fetch(
-      API + '/api/community/posts',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(body),
+    const res = await fetch(API + '/api/community/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-    );
+      credentials: 'include',
+      body: JSON.stringify(body),
+    });
 
     if (!res.ok) {
       throw new Error('게시글 작성 실패');
@@ -88,10 +82,7 @@ export const boardApi = {
   // 게시글 삭제
   deletePost: async (postId: number): Promise<void> => {
     const res = await fetch(
-      API +
-        '/api/community/posts/' +
-        postId +
-        '/delete',
+      API + '/api/community/posts/' + postId + '/delete',
       {
         method: 'PATCH',
         headers: {
@@ -133,15 +124,12 @@ export const boardApi = {
 
   // 커뮤니티 로그인 유저 정보 조회
   getMyInfo: async (): Promise<MyInfo> => {
-    const res = await fetch(
-      API + '/api/community/me',
-      {
-        headers: {
-          Accept: 'application/json',
-        },
-        credentials: 'include',
+    const res = await fetch(API + '/api/community/me', {
+      headers: {
+        Accept: 'application/json',
       },
-    );
+      credentials: 'include',
+    });
 
     if (!res.ok) {
       throw new Error('내 정보 가져오기 실패');
@@ -153,10 +141,7 @@ export const boardApi = {
   // 댓글 리스트
   getCommentlist: async (postId: number): Promise<CommentRes[]> => {
     const res = await fetch(
-      API +
-        '/api/community/posts/' +
-        postId +
-        '/comments',
+      API + '/api/community/posts/' + postId + '/comments',
       {
         method: 'GET',
         headers: {
@@ -176,18 +161,15 @@ export const boardApi = {
 
   // 댓글작성
   postCommentCreate: async (postId: number, content: string): Promise<void> => {
-    const res = await fetch(
-      `${API}/api/community/posts/${postId}/comments`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ content }),
+    const res = await fetch(`${API}/api/community/posts/${postId}/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-    );
+      credentials: 'include',
+      body: JSON.stringify({ content }),
+    });
 
     if (!res.ok) {
       throw new Error('댓글 작성 실패');
@@ -197,10 +179,7 @@ export const boardApi = {
   // 댓글삭제
   deleteComment: async (commentId: number): Promise<void> => {
     const res = await fetch(
-      API +
-        '/api/community/comments/' +
-        commentId +
-        '/delete',
+      API + '/api/community/comments/' + commentId + '/delete',
       {
         method: 'PATCH',
         headers: {
@@ -217,19 +196,13 @@ export const boardApi = {
 
   // 좋아요
   toggleLike: async (postId: number) => {
-    const res = await fetch(
-      API +
-        '/api/community/posts/' +
-        postId +
-        '/like',
-      {
-        method: 'PATCH',
-        headers: {
-          Accept: 'application/json',
-        },
-        credentials: 'include',
+    const res = await fetch(API + '/api/community/posts/' + postId + '/like', {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
       },
-    );
+      credentials: 'include',
+    });
     if (!res.ok) {
       throw new Error('좋아요 실패');
     }
@@ -238,10 +211,7 @@ export const boardApi = {
   // 북마크
   toggleBookmark: async (postId: number) => {
     const res = await fetch(
-      API +
-        '/api/community/posts/' +
-        postId +
-        '/bookmark',
+      API + '/api/community/posts/' + postId + '/bookmark',
       {
         method: 'PATCH',
         headers: {
@@ -257,16 +227,13 @@ export const boardApi = {
 
   // 게시글 단건 조회
   getPostById: async (postId: number) => {
-    const res = await fetch(
-      API + '/api/community/posts/' + postId,
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-        credentials: 'include',
+    const res = await fetch(API + '/api/community/posts/' + postId, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
       },
-    );
+      credentials: 'include',
+    });
     if (!res.ok) {
       throw new Error('게시글 조회 실패');
     }
@@ -276,18 +243,15 @@ export const boardApi = {
 
   // 게시글 수정
   fetchUpdatePost: async (postId: number, data: WritePostReq) => {
-    const res = await fetch(
-      API + '/api/community/posts/' + postId,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(data),
+    const res = await fetch(API + '/api/community/posts/' + postId, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-    );
+      credentials: 'include',
+      body: JSON.stringify(data),
+    });
     if (!res.ok) {
       throw new Error('게시글 수정 실패');
     }

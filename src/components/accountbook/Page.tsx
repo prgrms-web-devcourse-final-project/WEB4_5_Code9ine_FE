@@ -9,19 +9,19 @@ import TotalAmount from '../common/TotalAmount';
 import Image from 'next/image';
 import AIBot from '../../assets/TiTae.svg';
 import { useAccountData } from '@/stores/accountStore';
-import { totalData } from '@/types/payData';
 import DefaultProfile from '../profile/DefaultProfile';
-import { UserData } from '@/types/userType';
+import { setData } from '@/api/accountApi';
+import { getMyPage } from '@/api/profile';
+import { useRouter } from 'next/navigation';
+import { GetMyPageData } from '@/types/userType';
+import MobileTitae from './mobileTitae';
 
-export default function Page({
-  totalData,
-  userData,
-}: {
-  totalData: totalData;
-  userData: UserData;
-}) {
+export default function Page() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isInsert, setIsInsert] = useState<boolean>(false);
+  const [isTitae, setIsTitae] = useState<boolean>(false);
+  const [user, setUser] = useState<GetMyPageData | null>(null);
+  const router = useRouter();
 
   const { setTotaldata, insert, setUserData } = useAccountData();
 
@@ -30,8 +30,26 @@ export default function Page({
   };
 
   useEffect(() => {
-    setTotaldata(totalData);
-    setUserData(userData);
+    const isLogin = localStorage.getItem('auth-storage');
+
+    const parsedIsLogin = JSON.parse(isLogin!);
+
+    if (parsedIsLogin === null || !parsedIsLogin.state.isLogin)
+      router.push('/login');
+
+    if (parsedIsLogin !== null) {
+      const handleData = async () => {
+        const totalData = await setData(0);
+
+        const userData = await getMyPage();
+
+        setTotaldata(totalData);
+        setUserData(userData);
+        setUser(userData);
+      };
+      handleData();
+    }
+
     setIsClient(true);
   }, []);
 
@@ -46,14 +64,18 @@ export default function Page({
     <>
       <div className="relative md:flex md:gap-[15px]">
         <div
-          className={`absolute flex h-[92vh] md:hidden ${isInsert ? 'absolute z-50' : ''}`}
+          className={`absolute flex h-[92vh] md:hidden ${isInsert ? 'absolute z-50' : ''} ${isTitae ? 'absolute z-50' : ''}`}
         >
           {isInsert ? <AccountAdd onDataChange={handleMenu} /> : null}
+          {isTitae ? <MobileTitae /> : null}
         </div>
         <div className="relative md:flex md:flex-col">
           <div className="mx-[15px] mt-[9px] mb-[16px] flex text-[20px] md:mx-[13px]">
             <TotalAmount />
-            <DefaultProfile className="absolute right-[30px] hidden md:flex md:ml-[290px] md:size-[80px] md:rounded-full md:border-1 md:border-[var(--main-color-3)]" />
+            <DefaultProfile
+              className="absolute right-[30px] hidden md:ml-[290px] md:flex md:size-[80px] md:rounded-full md:border-1 md:border-[var(--main-color-3)]"
+              profileImageUrl={user?.data.data.profileImage}
+            />
           </div>
           <Calander onDataChange={handleMenu} />
         </div>
@@ -70,9 +92,12 @@ export default function Page({
             <ListArea />
           </div>
         </div>
-        <div className="fixed right-[20px] bottom-[20px] z-70 flex size-[60px] items-center justify-center overflow-hidden rounded-full border-[var(--main-color-2)] bg-[var(--white-color)] shadow-md md:hidden">
+        <button
+          className={`fixed right-[20px] bottom-[20px] z-70 flex size-[60px] items-center justify-center overflow-hidden rounded-full border-[var(--main-color-2)] bg-[var(--white-color)] shadow-md md:hidden ${isInsert ? 'hidden' : ''} cursor-pointer`}
+          onClick={() => setIsTitae(true)}
+        >
           <Image src={AIBot} height={55} alt="titae" />
-        </div>
+        </button>
       </div>
     </>
   );

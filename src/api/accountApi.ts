@@ -1,10 +1,10 @@
 import toast from 'react-hot-toast';
 
-export const API_ADD = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+export const API_ADD = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const setData = async () => {
+export const setData = async (pageParams: number) => {
   return await (
-    await fetch(`${API_ADD}/api/budget/totaldetails`, {
+    await fetch(`${API_ADD}/api/budget/totaldetails?page=${pageParams}&size=30`, {
       method: 'GET',
       credentials: 'include',
       headers: {

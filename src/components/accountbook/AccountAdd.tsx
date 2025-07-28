@@ -9,7 +9,7 @@ import { IoRepeat } from 'react-icons/io5';
 import '../../css/CustomDatePicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
-import { patchAccount, postAccount } from '@/api/accountApi';
+import { patchAccount, postAccount, setData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 import toast from 'react-hot-toast';
 import { SlCalculator } from 'react-icons/sl';
@@ -28,9 +28,17 @@ export default function AccountAdd({
   const [content, setContent] = useState<string | null>(null);
   const [isAdd, setIsAdd] = useState<string>('추가');
   const [isCalculator, setIsCalculator] = useState<boolean>(false);
+  const [rewriteDate, setRewriteDate] = useState<Date>();
 
-  const { isAccount, setInsert, isId, calcString, setCalcString } =
-    useAccountData();
+  const {
+    isAccount,
+    setInsert,
+    isId,
+    calcString,
+    setCalcString,
+    setTotaldata,
+    rewriteData,
+  } = useAccountData();
 
   const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const priceValue = e.target.value.replace(/[^0-9]/g, '');
@@ -68,13 +76,37 @@ export default function AccountAdd({
       postAccount(accountTag, startDate, value, price, content);
       onDataChange(false);
       setInsert(false);
+      const totalData = await setData(0);
+      setTotaldata(totalData);
     } else if (isAdd === '수정') {
       patchAccount(accountTag, startDate, value, price, content, isId!);
     }
   };
 
   useEffect(() => {
+    if (isAdd === '수정') {
+      setValue(rewriteData!.category);
+      setPrice(rewriteData!.price.toLocaleString('ko-KR'));
+      setContent(rewriteData!.content);
+      setAccountTag(rewriteData!.type);
+    }
+  }, [isAdd, rewriteData]);
+
+  useEffect(() => {
     setCalcString('');
+    const date = rewriteData?.date;
+
+    const dateArr = date?.split('-');
+
+    if (dateArr !== undefined) {
+      const newDate = new Date(
+        Number(dateArr[0]),
+        Number(dateArr[1]) - 1,
+        Number(dateArr[2]),
+      );
+      setRewriteDate(newDate);
+    }
+
   }, []);
 
   useEffect(() => {
@@ -115,56 +147,108 @@ export default function AccountAdd({
           </button>
         </div>
         <div className="mt-[45px] flex flex-col gap-[34px]">
-          <label className="flex items-center justify-center gap-[10px] border-b-1 border-[var(--main-color-3)]">
-            <span className="w-[55px]">날짜</span>
-            <DatePicker
-              locale="ko"
-              selected={startDate}
-              onChange={(date) => setStartDate(date!)}
-              dateFormat="yyyy년 MM월 dd일"
-              className="text-center"
-              onFocus={() => isToolStatus('날짜')}
-              renderCustomHeader={({
-                date,
-                decreaseMonth,
-                increaseMonth,
-                prevMonthButtonDisabled,
-                nextMonthButtonDisabled,
-              }) => (
-                <div className="flex items-center justify-center">
-                  <button
-                    onClick={decreaseMonth}
-                    disabled={prevMonthButtonDisabled}
-                    type="button"
-                    className="mr-[20px]"
-                  >
-                    {'<'}
-                  </button>
+          {isAdd === '추가' ? (
+            <label className="flex items-center justify-center gap-[10px] border-b-1 border-[var(--main-color-3)]">
+              <span className="w-[55px]">날짜</span>
+              <DatePicker
+                locale="ko"
+                selected={startDate}
+                onChange={(date) => setStartDate(date!)}
+                dateFormat="yyyy년 MM월 dd일"
+                className="text-center"
+                onFocus={() => isToolStatus('날짜')}
+                renderCustomHeader={({
+                  date,
+                  decreaseMonth,
+                  increaseMonth,
+                  prevMonthButtonDisabled,
+                  nextMonthButtonDisabled,
+                }) => (
+                  <div className="flex items-center justify-center">
+                    <button
+                      onClick={decreaseMonth}
+                      disabled={prevMonthButtonDisabled}
+                      type="button"
+                      className="mr-[20px]"
+                    >
+                      {'<'}
+                    </button>
 
-                  <div className="text-center">
-                    <div className="text-[12px] font-bold">
-                      {date.getFullYear()}년
+                    <div className="text-center">
+                      <div className="text-[12px] font-bold">
+                        {date.getFullYear()}년
+                      </div>
+                      <div className="text-[16px] font-bold text-[var(--main-color-3)]">
+                        {date.getMonth() + 1}월
+                      </div>
                     </div>
-                    <div className="text-[16px] font-bold text-[var(--main-color-3)]">
-                      {date.getMonth() + 1}월
-                    </div>
+
+                    <button
+                      onClick={increaseMonth}
+                      disabled={nextMonthButtonDisabled}
+                      type="button"
+                      className="ml-[20px]"
+                    >
+                      {'>'}
+                    </button>
                   </div>
+                )}
+              />
+              <button className="mb-[5px] flex size-[20px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--gray-color-1)] text-[#000000]">
+                <IoRepeat />
+              </button>
+            </label>
+          ) : (
+            <label className="flex items-center justify-center gap-[10px] border-b-1 border-[var(--main-color-3)]">
+              <span className="w-[55px]">날짜</span>
+              <DatePicker
+                locale="ko"
+                selected={rewriteDate}
+                onChange={(date) => setStartDate(date!)}
+                dateFormat="yyyy년 MM월 dd일"
+                className="text-center text-[var(--gray-color-2)]"
+                onFocus={() => isToolStatus('날짜')}
+                renderCustomHeader={({
+                  date,
+                  decreaseMonth,
+                  increaseMonth,
+                  prevMonthButtonDisabled,
+                  nextMonthButtonDisabled,
+                }) => (
+                  <div className="flex items-center justify-center">
+                    <button
+                      onClick={decreaseMonth}
+                      disabled={prevMonthButtonDisabled}
+                      type="button"
+                      className="mr-[20px]"
+                    >
+                      {'<'}
+                    </button>
 
-                  <button
-                    onClick={increaseMonth}
-                    disabled={nextMonthButtonDisabled}
-                    type="button"
-                    className="ml-[20px]"
-                  >
-                    {'>'}
-                  </button>
-                </div>
-              )}
-            />
-            <button className="mb-[5px] flex size-[20px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--gray-color-1)] text-[#000000]">
-              <IoRepeat />
-            </button>
-          </label>
+                    <div className="text-center">
+                      <div className="text-[12px] font-bold">
+                        {date.getFullYear()}년
+                      </div>
+                      <div className="text-[16px] font-bold text-[var(--main-color-3)]">
+                        {date.getMonth() + 1}월
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={increaseMonth}
+                      disabled={nextMonthButtonDisabled}
+                      type="button"
+                      className="ml-[20px]"
+                    >
+                      {'>'}
+                    </button>
+                  </div>
+                )}
+                readOnly
+              />
+              <div className="mb-[5px] flex size-[20px] cursor-pointer items-center justify-center rounded-[5px]"></div>
+            </label>
+          )}
           <label className="flex gap-[8px] border-b-1 border-[var(--main-color-3)]">
             <span>금액</span>
             {!isCalculator ? (
@@ -173,7 +257,7 @@ export default function AccountAdd({
                 className="items-center justify-center text-center focus:outline-none"
                 onFocus={() => isToolStatus('금액')}
                 onChange={handlePrice}
-                value={price!}
+                defaultValue={isAdd === '추가' ? price! : rewriteData?.price}
               />
             ) : (
               <input
@@ -187,7 +271,7 @@ export default function AccountAdd({
             )}
             {toolStatus === '금액' ? (
               <button
-                className="cursor-pointer rounded-[5px] bg-[var(--gray-color-1)] px-[5px]"
+                className="cursor-pointer rounded-[5px] bg-[var(--gray-color-1)] px-[5px] text-black"
                 onClick={() => setIsCalculator(!isCalculator)}
               >
                 <SlCalculator />
@@ -214,6 +298,7 @@ export default function AccountAdd({
               className="items-center justify-center text-center focus:outline-none"
               onFocus={() => isToolStatus('내용')}
               onChange={handleContent}
+              defaultValue={isAdd === '추가' ? '' : rewriteData?.content}
             />
           </label>
         </div>
