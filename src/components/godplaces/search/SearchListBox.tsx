@@ -14,6 +14,7 @@ export default function SearchListBox({
 }) {
   const godplaces = useGodplacesStore((state) => state.godplaces);
   const setGodplaces = useGodplacesStore((state) => state.setGodplaces);
+  const resetPlans = useGodplacesStore((state) => state.resetPlans);
 
   useEffect(() => {
     startTransition(async () => {
@@ -27,11 +28,23 @@ export default function SearchListBox({
     });
   }, [region, category]);
 
+  const resetPlansHandler = () => {
+    resetPlans();
+  };
+
   return (
     <div className="flex flex-1 flex-col py-[13px] md:h-full md:py-[28px]">
       <div className="mb-[10px] pl-[10px] text-[16px] text-[var(--gray-color-2)] md:mb-[18px] md:pl-[12px] md:text-[20px]">
         검색 결과
       </div>
+      <button
+        type="button"
+        onClick={resetPlansHandler}
+        className="mt-[-15px] mb-[3px] cursor-pointer px-[10px] pr-[35px] text-right text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)]"
+      >
+        모두 선택 해제
+      </button>
+
       <div className="hide-scrollbar flex h-[35dvh] flex-col items-center gap-[8px] overflow-y-auto px-[10px] pt-[4px] md:h-[782px] md:gap-[13px] md:px-[0px]">
         {!godplaces &&
           Array.from({ length: 7 }, (_, idx) => (
