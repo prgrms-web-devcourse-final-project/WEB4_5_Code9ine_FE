@@ -1,12 +1,12 @@
+import { patchBookmark } from '@/api/godplaces';
 import toast from 'react-hot-toast';
-import { patchBookmark } from '../api/godplaces';
 
 const bookmarkHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
   e.preventDefault();
   e.stopPropagation();
 
   try {
-    const message = await patchBookmark(1, 'store', 1);
+    const message = await patchBookmark('store', 1);
 
     if (message.code === '0000') {
       toast.success('북마크 완료');
