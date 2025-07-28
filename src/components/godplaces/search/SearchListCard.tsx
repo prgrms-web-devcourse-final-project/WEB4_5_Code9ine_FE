@@ -65,7 +65,9 @@ export default function SearchListCard({
         )}
       </div>
       <div className="mt-[-3px] mb-[10px] flex items-center gap-[7px] md:mt-[-5px] md:mb-[10px]">
-        <div className="text-[16px] md:text-[20px]">{name}</div>
+        <div className="max-w-[75%] truncate text-[16px] md:text-[20px]">
+          {name}
+        </div>
         {isLogin && (
           <BookmarkButton
             type={type}
