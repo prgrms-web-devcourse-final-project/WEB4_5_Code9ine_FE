@@ -121,7 +121,6 @@ export default function UnAuthorizedMain() {
         </motion.div>
 
         {/* 이번주 티태왕 TOP3 */}
-        {/* 이번주 티태왕 TOP3 */}
         <motion.div
           className="mt-8 flex flex-col items-center md:w-[910px]"
           variants={fadeUp}

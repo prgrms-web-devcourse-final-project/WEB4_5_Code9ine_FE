@@ -6,39 +6,33 @@ import Button from './Button';
 import { useState, useEffect } from 'react';
 import EditProfile from './EditProfile';
 import { UserData } from '@/types/userType';
-import { getMyCode, getMyPage } from '@/api/profile';
+import { getMyCode } from '@/api/profile'; // ✅ getMyPage 제거
 import Modal from '../common/Modal';
 import Image from 'next/image';
 // import { getProfileImg } from '@/lib/utils/getImageUrl';
 
 export default function Profile({
   isPersonal = false,
+  userData,
 }: {
   isPersonal?: boolean;
+  userData: UserData | null;
 }) {
-  const [userData, setUserData] = useState<UserData | null>(null);
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [showCopyModal, setShowCopyModal] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  // 유저 데이터
+  // 유저 이미지 URL 설정
   useEffect(() => {
-    getMyPage()
-      .then((res) => {
-        const user = res.data.data;
-        setUserData(user);
-        console.log(user.equippedTitle);
-        if (user?.profileImage) {
-          // const url = getProfileImg(user.profileImage);
-          const url = user.profileImage;
-          console.log('이미지 URL:', url);
-          setImageUrl(url);
-        } else {
-          console.log('이미지 없음');
-        }
-      })
-      .catch((err) => console.log('마이데이터 에러', err));
-  }, []);
+    if (userData?.profileImage) {
+      // const url = getProfileImg(user.profileImage);
+      const url = userData.profileImage;
+      console.log('이미지 URL:', url);
+      setImageUrl(url);
+    } else {
+      console.log('이미지 없음');
+    }
+  }, [userData]);
 
   // 초대 코드 복사
   const handleCopy = async () => {
