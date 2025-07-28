@@ -77,7 +77,7 @@ export default function SearchListCard({
       {type === 'store' && (
         <div className="flex gap-[6px] text-[12px] md:text-[14px]">
           <div>{firstMenu}</div>
-          <div>{firstPrice}원</div>
+          <div>{Number(firstPrice).toLocaleString()}원</div>
         </div>
       )}
       {type !== 'store' && (
