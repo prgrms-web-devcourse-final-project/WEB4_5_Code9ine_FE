@@ -9,6 +9,8 @@ import TopButton from '../../../components/board/TopButton';
 import { boardApi } from '@/api/boardApi';
 import { PostRes, UpdatePostReq } from '@/types/boardType';
 import { useEffect, useRef, useState } from 'react';
+import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const [selectedTab, setSelectedTab] = useState<
@@ -28,6 +30,20 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadingpoPopularPost, setLoadingpoPopularPost] = useState(false);
+
+  const router = useRouter();
+  const { isLogin } = useAuthStore();
+  const [sessionChecked, setSessionChecked] = useState(false);
+
+  useEffect(() => {
+    setSessionChecked(true);
+  }, []);
+
+  useEffect(() => {
+    if (sessionChecked && !isLogin) {
+      router.replace('/login');
+    }
+  }, [sessionChecked, isLogin, router]);
 
   const fetchPosts = async () => {
     try {
