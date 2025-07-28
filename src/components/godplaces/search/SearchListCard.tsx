@@ -47,20 +47,20 @@ export default function SearchListCard({
         {plans.some((plan) => plan.id === id && plan.type === type) ? (
           <button
             type="button"
-            className="flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--main-color-3)]"
+            className="mt-[-2px] flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--main-color-3)]"
             onClick={addPlans}
           >
             <div>장소선택</div>
-            <IoCheckmark className="text-[16px] md:text-[24px]" />
+            <IoCheckmark className="mt-[-2px] text-[16px] md:text-[24px]" />
           </button>
         ) : (
           <button
             type="button"
-            className="flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)]"
+            className="mt-[-2px] flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)]"
             onClick={addPlans}
           >
             <div>장소선택</div>
-            <IoCheckmark className="text-[16px] md:text-[24px]" />
+            <IoCheckmark className="mt-[-2px] text-[16px] md:text-[24px]" />
           </button>
         )}
       </div>
