@@ -399,8 +399,23 @@ export default function SignupBox() {
               type="password"
               value={password}
               onChange={(e) => {
-                setPassword(e.target.value);
-                if (passwordError) setPasswordError('');
+                const value = e.target.value;
+                setPassword(value);
+
+                if (!value) {
+                  setPasswordError('비밀번호를 입력해주세요.');
+                } else if (!validatePassword(value)) {
+                  setPasswordError('비밀번호는 8~16자, 대문자·특수문자 포함');
+                } else {
+                  setPasswordError('');
+                }
+
+                // confirmPwd와 일치 여부도 같이 검사
+                if (confirmPwd && value !== confirmPwd) {
+                  setConfirmPwdError('비밀번호가 일치하지 않습니다.');
+                } else {
+                  setConfirmPwdError('');
+                }
               }}
               placeholder="8~16자 영어 대소문자, 특수문자를 포함해주세요"
               className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"
@@ -421,8 +436,14 @@ export default function SignupBox() {
               type="password"
               value={confirmPwd}
               onChange={(e) => {
-                setConfirmPwd(e.target.value);
-                if (confirmPwdError) setConfirmPwdError('');
+                const value = e.target.value;
+                setConfirmPwd(value);
+
+                if (!password || value !== password) {
+                  setConfirmPwdError('비밀번호가 일치하지 않습니다.');
+                } else {
+                  setConfirmPwdError('');
+                }
               }}
               placeholder="비밀번호를 한번 더 입력해 주세요"
               className="h-[35px] w-full rounded-[10px] border-2 border-[var(--main-color-1)] bg-[var(--white-color)] px-3 placeholder:text-[12px] focus:border-[var(--main-color-2)] focus:outline-none"

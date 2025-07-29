@@ -146,7 +146,7 @@ export default function ColoredBox() {
       toast.error(msg);
     }
   };
-  console.log(notifications);
+  // console.log(notifications);
 
   return (
     <div className="relative">

@@ -59,10 +59,14 @@ export default function NotificationBox({
 
   const handleEquip = async (aTId: number) => {
     try {
-      console.log(aTId);
       const result = await equipTitle(aTId);
       console.log('장착 완료:', result.equippedTitle);
-      router.push('/profile');
+
+      if (window.location.pathname === '/profile') {
+        window.location.reload();
+      } else {
+        router.push('/profile');
+      }
     } catch (err) {
       console.error('즉시 장착 실패:', err);
     } finally {
