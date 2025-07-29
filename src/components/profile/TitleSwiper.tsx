@@ -289,7 +289,7 @@ export default function TitleSwiper({
 
   const getAnimationDuration = () => {
     if (achievedChallenge.length === 0) return '90s';
-    if (achievedChallenge.length <= 3) return '20s';
+    if (achievedChallenge.length <= 3) return '50s';
     if (achievedChallenge.length <= 6) return '70s';
     return '80s';
   };
@@ -334,7 +334,9 @@ export default function TitleSwiper({
                 <div
                   key={`${setIndex}-${i}`}
                   className={`mx-[30px] flex items-center gap-1 text-[16px] text-[#2b2e34] md:text-[20px] ${
-                    isMyProfile ? 'cursor-pointer' : 'cursor-default'
+                    isMyProfile
+                      ? 'cursor-pointer'
+                      : 'pointer-events-none opacity-60'
                   }`}
                   onClick={
                     isMyProfile ? () => handleEquipTitle(mission) : undefined
