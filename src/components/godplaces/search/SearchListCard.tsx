@@ -47,25 +47,29 @@ export default function SearchListCard({
         {plans.some((plan) => plan.id === id && plan.type === type) ? (
           <button
             type="button"
-            className="flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--main-color-3)]"
+            className="mt-[-2px] flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--main-color-3)]"
             onClick={addPlans}
           >
             <div>장소선택</div>
-            <IoCheckmark className="text-[16px] md:text-[24px]" />
+            <IoCheckmark className="mt-[-2px] text-[16px] md:text-[24px]" />
           </button>
         ) : (
           <button
             type="button"
-            className="flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)]"
+            className="mt-[-2px] flex cursor-pointer items-center gap-[6px] text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)]"
             onClick={addPlans}
           >
             <div>장소선택</div>
-            <IoCheckmark className="text-[16px] md:text-[24px]" />
+            <IoCheckmark className="mt-[-2px] text-[16px] md:text-[24px]" />
           </button>
         )}
       </div>
       <div className="mt-[-3px] mb-[10px] flex items-center gap-[7px] md:mt-[-5px] md:mb-[10px]">
-        <div className="text-[16px] md:text-[20px]">{name}</div>
+        <div
+          className={`${isLogin && 'max-w-[75%]'} truncate text-[16px] md:text-[20px]`}
+        >
+          {name}
+        </div>
         {isLogin && (
           <BookmarkButton
             type={type}
@@ -77,7 +81,7 @@ export default function SearchListCard({
       {type === 'store' && (
         <div className="flex gap-[6px] text-[12px] md:text-[14px]">
           <div>{firstMenu}</div>
-          <div>{firstPrice}원</div>
+          <div>{Number(firstPrice).toLocaleString()}원</div>
         </div>
       )}
       {type !== 'store' && (

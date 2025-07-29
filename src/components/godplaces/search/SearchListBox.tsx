@@ -40,7 +40,7 @@ export default function SearchListBox({
       <button
         type="button"
         onClick={resetPlansHandler}
-        className="mt-[-15px] mb-[3px] cursor-pointer px-[10px] pr-[35px] text-right text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)]"
+        className={`mt-[-15px] mb-[3px] cursor-pointer px-[10px] pr-[35px] text-right text-[10px] text-[var(--gray-color-2)] hover:text-[var(--main-color-3)] ${godplaces && godplaces.length === 0 && 'hidden'}`}
       >
         모두 선택 해제
       </button>

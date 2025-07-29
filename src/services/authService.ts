@@ -55,6 +55,7 @@ export interface LoginResponse {
   grantType: string;
   expiresIn: number;
   refreshExpiresIn: number;
+  role: 'ROLE_ADMIN' | 'ROLE_USER';
 }
 
 export async function login(
