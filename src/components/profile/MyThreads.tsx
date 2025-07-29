@@ -481,7 +481,6 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
                     type={place.type}
                     id={place.id}
                     showBackButton={false}
-                    forceBookmarked={isMyProfile}
                   />
                 </div>
               ))

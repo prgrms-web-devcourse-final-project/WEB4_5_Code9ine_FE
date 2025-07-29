@@ -11,7 +11,6 @@ export default function DetailTopInfo({
   contact,
   url,
   id,
-  forceBookmarked = false, // 추가
 }: {
   type: string;
   category: string | undefined;
@@ -20,7 +19,6 @@ export default function DetailTopInfo({
   contact?: string;
   url?: string;
   id: number | undefined;
-  forceBookmarked?: boolean; // 추가
 }) {
   const label = getLabel(type, category);
   const isLogin = useAuthStore((state) => state.isLogin);
@@ -41,7 +39,6 @@ export default function DetailTopInfo({
                 className="mt-[-1px] ml-[10px] size-[16px] cursor-pointer text-[var(--point-color-1)] md:size-[20px]"
                 type={type}
                 id={id}
-                forceBookmarked={forceBookmarked} // 전달
               />
             )}
           </div>
