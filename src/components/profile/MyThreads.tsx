@@ -23,6 +23,8 @@ import { PostRes } from '../../types/boardType';
 import TopButton from '../board/TopButton';
 import Empty from './Empty';
 import PostItemSkeleton from '../board/PostItemSkeleton';
+import { useGodplacesStore } from '@/stores/godplacesStore';
+import { convertGodplacesBookmarkType } from '@/lib/utils/convertGodplacesBookmarkType';
 interface ThreadsProps {
   profileData?: UserData;
   memberId: string;
@@ -40,6 +42,7 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
   const [userDataError, setUserDataError] = useState<string | null>(null);
   const [myData, setMyData] = useState<UserData | null>(null);
   const queryClient = useQueryClient();
+  const setBookmarked = useGodplacesStore((state) => state.setBookmarked);
 
   // 내 정보 가져오기 (memberId와 비교하기 위해)
   useEffect(() => {
@@ -198,6 +201,18 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
           };
         }),
     });
+
+  useEffect(() => {
+    getBookmarkedPlaces().then((res) => {
+      setBookmarked(convertGodplacesBookmarkType(res.data));
+    });
+  }, [isMyProfile, setBookmarked]);
+
+  useEffect(() => {
+    if (selectedTab === 'place') {
+      queryClient.invalidateQueries({ queryKey: ['bookmarkedPlaces'] });
+    }
+  }, [isMyProfile, selectedTab]);
 
   // 표시할 데이터 추출
   const getDisplayData = () => {
@@ -479,7 +494,6 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
                     type={place.type}
                     id={place.id}
                     showBackButton={false}
-                    // forceBookmarked={isMyProfile}
                   />
                 </div>
               ))
