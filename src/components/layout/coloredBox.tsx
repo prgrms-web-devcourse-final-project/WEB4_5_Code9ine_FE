@@ -149,7 +149,7 @@ export default function ColoredBox() {
   // console.log(notifications);
 
   return (
-    <div className="relative">
+    <div className="relative select-none">
       <div className="relative flex w-full items-center justify-center bg-[var(--header-color)] p-[10px] md:h-[870px] md:w-[200px] md:flex-col md:rounded-[10px]">
         {/* 다크 모드 버튼 */}
         <div

@@ -35,7 +35,7 @@ export default function AuthorizedMain() {
   }, []);
 
   return (
-    <div className="mt-[15px] flex gap-[15px] md:mt-0">
+    <div className="mt-[15px] flex gap-[15px] select-none md:mt-0">
       <div className="h-full w-full px-[2px] md:h-[870px] md:w-[756px] md:px-0">
         <Analysis nickname={userData?.nickname ?? ''} />
       </div>

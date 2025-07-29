@@ -18,7 +18,7 @@ export default function Login() {
 
   return (
     <div
-      className="mx-auto flex h-auto w-full flex-col items-center justify-center rounded-[20px] bg-cover bg-center md:h-[880px] md:w-[1366px]"
+      className="mx-auto flex h-auto w-full flex-col items-center justify-center rounded-[20px] bg-cover bg-center select-none md:h-[880px] md:w-[1366px]"
       style={{ background: gradient }}
     >
       <Link href={'/'}>
