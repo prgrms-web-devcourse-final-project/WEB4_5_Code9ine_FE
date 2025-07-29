@@ -72,18 +72,17 @@ export default function ColoredBox() {
       .catch((err) => console.error(err));
   };
 
+  // 알림api 가져오기
   useEffect(() => {
     if (!isLogin) return;
 
-    Promise.all([
-      getNotificationTitles(),
-      getLikeNotifications(),
-      getCommentNotifications(),
-    ])
-      .then(([titles, likes, comments]) => {
-        setNotifications([...titles, ...likes, ...comments]);
-      })
-      .catch((err) => console.error(err));
+    fetchNotifications();
+
+    const interval = setInterval(() => {
+      fetchNotifications();
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, [isLogin]);
 
   useEffect(() => {
