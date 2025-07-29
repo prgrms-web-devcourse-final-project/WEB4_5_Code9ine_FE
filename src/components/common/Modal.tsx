@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 interface ModalProps {
   title: React.ReactNode;
   description?: string;
@@ -6,6 +8,12 @@ interface ModalProps {
 }
 
 export default function Modal({ title, description, buttons }: ModalProps) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
   return (
     <div className="fixed inset-0 z-56 flex cursor-default items-center justify-center bg-black/70">
       <div className="w-[250px] rounded-[10px] bg-[var(--white-color)] p-[20px] shadow-[var(--shadow-md)]">

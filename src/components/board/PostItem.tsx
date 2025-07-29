@@ -19,6 +19,7 @@ import toast from 'react-hot-toast';
 import Link from 'next/link';
 import defaultProfile from '../../assets/profile.png';
 import { useQueryClient } from '@tanstack/react-query';
+import Modal from '../common/Modal';
 
 interface PostItemProps {
   post: PostRes;
@@ -46,6 +47,8 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
 
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -134,8 +137,12 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
     }
   };
 
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
+  };
+
   const handleDelete = async () => {
-    if (!confirm('정말 삭제하시겠습니까?')) return;
+    // if (!confirm('정말 삭제하시겠습니까?')) return;
 
     try {
       await boardApi.deletePost(post.postId);
@@ -144,6 +151,8 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
     } catch (err) {
       console.error(err);
       toast.error('게시글 삭제에 실패했어요');
+    } finally {
+      setShowDeleteModal(false);
     }
   };
 
@@ -316,12 +325,35 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
                 수정
               </button>
               <button
-                onClick={handleDelete}
+                onClick={handleDeleteClick}
                 className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]"
               >
                 삭제
               </button>
             </div>
+          )}
+          {showDeleteModal && (
+            <Modal
+              title="정말 삭제하시겠어요..?"
+              description="삭제 후에는 되돌릴 수 없어요"
+              buttons={
+                <>
+                  <button
+                    onClick={handleDelete}
+                    className="cursor-pointer rounded-[10px] bg-[var(--point-color-1)] px-4 py-1 hover:bg-[var(--point-color-2)]"
+                  >
+                    삭제
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteModal(false)}
+                    className="cursor-pointer rounded-[10px] bg-[var(--main-color-1)] px-4 py-1 hover:bg-[var(--main-color-2)]"
+                  >
+                    취소
+                  </button>
+                </>
+              }
+              onClose={() => setShowDeleteModal(false)}
+            />
           )}
         </div>
         {commentsOpen && (
