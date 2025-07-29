@@ -4,6 +4,7 @@ import logo from '@/assets/Logo.svg';
 import Button from '../login/SignupButton';
 import { LuNotebook } from 'react-icons/lu';
 import {
+  // IoConstructOutline,
   IoLogoGithub,
   IoMoonOutline,
   IoPersonCircleOutline,
@@ -71,18 +72,17 @@ export default function ColoredBox() {
       .catch((err) => console.error(err));
   };
 
+  // 알림api 가져오기
   useEffect(() => {
     if (!isLogin) return;
 
-    Promise.all([
-      getNotificationTitles(),
-      getLikeNotifications(),
-      getCommentNotifications(),
-    ])
-      .then(([titles, likes, comments]) => {
-        setNotifications([...titles, ...likes, ...comments]);
-      })
-      .catch((err) => console.error(err));
+    fetchNotifications();
+
+    const interval = setInterval(() => {
+      fetchNotifications();
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, [isLogin]);
 
   useEffect(() => {
@@ -146,6 +146,7 @@ export default function ColoredBox() {
       toast.error(msg);
     }
   };
+  console.log(notifications);
 
   return (
     <div className="relative">

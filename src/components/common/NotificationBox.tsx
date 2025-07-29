@@ -9,6 +9,7 @@ import {
   markAllNotificationsAsRead,
 } from '@/api/notification';
 import Modal from './Modal';
+import { useRouter } from 'next/navigation';
 
 interface NotificationBoxProps {
   onClose: () => void;
@@ -23,6 +24,7 @@ export default function NotificationBox({
 }: NotificationBoxProps) {
   const [selected, setSelected] = useState<NotificationTitle | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   // 모달 바깥 클릭 시 닫기
   useEffect(() => {
@@ -57,8 +59,10 @@ export default function NotificationBox({
 
   const handleEquip = async (aTId: number) => {
     try {
+      console.log(aTId);
       const result = await equipTitle(aTId);
       console.log('장착 완료:', result.equippedTitle);
+      router.push('/profile');
     } catch (err) {
       console.error('즉시 장착 실패:', err);
     } finally {
@@ -140,7 +144,7 @@ export default function NotificationBox({
               {/* 즉시 장착 버튼은 TITLE일 때만 표시 */}
               {selected.type === 'TITLE' && (
                 <button
-                  onClick={() => handleEquip(selected.aTId)}
+                  onClick={() => handleEquip(selected.atid)}
                   className="flex-1 cursor-pointer rounded-[5px] bg-[var(--main-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--main-color-3)]"
                 >
                   즉시 장착

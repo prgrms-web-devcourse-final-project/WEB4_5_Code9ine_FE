@@ -23,6 +23,8 @@ import { PostRes } from '../../types/boardType';
 import TopButton from '../board/TopButton';
 import Empty from './Empty';
 import PostItemSkeleton from '../board/PostItemSkeleton';
+import { useGodplacesStore } from '@/stores/godplacesStore';
+import { convertGodplacesBookmarkType } from '@/lib/utils/convertGodplacesBookmarkType';
 interface ThreadsProps {
   profileData?: UserData;
   memberId: string;
@@ -40,6 +42,7 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
   const [userDataError, setUserDataError] = useState<string | null>(null);
   const [myData, setMyData] = useState<UserData | null>(null);
   const queryClient = useQueryClient();
+  const setBookmarked = useGodplacesStore((state) => state.setBookmarked);
 
   // 내 정보 가져오기 (memberId와 비교하기 위해)
   useEffect(() => {
@@ -59,15 +62,14 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
     !memberId || (myData && String(myData.memberId) === String(memberId)),
   );
 
-  // profileData가 있으면 바로 사용
   useEffect(() => {
     if (profileData && !isMyProfile) {
       setUserData(profileData);
       setUserDataLoading(false);
     }
-  }, [profileData, isMyProfile, myData]); // myData 의존성 추가
+  }, [profileData, isMyProfile, myData]);
 
-  // 다른 유저 데이터 가져오기 (fallback, profileData가 없을 때만)
+  // 다른 유저 데이터 가져오기
   const fetchUserData = async () => {
     if (!memberId || isMyProfile || profileData) return;
 
@@ -200,6 +202,18 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
         }),
     });
 
+  useEffect(() => {
+    getBookmarkedPlaces().then((res) => {
+      setBookmarked(convertGodplacesBookmarkType(res.data));
+    });
+  }, [isMyProfile, setBookmarked]);
+
+  useEffect(() => {
+    if (selectedTab === 'place') {
+      queryClient.invalidateQueries({ queryKey: ['bookmarkedPlaces'] });
+    }
+  }, [isMyProfile, selectedTab]);
+
   // 표시할 데이터 추출
   const getDisplayData = () => {
     if (isMyProfile) {
@@ -286,10 +300,9 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
           : 'NO_MONEY',
       };
     } else {
-      // 다른 유저 프로필: API 응답 데이터 변환
       return {
         ...post,
-        postId: post.postId, // bookmarkedPosts는 postid로 옴
+        postId: post.postId,
         category: categoryEng(post.category),
         challengeCategory: isValidChallengeCategory(post.challengeCategory)
           ? post.challengeCategory
@@ -481,7 +494,6 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
                     type={place.type}
                     id={place.id}
                     showBackButton={false}
-                    forceBookmarked={isMyProfile}
                   />
                 </div>
               ))

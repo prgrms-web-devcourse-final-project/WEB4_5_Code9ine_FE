@@ -9,6 +9,7 @@ import { getMyCode, getMyPage, getUserProfile } from '@/api/profile';
 import Modal from '../common/Modal';
 import Image from 'next/image';
 import ProfileSkeleton from './ProfileSkeletion';
+import { useTitleStore } from '@/stores/titleStore';
 
 interface ProfileProps {
   profileData?: UserData;
@@ -31,6 +32,8 @@ export default function Profile({
   const [error, setError] = useState<string | null>(null);
   const [myData, setMyData] = useState<UserData | null>(null);
 
+  const { equippedTitle } = useTitleStore();
+
   // 내 정보 가져오기
   useEffect(() => {
     const fetchMyData = async () => {
@@ -49,7 +52,8 @@ export default function Profile({
     !memberId || (myData && String(myData.memberId) === String(memberId)),
   );
 
-  // profileData가 있으면 바로 사용, 없으면 API 호출
+  const showButtons = isMyProfile && !isPersonal;
+
   useEffect(() => {
     if (profileData) {
       setUserData(profileData);
@@ -78,7 +82,7 @@ export default function Profile({
       } else {
         // 내 프로필 조회
         res = await getMyPage();
-        // console.log('My profile:', res);
+        console.log('My profile:', res);
       }
 
       const user = res.data?.data || res.data || res;
@@ -97,7 +101,7 @@ export default function Profile({
     }
   };
 
-  // 초대 코드 복사 (내 프로필에서만)
+  // 초대 코드 복사
   const handleCopy = async () => {
     if (!isMyProfile) return;
 
@@ -120,7 +124,7 @@ export default function Profile({
   if (error || !userData) {
     return (
       <div
-        className={`${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} mb-[20px] flex w-full flex-col items-center justify-center`}
+        className={`${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} ${!showButtons ? 'mt-[45px]' : ''} mb-[20px] flex w-full flex-col items-center justify-center`}
       >
         <p className="text-red-500">{error || '프로필을 찾을 수 없습니다.'}</p>
       </div>
@@ -130,7 +134,7 @@ export default function Profile({
   return (
     <>
       <div
-        className={`${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} mb-[20px] flex w-full flex-col items-center justify-center`}
+        className={` ${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} ${!showButtons ? 'mt-[45px]' : ''} mb-[20px] flex w-full flex-col items-center justify-center`}
       >
         {/* 프로필 이미지 */}
         {userData.profileImage && imageUrl ? (
@@ -159,19 +163,18 @@ export default function Profile({
         {/* 칭호 */}
         <p
           className={`mt-[5px] mb-[7px] text-[16px] ${
-            userData.equippedTitle && userData.equippedTitle.length > 0
+            userData.equippedTitle
               ? 'font-semibold text-[var(--text-color)]'
               : 'text-[var(--gray-color-2)]'
           }`}
         >
-          {userData.equippedTitle && userData.equippedTitle.length > 0
-            ? userData.equippedTitle[0].name
+          {equippedTitle
+            ? equippedTitle.name
             : isMyProfile
               ? '칭호를 획득해 보세요!'
               : '칭호가 없습니다'}
         </p>
 
-        {/* 경험치 바 */}
         <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
           다음 레벨까지
         </span>
@@ -185,13 +188,13 @@ export default function Profile({
         />
 
         {/* 내 프로필이고 개인 페이지가 아닐 때만 표시 */}
-        {isMyProfile && !isPersonal && (
+        {showButtons && (
           <div className="mt-[10px] flex items-center gap-[10px] text-[16px]">
             <Button
               button={
                 <button
                   onClick={() => setIsEditProfile(true)}
-                  className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]"
+                  className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[#2b2e34] hover:bg-[var(--main-color-2)]"
                 >
                   프로필 수정하기
                 </button>
@@ -201,7 +204,7 @@ export default function Profile({
               button={
                 <button
                   onClick={handleCopy}
-                  className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]"
+                  className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[#2b2e34] hover:bg-[var(--main-color-2)]"
                 >
                   내 초대 코드 복사
                 </button>

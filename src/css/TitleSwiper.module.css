@@ -21,6 +21,10 @@
   width: max-content;
 }
 
+.marqueePaused {
+  animation-play-state: paused;
+}
+
 @keyframes slide {
   0% {
     transform: translateX(0%);

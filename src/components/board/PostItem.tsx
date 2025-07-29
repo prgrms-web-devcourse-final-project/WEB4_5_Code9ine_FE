@@ -19,6 +19,8 @@ import toast from 'react-hot-toast';
 import Link from 'next/link';
 import defaultProfile from '../../assets/profile.png';
 import { useQueryClient } from '@tanstack/react-query';
+import Modal from '../common/Modal';
+import { useTitleStore } from '@/stores/titleStore';
 
 interface PostItemProps {
   post: PostRes;
@@ -47,7 +49,11 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const queryClient = useQueryClient();
+
+  const { equippedTitle } = useTitleStore();
 
   useEffect(() => {
     const fetchMe = async () => {
@@ -63,6 +69,9 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
   }, []);
 
   const isMine = myMemberId === post.memberId;
+
+  const displayTitle =
+    isMine && equippedTitle ? equippedTitle.name : post.writerTitle;
 
   const handleToggleLike = async () => {
     setIsLiked((prev) => !prev);
@@ -134,8 +143,12 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
     }
   };
 
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
+  };
+
   const handleDelete = async () => {
-    if (!confirm('정말 삭제하시겠습니까?')) return;
+    // if (!confirm('정말 삭제하시겠습니까?')) return;
 
     try {
       await boardApi.deletePost(post.postId);
@@ -144,6 +157,8 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
     } catch (err) {
       console.error(err);
       toast.error('게시글 삭제에 실패했어요');
+    } finally {
+      setShowDeleteModal(false);
     }
   };
 
@@ -177,11 +192,11 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
           className="h-[30px] w-[30px] rounded-full border-2 border-[var(--main-color-2)] object-cover md:h-[70px] md:w-[70px]"
         />
         <div className="flex flex-row items-baseline gap-1 whitespace-nowrap md:flex-col md:items-center">
-          <div className="ml-[4px] text-center text-[18px] leading-none md:mt-[10px] md:text-[20px]">
+          <div className="ml-[8px] text-center text-[18px] leading-none md:mt-[10px] md:ml-[0px] md:text-[20px]">
             {post.writerNickname}
           </div>
           <div className="text-center text-[12px] leading-none text-[var(--text-color-2)] md:text-[16px]">
-            {post.writerTitle}
+            {displayTitle}
           </div>
         </div>
       </Link>
@@ -316,12 +331,35 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
                 수정
               </button>
               <button
-                onClick={handleDelete}
+                onClick={handleDeleteClick}
                 className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]"
               >
                 삭제
               </button>
             </div>
+          )}
+          {showDeleteModal && (
+            <Modal
+              title="정말 삭제하시겠어요..?"
+              description="삭제 후에는 되돌릴 수 없어요"
+              buttons={
+                <>
+                  <button
+                    onClick={handleDelete}
+                    className="cursor-pointer rounded-[10px] bg-[var(--point-color-1)] px-4 py-1 hover:bg-[var(--point-color-2)]"
+                  >
+                    삭제
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteModal(false)}
+                    className="cursor-pointer rounded-[10px] bg-[var(--main-color-1)] px-4 py-1 hover:bg-[var(--main-color-2)]"
+                  >
+                    취소
+                  </button>
+                </>
+              }
+              onClose={() => setShowDeleteModal(false)}
+            />
           )}
         </div>
         {commentsOpen && (

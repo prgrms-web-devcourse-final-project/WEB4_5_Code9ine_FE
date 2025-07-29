@@ -9,6 +9,7 @@ import { getUserChallenge, getUserProfile, getMyPage } from '@/api/profile';
 import { Challenge, UserData } from '@/types/userType';
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'next/navigation';
+import { useTitleStore } from '@/stores/titleStore';
 
 export default function ProfilePage() {
   const { isLogin } = useAuthStore();
@@ -20,6 +21,7 @@ export default function ProfilePage() {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [myData, setMyData] = useState<UserData | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const { setEquippedTitle } = useTitleStore();
 
   useEffect(() => {
     if (!isLogin) {
@@ -62,6 +64,12 @@ export default function ProfilePage() {
 
     fetchData();
   }, [memberId]);
+
+  useEffect(() => {
+    if (profileData?.equippedTitle) {
+      setEquippedTitle(profileData.equippedTitle);
+    }
+  }, [profileData, setEquippedTitle]);
 
   if (!sessionChecked) return null;
 
