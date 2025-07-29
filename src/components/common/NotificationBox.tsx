@@ -51,9 +51,9 @@ export default function NotificationBox({
     }
   };
 
-  const handleEquip = async (challengeId: number) => {
+  const handleEquip = async (aTId: number) => {
     try {
-      const result = await equipTitle(challengeId);
+      const result = await equipTitle(aTId);
       console.log('장착 완료:', result.equippedTitle);
     } catch (err) {
       console.error('즉시 장착 실패:', err);
@@ -121,7 +121,7 @@ export default function NotificationBox({
               {/* 즉시 장착 버튼은 TITLE일 때만 표시 */}
               {selected.type === 'TITLE' && (
                 <button
-                  onClick={() => handleEquip(selected.notificationId)}
+                  onClick={() => handleEquip(selected.aTId)}
                   className="flex-1 cursor-pointer rounded-[5px] bg-[var(--main-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--main-color-3)]"
                 >
                   즉시 장착

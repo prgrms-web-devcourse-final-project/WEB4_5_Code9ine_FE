@@ -1,5 +1,4 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
-const API_BASE2 = process.env.NEXT_PUBLIC_API_BASE_URL2;
 
 //회원가입
 export interface SignUpPayload {
@@ -290,7 +289,7 @@ export async function logout(): Promise<{ message: string }> {
 // }
 
 export function getGoogleLoginRedirect(): void {
-  window.location.href = `${API_BASE2}/oauth2/authorization/google`;
+  window.location.href = `${API_BASE}/oauth2/authorization/google`;
 }
 
 // export function getGoogleLoginRedirect(): void {

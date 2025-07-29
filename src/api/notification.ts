@@ -5,6 +5,7 @@ export interface NotificationTitle {
   message: string;
   read: boolean;
   type: string;
+  aTId: number;
   senderId?: number;
 }
 
