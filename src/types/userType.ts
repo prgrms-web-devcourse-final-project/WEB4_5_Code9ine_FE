@@ -1,10 +1,10 @@
 // 마이 칭호 관련 타입
 export interface MyTitle {
-  titleId: number;
+  challengeId: number;
+  aTId: number;
   name: string;
   icon: string;
-  description: string;
-  achieved: boolean;
+  achieved: null;
   minCount: number;
 }
 
@@ -35,7 +35,7 @@ export interface UserData {
   remainPrice: number;
   bookmarkedPosts: Post[];
   bookmarkedPlaces: BookmarkItem[];
-  equippedTitle: MyTitle[];
+  equippedTitle: MyTitle;
   achievedTitles: MyTitle[];
 }
 

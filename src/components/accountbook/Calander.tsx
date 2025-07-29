@@ -18,7 +18,8 @@ export default function Calander({
   const [data, setData] = useState<CalendarList>();
   const [date, setDate] = useState<Date | null>(null);
 
-  const { setDateData, setShowDayData, setIsAccount } = useAccountData();
+  const { setDateData, setShowDayData, setIsAccount, calendarData } =
+    useAccountData();
 
   const onChange = (newDate: Value) => {
     if (newDate instanceof Date) {
@@ -44,7 +45,10 @@ export default function Calander({
     }
     monthData();
     setDate(new Date());
-  }, []);
+
+    if (calendarData !== null) setData(calendarData);
+  }, [calendarData]);
+
   const addContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === 'month') {
       const formattedCurrentDate = format(date, 'yyyy-MM-dd');

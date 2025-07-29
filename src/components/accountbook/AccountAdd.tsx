@@ -6,7 +6,13 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import '../../css/CustomDatePicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
-import { API_ADD, patchAccount, postAccount, setData } from '@/api/accountApi';
+import {
+  API_ADD,
+  patchAccount,
+  postAccount,
+  setData,
+  setMonthData,
+} from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 import toast from 'react-hot-toast';
 import { SlCalculator } from 'react-icons/sl';
@@ -24,7 +30,7 @@ export default function AccountAdd({
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [value, setValue] = useState<string>('');
   const [price, setPrice] = useState<string>('');
-  const [content, setContent] = useState<string | null>(null);
+  const [content, setContent] = useState<string>('');
   const [isAdd, setIsAdd] = useState<string>('추가');
   const [isCalculator, setIsCalculator] = useState<boolean>(false);
   const [rewriteDate, setRewriteDate] = useState<Date>();
@@ -40,6 +46,7 @@ export default function AccountAdd({
     setCalcString,
     setTotaldata,
     rewriteData,
+    setCalendarData,
   } = useAccountData();
 
   const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,18 +82,25 @@ export default function AccountAdd({
       return;
     }
     try {
+      const today = new Date();
+      const month = today.getMonth() + 1;
+
       if (isAdd === '추가') {
         postAccount(accountTag, startDate, value, price, content);
         onDataChange(false);
         setInsert(false);
         const totalData = await setData(0);
         setTotaldata(totalData);
+        const monthlyCalendarData = await setMonthData(today, month);
+        setCalendarData(await monthlyCalendarData.json());
       } else if (isAdd === '수정') {
         patchAccount(accountTag, rewriteDate!, value, price, content, isId!);
         onDataChange(false);
         setInsert(false);
         const totalData = await setData(0);
         setTotaldata(totalData);
+        const monthlyCalendarData = await setMonthData(today, month);
+        setCalendarData(await monthlyCalendarData.json());
       }
     } catch (e) {
       console.error(e);
@@ -128,14 +142,6 @@ export default function AccountAdd({
               body: formData,
             })
           ).json();
-          if (!receiptResponse.ok) {
-            // 응답이 JSON이 아닐 경우를 대비해 텍스트로 먼저 받아봅니다.
-            const errorText = await receiptResponse.text();
-            console.error('API Error Response (Raw Text):', errorText);
-            throw new Error(
-              `Request failed: ${receiptResponse.status} ${receiptResponse.statusText}`,
-            );
-          }
           setReceiptResponse(receiptResponse);
         } catch (e) {
           console.error('에러가 발생했습니다: ', e);
@@ -147,7 +153,8 @@ export default function AccountAdd({
             toast.error('오늘 사용 가능한 횟수를 초과하였습니다');
         }
       } catch (error) {
-        console.error(error);
+        console.error('에러: ', error);
+        toast.error('문제가 발생했습니다');
       }
     }
   };
@@ -191,7 +198,13 @@ export default function AccountAdd({
   useEffect(() => {
     setIsAdd(isAccount);
     if (calcString !== null && calcString?.length > 0) setPrice(calcString);
-  }, [isAccount, calcString]);
+
+    if (receiptResponse !== undefined && receiptResponse.data !== null) {
+      setPrice(receiptResponse.data.totalprice.toString());
+      setContent(receiptResponse.data.storeName);
+    }
+  }, [isAccount, calcString, receiptResponse]);
+
   return (
     <>
       <div className="relative mx-[5px] flex w-[97.7vw] flex-col items-center rounded-[10px] bg-[var(--white-color)] py-[30px] md:h-[870px] md:w-full">
@@ -247,7 +260,8 @@ export default function AccountAdd({
                 locale="ko"
                 selected={
                   receiptResponse !== undefined &&
-                  receiptResponse.data.date !== ''
+                  receiptResponse.data !== null &&
+                  receiptResponse.data.date !== null
                     ? receiptDate
                     : startDate
                 }
@@ -353,13 +367,7 @@ export default function AccountAdd({
                 className="items-center justify-center text-center focus:outline-none"
                 onFocus={() => isToolStatus('금액')}
                 onChange={handlePrice}
-                defaultValue={
-                  isAdd === '추가'
-                    ? receiptResponse !== undefined
-                      ? receiptResponse.data.totalprice
-                      : price!
-                    : rewriteData?.price
-                }
+                defaultValue={isAdd === '추가' ? price! : rewriteData?.price}
               />
             ) : (
               <input
@@ -401,11 +409,7 @@ export default function AccountAdd({
               onFocus={() => isToolStatus('내용')}
               onChange={handleContent}
               defaultValue={
-                isAdd === '추가'
-                  ? receiptResponse !== undefined
-                    ? receiptResponse.data.storeName
-                    : ''
-                  : (rewriteData?.content ?? '')
+                isAdd === '추가' ? content : (rewriteData?.content ?? '')
               }
             />
           </label>
