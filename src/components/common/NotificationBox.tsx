@@ -9,6 +9,7 @@ import {
   markAllNotificationsAsRead,
 } from '@/api/notification';
 import Modal from './Modal';
+import { useRouter } from 'next/navigation';
 
 interface NotificationBoxProps {
   onClose: () => void;
@@ -23,6 +24,7 @@ export default function NotificationBox({
 }: NotificationBoxProps) {
   const [selected, setSelected] = useState<NotificationTitle | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   // 모달 바깥 클릭 시 닫기
   useEffect(() => {
@@ -60,6 +62,7 @@ export default function NotificationBox({
       console.log(aTId);
       const result = await equipTitle(aTId);
       console.log('장착 완료:', result.equippedTitle);
+      router.push('/profile');
     } catch (err) {
       console.error('즉시 장착 실패:', err);
     } finally {
