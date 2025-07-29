@@ -75,9 +75,9 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
       setUserDataLoading(true);
       setUserDataError(null);
 
-      console.log('Fetching user profile for memberId:', memberId);
+      // console.log('Fetching user profile for memberId:', memberId);
       const res = await getUserProfile(memberId);
-      console.log('User profile response:', res);
+      // console.log('User profile response:', res);
 
       const user = res.data?.data || res.data || res;
       setUserData(user);
@@ -481,7 +481,7 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
                     type={place.type}
                     id={place.id}
                     showBackButton={false}
-                    forceBookmarked={true}
+                    forceBookmarked={isMyProfile}
                   />
                 </div>
               ))

@@ -74,11 +74,11 @@ export default function Profile({
       if (memberId && !isMyProfile) {
         // 다른 유저의 프로필 조회
         res = await getUserProfile(memberId);
-        console.log('Other user profile:', res);
+        // console.log('Other user profile:', res);
       } else {
         // 내 프로필 조회
         res = await getMyPage();
-        console.log('My profile:', res);
+        // console.log('My profile:', res);
       }
 
       const user = res.data?.data || res.data || res;
