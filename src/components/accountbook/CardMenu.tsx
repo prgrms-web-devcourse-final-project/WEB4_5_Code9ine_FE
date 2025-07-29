@@ -3,20 +3,35 @@
 import { deleteAccount, setData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 import { PayList } from '@/types/payData';
+import toast from 'react-hot-toast';
 import { IoPencil, IoTrash } from 'react-icons/io5';
 
-export default function CardMenu({ index, value }: { index: number, value:PayList }) {
-  const { setIsAccount, setInsert, setIsId, setTotaldata, setRewriteData } = useAccountData();
+export default function CardMenu({
+  index,
+  value,
+}: {
+  index: number;
+  value: PayList;
+}) {
+  const { setIsAccount, setInsert, setIsId, setTotaldata, setRewriteData } =
+    useAccountData();
   const handleDelete = async () => {
-    deleteAccount(index);
-    const totalData = await setData(0);
-    setTotaldata(totalData);
+    try {
+      deleteAccount(index);
+      const totalData = await setData(0);
+      setTotaldata(totalData);
+    } catch (e) {
+      console.error(e);
+      toast.error('문제가 발생했습니다');
+    } finally {
+      toast.success('삭제되었습니다');
+    }
   };
   const handleChange = () => {
     setIsAccount('수정');
     setInsert(true);
     setIsId(index);
-    setRewriteData(value)
+    setRewriteData(value);
   };
   return (
     <>

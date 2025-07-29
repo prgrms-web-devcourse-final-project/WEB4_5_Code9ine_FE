@@ -70,3 +70,19 @@ export interface Response {
   savableCategories: string;
   moneySavingAreas: string;
 }
+
+export interface ReceiptItem {
+  name: string;
+  price: string;
+}
+
+export interface Receipt {
+  code: string;
+  message: string;
+  data: {
+    storeName: string;
+    date: string;
+    items: ReceiptItem[];
+    totalprice: number;
+  };
+}
