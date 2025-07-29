@@ -78,7 +78,7 @@ export default function Profile({
       } else {
         // 내 프로필 조회
         res = await getMyPage();
-        // console.log('My profile:', res);
+        console.log('My profile:', res);
       }
 
       const user = res.data?.data || res.data || res;

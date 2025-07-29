@@ -4,6 +4,7 @@ import logo from '@/assets/Logo.svg';
 import Button from '../login/SignupButton';
 import { LuNotebook } from 'react-icons/lu';
 import {
+  // IoConstructOutline,
   IoLogoGithub,
   IoMoonOutline,
   IoPersonCircleOutline,
@@ -146,6 +147,7 @@ export default function ColoredBox() {
       toast.error(msg);
     }
   };
+  console.log(notifications);
 
   return (
     <div className="relative">
