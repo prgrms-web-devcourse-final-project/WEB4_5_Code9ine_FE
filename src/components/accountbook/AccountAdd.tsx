@@ -1,15 +1,17 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Calculator from './Calculator';
 import Category from './Category';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import '../../css/CustomDatePicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
-import { patchAccount, postAccount, setData } from '@/api/accountApi';
+import { API_ADD, patchAccount, postAccount, setData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 import toast from 'react-hot-toast';
 import { SlCalculator } from 'react-icons/sl';
+import imageCompression from 'browser-image-compression';
+import { Receipt } from '@/types/payData';
 
 export default function AccountAdd({
   onDataChange,
@@ -26,6 +28,9 @@ export default function AccountAdd({
   const [isAdd, setIsAdd] = useState<string>('추가');
   const [isCalculator, setIsCalculator] = useState<boolean>(false);
   const [rewriteDate, setRewriteDate] = useState<Date>();
+  const [receiptResponse, setReceiptResponse] = useState<Receipt>();
+  const [receiptDate, setReceiptDate] = useState<Date>();
+  const receiptUploadRef = useRef<HTMLInputElement>(null);
 
   const {
     isAccount,
@@ -69,14 +74,81 @@ export default function AccountAdd({
       toast.error('내용을 기입해주세요');
       return;
     }
-    if (isAdd === '추가') {
-      postAccount(accountTag, startDate, value, price, content);
-      onDataChange(false);
-      setInsert(false);
-      const totalData = await setData(0);
-      setTotaldata(totalData);
-    } else if (isAdd === '수정') {
-      patchAccount(accountTag, startDate, value, price, content, isId!);
+    try {
+      if (isAdd === '추가') {
+        postAccount(accountTag, startDate, value, price, content);
+        onDataChange(false);
+        setInsert(false);
+        const totalData = await setData(0);
+        setTotaldata(totalData);
+      } else if (isAdd === '수정') {
+        patchAccount(accountTag, rewriteDate!, value, price, content, isId!);
+        onDataChange(false);
+        setInsert(false);
+        const totalData = await setData(0);
+        setTotaldata(totalData);
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error('문제가 발생했습니다');
+    } finally {
+      if (isAdd === '추가') toast.success('추가되었습니다');
+      else if (isAdd === '수정') toast.success('수정되었습니다');
+    }
+  };
+
+  const onCickImageUpload = () => {
+    receiptUploadRef.current?.click();
+  };
+
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const imageFile = event.target.files[0];
+      const options = {
+        maxSizeMB: 1, // 최대 1MB로 압축
+        maxWidthOrHeight: 1920, // 최대 너비 또는 높이
+        useWebWorker: true, // 웹 워커 사용 여부
+      };
+      try {
+        const compressedFile = await imageCompression(imageFile, options);
+        // 압축된 이미지 파일 처리 로직 (서버 업로드 등)
+        const formData = new FormData();
+        formData.append('file', compressedFile, imageFile.name);
+
+        try {
+          const receiptResponse = await (
+            await fetch(`${API_ADD}/api/budget/receipt`, {
+              method: 'POST',
+              credentials: 'include',
+              headers: {
+                accept: 'application/json',
+              },
+              body: formData,
+            })
+          ).json();
+          if (!receiptResponse.ok) {
+            // 응답이 JSON이 아닐 경우를 대비해 텍스트로 먼저 받아봅니다.
+            const errorText = await receiptResponse.text();
+            console.error('API Error Response (Raw Text):', errorText);
+            throw new Error(
+              `Request failed: ${receiptResponse.status} ${receiptResponse.statusText}`,
+            );
+          }
+          setReceiptResponse(receiptResponse);
+        } catch (e) {
+          console.error('에러가 발생했습니다: ', e);
+          if (
+            receiptResponse === undefined ||
+            receiptResponse.message ===
+              '오늘의 OCR 사용 가능 횟수를 초과했습니다.'
+          )
+            toast.error('오늘 사용 가능한 횟수를 초과하였습니다');
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -102,6 +174,17 @@ export default function AccountAdd({
         Number(dateArr[2]),
       );
       setRewriteDate(newDate);
+    }
+
+    const receiptDate = receiptResponse?.data.date;
+    const receiptDateArr = receiptDate?.split('-');
+    if (receiptDateArr !== undefined) {
+      const newReceiptDate = new Date(
+        Number(receiptDateArr[0]),
+        Number(receiptDateArr[1]) - 1,
+        Number(receiptDateArr[2]),
+      );
+      setReceiptDate(newReceiptDate);
     }
   }, []);
 
@@ -138,9 +221,23 @@ export default function AccountAdd({
           >
             수입
           </button>
-          <button className="ml-[74px] h-[35px] w-[120px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] active:bg-[var(--main-color-2)]">
-            영수증 첨부하기
-          </button>
+          <label htmlFor="upload">
+            <button
+              className="ml-[74px] h-[35px] w-[120px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] active:bg-[var(--main-color-2)]"
+              onClick={onCickImageUpload}
+            >
+              영수증 첨부하기
+            </button>
+          </label>
+          <input
+            type="file"
+            name=""
+            id="upload"
+            className="hidden"
+            accept="image/*"
+            ref={receiptUploadRef}
+            onChange={handleImageUpload}
+          />
         </div>
         <div className="mt-[45px] flex flex-col gap-[34px]">
           {isAdd === '추가' ? (
@@ -148,7 +245,12 @@ export default function AccountAdd({
               <span className="w-[55px]">날짜</span>
               <DatePicker
                 locale="ko"
-                selected={startDate}
+                selected={
+                  receiptResponse !== undefined &&
+                  receiptResponse.data.date !== ''
+                    ? receiptDate
+                    : startDate
+                }
                 onChange={(date) => setStartDate(date!)}
                 dateFormat="yyyy년 MM월 dd일"
                 className="text-center"
@@ -251,7 +353,13 @@ export default function AccountAdd({
                 className="items-center justify-center text-center focus:outline-none"
                 onFocus={() => isToolStatus('금액')}
                 onChange={handlePrice}
-                defaultValue={isAdd === '추가' ? price! : rewriteData?.price}
+                defaultValue={
+                  isAdd === '추가'
+                    ? receiptResponse !== undefined
+                      ? receiptResponse.data.totalprice
+                      : price!
+                    : rewriteData?.price
+                }
               />
             ) : (
               <input
@@ -293,7 +401,11 @@ export default function AccountAdd({
               onFocus={() => isToolStatus('내용')}
               onChange={handleContent}
               defaultValue={
-                isAdd === '추가' ? '' : (rewriteData?.content ?? '')
+                isAdd === '추가'
+                  ? receiptResponse !== undefined
+                    ? receiptResponse.data.storeName
+                    : ''
+                  : (rewriteData?.content ?? '')
               }
             />
           </label>

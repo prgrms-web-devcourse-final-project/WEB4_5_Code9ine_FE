@@ -40,7 +40,6 @@ export default function AiChat() {
       if (chatResponse === null) {
         const geminiAnswer = await askGemini();
         setChatResponse(geminiAnswer);
-        console.log(geminiAnswer);
       }
     } else if (value === '절약') {
       setSaving(true);
@@ -48,7 +47,6 @@ export default function AiChat() {
       if (chatResponse === null) {
         const geminiAnswer = await askGemini();
         setChatResponse(geminiAnswer);
-        console.log(geminiAnswer);
       }
     } else if (value === '돌아가기') {
       setIsReturn(false);
