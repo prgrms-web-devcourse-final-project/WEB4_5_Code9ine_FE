@@ -333,8 +333,12 @@ export default function TitleSwiper({
               achievedChallenge.map((mission, i) => (
                 <div
                   key={`${setIndex}-${i}`}
-                  className="mx-[30px] flex cursor-pointer items-center gap-1 text-[16px] text-[#2b2e34] md:text-[20px]"
-                  onClick={() => handleEquipTitle(mission)}
+                  className={`mx-[30px] flex items-center gap-1 text-[16px] text-[#2b2e34] md:text-[20px] ${
+                    isMyProfile ? 'cursor-pointer' : 'cursor-default'
+                  }`}
+                  onClick={
+                    isMyProfile ? () => handleEquipTitle(mission) : undefined
+                  }
                 >
                   {mission.iconImage && (
                     <Image
