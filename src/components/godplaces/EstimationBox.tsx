@@ -12,7 +12,10 @@ export default function EstimationBox() {
       선택한 장소{' '}
       <span className="text-[var(--main-color-3)]">{plans.length}</span> 곳 방문
       시 최저 예상 금액은{' '}
-      <span className="text-[var(--main-color-3)]">{estimation}</span> 원 입니다
+      <span className="text-[var(--main-color-3)]">
+        {estimation.toLocaleString()}
+      </span>{' '}
+      원 입니다
     </div>
   );
 }

@@ -26,6 +26,7 @@ export default function MobileMenu({
   closeSideBar: (arg0: boolean) => void;
 }) {
   const { setIsLogin } = useAuthStore();
+  const { isAdmin, setIsAdmin } = useAuthStore();
   const location = usePathname();
   const router = useRouter();
 
@@ -35,6 +36,7 @@ export default function MobileMenu({
       await logout();
       toast.success('로그아웃 되었습니다.');
       setIsLogin(false);
+      setIsAdmin(false);
       router.push('/');
     } catch (err) {
       const msg = err instanceof Error ? err.message : '로그아웃 실패';
@@ -45,18 +47,9 @@ export default function MobileMenu({
     <>
       <div>
         <div className="flex min-h-[94vh] w-[200px] flex-col items-center bg-[var(--header-color)]">
-          {!login ? (
+          {/* 모바일 사이드바 (비로그인) */}
+          {!login && (
             <div className="mt-[30px] flex flex-col gap-[10px]">
-              {/* <Link href={'/accountbook'}>
-                <Button
-                  className={`pc-header-button text-[var(--header-text)] ${location === '/accountbook' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/accountbook' ? 'text-[var(--header-text-active)]' : ''}`}
-                  onClick={() => closeSideBar(false)}
-                >
-                  <LuNotebook size={20} />
-                  가계부
-                </Button>
-              </Link> */}
-
               <Link href={'/godplaces'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)] ${location === '/godplaces' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/godplaces' ? 'text-[var(--header-text-active)]' : ''}`}
@@ -67,15 +60,6 @@ export default function MobileMenu({
                 </Button>
               </Link>
 
-              {/* <Link href={'/board'}>
-                <Button
-                  className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
-                  onClick={() => closeSideBar(false)}
-                >
-                  <HiOutlineUserGroup size={20} />
-                  커뮤니티
-                </Button>
-              </Link> */}
               <Link href={'/login'}>
                 <Button
                   className={`pc-header-button text-[var(--header-text)]`}
@@ -85,7 +69,10 @@ export default function MobileMenu({
                 </Button>
               </Link>
             </div>
-          ) : (
+          )}
+
+          {/* 모바일 사이드바 (일반 로그인 유저) */}
+          {login && !isAdmin && (
             <div className="mt-[30px] flex flex-col gap-[10px]">
               <Link href={'/accountbook'}>
                 <Button
@@ -136,13 +123,50 @@ export default function MobileMenu({
               </Button>
             </div>
           )}
+
+          {/* 모바일 사이드바 (관리자) */}
+          {login && isAdmin && (
+            <div className="mt-[30px] flex flex-col gap-[10px]">
+              <Link href={'/godplaces'}>
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/godplaces' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/godplaces' ? 'text-[var(--header-text-active)]' : ''}`}
+                  onClick={() => closeSideBar(false)}
+                >
+                  <IoSearchSharp size={20} />
+                  갓플찾기
+                </Button>
+              </Link>
+
+              <Link href={'/board'}>
+                <Button
+                  className={`pc-header-button text-[var(--header-text)] ${location === '/board' ? 'bg-[var(--header-button-active)]' : ''} ${location === '/board' ? 'text-[var(--header-text-active)]' : ''}`}
+                  onClick={() => closeSideBar(false)}
+                >
+                  <HiOutlineUserGroup size={20} />
+                  커뮤니티
+                </Button>
+              </Link>
+
+              <Button
+                className={`pc-header-button text-[var(--header-text)]`}
+                onClick={handleLogout}
+              >
+                <IoMdPower size={20} />
+                로그아웃
+              </Button>
+            </div>
+          )}
+
           <div className="mt-auto flex-col items-center gap-2 text-end md:flex">
-            <a
-              href="mailto:titaeAdmin@titae.com?subject=[티태 문의하기]&body=안녕하세요. 티태입니다.%0A문의 내용을 아래에 작성해주세요.%0A----------------------------%0A%0A%0A%0A%0A%0A%0A메일 발송 시 답변까지 1~2일의 시간이 소요될 수 있습니다.%0A빠르게 도와드릴 수 있도록 최선을 다하겠습니다."
-              className="cursor-pointer self-end text-[14px] text-[var(--header-text)]"
-            >
-              1:1 문의하기
-            </a>
+            {/* 1:1 문의 (비로그인, 일반 로그인 유저) */}
+            {!isAdmin && (
+              <a
+                href="mailto:titaeAdmin@titae.com?subject=[티태 문의하기]&body=안녕하세요. 티태입니다.%0A문의 내용을 아래에 작성해주세요.%0A----------------------------%0A%0A%0A%0A%0A%0A%0A메일 발송 시 답변까지 1~2일의 시간이 소요될 수 있습니다.%0A빠르게 도와드릴 수 있도록 최선을 다하겠습니다."
+                className="cursor-pointer self-end text-[14px] text-[var(--header-text)]"
+              >
+                1:1 문의하기
+              </a>
+            )}
             <div className="flex items-end justify-center gap-1 pb-[10px] text-[var(--main-color-2)]">
               <IoLogoGithub size={22} />
               <p className="text-[10px]">© Code9ine All Right Reserved</p>

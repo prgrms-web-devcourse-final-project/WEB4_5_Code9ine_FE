@@ -33,16 +33,18 @@ export default function DetailTopInfo({
         <div className="text-[16px] text-[var(--main-color-3)] md:text-[20px]">
           {label}
         </div>
-        <div className="flex items-center gap-[10px]">
-          <div className="text-[18px] font-bold md:text-[24px]">{name}</div>
-          {isLogin && id && (
-            <BookmarkButton
-              className="mt-[-1px] size-[16px] cursor-pointer text-[var(--point-color-1)] md:size-[20px]"
-              type={type}
-              id={id}
-              forceBookmarked={forceBookmarked} // 전달
-            />
-          )}
+        <div className="flex items-center">
+          <div className="text-[18px] font-bold md:text-[24px]">
+            {name}
+            {isLogin && id && (
+              <BookmarkButton
+                className="mt-[-1px] ml-[10px] size-[16px] cursor-pointer text-[var(--point-color-1)] md:size-[20px]"
+                type={type}
+                id={id}
+                forceBookmarked={forceBookmarked} // 전달
+              />
+            )}
+          </div>
         </div>
       </div>
       <div className="text-[14px] md:text-[16px]">{address}</div>

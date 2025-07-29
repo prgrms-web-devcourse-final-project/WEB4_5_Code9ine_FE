@@ -17,6 +17,7 @@ export default function ManageUsers() {
   const [selectedUserPerPage, setSelectedUserPerPage] = useState(10);
   const [username, setUsername] = useState('');
   const [totalData, setTotalData] = useState(0);
+  const [isPageButtonShow, setIsPageButtonShow] = useState(true);
 
   const fetchAllUsers = async () => {
     try {
@@ -64,14 +65,18 @@ export default function ManageUsers() {
 
   const searchHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      if (username.trim() === '') await fetchAllUsers();
-      else {
+      if (username.trim() === '') {
+        await fetchAllUsers();
+        setIsPageButtonShow(true);
+      } else {
+        setIsPageButtonShow(false);
         startTransition(async () => {
           const response = await searchUserByNickname(username);
           // console.log(response);
           if (response.code === '0000') {
             setUsers([response.data]);
           } else {
+            setIsPageButtonShow(true);
             setUsers([]);
           }
         });
@@ -79,7 +84,11 @@ export default function ManageUsers() {
     }
   };
 
-  console.log(username);
+  // console.log(username);
+  const selectedUserHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUserPerPage(Number(e.target.value));
+    setPage(1);
+  };
 
   return (
     <>
@@ -102,7 +111,7 @@ export default function ManageUsers() {
             페이지당 유저 수
             <select
               value={selectedUserPerPage}
-              onChange={(e) => setSelectedUserPerPage(Number(e.target.value))}
+              onChange={selectedUserHandler}
               className="ml-[10px]"
             >
               <option value={10}>10명</option>
@@ -126,51 +135,53 @@ export default function ManageUsers() {
           )}
         </div>
 
-        <div className="flex items-center justify-center gap-[10px]">
-          {page > 1 && (
-            <button className="cursor-pointer" onClick={() => setPage(1)}>
-              {'<<'}
-            </button>
-          )}
+        {isPageButtonShow && users.length > 0 && (
+          <div className="flex items-center justify-center gap-[10px]">
+            {page > 1 && (
+              <button className="cursor-pointer" onClick={() => setPage(1)}>
+                {'<<'}
+              </button>
+            )}
 
-          {startPage > 1 && (
-            <button
-              className="cursor-pointer"
-              onClick={() => setPage(startPage - 1)}
-            >
-              {'<'}
-            </button>
-          )}
+            {startPage > 1 && (
+              <button
+                className="cursor-pointer"
+                onClick={() => setPage(startPage - 1)}
+              >
+                {'<'}
+              </button>
+            )}
 
-          {slicedPages.map((item) => (
-            <button
-              key={item}
-              type="button"
-              className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
-              onClick={() => setPage(item)}
-            >
-              {item}
-            </button>
-          ))}
+            {slicedPages.map((item) => (
+              <button
+                key={item}
+                type="button"
+                className={`cursor-pointer ${item === page && 'font-extrabold text-[var(--main-color-2)]'}`}
+                onClick={() => setPage(item)}
+              >
+                {item}
+              </button>
+            ))}
 
-          {endPage < totalPages && (
-            <button
-              className="cursor-pointer"
-              onClick={() => setPage(endPage + 1)}
-            >
-              {'>'}
-            </button>
-          )}
+            {endPage < totalPages && (
+              <button
+                className="cursor-pointer"
+                onClick={() => setPage(endPage + 1)}
+              >
+                {'>'}
+              </button>
+            )}
 
-          {page < totalPages && (
-            <button
-              className="cursor-pointer"
-              onClick={() => setPage(totalPages)}
-            >
-              {'>>'}
-            </button>
-          )}
-        </div>
+            {page < totalPages && (
+              <button
+                className="cursor-pointer"
+                onClick={() => setPage(totalPages)}
+              >
+                {'>>'}
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
