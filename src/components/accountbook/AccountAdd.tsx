@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Calculator from './Calculator';
 import Category from './Category';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import { IoRepeat } from 'react-icons/io5';
 import '../../css/CustomDatePicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
@@ -191,9 +190,7 @@ export default function AccountAdd({
                   </div>
                 )}
               />
-              <button className="mb-[5px] flex size-[20px] cursor-pointer items-center justify-center rounded-[5px] bg-[var(--gray-color-1)] text-[#000000]">
-                <IoRepeat />
-              </button>
+              <div className="mb-[5px] flex size-[20px] items-center justify-center rounded-[5px]"></div>
             </label>
           ) : (
             <label className="flex items-center justify-center gap-[10px] border-b-1 border-[var(--main-color-3)]">

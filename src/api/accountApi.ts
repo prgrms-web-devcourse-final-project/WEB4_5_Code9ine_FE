@@ -4,13 +4,16 @@ export const API_ADD = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const setData = async (pageParams: number) => {
   return await (
-    await fetch(`${API_ADD}/api/budget/totaldetails?page=${pageParams}&size=30`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        accept: 'application/json',
+    await fetch(
+      `${API_ADD}/api/budget/totaldetails?page=${pageParams}&size=30`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          accept: 'application/json',
+        },
       },
-    })
+    )
   ).json();
 };
 
@@ -151,15 +154,48 @@ export const noExpense = async () => {
 
 export const setChatResponseData = async () => {
   return await (
-    await fetch(
-      `${API_ADD}/api/geminichatbot/analyze`,
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          accept: 'application/json',
-        },
+    await fetch(`${API_ADD}/api/geminichatbot/analyze`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        accept: 'application/json',
       },
-    )
+    })
+  ).json();
+};
+
+export const sendReceipt = async () => {
+  return await (
+    await fetch(`${API_ADD}/api/budget/receipt`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        accept: 'multipart/form-data',
+      },
+    })
+  ).json();
+};
+
+export const getRandomStore = async () => {
+  return await (
+    await fetch(`${API_ADD}/api/places/random`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        accept: 'application/json',
+      },
+    })
+  ).json();
+};
+
+export const askGemini = async () => {
+  return await (
+    await fetch(`${API_ADD}/api/geminichatbot/analyze`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        accept: 'application/json',
+      },
+    })
   ).json();
 };
