@@ -105,9 +105,24 @@ export async function equipTitle(aTId: number): Promise<EquippedTitleResponse> {
 
   const json = (await res.json()) as ApiResponse<EquippedTitleResponse>;
 
-  if (!res.ok || json.code !== '2000') {
+  if (!res.ok) {
     throw new Error(json.message || '칭호 장착에 실패했습니다.');
   }
 
   return json.data;
+}
+
+// 알림 전체 읽음 처리
+export async function markAllNotificationsAsRead(): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/notifications/read-all`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const json = (await res.json()) as ApiResponse<null>;
+
+  if (!res.ok) {
+    throw new Error(json.message || '전체 알림 읽음 처리에 실패했습니다.');
+  }
 }

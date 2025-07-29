@@ -3,7 +3,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import type { NotificationTitle } from '@/api/notification';
-import { equipTitle, markNotificationAsRead } from '@/api/notification';
+import {
+  equipTitle,
+  markNotificationAsRead,
+  markAllNotificationsAsRead,
+} from '@/api/notification';
 import Modal from './Modal';
 
 interface NotificationBoxProps {
@@ -62,6 +66,17 @@ export default function NotificationBox({
     }
   };
 
+  // 전체읽음
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      await markAllNotificationsAsRead();
+      onRefresh();
+    } catch (err) {
+      console.error('전체 알림 읽음 실패:', err);
+    }
+  };
+
   return (
     <>
       {/* 알림 드롭다운 컨테이너 */}
@@ -74,9 +89,17 @@ export default function NotificationBox({
           <h2 className="text-[16px] font-semibold text-[var(--text-color)]">
             알림
           </h2>
-          <button onClick={onClose} className="cursor-pointer">
-            <IoMdClose className="text-[20px] text-[var(--gray-color-2)] hover:text-[var(--text-color)]" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleMarkAllAsRead}
+              className="cursor-pointer text-xs text-[var(--text-color)] hover:text-[var(--text-color)]"
+            >
+              전체읽음
+            </button>
+            <button onClick={onClose} className="cursor-pointer">
+              <IoMdClose className="text-[20px] text-[var(--gray-color-2)] hover:text-[var(--text-color)]" />
+            </button>
+          </div>
         </div>
 
         {/* 알림 리스트 */}
@@ -89,11 +112,7 @@ export default function NotificationBox({
             notifications.map((item) => (
               <div
                 key={item.notificationId}
-                onClick={() => {
-                  if (item.type === 'TITLE') {
-                    setSelected(item);
-                  }
-                }}
+                onClick={() => setSelected(item)}
                 className="mb-2 cursor-pointer rounded-md bg-[var(--main-color-2)] px-3 py-2 text-sm transition-colors hover:bg-[var(--main-color-3)]"
               >
                 <p className="text-[var(--text-color)]">{item.message}</p>
