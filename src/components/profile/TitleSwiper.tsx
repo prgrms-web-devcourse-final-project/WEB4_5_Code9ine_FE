@@ -254,6 +254,9 @@ export default function TitleSwiper({
           }));
           setAchievedChallenge(mapped);
           setLoading(false);
+          // if (isMyProfile && mapped.length > 0) {
+          //   setEquippedTitle(mapped[0]);
+          // }
         } catch (err) {
           console.log('프로필 데이터 처리 에러', err);
           setLoading(false);
@@ -334,9 +337,7 @@ export default function TitleSwiper({
                 <div
                   key={`${setIndex}-${i}`}
                   className={`mx-[30px] flex items-center gap-1 text-[16px] text-[#2b2e34] md:text-[20px] ${
-                    isMyProfile
-                      ? 'cursor-pointer'
-                      : 'pointer-events-none opacity-60'
+                    isMyProfile ? 'cursor-pointer' : 'pointer-events-none'
                   }`}
                   onClick={
                     isMyProfile ? () => handleEquipTitle(mission) : undefined
