@@ -11,11 +11,13 @@ type GroupedByDate = Record<string, PayList[]>;
 
 export default function ListArea() {
   const [day, setDay] = useState<totalData>();
-  const { dateData, showDayData, totalData, setShowDayData } = useAccountData();
+  const { dateData, showDayData, setShowDayData } = useAccountData();
   const viewRef = useRef<HTMLDivElement>(null);
   const listRef = useRef(null);
 
   const [loadingDay, setLoadingDay] = useState(false);
+
+  const newTotalData = useAccountData((state) => state.totalData);
 
   const fetchData = async ({ pageParam = 1 }: { pageParam?: number }) => {
     const fetchedData = await setData(pageParam);
@@ -24,7 +26,7 @@ export default function ListArea() {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['totalData'],
+      queryKey: ['totalData', newTotalData],
       queryFn: fetchData,
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {
@@ -86,7 +88,7 @@ export default function ListArea() {
       }
     }
     todayData();
-  }, [dateData, totalData]);
+  }, [dateData]);
 
   return (
     <>

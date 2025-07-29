@@ -40,7 +40,7 @@ export default function SearchBox({
   };
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value);
+    setLocation(e.target.value.trim());
   };
 
   const searchHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -52,6 +52,7 @@ export default function SearchBox({
         return;
       }
 
+      setLocation(e.currentTarget.value.trim());
       const searchCategory =
         category.size === 0 ? null : Array.from(category).join(',');
       router.push(
