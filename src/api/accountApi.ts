@@ -1,5 +1,3 @@
-import toast from 'react-hot-toast';
-
 export const API_ADD = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const setData = async (pageParams: number) => {
@@ -71,12 +69,8 @@ export const postAccount = async (
 
     if (!response.ok) throw new Error('통신에 실패했습니다');
 
-    const result = await response.json();
-    console.log(result);
-    toast.success('저장되었습니다');
   } catch (error) {
     console.error(error);
-    toast.error('문제가 발생했습니다');
   }
 };
 
@@ -106,13 +100,8 @@ export const patchAccount = async (
     });
 
     if (!response.ok) throw new Error('통신에 실패했습니다');
-
-    const result = await response.json();
-    console.log(result);
-    toast.success('수정되었습니다');
   } catch (error) {
     console.error(error);
-    toast.error('문제가 발생했습니다');
   }
 };
 
@@ -125,9 +114,6 @@ export const deleteAccount = async (index: number) => {
     });
 
     if (!response.ok) throw new Error('통신에 실패했습니다');
-
-    const result = await response.json();
-    console.log(result);
   } catch (error) {
     console.error(error);
   }
@@ -144,9 +130,6 @@ export const noExpense = async () => {
     });
 
     if (!response.ok) throw new Error('통신에 실패했습니다');
-
-    const result = await response.json();
-    console.log(result);
   } catch (error) {
     console.error(error);
   }
