@@ -1,6 +1,8 @@
 'use client';
 import { useGodplacesStore } from '@/stores/godplacesStore';
+import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
+import toast from 'react-hot-toast';
 
 export default function CategoryItem({
   type,
@@ -9,8 +11,10 @@ export default function CategoryItem({
   type: string;
   classType: 'beforeSearch' | 'afterSearch';
 }) {
+  const router = useRouter();
+  const location = useGodplacesStore((state) => state.location);
   const category = useGodplacesStore((state) => state.category);
-  const setCategroy = useGodplacesStore((state) => state.setCategory);
+  const setCategory = useGodplacesStore((state) => state.setCategory);
 
   const divSizeVariants = {
     beforeSearch:
@@ -20,7 +24,26 @@ export default function CategoryItem({
   };
 
   const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    setCategroy(e.currentTarget.value);
+    const clickedType = e.currentTarget.value;
+    setCategory(clickedType);
+
+    if (classType === 'afterSearch') {
+      const newCategory = new Set(category);
+      if (newCategory.has(clickedType)) {
+        newCategory.delete(clickedType);
+      } else {
+        newCategory.add(clickedType);
+      }
+
+      if (location === '') {
+        toast.error('지역을 입력해주세요');
+        return;
+      }
+
+      const searchCategory =
+        newCategory.size === 0 ? null : Array.from(newCategory).join(',');
+      router.push(`/godplaces/${location}?category=${searchCategory}`);
+    }
   };
 
   return (
