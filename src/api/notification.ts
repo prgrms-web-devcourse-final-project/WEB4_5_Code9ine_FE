@@ -100,7 +100,7 @@ export async function equipTitle(aTId: number): Promise<EquippedTitleResponse> {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({ aTId }),
+    body: JSON.stringify({ aTId: aTId }),
   });
 
   const json = (await res.json()) as ApiResponse<EquippedTitleResponse>;
