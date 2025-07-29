@@ -5,11 +5,25 @@ import TitleSwiper from '@/components/profile/TitleSwiper';
 import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
 import { getChallenge, getMyPage } from '@/api/profile';
-import { Challenge, UserData, Post } from '@/types/userType';
+import { Challenge, UserData } from '@/types/userType';
+import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from 'next/navigation';
 
 export default function MyProfilePage() {
+  const { isLogin } = useAuthStore();
+  const router = useRouter();
+
+  const [sessionChecked, setSessionChecked] = useState(false);
   const [myData, setMyData] = useState<UserData | null>(null);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
+
+  useEffect(() => {
+    if (!isLogin) {
+      router.replace('/login');
+    } else {
+      setSessionChecked(true);
+    }
+  }, [isLogin, router]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +44,8 @@ export default function MyProfilePage() {
     fetchData();
   }, []);
 
+  if (!sessionChecked) return null;
+
   return (
     <>
       <div className="mt-[15px] flex flex-col items-center justify-center gap-[15px] overflow-x-hidden select-none md:mt-0 md:flex-row md:items-start">
@@ -45,28 +61,7 @@ export default function MyProfilePage() {
 
         <div className="w-full max-w-[calc(100vw-32px)] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
-            {/* <Threads profileData={myData ?? undefined} /> */}
-            <Threads
-              profileData={
-                {
-                  nickname: myData?.nickname,
-                  myPosts: myData?.myPosts,
-                  bookmarkedPosts: myData?.bookmarkedPosts,
-                  bookmarkedPlaces: myData?.bookmarkedPlaces,
-                } as {
-                  nickname?: string;
-                  myPosts?: Post[];
-                  bookmarkedPosts?: Post[];
-                  bookmarkedPlaces?: {
-                    type: string;
-                    storeId?: string;
-                    festivalId?: string;
-                    libraryId?: string;
-                    name: string;
-                  }[];
-                }
-              }
-            />
+            <Threads profileData={myData ?? undefined} memberId="" />
           </div>
         </div>
       </div>

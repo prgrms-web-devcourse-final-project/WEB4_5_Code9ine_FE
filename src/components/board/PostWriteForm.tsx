@@ -45,6 +45,8 @@ export default function PostWriteForm({
   >([]);
   const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
 
+  const [isUploading, setIsUploading] = useState(false);
+
   useEffect(() => {
     const fetchMe = async () => {
       try {
@@ -86,9 +88,21 @@ export default function PostWriteForm({
       return;
     }
 
-    if (category === 'CHALLENGE' && !challengeOption) {
-      toast.error('챌린지 종류를 선택해주세요!');
-      return;
+    if (category === 'CHALLENGE') {
+      if (!challengeOption) {
+        toast.error('챌린지 종류를 선택해주세요!');
+        return;
+      }
+
+      if (imageUrls.length === 0) {
+        toast.error(
+          <div>
+            챌린지는 이미지 1장 이상을 첨부해야 <br />
+            작성할 수 있어요
+          </div>,
+        );
+        return;
+      }
     }
 
     const body: WritePostReq = {
@@ -137,6 +151,8 @@ export default function PostWriteForm({
       return;
     }
 
+    setIsUploading(true);
+
     const today = new Date();
     const yyyyMMdd = today.toISOString().slice(0, 10).replace(/-/g, '');
     const folderPath = 'uploads/board/' + yyyyMMdd;
@@ -168,6 +184,11 @@ export default function PostWriteForm({
 
     setImagesPreview((prev) => [...prev, ...newPreviews]);
     setImageUrls((prev) => [...prev, ...newUrls]);
+    setIsUploading(false);
+
+    if (newUrls.length > 0) {
+      toast.success(`${newUrls.length}장의 이미지 업로드가 완료됐어요!`);
+    }
   };
 
   useEffect(() => {
@@ -336,10 +357,11 @@ export default function PostWriteForm({
             </div>
           ) : (
             <button
+              disabled={isUploading}
               onClick={handleSubmit}
-              className="absolute right-[10px] bottom-[10px] z-10 h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]"
+              className={`absolute right-[10px] bottom-[10px] z-10 h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px] ${isUploading && 'opacity-50'}`}
             >
-              작성
+              {isUploading ? '업로드' : '작성'}
             </button>
           )}
         </div>

@@ -94,9 +94,9 @@ export default function TitleSwiper({
   // 칭호 개수에 따른 애니메이션 속도 계산
   const getAnimationDuration = () => {
     if (achievedChallenge.length === 0) return '90s';
-    if (achievedChallenge.length <= 3) return '15s';
-    if (achievedChallenge.length <= 6) return '25s';
-    return '35s'; // 많은 칭호
+    if (achievedChallenge.length <= 3) return '20s';
+    if (achievedChallenge.length <= 6) return '70s';
+    return '80s'; // 많은 칭호
   };
 
   // 로딩 상태

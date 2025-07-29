@@ -34,6 +34,27 @@ export default function EditProfile({
   // const [isLoading, setIsLoading] = useState(true);
   const queryClient = useQueryClient();
 
+  const clearAuthAndRedirect = () => {
+    const theme = localStorage.getItem('theme'); // 'dark' or 'light'
+
+    // 큐키 초기화
+    document.cookie.split(';').forEach((c) => {
+      const eqPos = c.indexOf('=');
+      const name = eqPos > -1 ? c.substr(0, eqPos).trim() : c.trim();
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
+    });
+
+    localStorage.clear();
+
+    if (theme) {
+      localStorage.setItem('theme', theme);
+    }
+
+    sessionStorage.clear();
+    queryClient.clear();
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -177,6 +198,7 @@ export default function EditProfile({
       else onClose();
 
       if (password) {
+        clearAuthAndRedirect();
         router.push('/login');
       } else {
         onClose();
@@ -244,7 +266,7 @@ export default function EditProfile({
               />
               <div className="flex w-full justify-between">
                 <p
-                  className={`ml-[3px] text-[12px] ${nicknameError === '사용 가능한 닉네임입니다.' ? 'text-[var(--main-color-3)]' : 'text-[var(--point-color-2)]'}`}
+                  className={`ml-[3px] text-[12px] ${nicknameError === '사용 가능한 닉네임입니다.' ? 'text-green-500' : 'text-[var(--point-color-2)]'}`}
                 >
                   {nicknameError || '\u00A0'}
                 </p>
@@ -304,44 +326,14 @@ export default function EditProfile({
             <div className="mt-[30px] flex justify-between">
               <button
                 type="button"
-                onClick={() => setShowConfirm(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowConfirm(true);
+                }}
                 className="ml-[10px] cursor-pointer text-[12px] text-[var(--gray-color-2)]"
               >
                 회원 탈퇴
               </button>
-
-              {showConfirm && (
-                <Modal
-                  title="정말 탈퇴하시겠어요..?"
-                  onClose={() => setShowConfirm(false)}
-                  buttons={
-                    <>
-                      <button
-                        onClick={async () => {
-                          try {
-                            await deleteProfile();
-                            toast.success('탈퇴 완료. 다음에 또 만나요..');
-                            setShowConfirm(false);
-                            onClose();
-                            router.push('/');
-                          } catch {
-                            toast.error('탈퇴 실패. 다시 시도해주세요.');
-                          }
-                        }}
-                        className="cursor-pointer rounded-[10px] bg-[var(--main-color-1)] px-4 py-1 hover:bg-[var(--main-color-3)] dark:text-[#2b2e34]"
-                      >
-                        네
-                      </button>
-                      <button
-                        onClick={() => setShowConfirm(false)}
-                        className="cursor-pointer rounded-[10px] bg-[var(--point-color-1)] px-4 py-1 hover:bg-[var(--point-color-1)] dark:text-[#2b2e34]"
-                      >
-                        아니요
-                      </button>
-                    </>
-                  }
-                />
-              )}
 
               <Button
                 button={
@@ -358,6 +350,43 @@ export default function EditProfile({
               />
             </div>
           </form>
+
+          {showConfirm && (
+            <Modal
+              title="정말 탈퇴하시겠어요..?"
+              onClose={() => setShowConfirm(false)}
+              buttons={
+                <>
+                  <button
+                    type="button"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      try {
+                        await deleteProfile();
+                        toast.success('탈퇴 완료. 다음에 또 만나요..');
+                        setShowConfirm(false);
+                        onClose();
+                        clearAuthAndRedirect();
+                        router.push('/login');
+                      } catch {
+                        toast.error('탈퇴 실패. 다시 시도해주세요.');
+                      }
+                    }}
+                    className="cursor-pointer rounded-[10px] bg-[var(--main-color-1)] px-4 py-1 hover:bg-[var(--main-color-3)] dark:text-[#2b2e34]"
+                  >
+                    네
+                  </button>
+                  <button
+                    onClick={() => setShowConfirm(false)}
+                    className="cursor-pointer rounded-[10px] bg-[var(--point-color-1)] px-4 py-1 hover:bg-[var(--point-color-1)] dark:text-[#2b2e34]"
+                  >
+                    아니요
+                  </button>
+                </>
+              }
+            />
+          )}
         </div>
       </div>
     </>
