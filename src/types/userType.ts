@@ -34,7 +34,7 @@ export interface UserData {
   goalStuff: string;
   remainPrice: number;
   bookmarkedPosts: Post[];
-  bookmarkedPlaces: BookmarkData[];
+  bookmarkedPlaces: BookmarkItem[];
   equippedTitle: MyTitle[];
   achievedTitles: MyTitle[];
 }

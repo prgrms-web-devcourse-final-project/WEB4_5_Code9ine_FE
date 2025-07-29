@@ -6,16 +6,28 @@ import Profile from '@/components/profile/Profile';
 import Mission from '@/components/profile/Mission';
 import Threads from '@/components/profile/MyThreads';
 import { getUserChallenge, getUserProfile, getMyPage } from '@/api/profile';
-import { Challenge, UserData, Post } from '@/types/userType';
+import { Challenge, UserData } from '@/types/userType';
+import { useAuthStore } from '@/stores/authStore';
+import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
+  const { isLogin } = useAuthStore();
+  const router = useRouter();
   const params = useParams();
   const memberId = params?.memberId as string;
 
+  const [sessionChecked, setSessionChecked] = useState(false);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [myData, setMyData] = useState<UserData | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!isLogin) {
+      router.replace('/login');
+    } else {
+      setSessionChecked(true);
+    }
+  }, [isLogin, router]);
 
   // 내 프로필인지 판단
   const isMyProfile =
@@ -25,13 +37,11 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-
         // 챌린지 데이터 가져오기
         const challengeRes = await getUserChallenge(memberId);
         setChallenges(challengeRes.data.challenges);
 
-        // 내 정보 가져오기 (memberId와 비교하기 위해)
+        // 내 정보 가져오기
         const myDataRes = await getMyPage();
         setMyData(myDataRes.data.data);
 
@@ -47,25 +57,13 @@ export default function ProfilePage() {
         }
       } catch (err) {
         console.error('데이터 조회 실패:', err);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
   }, [memberId]);
 
-  // 로딩 상태
-  if (loading) {
-    return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-[var(--main-color-3)]"></div>
-          <p className="text-[var(--text-color)]">프로필을 불러오는 중...</p>
-        </div>
-      </div>
-    );
-  }
+  if (!sessionChecked) return null;
 
   return (
     <>
@@ -89,25 +87,8 @@ export default function ProfilePage() {
         <div className="w-full max-w-[calc(100vw-32px)] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
             <Threads
-              profileData={
-                {
-                  nickname: profileData?.nickname,
-                  myPosts: profileData?.myPosts,
-                  bookmarkedPosts: profileData?.bookmarkedPosts,
-                  bookmarkedPlaces: profileData?.bookmarkedPlaces,
-                } as {
-                  nickname?: string;
-                  myPosts?: Post[];
-                  bookmarkedPosts?: Post[];
-                  bookmarkedPlaces?: {
-                    type: string;
-                    storeId?: string;
-                    festivalId?: string;
-                    libraryId?: string;
-                    name: string;
-                  }[];
-                }
-              }
+              profileData={profileData ?? undefined}
+              memberId={memberId}
             />
           </div>
         </div>

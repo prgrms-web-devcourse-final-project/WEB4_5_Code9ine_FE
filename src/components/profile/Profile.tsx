@@ -11,8 +11,8 @@ import Image from 'next/image';
 import ProfileSkeleton from './ProfileSkeletion';
 
 interface ProfileProps {
-  profileData?: UserData; // 서버에서 받아온 프로필 데이터
-  memberId?: string; // 유저 ID
+  profileData?: UserData;
+  memberId?: string;
   isPersonal?: boolean;
 }
 
@@ -31,7 +31,7 @@ export default function Profile({
   const [error, setError] = useState<string | null>(null);
   const [myData, setMyData] = useState<UserData | null>(null);
 
-  // 내 정보 가져오기 (memberId와 비교하기 위해)
+  // 내 정보 가져오기
   useEffect(() => {
     const fetchMyData = async () => {
       try {
@@ -60,12 +60,11 @@ export default function Profile({
       }
       setLoading(false);
     } else {
-      // fallback: API 호출
       fetchUserData();
     }
   }, [profileData, memberId]);
 
-  // 유저 데이터 가져오기 (fallback)
+  // 유저 데이터 가져오기
   const fetchUserData = async () => {
     try {
       setLoading(true);
@@ -75,11 +74,11 @@ export default function Profile({
       if (memberId && !isMyProfile) {
         // 다른 유저의 프로필 조회
         res = await getUserProfile(memberId);
-        console.log('Other user profile:', res);
+        // console.log('Other user profile:', res);
       } else {
         // 내 프로필 조회
         res = await getMyPage();
-        console.log('My profile:', res);
+        // console.log('My profile:', res);
       }
 
       const user = res.data?.data || res.data || res;
@@ -185,7 +184,7 @@ export default function Profile({
           labelVisible={true}
         />
 
-        {/* 버튼들 (내 프로필이고 개인 페이지가 아닐 때만 표시) */}
+        {/* 내 프로필이고 개인 페이지가 아닐 때만 표시 */}
         {isMyProfile && !isPersonal && (
           <div className="mt-[10px] flex items-center gap-[10px] text-[16px]">
             <Button

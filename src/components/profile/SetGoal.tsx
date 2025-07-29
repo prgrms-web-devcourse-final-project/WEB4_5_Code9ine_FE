@@ -102,12 +102,11 @@ export default function SetGoal({
         const displayName = userName || '사용자';
         return (
           <>
-            {displayName}의 목표: {goalName}까지
+            {displayName}님의 목표: {goalName}까지
             <span className="text-[var(--main-color-3)]">
               {' '}
               {(remainAmount / 10000).toLocaleString()}만원
             </span>{' '}
-            남았어요!
           </>
         );
       }
