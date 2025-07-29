@@ -1,6 +1,6 @@
 // 마이 칭호 관련 타입
 export interface MyTitle {
-  titleId: number;
+  challengeId: number;
   name: string;
   icon: string;
   description: string;

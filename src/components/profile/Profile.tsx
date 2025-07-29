@@ -78,10 +78,10 @@ export default function Profile({
       } else {
         // 내 프로필 조회
         res = await getMyPage();
-        // console.log('My profile:', res);
+        console.log('My profile:', res);
       }
 
-      const user = res.data?.data || res.data || res;
+      const user = res.data?.data;
       setUserData(user);
 
       if (user?.profileImage) {
@@ -159,12 +159,12 @@ export default function Profile({
         {/* 칭호 */}
         <p
           className={`mt-[5px] mb-[7px] text-[16px] ${
-            userData.equippedTitle && userData.equippedTitle.length > 0
+            userData.equippedTitle
               ? 'font-semibold text-[var(--text-color)]'
               : 'text-[var(--gray-color-2)]'
           }`}
         >
-          {userData.equippedTitle && userData.equippedTitle.length > 0
+          {userData.equippedTitle
             ? userData.equippedTitle[0].name
             : isMyProfile
               ? '칭호를 획득해 보세요!'
