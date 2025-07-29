@@ -1,4 +1,4 @@
-import { PayList, totalData } from '@/types/payData';
+import { Calendar, PayList, totalData } from '@/types/payData';
 import { GetMyPageData } from '@/types/userType';
 import { create } from 'zustand';
 
@@ -27,6 +27,8 @@ interface accountState {
   setMobileMenuOpen: (data: boolean) => void;
   mobileAiOpen: boolean;
   setMobileAiOpen: (data: boolean) => void;
+  calendarData: Calendar | null;
+  setCalendarData: (data: Calendar | null) => void;
 }
 
 export const useAccountData = create<accountState>((set) => ({
@@ -54,4 +56,6 @@ export const useAccountData = create<accountState>((set) => ({
   setMobileMenuOpen: (data) => set({ mobileMenuOpen: data }),
   mobileAiOpen: false,
   setMobileAiOpen: (data) => set({ mobileAiOpen: data }),
+  calendarData: null,
+  setCalendarData: (data) => set({ calendarData: data }),
 }));
