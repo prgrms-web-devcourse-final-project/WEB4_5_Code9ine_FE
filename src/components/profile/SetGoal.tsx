@@ -51,7 +51,7 @@ export default function SetGoal({
       if (profileData) {
         setOtherUserData(profileData);
       }
-    }, 1000);
+    }, 2000);
 
     // memberId가 있고 profileData가 없으면 API 호출
     if (memberId && !profileData) {
