@@ -61,7 +61,7 @@ export default function MyProfilePage() {
 
         <div className="w-full max-w-[calc(100vw-32px)] rounded-[10px] bg-[var(--white-color)] shadow-[var(--shadow-md)] md:order-1 md:h-[870px] md:w-[756px]">
           <div className="hide-scrollbar h-full overflow-y-auto">
-            <Threads profileData={myData ?? undefined} />
+            <Threads profileData={myData ?? undefined} memberId="" />
           </div>
         </div>
       </div>

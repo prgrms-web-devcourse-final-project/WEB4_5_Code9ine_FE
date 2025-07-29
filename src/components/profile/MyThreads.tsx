@@ -24,22 +24,8 @@ import TopButton from '../board/TopButton';
 import Empty from './Empty';
 import PostItemSkeleton from '../board/PostItemSkeleton';
 interface ThreadsProps {
-  profileData?:
-    | {
-        [key: string]: unknown;
-        nickname?: string;
-        myPosts?: Post[];
-        bookmarkedPosts?: Post[];
-        bookmarkedPlaces?: {
-          type: string;
-          storeId?: string;
-          festivalId?: string;
-          libraryId?: string;
-          name: string;
-        }[];
-      }
-    | undefined;
-  memberId?: string;
+  profileData?: UserData;
+  memberId: string;
 }
 
 export default function Threads({ profileData, memberId }: ThreadsProps) {
