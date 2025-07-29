@@ -57,6 +57,7 @@ export default function NotificationBox({
 
   const handleEquip = async (aTId: number) => {
     try {
+      console.log(aTId);
       const result = await equipTitle(aTId);
       console.log('장착 완료:', result.equippedTitle);
     } catch (err) {
@@ -140,7 +141,7 @@ export default function NotificationBox({
               {/* 즉시 장착 버튼은 TITLE일 때만 표시 */}
               {selected.type === 'TITLE' && (
                 <button
-                  onClick={() => handleEquip(selected.aTId)}
+                  onClick={() => handleEquip(selected.atid)}
                   className="flex-1 cursor-pointer rounded-[5px] bg-[var(--main-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--main-color-3)]"
                 >
                   즉시 장착
