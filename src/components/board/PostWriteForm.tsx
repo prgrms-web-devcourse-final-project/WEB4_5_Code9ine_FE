@@ -214,8 +214,8 @@ export default function PostWriteForm({
           className="h-[30px] w-[30px] rounded-full border-2 border-[var(--main-color-2)] object-cover md:h-[70px] md:w-[70px]"
         />
 
-        <div className="flex flex-row items-baseline gap-1 whitespace-nowrap md:flex-col md:items-center">
-          <div className="ml-[8px] text-center text-[20px] leading-none">
+        <div className="flex flex-row items-center gap-1 whitespace-nowrap md:flex-col md:items-center">
+          <div className="ml-[8px] text-center text-[20px] leading-none md:mt-[10px] md:ml-[0px]">
             {myInfo?.userNickname || ''}
           </div>
           <div className="text-center text-[14px] leading-none text-[var(--text-color-2)] md:text-[16px]">
