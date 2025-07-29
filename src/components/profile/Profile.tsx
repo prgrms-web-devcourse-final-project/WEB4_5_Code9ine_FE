@@ -49,7 +49,8 @@ export default function Profile({
     !memberId || (myData && String(myData.memberId) === String(memberId)),
   );
 
-  // profileData가 있으면 바로 사용, 없으면 API 호출
+  const showButtons = isMyProfile && !isPersonal;
+
   useEffect(() => {
     if (profileData) {
       setUserData(profileData);
@@ -97,7 +98,7 @@ export default function Profile({
     }
   };
 
-  // 초대 코드 복사 (내 프로필에서만)
+  // 초대 코드 복사
   const handleCopy = async () => {
     if (!isMyProfile) return;
 
@@ -120,7 +121,7 @@ export default function Profile({
   if (error || !userData) {
     return (
       <div
-        className={`${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} mb-[20px] flex w-full flex-col items-center justify-center`}
+        className={`${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} ${!showButtons ? 'mt-[45px]' : ''} mb-[20px] flex w-full flex-col items-center justify-center`}
       >
         <p className="text-red-500">{error || '프로필을 찾을 수 없습니다.'}</p>
       </div>
@@ -130,7 +131,7 @@ export default function Profile({
   return (
     <>
       <div
-        className={`${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} mb-[20px] flex w-full flex-col items-center justify-center`}
+        className={` ${isPersonal ? 'mt-[40px]' : 'mt-[20px]'} ${!showButtons ? 'mt-[45px]' : ''} mb-[20px] flex w-full flex-col items-center justify-center`}
       >
         {/* 프로필 이미지 */}
         {userData.profileImage && imageUrl ? (
@@ -159,19 +160,18 @@ export default function Profile({
         {/* 칭호 */}
         <p
           className={`mt-[5px] mb-[7px] text-[16px] ${
-            userData.equippedTitle && userData.equippedTitle.length > 0
+            userData.equippedTitle
               ? 'font-semibold text-[var(--text-color)]'
               : 'text-[var(--gray-color-2)]'
           }`}
         >
-          {userData.equippedTitle && userData.equippedTitle.length > 0
-            ? userData.equippedTitle[0].name
+          {userData.equippedTitle
+            ? userData.equippedTitle.name
             : isMyProfile
               ? '칭호를 획득해 보세요!'
               : '칭호가 없습니다'}
         </p>
 
-        {/* 경험치 바 */}
         <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">
           다음 레벨까지
         </span>
@@ -185,7 +185,7 @@ export default function Profile({
         />
 
         {/* 내 프로필이고 개인 페이지가 아닐 때만 표시 */}
-        {isMyProfile && !isPersonal && (
+        {showButtons && (
           <div className="mt-[10px] flex items-center gap-[10px] text-[16px]">
             <Button
               button={
