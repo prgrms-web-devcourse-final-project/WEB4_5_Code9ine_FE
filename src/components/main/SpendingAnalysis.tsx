@@ -28,17 +28,36 @@ export default function SpendingAnalysis({
   categorySummary,
   nickname,
 }: SpendingAnalysisProps) {
-  const total = categorySummary.reduce(
+  // 각 category에 색상 매핑
+  const colorMap = new Map<string, string>();
+  categorySummary.forEach((item, index) => {
+    colorMap.set(item.category, COLORS[index % COLORS.length]);
+  });
+
+  // 차트용 0원 제외
+  const filteredForChart = categorySummary.filter(
+    (item) => item.totalAmount > 0,
+  );
+  const total = filteredForChart.reduce(
     (sum, item) => sum + item.totalAmount,
     0,
   );
 
-  // id 부여 + percent 계산
-  const dataWithId = categorySummary.map((item, index) => ({
-    id: index,
+  const chartData = filteredForChart.map((item) => ({
+    id: item.category,
+    name: item.category,
+    value: item.totalAmount,
+    percent: Math.round((item.totalAmount / total) * 100),
+    color: colorMap.get(item.category) || '#ccc',
+  }));
+
+  // 목록용 0원 포함
+  const listData = categorySummary.map((item) => ({
+    id: item.category,
     name: item.category,
     value: item.totalAmount,
     percent: total === 0 ? 0 : Math.round((item.totalAmount / total) * 100),
+    color: colorMap.get(item.category) || '#ccc',
   }));
 
   return (
@@ -52,15 +71,23 @@ export default function SpendingAnalysis({
           <div>{nickname || 'OO'}님의 지출 패턴이에요.</div>
         </div>
         <div className="mb-[10px] h-[270px] md:mb-[-35px] md:h-[270px]">
-          <PieChartClient data={dataWithId} colors={COLORS} />
+          <PieChartClient
+            data={chartData.map(({ name, value, percent }) => ({
+              id: name,
+              name,
+              value,
+              percent,
+            }))}
+            colors={chartData.map((d) => d.color)}
+          />
         </div>
       </div>
       <div className="m-auto justify-items-center md:w-[350px]">
-        {dataWithId.map((d) => (
+        {listData.map((d, idx) => (
           <SpendingAnalysisItem
             key={d.id}
-            id={d.id}
-            color={COLORS[d.id % COLORS.length]}
+            id={idx}
+            color={d.color}
             percent={d.percent.toString()}
             title={d.name}
             value={d.value}
