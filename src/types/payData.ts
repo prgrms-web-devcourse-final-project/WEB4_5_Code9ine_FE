@@ -47,8 +47,8 @@ export interface CalendarList {
 }
 
 export interface totalData {
-  code: string;
-  message: string;
+  code?: string;
+  message?: string;
   data: {
     yearMonth: string;
     totalIncome: number;
@@ -84,5 +84,23 @@ export interface Receipt {
     date: string;
     items: ReceiptItem[];
     totalprice: number;
+  };
+}
+
+export interface CalendarDays {
+  date: string;
+  income: number;
+  expense: number;
+  difference: number;
+}
+
+export interface Calendar {
+  code: string;
+  message: string;
+  data: {
+    month: string;
+    totalIncome: number;
+    totalExpense: number;
+    days: CalendarDays[];
   };
 }

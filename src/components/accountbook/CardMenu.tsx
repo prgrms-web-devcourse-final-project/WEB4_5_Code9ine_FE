@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteAccount, setData } from '@/api/accountApi';
+import { deleteAccount, setData, setMonthData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
 import { PayList } from '@/types/payData';
 import toast from 'react-hot-toast';
@@ -13,13 +13,25 @@ export default function CardMenu({
   index: number;
   value: PayList;
 }) {
-  const { setIsAccount, setInsert, setIsId, setTotaldata, setRewriteData } =
-    useAccountData();
+  const {
+    setIsAccount,
+    setInsert,
+    setIsId,
+    setTotaldata,
+    setRewriteData,
+    setCalendarData,
+  } = useAccountData();
   const handleDelete = async () => {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+
     try {
       deleteAccount(index);
       const totalData = await setData(0);
       setTotaldata(totalData);
+      const newCalendarData = await setMonthData(today, month);
+      const newCalendarDataSet = await newCalendarData.json();
+      setCalendarData(newCalendarDataSet);
     } catch (e) {
       console.error(e);
       toast.error('문제가 발생했습니다');
