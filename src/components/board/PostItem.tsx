@@ -20,6 +20,7 @@ import Link from 'next/link';
 import defaultProfile from '../../assets/profile.png';
 import { useQueryClient } from '@tanstack/react-query';
 import Modal from '../common/Modal';
+import { useTitleStore } from '@/stores/titleStore';
 
 interface PostItemProps {
   post: PostRes;
@@ -52,6 +53,8 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
 
   const queryClient = useQueryClient();
 
+  const { equippedTitle } = useTitleStore();
+
   useEffect(() => {
     const fetchMe = async () => {
       try {
@@ -66,6 +69,9 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
   }, []);
 
   const isMine = myMemberId === post.memberId;
+
+  const displayTitle =
+    isMine && equippedTitle ? equippedTitle.name : post.writerTitle;
 
   const handleToggleLike = async () => {
     setIsLiked((prev) => !prev);
@@ -190,7 +196,7 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
             {post.writerNickname}
           </div>
           <div className="text-center text-[12px] leading-none text-[var(--text-color-2)] md:text-[16px]">
-            {post.writerTitle}
+            {displayTitle}
           </div>
         </div>
       </Link>

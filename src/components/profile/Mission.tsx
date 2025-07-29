@@ -111,7 +111,7 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
           className={isCompleted ? 'flower-spin' : ''}
         />
         <button className={buttonClass}>
-          <p className="text-center text-[16px] font-semibold dark:text-[#2b2e34]">
+          <p className="text-center text-[16px] font-semibold text-[#2b2e34]">
             {statusText}
           </p>
         </button>

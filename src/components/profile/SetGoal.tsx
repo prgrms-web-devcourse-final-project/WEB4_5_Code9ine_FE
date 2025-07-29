@@ -11,10 +11,10 @@ interface ProfileData {
 }
 
 interface SetGoalProps {
-  profileData?: ProfileData; // 서버에서 받아온 프로필 데이터
-  memberId?: string; // 다른 유저의 ID
-  isMyProfile?: boolean; // 내 프로필 여부
-  userName?: string; // 다른 유저의 이름
+  profileData?: ProfileData;
+  memberId?: string;
+  isMyProfile?: boolean;
+  userName?: string;
 }
 
 export default function SetGoal({
@@ -123,7 +123,7 @@ export default function SetGoal({
   return (
     <>
       <div className="relative mt-[20px] flex h-[40px] w-full items-center justify-center bg-[var(--main-color-1)] md:items-center md:justify-center">
-        <h1 className="ml-[10px] gap-[40px] text-[16px] md:text-[20px] dark:text-[#2b2e34]">
+        <h1 className="ml-[10px] gap-[40px] text-[16px] text-[#2b2e34] md:text-[20px]">
           {getMessage()}
         </h1>
 

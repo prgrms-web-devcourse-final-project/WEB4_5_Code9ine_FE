@@ -253,3 +253,26 @@ export async function changeInfo(
   const result = await res.json();
   return result;
 }
+
+// 칭호 장착
+export const equipTitle = async (aTId: number) => {
+  const res = await fetch(`${API_BASE_URL}/api/members/titles/equip`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      validATId: true,
+      aTId,
+    }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData?.message || '칭호 장착 실패');
+  }
+
+  const data = await res.json();
+  return data;
+};

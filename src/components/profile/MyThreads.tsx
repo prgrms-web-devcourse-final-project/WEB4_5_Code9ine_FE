@@ -62,15 +62,14 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
     !memberId || (myData && String(myData.memberId) === String(memberId)),
   );
 
-  // profileData가 있으면 바로 사용
   useEffect(() => {
     if (profileData && !isMyProfile) {
       setUserData(profileData);
       setUserDataLoading(false);
     }
-  }, [profileData, isMyProfile, myData]); // myData 의존성 추가
+  }, [profileData, isMyProfile, myData]);
 
-  // 다른 유저 데이터 가져오기 (fallback, profileData가 없을 때만)
+  // 다른 유저 데이터 가져오기
   const fetchUserData = async () => {
     if (!memberId || isMyProfile || profileData) return;
 
@@ -301,10 +300,9 @@ export default function Threads({ profileData, memberId }: ThreadsProps) {
           : 'NO_MONEY',
       };
     } else {
-      // 다른 유저 프로필: API 응답 데이터 변환
       return {
         ...post,
-        postId: post.postId, // bookmarkedPosts는 postid로 옴
+        postId: post.postId,
         category: categoryEng(post.category),
         challengeCategory: isValidChallengeCategory(post.challengeCategory)
           ? post.challengeCategory
