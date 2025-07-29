@@ -1,13 +1,13 @@
 'use client';
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@/stores/authStore';
 import { completeSocialSignup } from '@/services/authService';
 import Button from '@/components/login/SignupButton';
 
 export default function GoogleCallbackPage() {
-  // const router = useRouter();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const { setIsLogin } = useAuthStore();
 
@@ -52,7 +52,7 @@ export default function GoogleCallbackPage() {
 
       toast.success('소셜 로그인 완료!');
       setIsLogin(true);
-      // router.push('/login/googleauth');
+      router.push('/login/googleauth');
     } catch (err) {
       const msg = err instanceof Error ? err.message : '오류가 발생했습니다.';
       toast.error(msg);
