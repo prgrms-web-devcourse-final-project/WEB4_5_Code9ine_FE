@@ -9,6 +9,7 @@ import { getMyCode, getMyPage, getUserProfile } from '@/api/profile';
 import Modal from '../common/Modal';
 import Image from 'next/image';
 import ProfileSkeleton from './ProfileSkeletion';
+import { useTitleStore } from '@/stores/titleStore';
 
 interface ProfileProps {
   profileData?: UserData;
@@ -30,6 +31,8 @@ export default function Profile({
   const [loading, setLoading] = useState(!profileData);
   const [error, setError] = useState<string | null>(null);
   const [myData, setMyData] = useState<UserData | null>(null);
+
+  const { equippedTitle } = useTitleStore();
 
   // 내 정보 가져오기
   useEffect(() => {
@@ -165,8 +168,8 @@ export default function Profile({
               : 'text-[var(--gray-color-2)]'
           }`}
         >
-          {userData.equippedTitle
-            ? userData.equippedTitle.name
+          {equippedTitle
+            ? equippedTitle.name
             : isMyProfile
               ? '칭호를 획득해 보세요!'
               : '칭호가 없습니다'}
@@ -191,7 +194,7 @@ export default function Profile({
               button={
                 <button
                   onClick={() => setIsEditProfile(true)}
-                  className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]"
+                  className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[#2b2e34] hover:bg-[var(--main-color-2)]"
                 >
                   프로필 수정하기
                 </button>
@@ -201,7 +204,7 @@ export default function Profile({
               button={
                 <button
                   onClick={handleCopy}
-                  className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] hover:bg-[var(--main-color-2)] dark:text-[#2b2e34]"
+                  className="h-[40px] w-[150px] cursor-pointer rounded-[10px] bg-[var(--main-color-1)] text-[#2b2e34] hover:bg-[var(--main-color-2)]"
                 >
                   내 초대 코드 복사
                 </button>
