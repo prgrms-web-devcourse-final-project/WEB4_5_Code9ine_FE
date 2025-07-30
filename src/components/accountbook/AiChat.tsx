@@ -211,7 +211,7 @@ export default function AiChat() {
             x
           </button>
         ) : null}
-        <div className="mt-[45px] mb-[175px] flex w-full overflow-y-scroll">
+        <div className="hide-scrollbar mt-[45px] mb-[175px] flex w-full overflow-y-scroll">
           {!showIcon ? (
             <div className="flex w-full flex-col gap-[25px] px-[10px] text-center">
               <div className="flex w-full gap-[10px]">
@@ -239,7 +239,7 @@ export default function AiChat() {
           {/* 초기 버튼 */}
           {showIcon ? (
             <button
-              className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+              className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
               onClick={handleFetch}
             >
               자산 관리에 대해 티태에게 물어보세요!
@@ -249,19 +249,19 @@ export default function AiChat() {
           {selectCategory ? (
             <div className="flex flex-col justify-center gap-[5px]">
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleCategory('추천')}
               >
                 추천
               </button>
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleCategory('소비')}
               >
                 소비
               </button>
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleCategory('절약')}
               >
                 절약
@@ -272,19 +272,19 @@ export default function AiChat() {
           {recommend ? (
             <div className="flex flex-col justify-center gap-[5px]">
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleRandomRecommend('점메추')}
               >
                 점심 메뉴를 추천해줘
               </button>
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleRandomRecommend('저메추')}
               >
                 저녁 메뉴를 추천해줘
               </button>
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleRandomRecommend('착한가게')}
               >
                 서울 내에서 갈만한 착한 가게 추천해줘
@@ -294,19 +294,19 @@ export default function AiChat() {
           {spend ? (
             <div className="flex flex-col justify-center gap-[5px]">
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleSpend('지출분석')}
               >
                 지출이 제일 많은 분야 알려줘
               </button>
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleSpend('과소비분석')}
               >
                 내 수입보다 많이 지출한 분야 알려줘
               </button>
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleSpend('평균이상지출')}
               >
                 내가 다른 사람들보다 많이 지출한 분야를 알려줘
@@ -316,19 +316,19 @@ export default function AiChat() {
           {saving ? (
             <div className="flex flex-col justify-center gap-[5px]">
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleSaving('꿀팁')}
               >
                 절약 꿀팁 알려줘
               </button>
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleSaving('절약카테고리')}
               >
                 내가 절약할 수 있을만한 카테고리 알려줘
               </button>
               <button
-                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+                className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
                 onClick={() => handleSaving('지출감소')}
               >
                 지출을 줄일 수 있는 부분을 알려줘
@@ -337,7 +337,7 @@ export default function AiChat() {
           ) : null}
           {isReturn ? (
             <button
-              className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''}`}
+              className={`h-[40px] w-[240px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)] ${!showIcon ? 'w-[290px] border-[var(--main-color-3)]' : ''} cursor-pointer`}
               onClick={() => handleCategory('돌아가기')}
             >
               다시 물어보기

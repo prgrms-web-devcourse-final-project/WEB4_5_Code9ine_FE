@@ -154,7 +154,7 @@ export default function MobileTitae() {
 
   return (
     <>
-      <div className="relative mx-[5px] flex w-[96vw] flex-col items-center rounded-[10px] bg-[var(--white-color)] py-[30px] md:h-[870px] md:w-full">
+      <div className="relative mx-[5px] flex h-[85vh] w-[96vw] flex-col items-center rounded-[10px] bg-[var(--white-color)] py-[30px] md:h-[870px] md:w-full">
         <button
           className="absolute top-[10px] right-[10px] cursor-pointer"
           onClick={handleClose}
@@ -162,7 +162,7 @@ export default function MobileTitae() {
           x
         </button>
         <div
-          className="mt-[45px] mb-[175px] flex w-full overflow-y-scroll"
+          className="hide-scrollbar mt-[45px] mb-[175px] flex w-full overflow-y-scroll"
           ref={newMsg}
         >
           <div className="flex w-full flex-col gap-[25px] px-[10px] text-center">
@@ -189,19 +189,19 @@ export default function MobileTitae() {
           {selectCategory ? (
             <div className="flex flex-col justify-center gap-[5px]">
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] cursor-pointer items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleCategory('추천')}
               >
                 추천
               </button>
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleCategory('소비')}
               >
                 소비
               </button>
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleCategory('절약')}
               >
                 절약
@@ -212,19 +212,19 @@ export default function MobileTitae() {
           {recommend ? (
             <div className="flex flex-col justify-center gap-[5px]">
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleRandomRecommend('점메추')}
               >
                 점심 메뉴를 추천해줘
               </button>
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleRandomRecommend('저메추')}
               >
                 저녁 메뉴를 추천해줘
               </button>
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleRandomRecommend('착한가게')}
               >
                 서울 내에서 갈만한 착한 가게 추천해줘
@@ -234,19 +234,19 @@ export default function MobileTitae() {
           {spend ? (
             <div className="flex flex-col justify-center gap-[5px]">
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleSpend('지출분석')}
               >
                 지출이 제일 많은 분야 알려줘
               </button>
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleSpend('과소비분석')}
               >
                 내 수입보다 많이 지출한 분야 알려줘
               </button>
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleSpend('평균이상지출')}
               >
                 내가 다른 사람들보다 많이 지출한 분야를 알려줘
@@ -256,19 +256,19 @@ export default function MobileTitae() {
           {saving ? (
             <div className="flex flex-col justify-center gap-[5px]">
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleSaving('꿀팁')}
               >
                 절약 꿀팁 알려줘
               </button>
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleSaving('절약카테고리')}
               >
                 내가 절약할 수 있을만한 카테고리 알려줘
               </button>
               <button
-                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+                className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
                 onClick={() => handleSaving('지출감소')}
               >
                 지출을 줄일 수 있는 부분을 알려줘
@@ -277,7 +277,7 @@ export default function MobileTitae() {
           ) : null}
           {isReturn ? (
             <button
-              className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] transition-[width] placeholder:text-center focus-within:w-[290px] focus:border-[var(--main-color-3)] focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
+              className={`h-[40px] w-[340px] items-center justify-center rounded-[10px] border-1 border-[var(--main-color-2)] px-[10px] text-[14px] placeholder:text-center  focus:outline-none focus:placeholder:opacity-0 dark:bg-[var(--background)]`}
               onClick={() => handleCategory('돌아가기')}
             >
               다시 물어보기
