@@ -243,7 +243,7 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
               )}
             </div>
 
-            <div className="mt-1 text-[18px] text-[var(--text-color-white)]">
+            <div className="mt-1 text-[18px] whitespace-pre-line text-[var(--text-color-white)]">
               {post.content}
             </div>
           </div>
