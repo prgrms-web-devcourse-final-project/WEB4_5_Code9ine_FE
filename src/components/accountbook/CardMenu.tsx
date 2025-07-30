@@ -32,11 +32,10 @@ export default function CardMenu({
       const newCalendarData = await setMonthData(today, month);
       const newCalendarDataSet = await newCalendarData.json();
       setCalendarData(newCalendarDataSet);
+      toast.success('삭제되었습니다');
     } catch (e) {
       console.error(e);
       toast.error('문제가 발생했습니다');
-    } finally {
-      toast.success('삭제되었습니다');
     }
   };
   const handleChange = () => {

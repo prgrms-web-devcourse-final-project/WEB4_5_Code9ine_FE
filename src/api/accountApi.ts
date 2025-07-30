@@ -59,7 +59,7 @@ export const postAccount = async (
       },
       body: JSON.stringify({
         type: accountTag,
-        date: `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate()}`,
+        date: `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`,
         category: value,
         price: Number(price.replace(/,/g, '')),
         content: content,
@@ -128,7 +128,8 @@ export const noExpense = async () => {
       },
     });
 
-    if (!response.ok) throw new Error('통신에 실패했습니다');
+    if (!response.ok)
+      throw new Error(`통신에 실패했습니다: ${response.status}`);
   } catch (error) {
     console.error(error);
   }
