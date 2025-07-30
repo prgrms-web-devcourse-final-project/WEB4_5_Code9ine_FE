@@ -5,8 +5,8 @@ import Button from './SignupButton';
 import { login, LoginPayload } from '@/services/authService';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@/stores/authStore';
-import { getGoogleLoginRedirect } from '@/services/authService';
-import { FcGoogle } from 'react-icons/fc';
+// import { getGoogleLoginRedirect } from '@/services/authService';
+// import { FcGoogle } from 'react-icons/fc';
 
 export default function LoginBox() {
   const router = useRouter();
@@ -165,14 +165,14 @@ export default function LoginBox() {
           {loading ? '로그인 중...' : '로그인 하기'}
         </Button>
 
-        <Button
+        {/* <Button
           type="button"
           onClick={getGoogleLoginRedirect}
           className="relative flex h-[35px] w-[195px] items-center justify-center bg-[#FFFFFF] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
         >
           <FcGoogle size={20} className="absolute left-4" />
           구글로 로그인 하기
-        </Button>
+        </Button> */}
 
         {/* <Button
           type="button"
