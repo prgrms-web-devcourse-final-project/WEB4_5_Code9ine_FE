@@ -51,12 +51,14 @@ export default function AccountAdd({
   } = useAccountData();
 
   const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const priceValue = e.target.value.replace(/[^0-9]/g, '');
-    if (!/^\d+$/.test(priceValue) && priceValue !== '') {
-      return;
+    const value = e.target.value;
+    const numericValue = value.replace(/[^\d]/g, '');
+
+    if (numericValue === '') {
+      setPrice('');
+    } else {
+      setPrice(Number(numericValue).toLocaleString('ko-KR'));
     }
-    const numberValue = Number(priceValue.replace(/[^0-9]/g, ''));
-    setPrice(numberValue.toLocaleString('ko-KR'));
   };
 
   const handleContent = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,6 +97,7 @@ export default function AccountAdd({
         setTotaldata(totalData);
         const monthlyCalendarData = await setMonthData(today, month);
         setCalendarData(await monthlyCalendarData.json());
+        toast.success('추가되었어요');
       } else if (isAdd === '수정') {
         patchAccount(accountTag, rewriteDate!, value, price, content, isId!);
         onDataChange(false);
@@ -103,14 +106,13 @@ export default function AccountAdd({
         setTotaldata(totalData);
         const monthlyCalendarData = await setMonthData(today, month);
         setCalendarData(await monthlyCalendarData.json());
+        toast.success('수정되었어요');
       }
     } catch (e) {
       console.error(e);
       toast.error('문제가 발생했어요');
     } finally {
       setIsUploading(false);
-      if (isAdd === '추가') toast.success('추가되었어요');
-      else if (isAdd === '수정') toast.success('수정되었어요');
     }
   };
 
@@ -374,7 +376,7 @@ export default function AccountAdd({
               />
             ) : (
               <input
-                type="text"
+                type="number"
                 className="items-center justify-center text-center focus:outline-none"
                 readOnly
                 value={calcString ?? ''}

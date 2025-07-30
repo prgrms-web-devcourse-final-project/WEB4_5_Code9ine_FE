@@ -61,14 +61,13 @@ export const postAccount = async (
         type: accountTag,
         date: `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate()}`,
         category: value,
-        price: Number(price.replace(',', '')),
+        price: Number(price.replace(/,/g, '')),
         content: content,
         repeatCycle: 'NONE',
       }),
     });
 
     if (!response.ok) throw new Error('통신에 실패했습니다');
-
   } catch (error) {
     console.error(error);
   }
