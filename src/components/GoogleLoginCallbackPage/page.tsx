@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 import toast from 'react-hot-toast';
+import { setTokens } from '@/services/authService'; // <-- API 함수 import
 
 export default function GoogleLoginCallbackPage() {
   const searchParams = useSearchParams();
@@ -12,16 +13,28 @@ export default function GoogleLoginCallbackPage() {
   useEffect(() => {
     const accessToken = searchParams.get('access_token');
     const refreshToken = searchParams.get('refresh_token');
-
-    const backendDomain = 'titae.cedartreeapps.com'; // 백엔드 서버 도메인
+    const expiresIn = Number(searchParams.get('expires_in'));
+    const refreshExpiresIn = 28800;
+    const role = searchParams.get('role') || 'ROLE_USER';
 
     if (accessToken && refreshToken) {
-      document.cookie = `ACCESS_TOKEN=${accessToken}; domain=${backendDomain}; path=/; max-age=7200; SameSite=None; Secure`;
-      document.cookie = `REFRESH_TOKEN=${refreshToken}; domain=${backendDomain}; path=/; max-age=28800; SameSite=None; Secure`;
-
-      setIsLogin(true);
-      toast.success('구글 로그인 완료!');
-      router.push('/');
+      setTokens({
+        accessToken,
+        refreshToken,
+        expiresIn,
+        refreshExpiresIn,
+        role,
+      })
+        .then(() => {
+          setIsLogin(true);
+          toast.success('구글 로그인 완료!');
+          router.push('/');
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error('토큰 설정 실패');
+          router.push('/login');
+        });
     } else {
       toast.error('로그인에 실패했습니다.');
       router.push('/login');

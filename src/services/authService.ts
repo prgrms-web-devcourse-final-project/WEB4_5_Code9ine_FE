@@ -373,3 +373,33 @@ export async function completeSocialSignup(
     data: json.data,
   };
 }
+
+// 토큰
+export interface SetTokensPayload {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+  refreshExpiresIn: number;
+  role: string;
+}
+
+export async function setTokens(
+  payload: SetTokensPayload,
+): Promise<{ message: string; data: string }> {
+  const res = await fetch(`${API_BASE}/api/auth/set-tokens`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  const json: ApiResponse<string> = await res.json();
+
+  if (!res.ok) {
+    throw new Error(json.message || '토큰 설정에 실패했습니다.');
+  }
+
+  return {
+    message: json.message,
+    data: json.data,
+  };
+}
