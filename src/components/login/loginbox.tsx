@@ -5,8 +5,10 @@ import Button from './SignupButton';
 import { login, LoginPayload } from '@/services/authService';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@/stores/authStore';
-import { getGoogleLoginRedirect } from '@/services/authService';
-import { FcGoogle } from 'react-icons/fc';
+// import { getGoogleLoginRedirect } from '@/services/authService';
+// import { FcGoogle } from 'react-icons/fc';
+import { useTitleStore } from '@/stores/titleStore';
+import { getMyPage } from '@/api/profile';
 
 export default function LoginBox() {
   const router = useRouter();
@@ -52,6 +54,15 @@ export default function LoginBox() {
       // console.log(data.accessToken);
       setIsLogin(true);
 
+      useTitleStore.getState().clearEquippedTitle();
+      localStorage.removeItem('title-storage');
+
+      const res = await getMyPage();
+      const equippedTitle = res.data?.data?.equippedTitle;
+      if (equippedTitle) {
+        useTitleStore.getState().setEquippedTitle(equippedTitle);
+      }
+
       toast.success(message);
 
       if (data.role === 'ROLE_ADMIN') {
@@ -93,7 +104,7 @@ export default function LoginBox() {
   return (
     <div className="flex h-auto w-[270px] flex-col gap-4 overflow-y-auto rounded-[20px] bg-[var(--background)] p-8 md:h-auto md:w-[500px] md:overflow-hidden">
       <p className="mb-[10px] self-center text-[20px] font-semibold md:text-[24px]">
-        <span className="text-[var(--main-color-3)]">티태</span>에 오신 것 을
+        <span className="text-[var(--main-color-3)]">티태</span>에 오신 것을{' '}
         <br className="block md:hidden" />
         환영합니다!
       </p>
@@ -165,14 +176,14 @@ export default function LoginBox() {
           {loading ? '로그인 중...' : '로그인 하기'}
         </Button>
 
-        <Button
+        {/* <Button
           type="button"
           onClick={getGoogleLoginRedirect}
           className="relative flex h-[35px] w-[195px] items-center justify-center bg-[#FFFFFF] text-[16px] font-semibold md:w-[300px] md:text-[20px]"
         >
           <FcGoogle size={20} className="absolute left-4" />
           구글로 로그인 하기
-        </Button>
+        </Button> */}
 
         {/* <Button
           type="button"

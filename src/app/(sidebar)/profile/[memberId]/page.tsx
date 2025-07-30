@@ -24,12 +24,14 @@ export default function ProfilePage() {
   const { setEquippedTitle } = useTitleStore();
 
   useEffect(() => {
-    if (!isLogin) {
+    setSessionChecked(true);
+  }, []);
+
+  useEffect(() => {
+    if (sessionChecked && !isLogin) {
       router.replace('/login');
-    } else {
-      setSessionChecked(true);
     }
-  }, [isLogin, router]);
+  }, [sessionChecked, isLogin, router]);
 
   // 내 프로필인지 판단
   const isMyProfile =
@@ -66,10 +68,10 @@ export default function ProfilePage() {
   }, [memberId]);
 
   useEffect(() => {
-    if (profileData?.equippedTitle) {
+    if (isMyProfile && profileData?.equippedTitle) {
       setEquippedTitle(profileData.equippedTitle);
     }
-  }, [profileData, setEquippedTitle]);
+  }, [profileData, setEquippedTitle, isMyProfile]);
 
   if (!sessionChecked) return null;
 

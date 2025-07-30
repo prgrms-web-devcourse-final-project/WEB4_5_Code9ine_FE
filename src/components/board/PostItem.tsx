@@ -202,7 +202,7 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
       </Link>
 
       <div className="absolute top-0 right-0 mt-[24px] mr-[24px]">
-        <div className="flex items-center md:gap-1">
+        <div className="flex items-center gap-2 md:gap-1">
           <span className="text-[12px] text-[var(--text-color-2)] md:text-[16px]">
             {format(parseISO(post.createdAt), 'yy.MM.dd')}
           </span>
@@ -243,7 +243,7 @@ export default function PostItem({ post, onDelete, onEdit }: PostItemProps) {
               )}
             </div>
 
-            <div className="mt-1 text-[18px] text-[var(--text-color-white)]">
+            <div className="mt-1 text-[18px] whitespace-pre-line text-[var(--text-color-white)]">
               {post.content}
             </div>
           </div>
