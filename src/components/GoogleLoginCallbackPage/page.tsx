@@ -1,18 +1,23 @@
 'use client';
 import { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 import toast from 'react-hot-toast';
 
 export default function GoogleLoginCallbackPage() {
-  const searchParams = useSearchParams();
   const router = useRouter();
   const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
-  useEffect(() => {
-    const success = searchParams.get('success');
+  const getCookie = (name: string) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+  };
 
-    if (success === 'true') {
+  useEffect(() => {
+    const accessToken = getCookie('accessToken');
+
+    if (accessToken) {
       setIsLogin(true);
       toast.success('구글 로그인 완료!');
       router.push('/');
@@ -20,7 +25,7 @@ export default function GoogleLoginCallbackPage() {
       toast.error('로그인에 실패했습니다.');
       router.push('/login');
     }
-  }, [searchParams, router, setIsLogin]);
+  }, [router, setIsLogin]);
 
   return <p className="text-center">로그인 처리 중...</p>;
 }
