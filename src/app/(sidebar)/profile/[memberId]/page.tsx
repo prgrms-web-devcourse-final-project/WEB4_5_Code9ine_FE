@@ -9,6 +9,7 @@ import { getUserChallenge, getUserProfile, getMyPage } from '@/api/profile';
 import { Challenge, UserData } from '@/types/userType';
 import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'next/navigation';
+import { useTitleStore } from '@/stores/titleStore';
 
 export default function ProfilePage() {
   const { isLogin } = useAuthStore();
@@ -20,14 +21,17 @@ export default function ProfilePage() {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [myData, setMyData] = useState<UserData | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const { setEquippedTitle } = useTitleStore();
 
   useEffect(() => {
-    if (!isLogin) {
+    setSessionChecked(true);
+  }, []);
+
+  useEffect(() => {
+    if (sessionChecked && !isLogin) {
       router.replace('/login');
-    } else {
-      setSessionChecked(true);
     }
-  }, [isLogin, router]);
+  }, [sessionChecked, isLogin, router]);
 
   // 내 프로필인지 판단
   const isMyProfile =
@@ -62,6 +66,12 @@ export default function ProfilePage() {
 
     fetchData();
   }, [memberId]);
+
+  useEffect(() => {
+    if (isMyProfile && profileData?.equippedTitle) {
+      setEquippedTitle(profileData.equippedTitle);
+    }
+  }, [profileData, setEquippedTitle, isMyProfile]);
 
   if (!sessionChecked) return null;
 

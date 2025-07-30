@@ -78,7 +78,7 @@ export default function SetGoalModal({
             button={
               <button
                 onClick={submitGoal}
-                className="h-[35px] w-[100px] rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold hover:bg-[var(--main-color-3)] dark:text-[#2b2e34]"
+                className="h-[35px] w-[100px] rounded-[10px] bg-[var(--main-color-1)] text-[16px] font-semibold text-[#2b2e34] hover:bg-[var(--main-color-3)]"
               >
                 선택 완료
               </button>

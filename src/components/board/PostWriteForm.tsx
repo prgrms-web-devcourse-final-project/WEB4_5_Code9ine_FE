@@ -343,12 +343,14 @@ export default function PostWriteForm({
           {mode === 'edit' ? (
             <div className="absolute right-[10px] bottom-[10px] z-10 flex gap-2">
               <button
+                disabled={isUploading}
                 onClick={handleSubmit}
-                className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px]"
+                className={`h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--main-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--main-color-2)] md:text-[16px] ${isUploading && 'opacity-50'}`}
               >
-                수정
+                {isUploading ? '업로드' : '수정'}
               </button>
               <button
+                disabled={isUploading}
                 onClick={onCancel}
                 className="h-[28px] w-[58px] cursor-pointer rounded-[20px] bg-[var(--point-color-1)] text-[14px] text-black transition-colors hover:bg-[var(--point-color-2)] md:text-[16px]"
               >

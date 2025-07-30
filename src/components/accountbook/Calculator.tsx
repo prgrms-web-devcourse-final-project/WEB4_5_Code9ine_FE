@@ -20,6 +20,17 @@ export default function Calculator() {
         calculated.push(input);
       }
     } else if (input !== '=') {
+      if (
+        calculated.length === 0 ||
+        calculated[calculated.length - 1] === '+' ||
+        calculated[calculated.length - 1] === '-' ||
+        calculated[calculated.length - 1] === '*' ||
+        calculated[calculated.length - 1] === '/'
+      ) {
+        if (input === '0' || input === '00' || input === '000') {
+          return;
+        }
+      }
       calculated.push(input);
       setCalcString(calculated.join(''));
     } else if (input === '=') {
@@ -32,7 +43,7 @@ export default function Calculator() {
       ) {
         return;
       }
-      const value = Function(`return ${calculated.join('').toString()}`)();
+      const value = new Function(`return ${calculated.join('').toString()}`)();
       setCalcString(Number(value).toLocaleString('ko-KR'));
     }
   };
