@@ -9,7 +9,7 @@ export default function Search() {
   // console.log(bookmarked);
 
   return (
-    <div className="mt-[260px] flex min-w-[360px] flex-col items-center">
+    <div className="mt-[260px] flex min-w-[350px] flex-col items-center">
       <HotLocation />
 
       <SearchBox classType={TYPE} />
