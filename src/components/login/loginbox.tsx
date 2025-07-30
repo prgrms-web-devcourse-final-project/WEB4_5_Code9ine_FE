@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import { useAuthStore } from '@/stores/authStore';
 import { getGoogleLoginRedirect } from '@/services/authService';
 import { FcGoogle } from 'react-icons/fc';
+import { useTitleStore } from '@/stores/titleStore';
+import { getMyPage } from '@/api/profile';
 
 export default function LoginBox() {
   const router = useRouter();
@@ -51,6 +53,15 @@ export default function LoginBox() {
       // localStorage.setItem('accessToken', data.accessToken);
       // console.log(data.accessToken);
       setIsLogin(true);
+
+      useTitleStore.getState().clearEquippedTitle();
+      localStorage.removeItem('title-storage');
+
+      const res = await getMyPage();
+      const equippedTitle = res.data?.data?.equippedTitle;
+      if (equippedTitle) {
+        useTitleStore.getState().setEquippedTitle(equippedTitle);
+      }
 
       toast.success(message);
 
