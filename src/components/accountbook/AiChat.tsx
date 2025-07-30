@@ -102,6 +102,16 @@ export default function AiChat() {
         user: true,
         message: '내 수입보다 많이 지출한 분야 알려줘',
       });
+      if (chatResponse === null) {
+        setMessage([
+          ...message,
+          {
+            user: false,
+            message: `답변을 생각 중이에요. 잠시 후 다시 시도해주세요.`,
+          },
+        ]);
+        return;
+      }
       const analyze = chatResponse!.overIncomeSpending;
       setMessage([...message, { user: false, message: analyze }]);
     } else if (value === '평균이상지출') {
@@ -109,6 +119,16 @@ export default function AiChat() {
         user: true,
         message: '내가 다른 사람들보다 많이 지출한 분야를 알려줘',
       });
+      if (chatResponse === null) {
+        setMessage([
+          ...message,
+          {
+            user: false,
+            message: `답변을 생각 중이에요. 잠시 후 다시 시도해주세요.`,
+          },
+        ]);
+        return;
+      }
       const analyze = chatResponse!.aboveAverageSpending;
       setMessage([...message, { user: false, message: analyze }]);
     }
@@ -126,6 +146,16 @@ export default function AiChat() {
         user: true,
         message: '내가 절약할 수 있을만한 카테고리 알려줘',
       });
+      if (chatResponse === null) {
+        setMessage([
+          ...message,
+          {
+            user: false,
+            message: `답변을 생각 중이에요. 잠시 후 다시 시도해주세요.`,
+          },
+        ]);
+        return;
+      }
       const saveCategory = chatResponse!.savableCategories;
       setMessage([...message, { user: false, message: saveCategory }]);
     } else if (value === '지출감소') {
@@ -133,6 +163,16 @@ export default function AiChat() {
         user: true,
         message: '지출을 줄일 수 있는 부분을 알려줘',
       });
+      if (chatResponse === null) {
+        setMessage([
+          ...message,
+          {
+            user: false,
+            message: `답변을 생각 중이에요. 잠시 후 다시 시도해주세요.`,
+          },
+        ]);
+        return;
+      }
       const saveCategory = chatResponse!.moneySavingAreas;
       setMessage([...message, { user: false, message: saveCategory }]);
     }
