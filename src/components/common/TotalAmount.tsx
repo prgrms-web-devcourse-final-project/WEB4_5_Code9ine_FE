@@ -1,5 +1,6 @@
 'use client';
 import { setMonthData } from '@/api/accountApi';
+import { useAccountData } from '@/stores/accountStore';
 import { CalendarList } from '@/types/payData';
 import { useEffect, useState } from 'react';
 
@@ -8,6 +9,8 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
   const [month, setMonth] = useState<number>(0);
   const [day, setDay] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+
+  const { totalData } = useAccountData();
 
   useEffect(() => {
     const today = new Date();
@@ -26,7 +29,7 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
     calendarData();
     setMonth(today.getMonth() + 1);
     setDay(today.getDate());
-  }, []);
+  }, [totalData]);
 
   return (
     <div
@@ -47,7 +50,7 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
             <span className="text-[var(--main-color-3)]">
               {isData?.data.totalIncome.toLocaleString('ko-KR')}
             </span>
-            <span>원이에요</span>
+            <span>원이에요.</span>
           </div>
           <div>
             <span>{month}</span>
@@ -57,7 +60,7 @@ export default function TotalAmount({ textSize }: { textSize?: string }) {
             <span className="text-[var(--point-color-1)]">
               {isData?.data.totalExpense.toLocaleString('ko-KR')}
             </span>
-            <span>원이에요</span>
+            <span>원이에요.</span>
           </div>
         </>
       )}
