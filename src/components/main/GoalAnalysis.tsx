@@ -28,10 +28,13 @@ export default function GoalAnalysis({
 
   const { itemName, itemPrice } = goal;
 
-  const percent = Math.min(
-    Math.round((totalsavedAmount / itemPrice) * 100),
-    100,
-  );
+  const percent =
+    itemPrice > 0
+      ? Math.max(
+          0,
+          Math.min(Math.round((totalsavedAmount / itemPrice) * 100), 100),
+        )
+      : 0;
 
   const goalItem = goalData.find((item) => item.name === itemName);
   const itemIcon = goalItem?.icon || car;

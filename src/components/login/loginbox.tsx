@@ -93,7 +93,7 @@ export default function LoginBox() {
   return (
     <div className="flex h-auto w-[270px] flex-col gap-4 overflow-y-auto rounded-[20px] bg-[var(--background)] p-8 md:h-auto md:w-[500px] md:overflow-hidden">
       <p className="mb-[10px] self-center text-[20px] font-semibold md:text-[24px]">
-        <span className="text-[var(--main-color-3)]">티태</span>에 오신 것을
+        <span className="text-[var(--main-color-3)]">티태</span>에 오신 것 을
         <br className="block md:hidden" />
         환영합니다!
       </p>

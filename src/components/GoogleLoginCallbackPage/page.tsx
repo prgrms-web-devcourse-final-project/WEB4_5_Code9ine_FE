@@ -10,13 +10,9 @@ export default function GoogleLoginCallbackPage() {
   const setIsLogin = useAuthStore((state) => state.setIsLogin);
 
   useEffect(() => {
-    const accessToken = searchParams.get('access_token');
-    const refreshToken = searchParams.get('refresh_token');
+    const success = searchParams.get('success');
 
-    if (accessToken && refreshToken) {
-      document.cookie = `accessToken=${accessToken}; path=/; max-age=3600`;
-      document.cookie = `refreshToken=${refreshToken}; path=/; max-age=28800`;
-
+    if (success === 'true') {
       setIsLogin(true);
       toast.success('구글 로그인 완료!');
       router.push('/');

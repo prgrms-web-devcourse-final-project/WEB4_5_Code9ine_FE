@@ -84,7 +84,7 @@ export default function UnAuthorizedMain() {
 
   return (
     <>
-      <div className="hide-scrollbar mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
+      <div className="hide-scrollbar mx-auto mt-[15px] flex min-w-[350px] flex-col items-center gap-[150px] rounded-[10px] bg-[var(--white-color)] pt-[70px] select-none md:mt-[0px] md:h-[870px] md:w-[1200px] md:overflow-y-auto">
         <motion.div
           variants={fadeUp}
           initial="hidden"

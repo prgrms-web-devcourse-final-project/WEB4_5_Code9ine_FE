@@ -4,12 +4,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import type { NotificationTitle } from '@/api/notification';
 import {
-  equipTitle,
+  // equipTitle,
   markNotificationAsRead,
   markAllNotificationsAsRead,
 } from '@/api/notification';
 import Modal from './Modal';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 interface NotificationBoxProps {
   onClose: () => void;
@@ -24,7 +24,7 @@ export default function NotificationBox({
 }: NotificationBoxProps) {
   const [selected, setSelected] = useState<NotificationTitle | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+  // const router = useRouter();
 
   // 모달 바깥 클릭 시 닫기
   useEffect(() => {
@@ -57,20 +57,25 @@ export default function NotificationBox({
     }
   };
 
+  //  즉시 장착 기능 비활성화
+  /*
   const handleEquip = async (aTId: number) => {
     try {
-      console.log(aTId);
       const result = await equipTitle(aTId);
       console.log('장착 완료:', result.equippedTitle);
-      router.push('/profile');
+
+      if (window.location.pathname === '/profile') {
+        window.location.reload();
+      } else {
+        router.push('/profile');
+      }
     } catch (err) {
       console.error('즉시 장착 실패:', err);
     } finally {
       setSelected(null);
     }
   };
-
-  // 전체읽음
+  */
 
   const handleMarkAllAsRead = async () => {
     try {
@@ -126,14 +131,13 @@ export default function NotificationBox({
         </div>
       </div>
 
-      {/* TITLE 타입일 때 모달 표시 */}
+      {/*  모달 표시 */}
       {selected && (
         <Modal
           title={<span className="text-[var(--text-color)]">알림</span>}
           description={selected.message}
           buttons={
             <div className="flex w-full gap-2">
-              {/* 확인 버튼 (모든 타입에 대해 표시) */}
               <button
                 onClick={() => handleMarkAsRead(selected.notificationId)}
                 className="flex-1 cursor-pointer rounded-[5px] bg-[var(--point-color-1)] px-4 py-1 text-[var(--text-color)] hover:bg-[var(--point-color-2)]"
@@ -141,7 +145,8 @@ export default function NotificationBox({
                 확인
               </button>
 
-              {/* 즉시 장착 버튼은 TITLE일 때만 표시 */}
+              {/*  즉시 장착 버튼 비활성화 */}
+              {/*
               {selected.type === 'TITLE' && (
                 <button
                   onClick={() => handleEquip(selected.atid)}
@@ -150,6 +155,7 @@ export default function NotificationBox({
                   즉시 장착
                 </button>
               )}
+              */}
             </div>
           }
           onClose={() => setSelected(null)}
