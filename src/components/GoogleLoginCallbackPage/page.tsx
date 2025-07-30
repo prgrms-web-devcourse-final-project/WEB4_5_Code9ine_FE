@@ -13,9 +13,11 @@ export default function GoogleLoginCallbackPage() {
     const accessToken = searchParams.get('access_token');
     const refreshToken = searchParams.get('refresh_token');
 
+    const backendDomain = 'titae.cedartreeapps.com'; // 백엔드 서버 도메인
+
     if (accessToken && refreshToken) {
-      document.cookie = `accessToken=${accessToken}; path=/; max-age=7200`;
-      document.cookie = `refreshToken=${refreshToken}; path=/; max-age=28800`;
+      document.cookie = `ACCESS_TOKEN=${accessToken}; domain=${backendDomain}; path=/; max-age=7200; SameSite=None; Secure`;
+      document.cookie = `REFRESH_TOKEN=${refreshToken}; domain=${backendDomain}; path=/; max-age=28800; SameSite=None; Secure`;
 
       setIsLogin(true);
       toast.success('구글 로그인 완료!');
