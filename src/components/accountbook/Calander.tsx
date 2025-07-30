@@ -9,6 +9,7 @@ import { CalendarList } from '@/types/payData';
 import { Value } from 'react-calendar/dist/shared/types.js';
 import { noExpense, setMonthData } from '@/api/accountApi';
 import { useAccountData } from '@/stores/accountStore';
+import toast from 'react-hot-toast';
 
 export default function Calander({
   onDataChange,
@@ -18,7 +19,7 @@ export default function Calander({
   const [data, setData] = useState<CalendarList>();
   const [date, setDate] = useState<Date | null>(null);
 
-  const { setDateData, setShowDayData, setIsAccount, calendarData } =
+  const { setDateData, setShowDayData, setIsAccount, calendarData, totalData } =
     useAccountData();
 
   const onChange = (newDate: Value) => {
@@ -32,7 +33,17 @@ export default function Calander({
   };
 
   const handleNoExpense = async () => {
-    noExpense();
+    try {
+      noExpense();
+      if (totalData?.data.details.length === 0) {
+        toast.success('오늘은 지출이 없어요!');
+      } else {
+        toast.error('오늘 지출 내역이 있어요!');
+      }
+    } catch (e) {
+      console.error('문제가 생겼어요: ', e);
+      toast.error('문제가 발생했어요');
+    }
   };
 
   useEffect(() => {

@@ -36,6 +36,7 @@ export default function AccountAdd({
   const [rewriteDate, setRewriteDate] = useState<Date>();
   const [receiptResponse, setReceiptResponse] = useState<Receipt>();
   const [receiptDate, setReceiptDate] = useState<Date>();
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const receiptUploadRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -82,6 +83,7 @@ export default function AccountAdd({
       return;
     }
     try {
+      setIsUploading(false);
       const today = new Date();
       const month = today.getMonth() + 1;
 
@@ -104,10 +106,11 @@ export default function AccountAdd({
       }
     } catch (e) {
       console.error(e);
-      toast.error('문제가 발생했습니다');
+      toast.error('문제가 발생했어요');
     } finally {
-      if (isAdd === '추가') toast.success('추가되었습니다');
-      else if (isAdd === '수정') toast.success('수정되었습니다');
+      setIsUploading(false);
+      if (isAdd === '추가') toast.success('추가되었어요');
+      else if (isAdd === '수정') toast.success('수정되었어요');
     }
   };
 
@@ -148,13 +151,13 @@ export default function AccountAdd({
           if (
             receiptResponse === undefined ||
             receiptResponse.message ===
-              '오늘의 OCR 사용 가능 횟수를 초과했습니다.'
+              '오늘의 OCR 사용 가능 횟수를 초과했어요.'
           )
-            toast.error('오늘 사용 가능한 횟수를 초과하였습니다');
+            toast.error('오늘 사용 가능한 횟수를 초과했어요');
         }
       } catch (error) {
         console.error('에러: ', error);
-        toast.error('문제가 발생했습니다');
+        toast.error('문제가 발생했어요');
       }
     }
   };
@@ -419,13 +422,24 @@ export default function AccountAdd({
         ) : null}
         {isCalculator && toolStatus === '금액' ? <Calculator /> : null}
         <div className="absolute bottom-[25px] flex gap-[25px] md:bottom-[60px] md:left-[70px] md:gap-[10px]">
-          <button
-            className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]"
-            type="submit"
-            onClick={handlePost}
-          >
-            확인
-          </button>
+          {!isUploading ? (
+            <button
+              className={`h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000]`}
+              type="submit"
+              onClick={handlePost}
+            >
+              확인
+            </button>
+          ) : (
+            <button
+              className={`h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--main-color-1)] text-[#000000] ${isUploading ? 'bg-[var(--gray-color-2)]' : ''}`}
+              type="submit"
+              onClick={handlePost}
+              disabled
+            >
+              확인
+            </button>
+          )}
           <button
             className="h-[40px] w-[100px] cursor-pointer rounded-[5px] bg-[var(--gray-color-1)] text-black"
             onClick={handleStatus}
