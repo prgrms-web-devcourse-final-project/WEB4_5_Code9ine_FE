@@ -14,8 +14,8 @@ export default function GoogleLoginCallbackPage() {
     const refreshToken = searchParams.get('refresh_token');
 
     if (accessToken && refreshToken) {
-      document.cookie = `accessToken=${accessToken}; path=/; max-age=7200`;
-      document.cookie = `refreshToken=${refreshToken}; path=/; max-age=28800`;
+      document.cookie = `ACCESS_TOKEN=${accessToken}; path=/; max-age=7200; SameSite=None; Secure`;
+      document.cookie = `REFRESH_TOKEN=${refreshToken}; path=/; max-age=28800; SameSite=None; Secure`;
 
       setIsLogin(true);
       toast.success('구글 로그인 완료!');
