@@ -121,8 +121,13 @@ export default function MissionSwiperTabs({ challengeList }: MissionProps) {
 
   return (
     <>
-      <h1 className="flex items-center justify-center p-[20px] text-[20px] font-semibold">
+      <h1 className="group relative flex cursor-help items-center justify-center p-[20px] text-[20px] font-semibold">
         챌린지
+        <span className="absolute z-50 hidden w-[250px] -translate-x-0 rounded-md bg-[var(--background)] px-1 py-2 text-center text-[12px] group-hover:block">
+          일일 미션을 완료해도 칭호는 바로 지급되지 않으며, <br /> 매일 자정에
+          자동으로 획득 가능해요!
+          <br /> 칭호는 상단 프로필에서 클릭해서 바꿀 수 있어요.
+        </span>
       </h1>
       <div className="w-full px-[10px]">
         <MissionTabs selectedTab={selectedTab} onChange={setSelectedTab} />

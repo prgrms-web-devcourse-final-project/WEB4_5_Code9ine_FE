@@ -78,11 +78,9 @@ export default function Profile({
       if (memberId && !isMyProfile) {
         // 다른 유저의 프로필 조회
         res = await getUserProfile(memberId);
-        // console.log('Other user profile:', res);
       } else {
         // 내 프로필 조회
         res = await getMyPage();
-        console.log('My profile:', res);
       }
 
       const user = res.data?.data || res.data || res;
@@ -114,6 +112,12 @@ export default function Profile({
       console.log('내 초대 코드 에러', err);
     }
   };
+
+  const displayTitle = isMyProfile
+    ? equippedTitle
+      ? equippedTitle.name
+      : null
+    : userData?.equippedTitle?.name;
 
   // 로딩 상태
   if (loading) {
@@ -160,19 +164,15 @@ export default function Profile({
           </span>
         </p>
 
-        {/* 칭호 */}
         <p
           className={`mt-[5px] mb-[7px] text-[16px] ${
-            userData.equippedTitle
+            displayTitle
               ? 'font-semibold text-[var(--text-color)]'
               : 'text-[var(--gray-color-2)]'
           }`}
         >
-          {equippedTitle
-            ? equippedTitle.name
-            : isMyProfile
-              ? '칭호를 획득해 보세요!'
-              : '칭호가 없습니다'}
+          {displayTitle ||
+            (isMyProfile ? '칭호를 획득해 보세요!' : '칭호가 없습니다')}
         </p>
 
         <span className="ml-[120px] text-[12px] text-[var(--gray-color-2)]">

@@ -18,12 +18,14 @@ export default function MyProfilePage() {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 
   useEffect(() => {
-    if (!isLogin) {
+    setSessionChecked(true);
+  }, []);
+
+  useEffect(() => {
+    if (sessionChecked && !isLogin) {
       router.replace('/login');
-    } else {
-      setSessionChecked(true);
     }
-  }, [isLogin, router]);
+  }, [sessionChecked, isLogin, router]);
 
   useEffect(() => {
     const fetchData = async () => {
