@@ -98,7 +98,7 @@ export default function SetGoal({
             {displayName}님의 목표: {goalName}까지
             <span className="text-[var(--main-color-3)]">
               {' '}
-              {(remainAmount / 10000).toLocaleString()}만원
+              {Math.floor(remainAmount).toLocaleString()}만원
             </span>
           </>
         );
