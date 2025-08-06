@@ -34,7 +34,7 @@
 
 |                이지윤                |                        이현우                        |                조정우                 |                     최연서                     |                  정지유                   |
 | :----------------------------------: | :--------------------------------------------------: | :-----------------------------------: | :--------------------------------------------: | :---------------------------------------: |
-|                이미지                |                        이미지                        |                이미지                 |                     이미지                     |                  이미지                   |
+|                ![20250412_000750 (Custom)](https://github.com/user-attachments/assets/67dcde50-afb2-465d-b40d-12b2549cb831)                |       <img width="100" height="80" alt="KakaoTalk_20250730_140909648 (소형) (전화) (Custom)" src="https://github.com/user-attachments/assets/79146159-69d0-4e62-a9d2-5eccb7125699" />           |            <img width="92" height="100" alt="KakaoTalk_20250730_140516841 (Custom)" src="https://github.com/user-attachments/assets/5998bdef-3a7c-4bde-9287-324748ce598a" />                     |                     이미지                     |                  ![KakaoTalk_20250730_140736862 (Custom)](https://github.com/user-attachments/assets/eca08af2-aaf4-4466-90b2-753dd91f30f8)                   |
 | [@wowlha](https://github.com/wolwha) | [@manto123123123](https://github.com/manto123123123) | [mafornp](https://github.com/mafornp) | [@CHOIYEONSEO](https://github.com/CHOIYEONSEO) | [JINJIYU23](https://github.com/JINJIYU23) |
 
 ### ⚙ 기술 스택
