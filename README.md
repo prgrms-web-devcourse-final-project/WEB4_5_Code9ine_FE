@@ -3,7 +3,7 @@
 # 💸 티태 | 티끌모아 부자되기 💸
 
 <!-- logo -->
-<img src="https://user-images.githubusercontent.com/80824750/208554558-490845c9-959a-4823-9003-350ec4d221bf.png" width="400"/>
+<img width="241" height="110" alt="스크린샷 2025-08-01 172453" src="https://github.com/user-attachments/assets/f455814b-f0b5-482d-947d-d0dee96ec3b3" />
 
 <br/>
 
@@ -430,42 +430,42 @@
 
 |                                                      메인페이지(비로그인)                                                      |
 | :----------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="450"/> |
-|                                                   비로그인 상태의 메인페이지                                                   |
+| <img width="2020" height="1355" alt="image" src="https://github.com/user-attachments/assets/23b56ece-76fa-4e2d-8633-cea18a2737b2" /> |
+|                                                   비로그인 상태의 메인페이지 <br/> - 서비스 사용자의 절약 액수, 20대 평균 지출액과 티태 이용자 평균 지출액 통계그래프 제공<br/> |
 
 |                                                       메인페이지(로그인)                                                       |
 | :----------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="450"/> |
+| <img width="2036" height="1353" alt="image" src="https://github.com/user-attachments/assets/85ab07dc-75fd-4079-a5c8-0bb5669c5bd5" /> |
 |                                                    로그인 상태의 메인페이지                                                    |
 
 |                                                         로그인 페이지                                                          |
 | :----------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="450"/> |
+| <img width="2092" height="1414" alt="image" src="https://github.com/user-attachments/assets/6e5935bf-aebf-4fd7-9ccb-bcd39e145774" /> |
 |                                                         로그인 페이지                                                          |
 
 |                                                        회원가입 페이지                                                         |
 | :----------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="450"/> |
+| <img width="2151" height="1466" alt="image" src="https://github.com/user-attachments/assets/a09da677-3c0f-4382-a2f9-5c0820116c46" /> |
 |                                                        회원가입 페이지                                                         |
 
 |                                                         가계부 페이지                                                          |
 | :----------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="450"/> |
+| <img width="2093" height="1396" alt="image" src="https://github.com/user-attachments/assets/10c191f5-c888-40b4-9371-ab454dc3d9d2" /> |
 |                                                         가계부 페이지                                                          |
 
 |                                                          갓플 페이지                                                           |
 | :----------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="450"/> |
+| <img width="2062" height="1403" alt="image" src="https://github.com/user-attachments/assets/a02e8fca-93bf-4704-8b4b-d4c49965a58e" /> <br/> <img width="2057" height="1376" alt="image" src="https://github.com/user-attachments/assets/bb0f9919-3225-42e8-b21a-0f316a4397da" /> <br/> <img width="2088" height="1368" alt="image" src="https://github.com/user-attachments/assets/5a88c8df-47c1-4e97-9d08-0a73de6f970a" /> |
 |                                                        갓플찾는 페이지                                                         |
 
 |                                                        커뮤니티 페이지                                                         |
 | :----------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="450"/> |
+| <img width="2058" height="1383" alt="image" src="https://github.com/user-attachments/assets/e7b60f5f-3a24-4d7e-8f0e-855c77a14ad4" /> <br/> <img width="2092" height="1390" alt="image" src="https://github.com/user-attachments/assets/cea4339a-7a14-41a6-8ab7-af386fa7b4ed" /> |
 |                                                        커뮤니티 페이지                                                         |
 
 |                                                           마이페이지                                                           |
 | :----------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="450"/> |
+| <img width="2076" height="1388" alt="image" src="https://github.com/user-attachments/assets/678e7245-cd9b-4093-99c2-938d3d6640cd" /> <br/> <img width="2122" height="1405" alt="image" src="https://github.com/user-attachments/assets/16a6ddb3-71d1-43e0-8d5c-250914d8d64f" /> |
 |                                                           마이페이지                                                           |
 
 <br />
